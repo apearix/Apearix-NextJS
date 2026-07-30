@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     "Cloud DevOps Engineering",
     "Apearix Software"
   ],
-  authors: [{ name: "Apearix Engineering Team", url: "https://www.apearix.com" }],
+  authors: [{ name: "Dharmendra Barman", url: "https://www.apearix.com" }],
   creator: "Apearix",
   publisher: "Apearix",
   formatDetection: {

@@ -5,6 +5,7 @@ import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-
 import Link from 'next/link';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { cn } from '@/utils/cn';
+import Image from 'next/image';
 
 const serviceLinks = [
   { name: 'Web Development', href: '/services/web-development' },
@@ -53,23 +54,34 @@ export function Navbar() {
       <AnimatePresence mode="wait">
         <motion.nav
           initial={{ y: -100, opacity: 0 }}
-          animate={{ 
-            y: visible ? 0 : -100, 
-            opacity: visible ? 1 : 0 
+          animate={{
+            y: visible ? 0 : -100,
+            opacity: visible ? 1 : 0
           }}
           transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
           className={cn(
             "fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-50 flex items-center justify-between px-6 py-2.5 rounded-2xl border transition-all duration-300 w-[92%] max-w-[1280px]",
-            scrolled 
-              ? "bg-white/85 backdrop-blur-md border-[#E5E7EB] shadow-sm" 
+            scrolled
+              ? "bg-white/85 backdrop-blur-md border-[#E5E7EB] shadow-sm"
               : "bg-white/60 backdrop-blur-sm border-[#E5E7EB]/60"
           )}
         >
           <div className="flex items-center gap-8">
-            <Link href="/" className="text-xl font-bold tracking-tight text-[#111827]">
-              Apearix
+            <Link
+              href="/"
+              className="flex items-center text-xl font-medium tracking-tight text-[#111827]"
+            >
+              <Image
+                src="/logox.png"
+                alt="Apearix"
+                width={50}
+                height={50}
+                className="h-8 w-8 object-contain shrink-0"
+                priority
+              />
+              {/* <span>Apearix</span> */}
             </Link>
-            
+
             {/* Desktop Navigation Items */}
             <div className="hidden md:flex items-center gap-6">
               {/* Services Dropdown */}
