@@ -45,7 +45,7 @@ export function Process() {
         <div className="max-w-3xl mb-16 md:mb-24">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#111827] mb-6 tracking-tight">
             Our Proven <br />
-            <span className="text-[#6B7280]">Engineering Process</span>
+            <span className="text-primary">Engineering Process</span>
           </h2>
           <p className="text-lg md:text-xl text-[#4B5563] leading-relaxed">
             A methodical approach to solving complex problems, refined over hundreds of successful deployments.

@@ -18,13 +18,13 @@ export default function Home() {
       <Navbar />
       <Hero />
       <TrustedBy />
+      <CaseStudies />
       <WhyApearix />
       <Capabilities />
       <Process />
       <TechStack />
       <AIEngine />
       <Showcase />
-      <CaseStudies />
       <Metrics />
       <Testimonials />
       <Footer />

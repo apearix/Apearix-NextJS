@@ -65,12 +65,12 @@ const capabilities = [
 
 export function Capabilities() {
   return (
-    <section id="capabilities" className="py-24 md:py-32 bg-white">
-      <div className="container max-w-[1280px] mx-auto px-6">
-        <div className="max-w-3xl mb-16 md:mb-20">
+    <section id="capabilities" className="py-10 md:py-20 bg-slate-50">
+      <div className="container max-w-7xl mx-auto px-6">
+        <div className="max-w-3xl mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#111827] mb-6 tracking-tight">
             Comprehensive <br />
-            <span className="text-[#6B7280]">Engineering Capabilities</span>
+            <span className="text-primary">Engineering Capabilities</span>
           </h2>
           <p className="text-lg md:text-xl text-[#4B5563] leading-relaxed">
             From experimental AI research to global-scale infrastructure, we provide the technical firepower to build anything.

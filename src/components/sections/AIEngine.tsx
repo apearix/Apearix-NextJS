@@ -19,7 +19,7 @@ export function AIEngine() {
         <div className="text-center max-w-3xl mx-auto mb-16 md:mb-24">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#111827] mb-6 tracking-tight">
             The AI <br />
-            <span className="text-[#6D28F5]">Intelligence Engine</span>
+            <span className="text-primary">Intelligence Engine</span>
           </h2>
           <p className="text-lg md:text-xl text-[#4B5563] leading-relaxed">
             A proprietary orchestration layer that coordinates specialized AI models to solve complex engineering challenges with unprecedented efficiency.
