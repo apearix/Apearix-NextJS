@@ -47,6 +47,14 @@ export const metadata: Metadata = {
   creator: "Apearix",
   publisher: "Apearix",
   category: "Technology",
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/logo.png", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/apple-icon.png",
+  },
   formatDetection: {
     email: false,
     address: false,
