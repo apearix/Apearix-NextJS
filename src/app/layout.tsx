@@ -26,10 +26,10 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.apearix.com"),
   title: {
-    default: "Apearix | Thoughtfully Built Software",
+    default: "Apearix | Software Engineering Company | AI-Powered Solutions & Automation",
     template: "%s | Apearix",
   },
-  description: "Apearix is a premium software development company building websites, SaaS platforms, AI automation, and mobile applications for ambitious businesses.",
+  description: "Apearix is a software engineering company building custom web applications, SaaS platforms, mobile apps, browser extensions, AI-powered software, AI agents, chatbots, workflow automation, cloud solutions, and modern digital products for businesses.",
   keywords: [
     "Software Development Company",
     "SaaS Development",

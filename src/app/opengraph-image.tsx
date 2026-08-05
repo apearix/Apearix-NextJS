@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og';
 
-export const alt = 'Apearix - Thoughtfully Built Software';
+export const alt = 'Apearix | Software Engineering Company | AI-Powered Solutions & Automation';
 export const size = {
   width: 1200,
   height: 630,
