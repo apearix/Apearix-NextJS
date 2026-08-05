@@ -7,24 +7,67 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Case Studies",
-  description: "Detailed technical case studies on scaling mid-market SaaS platforms and engineering custom AI contract review automation.",
+  title: "Engineering Case Studies | SaaS & AI Automation Results",
+  description: "Detailed technical case studies on scaling enterprise SaaS platforms to 100k+ DAU and automating legal contract review with custom RAG vector search pipelines.",
+  keywords: [
+    "Software Engineering Case Studies",
+    "SaaS Scaling Case Study",
+    "AI Contract Review Automation",
+    "RAG Vector Pipeline Results",
+    "Apearix Case Studies"
+  ],
   alternates: {
     canonical: "https://www.apearix.com/work/case-studies",
   },
   openGraph: {
-    title: "Case Studies | Apearix",
-    description: "Detailed technical case studies on scaling SaaS platforms and AI automation.",
+    title: "Engineering Case Studies | SaaS & AI Automation | Apearix",
+    description: "Detailed technical case studies on scaling SaaS platforms and custom AI automation.",
     url: "https://www.apearix.com/work/case-studies",
+    siteName: "Apearix",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Engineering Case Studies | SaaS & AI Automation | Apearix",
+    description: "Detailed technical case studies on scaling SaaS platforms and AI automation.",
+    site: "@apearix",
+    creator: "@apearix",
   },
 };
 
 const jsonLdCaseStudies = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
-  "name": "Apearix Case Studies",
+  "@id": "https://www.apearix.com/work/case-studies/#webpage",
+  "name": "Apearix Engineering Case Studies",
   "url": "https://www.apearix.com/work/case-studies",
-  "description": "In-depth case studies detailing client challenges, custom solutions, and metrics achieved."
+  "description": "In-depth technical case studies detailing client challenges, custom software solutions, and measurable long-term results.",
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@type": "Article",
+          "headline": "Scaling Mid-Market SaaS Platform to 100k Active Users",
+          "author": { "@id": "https://www.apearix.com/#organization" },
+          "description": "Rebuilt core SaaS architecture with Next.js App Router, edge caching, and unified PostgreSQL database supporting 100k+ daily users."
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "item": {
+          "@type": "Article",
+          "headline": "Automating Legal Contract Review with Custom RAG Pipeline",
+          "author": { "@id": "https://www.apearix.com/#organization" },
+          "description": "Engineered custom OpenAI & Pinecone Vector RAG pipeline embedded into a secure Chrome extension cutting review time from 15h to 10m."
+        }
+      }
+    ]
+  }
 };
 
 const caseStudies = [

@@ -6,28 +6,74 @@ import { CTASection } from "@/components/sections/CTASection";
 import { Smartphone, Zap, ShieldCheck, CheckCircle2 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Mobile App Development",
-  description: "Native and cross-platform mobile application development for iOS and Android using Flutter and React Native.",
+  title: "Mobile App Development Services | iOS & Android Apps",
+  description: "Native and cross-platform mobile application development for iOS and Android using Flutter and React Native. Offline-first architectures and 60fps UI performance.",
+  keywords: [
+    "Mobile App Development Services",
+    "Flutter App Development Company",
+    "React Native Agency",
+    "iOS and Android App Developers",
+    "Cross-Platform Mobile Apps"
+  ],
   alternates: {
     canonical: "https://www.apearix.com/services/mobile-app-development",
   },
   openGraph: {
-    title: "Mobile App Development | Apearix",
-    description: "Native and cross-platform mobile application development for iOS and Android.",
+    title: "Mobile App Development | Flutter & React Native | Apearix",
+    description: "Native and cross-platform mobile application development for iOS and Android with 60fps performance.",
     url: "https://www.apearix.com/services/mobile-app-development",
+    siteName: "Apearix",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mobile App Development | Flutter & React Native | Apearix",
+    description: "Native and cross-platform mobile application development for iOS and Android.",
+    site: "@apearix",
+    creator: "@apearix",
   },
 };
 
 const jsonLdService = {
   "@context": "https://schema.org",
   "@type": "Service",
-  "name": "Mobile App Development",
+  "@id": "https://www.apearix.com/services/mobile-app-development/#service",
+  "name": "Mobile Application Development Services",
+  "serviceType": "Mobile Application Engineering",
+  "url": "https://www.apearix.com/services/mobile-app-development",
   "provider": {
-    "@type": "Organization",
-    "name": "Apearix"
+    "@id": "https://www.apearix.com/#organization"
   },
-  "serviceType": "Mobile App Development",
-  "areaServed": "Global"
+  "areaServed": "Global",
+  "description": "Cross-platform mobile applications for iOS & Android built with Flutter and React Native, including App Store deployment and maintenance.",
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Mobile Application Offerings",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Flutter Cross-Platform Development"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Offline-First Syncing & Biometrics"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "App Store & Play Store Deployment"
+        }
+      }
+    ]
+  }
 };
 
 export default function MobileAppDevelopmentPage() {

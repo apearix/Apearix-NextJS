@@ -37,6 +37,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     } else if (route.startsWith('/work')) {
       priority = 0.8;
       changeFrequency = 'weekly';
+    } else if (route.startsWith('/company') || route.startsWith('/resources')) {
+      priority = 0.7;
+      changeFrequency = 'weekly';
     } else if (route.startsWith('/legal')) {
       priority = 0.3;
       changeFrequency = 'monthly';
@@ -50,3 +53,4 @@ export default function sitemap(): MetadataRoute.Sitemap {
     };
   });
 }
+

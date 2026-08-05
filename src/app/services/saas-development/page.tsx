@@ -6,28 +6,74 @@ import { CTASection } from "@/components/sections/CTASection";
 import { Layers, Database, Lock, Cpu, CheckCircle2 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "SaaS Application Development",
-  description: "Enterprise SaaS development company building multi-tenant web applications, automated billing systems, and scalable cloud architectures.",
+  title: "SaaS Application Development Services | Enterprise Multi-Tenant Platforms",
+  description: "Enterprise SaaS development company building multi-tenant web applications, automated Stripe subscription billing, SOC2 security compliance, and scalable cloud architectures.",
+  keywords: [
+    "SaaS Application Development",
+    "Enterprise SaaS Engineering",
+    "Multi-Tenant Architecture",
+    "Stripe Subscription Integration",
+    "Custom B2B SaaS Platform"
+  ],
   alternates: {
     canonical: "https://www.apearix.com/services/saas-development",
   },
   openGraph: {
-    title: "SaaS Application Development | Apearix",
-    description: "Enterprise SaaS development company building multi-tenant web applications.",
+    title: "SaaS Application Development Services | Apearix",
+    description: "Enterprise SaaS development company building multi-tenant web applications and scalable platforms.",
     url: "https://www.apearix.com/services/saas-development",
+    siteName: "Apearix",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SaaS Application Development Services | Apearix",
+    description: "Enterprise SaaS development company building multi-tenant web applications.",
+    site: "@apearix",
+    creator: "@apearix",
   },
 };
 
 const jsonLdService = {
   "@context": "https://schema.org",
   "@type": "Service",
-  "name": "SaaS Application Development",
+  "@id": "https://www.apearix.com/services/saas-development/#service",
+  "name": "SaaS Application Development Services",
+  "serviceType": "SaaS Product Engineering",
+  "url": "https://www.apearix.com/services/saas-development",
   "provider": {
-    "@type": "Organization",
-    "name": "Apearix"
+    "@id": "https://www.apearix.com/#organization"
   },
-  "serviceType": "SaaS Development",
-  "areaServed": "Global"
+  "areaServed": "Global",
+  "description": "Custom multi-tenant SaaS application development, subscription billing architectures, role-based access control, and enterprise cloud scalability.",
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "SaaS Engineering Offerings",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Multi-Tenant Architecture"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Stripe & Paddle Billing Integration"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Enterprise Security & SSO Integration"
+        }
+      }
+    ]
+  }
 };
 
 export default function SaaSDevelopmentPage() {

@@ -6,28 +6,74 @@ import { CTASection } from "@/components/sections/CTASection";
 import { Palette, Eye, Sparkles, Layout, CheckCircle2 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "UI/UX Design Services",
-  description: "Human-centered digital interface design, tokenized design systems, interactive prototypes, and 60fps micro-animations.",
+  title: "UI/UX Design Services | Design Systems & Interactive Prototypes",
+  description: "Human-centered digital interface design, tokenized Figma design systems, interactive web/mobile prototypes, and 60fps micro-animations built for conversion.",
+  keywords: [
+    "UI UX Design Services",
+    "Design System Agency",
+    "Figma Interactive Prototyping",
+    "Product Interface Design",
+    "User Experience Engineering"
+  ],
   alternates: {
     canonical: "https://www.apearix.com/services/ui-ux-design",
   },
   openGraph: {
-    title: "UI/UX Design Services | Apearix",
-    description: "Human-centered digital interface design, tokenized design systems, and prototypes.",
+    title: "UI/UX Design Services | Design Systems & Prototypes | Apearix",
+    description: "Human-centered digital interface design, tokenized design systems, and interactive prototypes.",
     url: "https://www.apearix.com/services/ui-ux-design",
+    siteName: "Apearix",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "UI/UX Design Services | Design Systems & Prototypes | Apearix",
+    description: "Human-centered digital interface design, tokenized design systems, and prototypes.",
+    site: "@apearix",
+    creator: "@apearix",
   },
 };
 
 const jsonLdService = {
   "@context": "https://schema.org",
   "@type": "Service",
-  "name": "UI/UX Design Services",
+  "@id": "https://www.apearix.com/services/ui-ux-design/#service",
+  "name": "UI/UX Design & Product Interface Services",
+  "serviceType": "UI/UX Design Engineering",
+  "url": "https://www.apearix.com/services/ui-ux-design",
   "provider": {
-    "@type": "Organization",
-    "name": "Apearix"
+    "@id": "https://www.apearix.com/#organization"
   },
-  "serviceType": "UI/UX Design",
-  "areaServed": "Global"
+  "areaServed": "Global",
+  "description": "Human-centered user interface design, tokenized design systems, interactive Figma prototypes, and micro-animations.",
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "UI/UX Design Offerings",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Tokenized Design Systems"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Interactive Figma Prototypes"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Micro-Animations & Interaction Motion"
+        }
+      }
+    ]
+  }
 };
 
 export default function UIUXDesignPage() {

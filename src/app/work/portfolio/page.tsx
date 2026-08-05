@@ -6,24 +6,87 @@ import { CTASection } from "@/components/sections/CTASection";
 import { ArrowUpRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Portfolio",
-  description: "Explore digital products, mobile applications, browser extensions, and AI automations engineered by Apearix.",
+  title: "Software Portfolio & Case Showcase | Web, SaaS & AI",
+  description: "Explore digital products, enterprise SaaS dashboards, mobile applications, browser extensions, and AI automations engineered by Apearix.",
+  keywords: [
+    "Software Development Portfolio",
+    "SaaS Project Showcase",
+    "AI Automation Case Studies",
+    "Mobile App Portfolio",
+    "Apearix Works"
+  ],
   alternates: {
     canonical: "https://www.apearix.com/work/portfolio",
   },
   openGraph: {
-    title: "Portfolio | Apearix",
-    description: "Explore digital products, mobile applications, browser extensions, and AI automations.",
+    title: "Software Portfolio & Case Showcase | Apearix",
+    description: "Explore digital products, mobile applications, browser extensions, and AI automations engineered by Apearix.",
     url: "https://www.apearix.com/work/portfolio",
+    siteName: "Apearix",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Software Portfolio & Case Showcase | Apearix",
+    description: "Explore digital products, mobile applications, browser extensions, and AI automations.",
+    site: "@apearix",
+    creator: "@apearix",
   },
 };
 
 const jsonLdPortfolio = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
+  "@id": "https://www.apearix.com/work/portfolio/#webpage",
   "name": "Apearix Product Portfolio",
   "url": "https://www.apearix.com/work/portfolio",
-  "description": "Selected software products, mobile applications, browser extensions, and AI tools built by Apearix."
+  "description": "Selected software products, mobile applications, browser extensions, and AI tools built by Apearix.",
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@type": "SoftwareApplication",
+          "name": "Apearix SaaS Dashboard",
+          "applicationCategory": "BusinessApplication",
+          "operatingSystem": "Web Browser"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "item": {
+          "@type": "SoftwareApplication",
+          "name": "AI Document Intelligence Engine",
+          "applicationCategory": "UtilitiesApplication",
+          "operatingSystem": "Cloud API"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@type": "SoftwareApplication",
+          "name": "Workflow Chrome Extension",
+          "applicationCategory": "BrowserExtension",
+          "operatingSystem": "Google Chrome / Edge"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "item": {
+          "@type": "SoftwareApplication",
+          "name": "HealthTrack Mobile App",
+          "applicationCategory": "HealthApplication",
+          "operatingSystem": "iOS / Android"
+        }
+      }
+    ]
+  }
 };
 
 const projects = [

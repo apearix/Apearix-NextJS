@@ -4,10 +4,30 @@ import { Footer } from "@/components/layout/Footer";
 import { PageHeader } from "@/components/layout/PageHeader";
 
 export const metadata: Metadata = {
-  title: "Cookie Policy",
-  description: "Apearix Cookie Policy explaining our privacy-first stance and essential session cookies.",
+  title: "Cookie Policy | Privacy-First Cookie Usage",
+  description: "Apearix Cookie Policy explaining our privacy-first stance, essential session cookies, and local browser storage.",
+  keywords: [
+    "Apearix Cookie Policy",
+    "Essential Session Cookies",
+    "Privacy First Software"
+  ],
   alternates: {
     canonical: "https://www.apearix.com/legal/cookie-policy",
+  },
+  openGraph: {
+    title: "Cookie Policy | Apearix",
+    description: "Apearix Cookie Policy explaining our privacy-first stance and essential session cookies.",
+    url: "https://www.apearix.com/legal/cookie-policy",
+    siteName: "Apearix",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Cookie Policy | Apearix",
+    description: "Apearix Cookie Policy explaining our privacy-first stance and essential session cookies.",
+    site: "@apearix",
+    creator: "@apearix",
   },
   robots: {
     index: true,
@@ -15,9 +35,25 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLdCookie = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://www.apearix.com/legal/cookie-policy/#webpage",
+  "name": "Cookie Policy",
+  "url": "https://www.apearix.com/legal/cookie-policy",
+  "description": "Explanation of how Apearix uses essential session cookies and local browser storage.",
+  "publisher": {
+    "@id": "https://www.apearix.com/#organization"
+  }
+};
+
 export default function CookiePolicyPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdCookie) }}
+      />
       <Navbar />
       <main>
         <PageHeader

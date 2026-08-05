@@ -6,28 +6,75 @@ import { CTASection } from "@/components/sections/CTASection";
 import { Cloud, Server, ShieldCheck, Cpu, CheckCircle2 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Cloud & DevOps Engineering",
-  description: "Enterprise cloud infrastructure, automated CI/CD pipelines, Terraform IaC, and 99.99% high availability monitoring.",
+  title: "Cloud & DevOps Engineering | AWS, Terraform & CI/CD Pipelines",
+  description: "Enterprise cloud infrastructure, automated GitHub Actions CI/CD pipelines, Terraform IaC, Docker containerization, and 99.99% uptime monitoring.",
+  keywords: [
+    "Cloud & DevOps Engineering",
+    "AWS Infrastructure as Code",
+    "Terraform Automation",
+    "CI/CD Pipeline Engineering",
+    "Docker Kubernetes Deployment",
+    "High Availability Hosting"
+  ],
   alternates: {
     canonical: "https://www.apearix.com/services/cloud-devops",
   },
   openGraph: {
     title: "Cloud & DevOps Engineering | Apearix",
-    description: "Enterprise cloud infrastructure, automated CI/CD pipelines, and high availability.",
+    description: "Enterprise cloud infrastructure, automated CI/CD pipelines, Terraform IaC, and 99.99% uptime monitoring.",
     url: "https://www.apearix.com/services/cloud-devops",
+    siteName: "Apearix",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Cloud & DevOps Engineering | Apearix",
+    description: "Enterprise cloud infrastructure, automated CI/CD pipelines, and high availability hosting.",
+    site: "@apearix",
+    creator: "@apearix",
   },
 };
 
 const jsonLdService = {
   "@context": "https://schema.org",
   "@type": "Service",
-  "name": "Cloud & DevOps Engineering",
+  "@id": "https://www.apearix.com/services/cloud-devops/#service",
+  "name": "Cloud & DevOps Engineering Services",
+  "serviceType": "Cloud Infrastructure & DevOps Engineering",
+  "url": "https://www.apearix.com/services/cloud-devops",
   "provider": {
-    "@type": "Organization",
-    "name": "Apearix"
+    "@id": "https://www.apearix.com/#organization"
   },
-  "serviceType": "Cloud DevOps",
-  "areaServed": "Global"
+  "areaServed": "Global",
+  "description": "Enterprise cloud architecture, AWS deployment, Terraform IaC, automated CI/CD pipelines, and 99.99% uptime monitoring.",
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Cloud & DevOps Solutions",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "AWS & Edge Serverless Hosting"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Automated CI/CD Pipelines"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Monitoring & Security Hardening"
+        }
+      }
+    ]
+  }
 };
 
 export default function CloudDevOpsPage() {

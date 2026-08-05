@@ -7,29 +7,74 @@ import { Monitor, Zap, Search, ShieldCheck, CheckCircle2, ArrowRight } from "luc
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Website Development Services",
-  description: "Ultra-fast website development engineered for speed, 100/100 Core Web Vitals, SEO performance, and business conversion.",
+  title: "Website Development Services | Next.js & React Web Apps",
+  description: "Ultra-fast website development engineered for speed, 100/100 Core Web Vitals, enterprise SEO performance, semantic HTML5, and high business conversion.",
+  keywords: [
+    "Website Development Services",
+    "Next.js Web Development Agency",
+    "React Frontend Engineering",
+    "High Performance Websites",
+    "Core Web Vitals Optimization"
+  ],
   alternates: {
     canonical: "https://www.apearix.com/services/web-development",
   },
   openGraph: {
-    title: "Website Development Services | Apearix",
-    description: "Ultra-fast website development engineered for speed, SEO performance, and conversion.",
+    title: "Website Development Services | Next.js & React | Apearix",
+    description: "Ultra-fast website development engineered for speed, SEO performance, and business conversion.",
     url: "https://www.apearix.com/services/web-development",
+    siteName: "Apearix",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Website Development Services | Next.js & React | Apearix",
+    description: "Ultra-fast website development engineered for speed, SEO performance, and conversion.",
+    site: "@apearix",
+    creator: "@apearix",
   },
 };
 
 const jsonLdService = {
   "@context": "https://schema.org",
   "@type": "Service",
-  "name": "Website Development Services",
+  "@id": "https://www.apearix.com/services/web-development/#service",
+  "name": "Website Development & Engineering Services",
+  "serviceType": "Web Development Engineering",
+  "url": "https://www.apearix.com/services/web-development",
   "provider": {
-    "@type": "Organization",
-    "name": "Apearix"
+    "@id": "https://www.apearix.com/#organization"
   },
-  "serviceType": "Web Development",
   "areaServed": "Global",
-  "description": "Modern websites built for speed, performance, SEO, and business conversion."
+  "description": "Modern websites built for speed, performance, Core Web Vitals, technical SEO, and business conversion.",
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Web Development Offerings",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Next.js & React SSR Development"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "100/100 Core Web Vitals Optimization"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Technical & Semantic SEO Architecture"
+        }
+      }
+    ]
+  }
 };
 
 export default function WebDevelopmentPage() {

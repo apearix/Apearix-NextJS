@@ -2,13 +2,14 @@ import { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Apearix | Software Engineering Company | AI-Powered Solutions & Automation',
+    name: 'Apearix | Software Engineering & AI Solutions',
     short_name: 'Apearix',
-    description: 'Apearix is a software engineering company building custom web applications, SaaS platforms, mobile apps, browser extensions, AI-powered software, AI agents, chatbots, workflow automation, cloud solutions, and modern digital products for businesses.',
+    description: 'Apearix is a premier software engineering company building custom web applications, SaaS platforms, mobile apps, custom AI agents, AI automation, and enterprise cloud solutions.',
     start_url: '/',
     display: 'standalone',
     background_color: '#FFFFFF',
     theme_color: '#6D28F5',
+    categories: ['business', 'productivity', 'utilities'],
     icons: [
       {
         src: '/icon',
@@ -23,3 +24,4 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
   };
 }
+

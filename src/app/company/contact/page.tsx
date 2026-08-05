@@ -5,28 +5,54 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import { Mail, Phone, MapPin, Send, MessageSquare } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Contact Us",
-  description: "Get in touch with Apearix to discuss your software project, request an engineering audit, or book a consultation.",
+  title: "Contact Us | Start Your Software Project",
+  description: "Get in touch with Apearix to discuss your web application, SaaS platform, AI automation, or mobile app project. Book an engineering consultation.",
+  keywords: [
+    "Contact Apearix",
+    "Hire Software Developers",
+    "Software Engineering Consultation",
+    "AI Agency Contact",
+    "SaaS Development Inquiry"
+  ],
   alternates: {
     canonical: "https://www.apearix.com/company/contact",
   },
   openGraph: {
-    title: "Contact Us | Apearix",
+    title: "Contact Apearix | Software Engineering & AI Consultation",
     description: "Get in touch with Apearix to discuss your software project or book a consultation.",
     url: "https://www.apearix.com/company/contact",
+    siteName: "Apearix",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact Apearix | Software Engineering Consultation",
+    description: "Get in touch with Apearix to discuss your software project or book a consultation.",
+    site: "@apearix",
+    creator: "@apearix",
   },
 };
 
 const jsonLdContact = {
   "@context": "https://schema.org",
   "@type": "ContactPage",
+  "@id": "https://www.apearix.com/company/contact/#webpage",
   "name": "Contact Apearix",
   "url": "https://www.apearix.com/company/contact",
+  "description": "Contact Apearix software engineering team for project inquiries, technical audits, and consultations.",
   "mainEntity": {
     "@type": "ContactPoint",
     "email": "hqapearix@gmail.com",
     "telephone": "+917241131839",
-    "contactType": "customer support"
+    "contactType": "customer service",
+    "availableLanguage": ["English"],
+    "hoursAvailable": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "09:00",
+      "closes": "18:00"
+    }
   }
 };
 

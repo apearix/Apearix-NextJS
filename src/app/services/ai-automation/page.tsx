@@ -6,28 +6,75 @@ import { CTASection } from "@/components/sections/CTASection";
 import { Bot, Cpu, Workflow, Sparkles, CheckCircle2 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "AI Automation Services",
-  description: "Integrate custom AI agents, LLM pipelines, vector databases (RAG), and intelligent workflow automation into your business processes.",
+  title: "AI Automation Services | Custom AI Agents & RAG Pipelines",
+  description: "Integrate custom AI agents, LLM pipelines, Pinecone/pgvector RAG, and intelligent workflow automation into your enterprise business operations.",
+  keywords: [
+    "AI Automation Services",
+    "Custom AI Agents",
+    "LLM Pipeline Development",
+    "Vector Database RAG",
+    "Enterprise Workflow Automation",
+    "Pinecone pgvector Integration"
+  ],
   alternates: {
     canonical: "https://www.apearix.com/services/ai-automation",
   },
   openGraph: {
-    title: "AI Automation Services | Apearix",
-    description: "Integrate custom AI agents, LLM pipelines, and intelligent workflow automation.",
+    title: "AI Automation & Custom AI Agents | Apearix",
+    description: "Integrate custom AI agents, LLM pipelines, vector search (RAG), and intelligent workflow automation.",
     url: "https://www.apearix.com/services/ai-automation",
+    siteName: "Apearix",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "AI Automation & Custom AI Agents | Apearix",
+    description: "Integrate custom AI agents, LLM pipelines, and intelligent workflow automation into your business.",
+    site: "@apearix",
+    creator: "@apearix",
   },
 };
 
 const jsonLdService = {
   "@context": "https://schema.org",
   "@type": "Service",
-  "name": "AI Automation Services",
+  "@id": "https://www.apearix.com/services/ai-automation/#service",
+  "name": "AI Automation & Custom AI Agent Development Services",
+  "serviceType": "AI Automation & Systems Integration",
+  "url": "https://www.apearix.com/services/ai-automation",
   "provider": {
-    "@type": "Organization",
-    "name": "Apearix"
+    "@id": "https://www.apearix.com/#organization"
   },
-  "serviceType": "AI Automation",
-  "areaServed": "Global"
+  "areaServed": "Global",
+  "description": "Custom AI agent development, LLM fine-tuning, RAG vector search pipelines, and automated business workflows.",
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "AI Automation Offerings",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Autonomous AI Agents"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Workflow Automation Pipelines"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "RAG & Semantic Vector Search"
+        }
+      }
+    ]
+  }
 };
 
 export default function AIAutomationPage() {

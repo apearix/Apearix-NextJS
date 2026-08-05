@@ -6,24 +6,55 @@ import { CTASection } from "@/components/sections/CTASection";
 import { CheckCircle2, ShieldCheck, Zap, Sparkles, HeartHandshake, Compass } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "About Us",
-  description: "Learn about Apearix's mission, vision, engineering philosophy, and 6 core principles for building software people enjoy using.",
+  title: "About Us | Engineering Philosophy & Software Standards",
+  description: "Learn about Apearix's mission, engineering vision, architectural philosophy, and 6 core principles for building high-performance software and AI systems.",
+  keywords: [
+    "About Apearix",
+    "Software Engineering Philosophy",
+    "Custom Software Company",
+    "AI Development Standards",
+    "Clean Engineering Principles"
+  ],
   alternates: {
     canonical: "https://www.apearix.com/company/about",
   },
   openGraph: {
-    title: "About Us | Apearix",
+    title: "About Us | Apearix Software Engineering",
     description: "Learn about Apearix's mission, vision, engineering philosophy, and 6 core principles for building software.",
     url: "https://www.apearix.com/company/about",
+    siteName: "Apearix",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Us | Apearix Software Engineering",
+    description: "Learn about Apearix's mission, vision, engineering philosophy, and principles.",
+    site: "@apearix",
+    creator: "@apearix",
   },
 };
 
 const jsonLdAbout = {
   "@context": "https://schema.org",
   "@type": "AboutPage",
-  "name": "About Apearix",
+  "@id": "https://www.apearix.com/company/about/#webpage",
+  "name": "About Apearix | Engineering Philosophy & Standards",
   "url": "https://www.apearix.com/company/about",
-  "description": "Apearix is a software company focused on creating modern digital products for ambitious businesses."
+  "description": "Apearix is a software engineering company focused on creating modern digital products, enterprise SaaS platforms, and AI automations for ambitious businesses.",
+  "mainEntity": {
+    "@type": "Organization",
+    "name": "Apearix",
+    "url": "https://www.apearix.com",
+    "slogan": "Engineering Intelligence. Software built for businesses that want to grow.",
+    "knowsAbout": [
+      "Software Architecture",
+      "Custom AI Agents",
+      "Next.js App Router",
+      "SaaS Engineering",
+      "Cloud Infrastructure"
+    ]
+  }
 };
 
 export default function AboutPage() {

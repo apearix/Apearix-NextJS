@@ -4,10 +4,30 @@ import { Footer } from "@/components/layout/Footer";
 import { PageHeader } from "@/components/layout/PageHeader";
 
 export const metadata: Metadata = {
-  title: "Terms & Conditions",
-  description: "Apearix Terms and Conditions governing software development services, intellectual property transfer, and website usage.",
+  title: "Terms & Conditions | Software Service Agreements",
+  description: "Apearix Terms and Conditions governing software development services, 100% intellectual property transfer, and website usage.",
+  keywords: [
+    "Apearix Terms and Conditions",
+    "Software Development Service Agreement",
+    "IP Transfer Terms"
+  ],
   alternates: {
     canonical: "https://www.apearix.com/legal/terms-and-conditions",
+  },
+  openGraph: {
+    title: "Terms & Conditions | Apearix",
+    description: "Apearix Terms and Conditions governing software development services and IP transfer.",
+    url: "https://www.apearix.com/legal/terms-and-conditions",
+    siteName: "Apearix",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Terms & Conditions | Apearix",
+    description: "Apearix Terms and Conditions governing software development services and IP transfer.",
+    site: "@apearix",
+    creator: "@apearix",
   },
   robots: {
     index: true,
@@ -15,9 +35,25 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLdTerms = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://www.apearix.com/legal/terms-and-conditions/#webpage",
+  "name": "Terms & Conditions",
+  "url": "https://www.apearix.com/legal/terms-and-conditions",
+  "description": "Terms governing the use of Apearix services, website, and software development deliverables.",
+  "publisher": {
+    "@id": "https://www.apearix.com/#organization"
+  }
+};
+
 export default function TermsPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdTerms) }}
+      />
       <Navbar />
       <main>
         <PageHeader

@@ -26,23 +26,27 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.apearix.com"),
   title: {
-    default: "Apearix | Software Engineering Company | AI-Powered Solutions & Automation",
+    default: "Apearix | Software Engineering Company | AI Solutions & SaaS Development",
     template: "%s | Apearix",
   },
-  description: "Apearix is a software engineering company building custom web applications, SaaS platforms, mobile apps, browser extensions, AI-powered software, AI agents, chatbots, workflow automation, cloud solutions, and modern digital products for businesses.",
+  description: "Apearix is a software engineering company specializing in custom web applications, enterprise SaaS platforms, mobile apps, browser extensions, AI-powered software, custom AI agents, chatbots, workflow automation, cloud infrastructure, and modern digital products for businesses.",
   keywords: [
-    "Software Development Company",
-    "SaaS Development",
-    "AI Automation",
-    "Website Development",
+    "Software Engineering Company",
+    "Software Development Agency",
+    "SaaS Development Services",
+    "Custom AI Agents",
+    "AI Automation Agency",
+    "Next.js Development Company",
+    "Web Application Development",
     "Mobile App Development",
     "UI UX Design Agency",
     "Cloud DevOps Engineering",
     "Apearix Software"
   ],
-  authors: [{ name: "Dharmendra Barman", url: "https://www.apearix.com" }],
+  authors: [{ name: "Apearix Engineering Team", url: "https://www.apearix.com" }],
   creator: "Apearix",
   publisher: "Apearix",
+  category: "Technology",
   formatDetection: {
     email: false,
     address: false,
@@ -60,23 +64,32 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Apearix | Thoughtfully Built Software",
-    description: "We build software that moves businesses forward. Web Development, SaaS Platforms, AI Automations, and Mobile Apps.",
+    title: "Apearix | Software Engineering & AI-Powered Solutions",
+    description: "Engineering Intelligence. We build custom web apps, SaaS platforms, AI-powered automations, mobile apps, and resilient cloud architectures.",
     url: "https://www.apearix.com",
     siteName: "Apearix",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "https://www.apearix.com/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Apearix Software Engineering & AI Solutions",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Apearix | Thoughtfully Built Software",
-    description: "Engineering Intelligence. Building extraordinary digital experiences and automated systems.",
+    title: "Apearix | Software Engineering & AI Solutions",
+    description: "Engineering Intelligence. Building extraordinary digital experiences and intelligent automated systems.",
     site: "@apearix",
     creator: "@apearix",
+    images: ["https://www.apearix.com/opengraph-image"],
   },
   verification: {
-    google: "google-site-verification-placeholder",
-    yandex: "yandex-verification-placeholder",
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "google-site-verification-placeholder",
+    yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION || "yandex-verification-placeholder",
   },
   alternates: {
     canonical: "https://www.apearix.com",
@@ -86,9 +99,12 @@ export const metadata: Metadata = {
 const jsonLdOrganization = {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": "https://www.apearix.com/#organization",
   "name": "Apearix",
+  "legalName": "Apearix Software",
   "url": "https://www.apearix.com",
   "logo": "https://www.apearix.com/icon",
+  "image": "https://www.apearix.com/opengraph-image",
   "email": "hqapearix@gmail.com",
   "telephone": "+917241131839",
   "sameAs": [
@@ -98,17 +114,41 @@ const jsonLdOrganization = {
     "https://www.instagram.com/apearix/",
     "https://www.facebook.com/apearix"
   ],
-  "description": "Apearix is a software development company focused on creating modern digital products for ambitious businesses."
+  "knowsAbout": [
+    "Software Engineering",
+    "Web Application Development",
+    "SaaS Development",
+    "AI Automation",
+    "Custom AI Agents",
+    "Retrieval-Augmented Generation (RAG)",
+    "Vector Databases",
+    "Mobile App Development",
+    "UI/UX Design",
+    "Cloud & DevOps Engineering"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+917241131839",
+    "email": "hqapearix@gmail.com",
+    "contactType": "customer service",
+    "availableLanguage": ["English"]
+  },
+  "description": "Apearix is a software engineering company building custom web applications, enterprise SaaS platforms, AI-powered automation pipelines, mobile apps, and scalable cloud solutions."
 };
 
 const jsonLdWebsite = {
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": "https://www.apearix.com/#website",
   "name": "Apearix",
   "url": "https://www.apearix.com",
   "publisher": {
-    "@type": "Organization",
-    "name": "Apearix"
+    "@id": "https://www.apearix.com/#organization"
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.apearix.com/resources/faq?q={search_term_string}",
+    "query-input": "required name=search_term_string"
   }
 };
 
@@ -123,6 +163,8 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth`}
     >
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization) }}
@@ -141,3 +183,4 @@ export default function RootLayout({
     </html>
   );
 }
+

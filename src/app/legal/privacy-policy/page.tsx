@@ -4,10 +4,31 @@ import { Footer } from "@/components/layout/Footer";
 import { PageHeader } from "@/components/layout/PageHeader";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy",
-  description: "Apearix Privacy Policy outlining how we collect, use, and safeguard personal information.",
+  title: "Privacy Policy | Data Protection & Security Standards",
+  description: "Apearix Privacy Policy outlining how we collect, process, and safeguard personal information with AES-256 encryption and zero third-party data selling.",
+  keywords: [
+    "Apearix Privacy Policy",
+    "Data Protection Standard",
+    "AES-256 Data Encryption",
+    "Client Data Security"
+  ],
   alternates: {
     canonical: "https://www.apearix.com/legal/privacy-policy",
+  },
+  openGraph: {
+    title: "Privacy Policy | Apearix",
+    description: "Apearix Privacy Policy outlining how we collect, use, and safeguard personal information.",
+    url: "https://www.apearix.com/legal/privacy-policy",
+    siteName: "Apearix",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Privacy Policy | Apearix",
+    description: "Apearix Privacy Policy outlining how we collect, use, and safeguard personal information.",
+    site: "@apearix",
+    creator: "@apearix",
   },
   robots: {
     index: true,
@@ -15,9 +36,25 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLdPrivacy = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://www.apearix.com/legal/privacy-policy/#webpage",
+  "name": "Privacy Policy",
+  "url": "https://www.apearix.com/legal/privacy-policy",
+  "description": "Outline of how Apearix collects, uses, and safeguards user and client information.",
+  "publisher": {
+    "@id": "https://www.apearix.com/#organization"
+  }
+};
+
 export default function PrivacyPolicyPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdPrivacy) }}
+      />
       <Navbar />
       <main>
         <PageHeader

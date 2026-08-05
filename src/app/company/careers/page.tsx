@@ -6,24 +6,95 @@ import { CTASection } from "@/components/sections/CTASection";
 import { ArrowRight, Code, Laptop, Heart, GraduationCap, Clock, ShieldCheck } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Careers",
-  description: "Join Apearix. Explore engineering, design, and AI automation roles at a remote-first software company focused on craftsmanship.",
+  title: "Careers | Software Engineering & AI Jobs",
+  description: "Join Apearix. Explore remote-first software engineering, AI automation, and UI/UX design roles built around craftsmanship and innovation.",
+  keywords: [
+    "Software Engineering Jobs",
+    "Remote Next.js Jobs",
+    "AI Systems Engineer Jobs",
+    "UI UX Designer Careers",
+    "Apearix Careers"
+  ],
   alternates: {
     canonical: "https://www.apearix.com/company/careers",
   },
   openGraph: {
-    title: "Careers | Apearix",
-    description: "Join Apearix. Explore engineering, design, and AI automation roles.",
+    title: "Careers at Apearix | Join Our Engineering Team",
+    description: "Join Apearix. Explore engineering, design, and AI automation roles at a remote-first software company.",
     url: "https://www.apearix.com/company/careers",
+    siteName: "Apearix",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Careers at Apearix | Join Our Engineering Team",
+    description: "Join Apearix. Explore engineering, design, and AI automation roles.",
+    site: "@apearix",
+    creator: "@apearix",
   },
 };
 
 const jsonLdCareers = {
   "@context": "https://schema.org",
   "@type": "CareersPage",
+  "@id": "https://www.apearix.com/company/careers/#webpage",
   "name": "Careers at Apearix",
   "url": "https://www.apearix.com/company/careers",
-  "description": "Explore open software engineering, design, and AI automation roles at Apearix."
+  "description": "Explore open software engineering, design, and AI automation roles at Apearix.",
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@type": "JobPosting",
+          "title": "Senior Full Stack Engineer (Next.js & TypeScript)",
+          "description": "Build high-performance web applications using Next.js App Router, TypeScript, and Tailwind CSS.",
+          "employmentType": "FULL_TIME",
+          "jobLocation": { "@type": "Place", "address": { "@type": "PostalAddress", "addressCountry": "Remote" } },
+          "hiringOrganization": { "@id": "https://www.apearix.com/#organization" }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "item": {
+          "@type": "JobPosting",
+          "title": "AI Systems & Automation Engineer",
+          "description": "Develop autonomous AI agents, RAG vector retrieval pipelines, and LLM automation loops.",
+          "employmentType": "FULL_TIME",
+          "jobLocation": { "@type": "Place", "address": { "@type": "PostalAddress", "addressCountry": "Remote" } },
+          "hiringOrganization": { "@id": "https://www.apearix.com/#organization" }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@type": "JobPosting",
+          "title": "Senior UI/UX Design Engineer",
+          "description": "Craft tokenized design systems, interactive prototypes, and 60fps micro-animations.",
+          "employmentType": "FULL_TIME",
+          "jobLocation": { "@type": "Place", "address": { "@type": "PostalAddress", "addressCountry": "Remote" } },
+          "hiringOrganization": { "@id": "https://www.apearix.com/#organization" }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "item": {
+          "@type": "JobPosting",
+          "title": "Mobile Application Developer (Flutter / React Native)",
+          "description": "Develop 60fps cross-platform iOS & Android mobile applications.",
+          "employmentType": "FULL_TIME",
+          "jobLocation": { "@type": "Place", "address": { "@type": "PostalAddress", "addressCountry": "Remote" } },
+          "hiringOrganization": { "@id": "https://www.apearix.com/#organization" }
+        }
+      }
+    ]
+  }
 };
 
 export default function CareersPage() {

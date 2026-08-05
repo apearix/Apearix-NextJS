@@ -1,11 +1,39 @@
-'use client';
-
-import { useState } from 'react';
+import { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { CTASection } from "@/components/sections/CTASection";
-import { ChevronDown } from "lucide-react";
+import { FAQAccordion } from "@/components/sections/FAQAccordion";
+
+export const metadata: Metadata = {
+  title: "Frequently Asked Questions (FAQ) | Software Engineering & Pricing",
+  description: "Find answers to common questions about Apearix software development services, project timelines, 100% IP code ownership, maintenance support, and pricing models.",
+  keywords: [
+    "Apearix FAQ",
+    "Software Development Pricing",
+    "Code Ownership IP",
+    "SaaS MVP Timeline",
+    "Software Maintenance Support"
+  ],
+  alternates: {
+    canonical: "https://www.apearix.com/resources/faq",
+  },
+  openGraph: {
+    title: "Frequently Asked Questions (FAQ) | Apearix",
+    description: "Everything you need to know about partnering with Apearix, our development process, code ownership, and pricing.",
+    url: "https://www.apearix.com/resources/faq",
+    siteName: "Apearix",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Frequently Asked Questions (FAQ) | Apearix",
+    description: "Everything you need to know about partnering with Apearix, our development process, code ownership, and pricing.",
+    site: "@apearix",
+    creator: "@apearix",
+  },
+};
 
 const faqs = [
   {
@@ -37,6 +65,9 @@ const faqs = [
 const jsonLdFaq = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
+  "@id": "https://www.apearix.com/resources/faq/#webpage",
+  "name": "Apearix Frequently Asked Questions",
+  "url": "https://www.apearix.com/resources/faq",
   "mainEntity": faqs.map((f) => ({
     "@type": "Question",
     "name": f.q,
@@ -48,8 +79,6 @@ const jsonLdFaq = {
 };
 
 export default function FAQPage() {
-  const [openIdx, setOpenIdx] = useState<number | null>(0);
-
   return (
     <>
       <script
@@ -67,30 +96,7 @@ export default function FAQPage() {
 
         <section className="py-20 md:py-28 bg-white border-b border-[#E5E7EB]">
           <div className="container max-w-[1280px] mx-auto px-6">
-            <div className="max-w-3xl mx-auto space-y-4">
-              {faqs.map((faq, idx) => {
-                const isOpen = openIdx === idx;
-                return (
-                  <div
-                    key={idx}
-                    className="rounded-[12px] bg-[#FAFAFC] border border-[#E5E7EB] overflow-hidden transition-all"
-                  >
-                    <button
-                      onClick={() => setOpenIdx(isOpen ? null : idx)}
-                      className="w-full p-6 text-left flex items-center justify-between gap-4 font-bold text-[#111827] text-base md:text-lg hover:text-[#6D28F5] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6D28F5]"
-                    >
-                      <span>{faq.q}</span>
-                      <ChevronDown className={`w-5 h-5 text-[#6B7280] transition-transform duration-300 ${isOpen ? "rotate-180 text-[#6D28F5]" : ""}`} />
-                    </button>
-                    {isOpen && (
-                      <div className="px-6 pb-6 text-sm md:text-base text-[#4B5563] leading-relaxed border-t border-[#E5E7EB]/60 pt-4">
-                        {faq.a}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
+            <FAQAccordion faqs={faqs} />
           </div>
         </section>
 

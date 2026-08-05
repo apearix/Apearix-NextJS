@@ -6,24 +6,75 @@ import { CTASection } from "@/components/sections/CTASection";
 import { Clock, ArrowUpRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Engineering Insights & Articles",
-  description: "Read technical articles on Next.js performance optimization, custom AI agent architecture, design systems, and DevOps.",
+  title: "Engineering Insights & Technical Articles | Next.js, AI & Cloud",
+  description: "Read in-depth technical articles on Next.js App Router performance, custom AI agent architectures, RAG vector pipelines, design systems, and DevOps.",
+  keywords: [
+    "Software Engineering Blog",
+    "Next.js Performance Optimization",
+    "AI Agent Architecture Guide",
+    "Vector Database RAG Deep Dive",
+    "DevOps Database Migrations"
+  ],
   alternates: {
     canonical: "https://www.apearix.com/resources/blog",
   },
   openGraph: {
-    title: "Engineering Insights & Articles | Apearix",
-    description: "Read technical articles on Next.js performance, custom AI agent architecture, and DevOps.",
+    title: "Engineering Insights & Technical Articles | Apearix",
+    description: "Read technical articles on Next.js performance, custom AI agent architecture, RAG, and DevOps.",
     url: "https://www.apearix.com/resources/blog",
+    siteName: "Apearix",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Engineering Insights & Technical Articles | Apearix",
+    description: "Read technical articles on Next.js performance, custom AI agent architecture, and DevOps.",
+    site: "@apearix",
+    creator: "@apearix",
   },
 };
 
 const jsonLdBlog = {
   "@context": "https://schema.org",
   "@type": "Blog",
+  "@id": "https://www.apearix.com/resources/blog/#webpage",
   "name": "Apearix Engineering Insights",
   "url": "https://www.apearix.com/resources/blog",
-  "description": "Technical articles and deep dives on software development, AI, and design systems."
+  "description": "Technical articles and deep dives on software architecture, AI agents, RAG, and design systems.",
+  "publisher": {
+    "@id": "https://www.apearix.com/#organization"
+  },
+  "blogPost": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Building High-Performance Next.js Web Apps with Sub-100ms Load Times",
+      "datePublished": "2026-07-24",
+      "articleSection": "Engineering Deep Dive",
+      "author": { "@id": "https://www.apearix.com/#organization" }
+    },
+    {
+      "@type": "BlogPosting",
+      "headline": "Designing Custom AI Agents for Enterprise Workflow Automation",
+      "datePublished": "2026-07-18",
+      "articleSection": "AI Architecture",
+      "author": { "@id": "https://www.apearix.com/#organization" }
+    },
+    {
+      "@type": "BlogPosting",
+      "headline": "The 8pt Spacing Grid: Achieving Apple-Level UI Consistency in Web Apps",
+      "datePublished": "2026-07-10",
+      "articleSection": "UI/UX Design",
+      "author": { "@id": "https://www.apearix.com/#organization" }
+    },
+    {
+      "@type": "BlogPosting",
+      "headline": "Zero-Downtime Database Migrations in Multi-Tenant SaaS Environments",
+      "datePublished": "2026-06-28",
+      "articleSection": "DevOps & Cloud",
+      "author": { "@id": "https://www.apearix.com/#organization" }
+    }
+  ]
 };
 
 const articles = [
