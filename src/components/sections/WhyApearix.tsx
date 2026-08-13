@@ -1,135 +1,177 @@
 'use client';
 
-import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import Image from 'next/image';
-import { cn } from '@/utils/cn';
-import { Cpu, Sparkles, Layout, Globe } from 'lucide-react';
+import { motion } from 'framer-motion';
+import {
+  ArrowUpRight,
+  BrainCircuit,
+  Layers3,
+  Rocket,
+  ShieldCheck,
+  Sparkles,
+} from 'lucide-react';
 
-const reasons = [
+const principles = [
   {
-    title: "Engineering Excellence",
-    description: "We don't just write code. We architect scalable, resilient systems that form the backbone of modern enterprise.",
-    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1000&q=80",
-    icon: Cpu,
-    tag: "Robust Architecture",
-    color: "bg-[#F4F0FF]/60"
+    number: '01',
+    title: 'Engineering First',
+    description:
+      'We care about architecture, performance, maintainability and long-term reliability—not just getting features shipped.',
+    icon: Layers3,
+    accent: 'Architecture',
   },
   {
-    title: "AI-First Approach",
-    description: "Intelligence is at our core. We integrate advanced AI models to automate complexity and drive decision-making.",
-    image: "https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&w=1000&q=80",
-    icon: Sparkles,
-    tag: "Neural Automations",
-    color: "bg-[#FAFAFC]"
+    number: '02',
+    title: 'AI-Native Thinking',
+    description:
+      'We design modern systems with intelligence and automation in mind, using AI where it creates real value.',
+    icon: BrainCircuit,
+    accent: 'Intelligence',
   },
   {
-    title: "Design-Led Innovation",
-    description: "Beauty is a feature. Our products are intuitive, elegant, and designed to provide a world-class user experience.",
-    image: "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=1000&q=80",
-    icon: Layout,
-    tag: "Human-Centric UX",
-    color: "bg-[#F6F7FB]"
+    number: '03',
+    title: 'Product Thinking',
+    description:
+      'We look beyond individual features to understand users, workflows and the business outcome behind the product.',
+    icon: Rocket,
+    accent: 'Product',
   },
   {
-    title: "Global Scalability",
-    description: "Built for growth. Our solutions scale seamlessly from startups to global conglomerates without missing a beat.",
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1000&q=80",
-    icon: Globe,
-    tag: "Cloud Infrastructure",
-    color: "bg-[#FAFAFC]"
-  }
+    number: '04',
+    title: 'Built to Scale',
+    description:
+      'We build foundations that can evolve from an MVP into a reliable production system as your users, data and business grow.',
+    icon: ShieldCheck,
+    accent: 'Scalability',
+  },
 ];
 
 export function WhyApearix() {
-  const targetRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-  });
-
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
-
   return (
-    <section id="solutions" ref={targetRef} className="relative h-[300vh]">
-      <div className="sticky top-0 h-screen flex items-center overflow-hidden">
-        <motion.div style={{ x }} className="flex gap-6 sm:gap-8 md:gap-10 px-6 sm:px-12 md:px-20">
-          
-          {/* Header Card / Intro Column */}
-          <div className="flex-shrink-0 w-[280px] sm:w-[360px] md:w-[420px] flex flex-col justify-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1 mb-4 w-fit rounded-full bg-[#EDE8FF] text-[#6320EE] text-xs font-semibold tracking-wider uppercase">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Core Values</span>
-            </div>
-            
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-[#0F172A] mb-6 leading-tight tracking-tight">
-              Why <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6320EE] via-[#7B3FE4] to-[#A855F7]">
-                Apearix?
-              </span>
-            </h2>
-            
-            <p className="text-base sm:text-lg text-[#64748B] leading-relaxed">
-              We bridge the gap between complex engineering and human-centric design. Scroll to see how we redefine software development.
-            </p>
-          </div>
+    <section
+      id="why-apearix"
+      className="relative overflow-hidden bg-[#FAFAFC] py-10 sm:py-16 lg:py-20"
+    >
+      {/* Ambient background */}
+      <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[420px] w-[760px] -translate-x-1/2 rounded-full bg-[#6D28F5]/5 blur-[130px]" />
 
-          {/* Cards with Relevant Images */}
-          {reasons.map((reason, index) => {
-            const Icon = reason.icon;
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 xl:px-0">
+        {/* Header */}
+        <div className="mx-auto max-w-3xl text-center">
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.5 }}
+            className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#DDD6FE] bg-[#F4F0FF] px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#6D28F5]"
+          >
+            <Sparkles className="h-3.5 w-3.5" />
+            <span>Why Apearix</span>
+          </motion.div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-balance text-3xl font-bold tracking-tight text-[#111827] sm:text-4xl md:text-5xl lg:text-6xl"
+          >
+            Built Different.
+            <br />
+            <span className="text-[#6D28F5]">Engineered to Last.</span>
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mx-auto mt-6 max-w-2xl text-base leading-7 text-[#4B5563] sm:text-lg"
+          >
+            We combine strong engineering principles, AI-native thinking and
+            product-focused execution to build software that works today—and
+            is ready for what comes next.
+          </motion.p>
+        </div>
+
+        {/* Principles Grid */}
+        <div className="mt-14 grid gap-5 sm:mt-16 md:grid-cols-2 lg:grid-cols-4">
+          {principles.map((principle, index) => {
+            const Icon = principle.icon;
+
             return (
-              <div
-                key={index}
-                className={cn(
-                  "group flex-shrink-0 w-[85vw] sm:w-[420px] md:w-[460px] rounded-2xl p-4 sm:p-6 flex flex-col justify-between border border-gray-200/80 hover:border-purple-300 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/10 bg-white",
-                  reason.color
-                )}
+              <motion.article
+                key={principle.number}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{
+                  duration: 0.6,
+                  delay: index * 0.08,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                className="group relative flex min-h-[330px] flex-col overflow-hidden rounded-2xl border border-[#E5E7EB] bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#C4B5FD] hover:shadow-xl hover:shadow-[#6D28F5]/10 sm:p-7"
               >
-                <div>
-                  {/* Top Relevant Image Visual Container */}
-                  <div className="relative aspect-[16/10] w-full rounded-xl overflow-hidden mb-6 bg-gray-100 border border-gray-100">
-                    <Image
-                      src={reason.image}
-                      alt={reason.title}
-                      fill
-                      sizes="(max-width: 768px) 85vw, 460px"
-                      className="object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
-                    />
-                    
-                    {/* Overlay Gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 opacity-70 group-hover:opacity-50 transition-opacity" />
+                {/* Number & Icon */}
+                <div className="flex items-start justify-between">
+                  <span className="font-mono text-sm font-semibold tracking-wider text-[#9CA3AF]">
+                    {principle.number}
+                  </span>
 
-                    {/* Number Badge Top Right */}
-                    <span className="absolute top-3 right-3 text-2xl font-bold text-white/90 drop-shadow-md">
-                      0{index + 1}
-                    </span>
-
-                    {/* Tag Badge Top Left */}
-                    <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/80 backdrop-blur-md text-[11px] font-semibold text-gray-900 border border-white/50">
-                      <Icon className="w-3.5 h-3.5 text-[#6320EE]" />
-                      <span>{reason.tag}</span>
-                    </div>
-                  </div>
-
-                  {/* Text Details */}
-                  <div className="px-1">
-                    <h3 className="text-2xl sm:text-3xl font-bold text-[#0F172A] mb-3 group-hover:text-[#6320EE] transition-colors">
-                      {reason.title}
-                    </h3>
-                    <p className="text-sm sm:text-base text-[#64748B] leading-relaxed">
-                      {reason.description}
-                    </p>
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#DDD6FE] bg-[#F4F0FF] text-[#6D28F5] transition-all duration-300 group-hover:bg-[#6D28F5] group-hover:text-white">
+                    <Icon className="h-5 w-5" strokeWidth={1.8} />
                   </div>
                 </div>
 
-                {/* Bottom Decorative Accent */}
-                <div className="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between text-xs font-semibold text-[#6320EE]">
-                  <span>Apearix Standard</span>
-                  <span className="w-2 h-2 rounded-full bg-[#6320EE] animate-pulse" />
+                {/* Content Accent */}
+                <div className="mt-10">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-[#6D28F5]">
+                    {principle.accent}
+                  </span>
+
+                  <h3 className="mt-2 text-xl font-bold tracking-tight text-[#111827] sm:text-2xl">
+                    {principle.title}
+                  </h3>
+
+                  <p className="mt-4 text-sm leading-6 text-[#4B5563] sm:text-base">
+                    {principle.description}
+                  </p>
                 </div>
-              </div>
+
+                {/* Bottom line / Aesthetic Element */}
+                <div className="mt-auto flex items-center justify-between border-t border-[#E5E7EB] pt-5">
+                  <span className="text-xs font-medium text-[#9CA3AF]">
+                    Apearix Standard
+                  </span>
+
+                  <ArrowUpRight className="h-4 w-4 text-[#9CA3AF] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[#6D28F5]" />
+                </div>
+
+                {/* Bottom Hover Accent Bar */}
+                <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-[#6D28F5] transition-all duration-500 group-hover:w-full" />
+              </motion.article>
             );
           })}
+        </div>
 
+        {/* Bottom Statement */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mt-12 border-t border-[#E5E7EB] pt-8 sm:mt-16 sm:pt-10"
+        >
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <p className="max-w-2xl text-sm leading-6 text-[#6B7280] sm:text-base">
+              From architecture to deployment, every decision is made with
+              the product&apos;s long-term success in mind.
+            </p>
+
+            <div className="flex shrink-0 items-center gap-2 text-sm font-semibold text-[#6D28F5]">
+              <span>Engineering with intent</span>
+              <ArrowUpRight className="h-4 w-4" />
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>

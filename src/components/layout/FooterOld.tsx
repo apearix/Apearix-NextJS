@@ -103,33 +103,7 @@ const solutionsList = [
     { name: 'Mobile App Dev', href: '/services/mobile-app-development' },
     { name: 'Cloud & DevOps', href: '/services/cloud-devops' },
 ];
-const companyLinks = [
-    { name: 'About', href: '/about' },
-    { name: 'Work', href: '/work' },
-    { name: 'Careers', href: '/careers' },
-    { name: 'Contact', href: '/contact' },
-];
 
-const serviceLinks = [
-    { name: 'AI Engineering', href: '/services/ai-engineering' },
-    { name: 'Software Development', href: '/services/software-engineering' },
-    { name: 'SaaS Development', href: '/services/saas-development' },
-    { name: 'Automation', href: '/services/automation' },
-    { name: 'Cloud & DevOps', href: '/services/cloud-devops' },
-];
-
-const productLinks = [
-    { name: 'Apearix Labs', href: '/products' },
-    { name: 'SmartTabs', href: '/products#smarttabs' },
-    { name: 'AI Products', href: '/products#ai-products' },
-    { name: 'Developer Tools', href: '/products#developer-tools' },
-];
-
-const resourceLinks = [
-    { name: 'Blog', href: '#' },
-    { name: 'Documentation', href: '#' },
-    { name: 'FAQ', href: '#' },
-];
 export function Footer() {
     const [email, setEmail] = useState('');
     const [subscribed, setSubscribed] = useState(false);
@@ -191,7 +165,7 @@ export function Footer() {
                     </div>
 
                     {/* Column 2: Navigation Links */}
-                    {/* <div className="lg:col-span-2 space-y-4">
+                    <div className="lg:col-span-2 space-y-4">
                         <h4 className="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
                             Navigation
                         </h4>
@@ -207,10 +181,10 @@ export function Footer() {
                                 </li>
                             ))}
                         </ul>
-                    </div> */}
+                    </div>
 
                     {/* Column 3: Solutions */}
-                    {/* <div className="lg:col-span-2 space-y-4">
+                    <div className="lg:col-span-2 space-y-4">
                         <h4 className="text-sm font-bold uppercase tracking-wider text-white">
                             Capabilities
                         </h4>
@@ -226,77 +200,61 @@ export function Footer() {
                                 </li>
                             ))}
                         </ul>
-                    </div> */}
-                    <div className="lg:col-span-2 space-y-4">
-                        <h4 className="text-sm font-bold uppercase tracking-wider text-white">
-                            Company
-                        </h4>
-                        <ul className="space-y-2.5">
-                            {companyLinks.map((sol) => (
-                                <li key={sol.name}>
-                                    <Link
-                                        href={sol.href}
-                                        className="text-sm text-slate-400 hover:text-white hover:translate-x-1 inline-block transition-all duration-200"
-                                    >
-                                        {sol.name}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                    <div className="lg:col-span-2 space-y-4">
-                        <h4 className="text-sm font-bold uppercase tracking-wider text-white">
-                            Services
-                        </h4>
-                        <ul className="space-y-2.5">
-                            {serviceLinks.map((sol) => (
-                                <li key={sol.name}>
-                                    <Link
-                                        href={sol.href}
-                                        className="text-sm text-slate-400 hover:text-white hover:translate-x-1 inline-block transition-all duration-200"
-                                    >
-                                        {sol.name}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
                     </div>
 
-                    <div className="lg:col-span-2 space-y-4">
-                        <h4 className="text-sm font-bold uppercase tracking-wider text-white">
-                            Products
+                    {/* Column 4: Newsletter / Quick Contact */}
+                    <div className="lg:col-span-4 space-y-4 bg-white/[0.03] p-6 rounded-[16px] border border-white/10 backdrop-blur-sm h-fit">
+                        <div className="flex items-center gap-2 text-[#6D28F5]">
+                            <Sparkles className="w-4 h-4" />
+                            <span className="text-xs font-bold uppercase tracking-wider text-[#6D28F5]">
+                                Stay Ahead
+                            </span>
+                        </div>
+                        <h4 className="text-lg font-bold text-white">
+                            Subscribe to Engineering Insights
                         </h4>
-                        <ul className="space-y-2.5">
-                            {productLinks.map((sol) => (
-                                <li key={sol.name}>
-                                    <Link
-                                        href={sol.href}
-                                        className="text-sm text-slate-400 hover:text-white hover:translate-x-1 inline-block transition-all duration-200"
-                                    >
-                                        {sol.name}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                    <div className="lg:col-span-2 space-y-4">
-                        <h4 className="text-sm font-bold uppercase tracking-wider text-white">
-                            Resources
-                        </h4>
-                        <ul className="space-y-2.5">
-                            {resourceLinks.map((sol) => (
-                                <li key={sol.name}>
-                                    <Link
-                                        href={sol.href}
-                                        className="text-sm text-slate-400 hover:text-white hover:translate-x-1 inline-block transition-all duration-200"
-                                    >
-                                        {sol.name}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                        <p className="text-xs text-slate-400 leading-relaxed">
+                            Get periodic updates on AI breakthroughs, architecture deep dives, and product launches.
+                        </p>
 
+                        <form onSubmit={handleSubscribe} className="space-y-3 pt-2">
+                            <div className="relative">
+                                <label htmlFor="newsletter-email-input" className="sr-only">
+                                    Work Email Address
+                                </label>
+                                <input
+                                    id="newsletter-email-input"
+                                    type="email"
+                                    required
+                                    aria-label="Work Email Address"
+                                    placeholder="Enter your work email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className="w-full h-12 px-4 rounded-[10px] bg-white/5 border border-white/10 text-white placeholder-slate-400 text-sm focus:outline-none focus:border-[#6D28F5] focus:ring-1 focus:ring-[#6D28F5] transition-all"
+                                />
+                                <button
+                                    type="submit"
+                                    disabled={subscribed}
+                                    className="absolute right-1.5 top-1.5 bottom-1.5 px-4 rounded-[8px] bg-[#6D28F5] text-white text-xs font-semibold hover:bg-[#5B21E6] transition-all flex items-center gap-1.5 disabled:bg-[#16A34A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6D28F5]"
+                                >
+                                    {subscribed ? (
+                                        <>
+                                            <CheckCircle2 className="w-3.5 h-3.5" />
+                                            Joined!
+                                        </>
+                                    ) : (
+                                        <>
+                                            <span>Join</span>
+                                            <Send className="w-3 h-3" />
+                                        </>
+                                    )}
+                                </button>
+                            </div>
+                            <span className="text-[11px] text-slate-400 block">
+                                No spam. Unsubscribe anytime.
+                            </span>
+                        </form>
+                    </div>
                 </div>
 
                 {/* Bottom Copyright & Legal Links Bar */}

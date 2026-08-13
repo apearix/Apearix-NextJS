@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { BackToTop } from "@/components/layout/BackToTop";
-
+import { ApearixPreloader } from '@/components/common/ApearixPreloader';
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -113,7 +113,7 @@ const jsonLdOrganization = {
   "url": "https://www.apearix.com",
   "logo": "https://www.apearix.com/icon",
   "image": "https://www.apearix.com/opengraph-image",
-  "email": "hqapearix@gmail.com",
+  "email": "contact@apearix.com",
   "telephone": "+917241131839",
   "sameAs": [
     "https://x.com/apearix",
@@ -137,7 +137,7 @@ const jsonLdOrganization = {
   "contactPoint": {
     "@type": "ContactPoint",
     "telephone": "+917241131839",
-    "email": "hqapearix@gmail.com",
+    "email": "contact@apearix.com",
     "contactType": "customer service",
     "availableLanguage": ["English"]
   },
@@ -183,6 +183,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col font-sans selection:bg-[#6D28F5] selection:text-white relative bg-white text-[#4B5563]">
+        <ApearixPreloader />
         <SmoothScroll>
           {children}
         </SmoothScroll>

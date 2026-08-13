@@ -178,7 +178,7 @@ export default function CareersPage() {
                     </div>
                   </div>
                   <a
-                    href="mailto:hqapearix@gmail.com?subject=Application for Role"
+                    href="mailto:contact@apearix.com?subject=Application for Role"
                     className="h-12 px-6 rounded-[10px] bg-[#6D28F5] hover:bg-[#5B21E6] text-white font-medium text-sm flex items-center gap-2 transition-colors"
                   >
                     <span>Apply Now</span>
@@ -190,7 +190,7 @@ export default function CareersPage() {
           </div>
         </section>
 
-        <CTASection title="Don't see your role?" subtitle="Send your resume and portfolio to hqapearix@gmail.com. We are always interested in connecting with extraordinary talent." ctaText="Contact Our Team" />
+        {/* <CTASection title="Don't see your role?" subtitle="Send your resume and portfolio to contact@apearix.com. We are always interested in connecting with extraordinary talent." ctaText="Contact Our Team" /> */}
       </main>
       <Footer />
     </>

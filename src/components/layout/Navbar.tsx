@@ -1,255 +1,235 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { Menu, X, ChevronDown } from 'lucide-react';
-import { cn } from '@/utils/cn';
-import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+import { Menu, X, ChevronDown, ArrowRight } from 'lucide-react';
+import Apearix from '../common/Apearix';
 
-const serviceLinks = [
-  { name: 'Web Development', href: '/services/web-development' },
-  { name: 'SaaS Development', href: '/services/saas-development' },
-  { name: 'AI Automation', href: '/services/ai-automation' },
-  { name: 'UI/UX Design', href: '/services/ui-ux-design' },
-  { name: 'Mobile App Development', href: '/services/mobile-app-development' }, 
-];
-
-const companyLinks = [
-  { name: 'About Us', href: '/company/about' },
-  { name: 'Careers', href: '/company/careers' },
-  { name: 'Contact', href: '/company/contact' },
-];
-
-const workLinks = [
-  { name: 'Portfolio', href: '/work/portfolio' },
-  { name: 'Case Studies', href: '/work/case-studies' },
-];
-
-const resourceLinks = [
-  { name: 'Blog', href: '/resources/blog' },
-  { name: 'FAQ', href: '/resources/faq' },
-];
+// --- Navigation Configuration ---
+const navigation = {
+  services: [
+    { name: 'AI Engineering', href: '/services/ai-engineering', desc: 'AI Agents, RAG & Automation' },
+    { name: 'Software Engineering', href: '/services/software-engineering', desc: 'Web & Mobile Applications' },
+    { name: 'SaaS Development', href: '/services/saas-development', desc: 'End-to-end product builds' },
+    { name: 'Cloud & DevOps', href: '/services/cloud-devops', desc: 'Architecture & CI/CD' },
+    { name: 'Product Design', href: '/services/product-design', desc: 'UI/UX & Design Systems' },
+  ],
+  solutions: [
+    { name: 'AI Automation', href: '/solutions/ai-automation', desc: 'Streamline workflows intelligently' },
+    { name: 'Business Systems', href: '/solutions/business-systems', desc: 'Scalable enterprise software' },
+    { name: 'Internal Tools', href: '/solutions/internal-tools', desc: 'Custom operational dashboards' },
+    { name: 'Digital Transformation', href: '/solutions/digital-transformation', desc: 'Modernize legacy infrastructure' },
+  ],
+  products: [
+    { name: 'Apearix Labs', href: '/products/labs', desc: 'Experimental internal tools' },
+    { name: 'Our Products', href: '/products', desc: 'Products we are building' },
+  ],
+  directLinks: [
+    { name: 'Work', href: '/work' },
+    { name: 'About', href: '/about' },
+  ]
+};
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
+  const pathname = usePathname();
   const { scrollY } = useScroll();
 
+  // Scroll State Listener
   useMotionValueEvent(scrollY, "change", (latest) => {
-    if (latest > 20) {
-      setIsScrolled(true);
-    } else {
-      setIsScrolled(false);
-    }
+    setIsScrolled(latest > 20);
   });
 
+  // Keyboard Accessibility: Close dropdown on Escape
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setActiveDropdown(null);
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, []);
+
+  // Utility to check active states
+  const isActive = (path: string) => pathname?.startsWith(path);
+
+  // Lock page scroll while mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
+  // Reusable Desktop Dropdown Component
+  const DesktopDropdown = ({ title, id, items }: { title: string, id: string, items: any[] }) => (
+    <div
+      className="relative py-2"
+      onMouseEnter={() => setActiveDropdown(id)}
+      onMouseLeave={() => setActiveDropdown(null)}
+      onFocus={() => setActiveDropdown(id)}
+    >
+      <button
+        className={`flex items-center gap-1 transition-colors ${isActive(`/${id}`) || activeDropdown === id ? 'text-black' : 'hover:text-black'}`}
+        aria-expanded={activeDropdown === id}
+        aria-haspopup="menu"
+      >
+        {title}
+        <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${activeDropdown === id ? 'rotate-180' : ''}`} />
+      </button>
+
+      <AnimatePresence>
+        {activeDropdown === id && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10, transition: { duration: 0.1 } }}
+            className="absolute top-full left-1/2 -translate-x-1/2 w-[320px] bg-white border border-black/5 shadow-xl rounded-2xl p-3 flex flex-col"
+            role="menu"
+          >
+            {items.map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                role="menuitem"
+                className="group p-3 rounded-xl hover:bg-surface-alt transition-colors"
+                onClick={() => setActiveDropdown(null)}
+              >
+                <div className="font-medium text-[var(--color-heading)] group-hover:text-primary transition-colors">
+                  {link.name}
+                </div>
+                <div className="text-xs text-[var(--color-muted)] mt-0.5">
+                  {link.desc}
+                </div>
+              </Link>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 glass-panel-light border-b border-black/5 px-6 py-4 bg-white/80 backdrop-blur-md transition-all">
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
-        
-        {/* Logo Section */}
-        <Link href="/" className="flex items-center  group">
-          <div className="relative w-8 h-8 "> 
-            <Image 
-              src="/logo.png" 
-              alt="Textile Logo" 
-              fill 
-              className="object-cover group-hover:scale-105 transition-transform duration-300" 
-              priority
-            />
-          </div>
-          <span className="font-semibold tracking-tight text-xl text-[#1D1D1F]">
-            Apearix
-          </span>
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+        ? 'bg-white/80 backdrop-blur-md border-b border-stone-200 shadow-xs py-3'
+        : 'bg-transparent border-transparent py-4'
+        }`}  >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 xl:px-0 flex justify-between items-center">
+
+        {/* Apearix Logo */}
+        <Link href="/" className="group z-50 leading-none outline-none focus:outline-none focus-visible:outline-none" onClick={() => setMobileMenuOpen(false)}>
+          <Apearix />
         </Link>
 
-        {/* Desktop Navigation with Dropdowns */}
-        <nav className="hidden md:flex items-center space-x-8 text-sm font-medium text-[#515154]">
-          
-          {/* Services Dropdown */}
-          <div 
-            className="relative py-2"
-            onMouseEnter={() => setActiveDropdown('services')}
-            onMouseLeave={() => setActiveDropdown(null)}
-          >
-            <button className="flex items-center gap-1 hover:text-black transition-colors">
-              Services <ChevronDown className={`w-4 h-4 transition-transform ${activeDropdown === 'services' ? 'rotate-180' : ''}`} />
-            </button>
-            <AnimatePresence>
-              {activeDropdown === 'services' && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className="absolute top-full left-0 w-56 bg-white border border-black/5 shadow-xl rounded-2xl p-2 flex flex-col space-y-1"
-                >
-                  {serviceLinks.map((link) => (
-                    <Link key={link.name} href={link.href} className="px-3 py-2 rounded-lg hover:bg-black/5 text-[#515154] hover:text-black transition-colors">
-                      {link.name}
-                    </Link>
-                  ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+        {/* --- Desktop Navigation --- */}
+        <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
+          <DesktopDropdown title="Services" id="services" items={navigation.services} />
+          <DesktopDropdown title="Solutions" id="solutions" items={navigation.solutions} />
+          <DesktopDropdown title="Products" id="products" items={navigation.products} />
 
-          {/* Work Dropdown */}
-          <div 
-            className="relative py-2"
-            onMouseEnter={() => setActiveDropdown('work')}
-            onMouseLeave={() => setActiveDropdown(null)}
-          >
-            <button className="flex items-center gap-1 hover:text-black transition-colors">
-              Work <ChevronDown className={`w-4 h-4 transition-transform ${activeDropdown === 'work' ? 'rotate-180' : ''}`} />
-            </button>
-            <AnimatePresence>
-              {activeDropdown === 'work' && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className="absolute top-full left-0 w-48 bg-white border border-black/5 shadow-xl rounded-2xl p-2 flex flex-col space-y-1"
-                >
-                  {workLinks.map((link) => (
-                    <Link key={link.name} href={link.href} className="px-3 py-2 rounded-lg hover:bg-black/5 text-[#515154] hover:text-black transition-colors">
-                      {link.name}
-                    </Link>
-                  ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-
-          {/* Company Dropdown */}
-          <div 
-            className="relative py-2"
-            onMouseEnter={() => setActiveDropdown('company')}
-            onMouseLeave={() => setActiveDropdown(null)}
-          >
-            <button className="flex items-center gap-1 hover:text-black transition-colors">
-              Company <ChevronDown className={`w-4 h-4 transition-transform ${activeDropdown === 'company' ? 'rotate-180' : ''}`} />
-            </button>
-            <AnimatePresence>
-              {activeDropdown === 'company' && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className="absolute top-full left-0 w-48 bg-white border border-black/5 shadow-xl rounded-2xl p-2 flex flex-col space-y-1"
-                >
-                  {companyLinks.map((link) => (
-                    <Link key={link.name} href={link.href} className="px-3 py-2 rounded-lg hover:bg-black/5 text-[#515154] hover:text-black transition-colors">
-                      {link.name}
-                    </Link>
-                  ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-
-          {/* Resources Dropdown */}
-          <div 
-            className="relative py-2"
-            onMouseEnter={() => setActiveDropdown('resources')}
-            onMouseLeave={() => setActiveDropdown(null)}
-          >
-            <button className="flex items-center gap-1 hover:text-black transition-colors">
-              Resources <ChevronDown className={`w-4 h-4 transition-transform ${activeDropdown === 'resources' ? 'rotate-180' : ''}`} />
-            </button>
-            <AnimatePresence>
-              {activeDropdown === 'resources' && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className="absolute top-full left-0 w-48 bg-white border border-black/5 shadow-xl rounded-2xl p-2 flex flex-col space-y-1"
-                >
-                  {resourceLinks.map((link) => (
-                    <Link key={link.name} href={link.href} className="px-3 py-2 rounded-lg hover:bg-black/5 text-[#515154] hover:text-black transition-colors">
-                      {link.name}
-                    </Link>
-                  ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-
+          {navigation.directLinks.map((link) => (
+            <Link
+              key={link.name}
+              href={link.href}
+              className={`py-2 transition-colors ${isActive(link.href) ? 'text-primary' : 'hover:text-black'}`}
+            >
+              {link.name}
+            </Link>
+          ))}
         </nav>
 
-        {/* Action Button & Mobile Toggle */}
-        <div className="flex items-center space-x-4">
-          <Link href="/company/contact" className="bg-[#6D28F5] hover:bg-[#5B21E6]  text-white text-xs font-semibold px-5 py-2.5 rounded-full transition-all duration-300">
-            Request Demo
+        {/* --- Desktop CTA & Mobile Toggle --- */}
+        <div className="flex items-center space-x-4 z-50">
+          <Link
+            href="/contact"
+            className="hidden md:inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-white text-sm font-medium px-5 py-2.5 rounded-full transition-all duration-300 group"
+          >
+            Let's Build
+            <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
 
-          <button 
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
-            className="md:hidden text-[#1D1D1F] p-1"
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden text-heading p-1 focus-visible:outline-none"
+            aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
-
       </div>
 
-      {/* Mobile Menu Drawer */}
+      {/* --- Mobile Menu Drawer --- */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <motion.div 
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-b border-black/5 px-6 py-6 overflow-y-auto max-h-[80vh]"
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+            className="absolute top-full left-0 right-0 bg-white border-y border-[var(--color-border)] px-6 py-6 overflow-y-auto overscroll-contain touch-pan-y [-webkit-overflow-scrolling:touch] max-h-[calc(100dvh-4.5rem)] shadow-xl md:hidden z-[60]"
           >
-            <div className="flex flex-col space-y-6 text-sm font-medium text-[#515154]">
-              
-              <div>
-                <p className="text-xs font-semibold uppercase text-black/40 mb-2">Services</p>
-                <div className="flex flex-col space-y-2 pl-2">
-                  {serviceLinks.map((link) => (
-                    <Link key={link.name} href={link.href} onClick={() => setMobileMenuOpen(false)} className="hover:text-black">
-                      {link.name}
-                    </Link>
-                  ))}
+            <div className="flex flex-col space-y-6 text-heading text-base font-medium">
+
+              {/* Mobile Dropdown Sections */}
+              {[
+                { title: 'Services', items: navigation.services },
+                { title: 'Solutions', items: navigation.solutions },
+                { title: 'Products', items: navigation.products }
+              ].map((section) => (
+                <div key={section.title} className="border-b border-[var(--color-border-subtle)] pb-4">
+                  <p className="text-sm font-semibold uppercase text-muted mb-4 tracking-wider">
+                    {section.title}
+                  </p>
+                  <div className="flex flex-col space-y-4 pl-2">
+                    {section.items.map((link) => (
+                      <Link
+                        key={link.name}
+                        href={link.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="text-sm  hover:text-primary transition-colors"
+                      >
+                        {link.name}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
+              ))}
+
+              {/* Mobile Direct Links */}
+              <div className="flex flex-col space-y-4 pt-2">
+                {navigation.directLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="hover:text-primary transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                ))}
               </div>
 
-              <div>
-                <p className="text-xs font-semibold uppercase text-black/40 mb-2">Work</p>
-                <div className="flex flex-col space-y-2 pl-2">
-                  {workLinks.map((link) => (
-                    <Link key={link.name} href={link.href} onClick={() => setMobileMenuOpen(false)} className="hover:text-black">
-                      {link.name}
-                    </Link>
-                  ))}
-                </div>
+              {/* Mobile CTA */}
+              <div className="pt-4 pb-2">
+                <Link
+                  href="/contact"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-center gap-2 w-full  bg-primary text-white text-sm font-medium px-5 py-3.5 rounded-xl transition-all active:scale-[0.98]"
+                >
+                  Let's Build
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
-
-              <div>
-                <p className="text-xs font-semibold uppercase text-black/40 mb-2">Company</p>
-                <div className="flex flex-col space-y-2 pl-2">
-                  {companyLinks.map((link) => (
-                    <Link key={link.name} href={link.href} onClick={() => setMobileMenuOpen(false)} className="hover:text-black">
-                      {link.name}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <p className="text-xs font-semibold uppercase text-black/40 mb-2">Resources</p>
-                <div className="flex flex-col space-y-2 pl-2">
-                  {resourceLinks.map((link) => (
-                    <Link key={link.name} href={link.href} onClick={() => setMobileMenuOpen(false)} className="hover:text-black">
-                      {link.name}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
             </div>
           </motion.div>
         )}

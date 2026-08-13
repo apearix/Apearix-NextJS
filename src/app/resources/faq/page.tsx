@@ -100,7 +100,7 @@ export default function FAQPage() {
           </div>
         </section>
 
-        <CTASection title="Have a question not answered here?" subtitle="Contact our engineering team directly and we will answer all your technical questions." ctaText="Contact Us" />
+        {/* <CTASection title="Have a question not answered here?" subtitle="Contact our engineering team directly and we will answer all your technical questions." ctaText="Contact Us" /> */}
       </main>
       <Footer />
     </>

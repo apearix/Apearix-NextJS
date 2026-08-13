@@ -10,8 +10,12 @@ import { Process } from "@/components/sections/Process";
 import { Showcase } from "@/components/sections/Showcase";
 import { TechStack } from "@/components/sections/TechStack";
 import { Testimonials } from "@/components/sections/Testimonials";
-import { TrustedBy } from "@/components/sections/TrustedBy";
+import { ModernTechStack } from "@/components/sections/ModernTechStack";
 import { WhyApearix } from "@/components/sections/WhyApearix";
+import { WhatWeBuild } from "@/components/sections/WhatWeBuild";
+import { AIIntelligentSystems } from "@/components/sections/AIIntelligentSystems";
+import { EngineeringProcess } from "@/components/sections/EngineeringProcess";
+import { CTASection } from "@/components/sections/CTASectionOld";
 
 export const metadata: Metadata = {
   title: "Apearix | Software Engineering Company | AI-Powered Solutions & SaaS Development",
@@ -44,7 +48,7 @@ const jsonLdProfessionalService = {
   "url": "https://www.apearix.com",
   "logo": "https://www.apearix.com/icon",
   "image": "https://www.apearix.com/opengraph-image",
-  "email": "hqapearix@gmail.com",
+  "email": "contact@apearix.com",
   "telephone": "+917241131839",
   "priceRange": "$$$",
   "description": "Apearix is a full-service software engineering agency building custom web applications, SaaS products, AI workflow automations, and mobile applications.",
@@ -118,16 +122,21 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <TrustedBy />
+        <TechStack />
+        <WhatWeBuild />
+        <AIIntelligentSystems />
+        <EngineeringProcess />
+        <ModernTechStack />
         <CaseStudies />
         <WhyApearix />
-        <Capabilities />
-        <Process />
-        <TechStack />
-        <AIEngine />
-        <Showcase />
-        <Metrics />
-        <Testimonials />
+        <CTASection />
+
+        {/* <Capabilities /> */}
+        {/* <Process /> */}
+        {/* <AIEngine /> */}
+        {/* <Showcase /> */}
+        {/* <Metrics /> */}
+        {/* <Testimonials /> */}
       </main>
       <Footer />
     </>

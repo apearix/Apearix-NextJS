@@ -43,7 +43,7 @@ const jsonLdContact = {
   "description": "Contact Apearix software engineering team for project inquiries, technical audits, and consultations.",
   "mainEntity": {
     "@type": "ContactPoint",
-    "email": "hqapearix@gmail.com",
+    "email": "contact@apearix.com",
     "telephone": "+917241131839",
     "contactType": "customer service",
     "availableLanguage": ["English"],
@@ -74,7 +74,7 @@ export default function ContactPage() {
 
         <section className="py-20 md:py-28 bg-white border-b border-[#E5E7EB]">
           <div className="container max-w-[1280px] mx-auto px-6 grid lg:grid-cols-12 gap-12">
-            
+
             {/* Left Direct Details */}
             <div className="lg:col-span-5 space-y-8">
               <div>
@@ -93,8 +93,8 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="text-sm font-bold text-[#111827] uppercase tracking-wider mb-1">Email Inquiry</h3>
-                    <a href="mailto:hqapearix@gmail.com" className="text-base font-semibold text-[#6D28F5] hover:underline">
-                      hqapearix@gmail.com
+                    <a href="mailto:contact@apearix.com" className="text-base font-semibold text-[#6D28F5] hover:underline">
+                      contact@apearix.com
                     </a>
                   </div>
                 </div>

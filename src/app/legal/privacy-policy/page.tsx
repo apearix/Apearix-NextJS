@@ -91,7 +91,7 @@ export default function PrivacyPolicyPage() {
               <div>
                 <h2 className="text-2xl font-bold text-[#111827] mb-4">4. Your Rights</h2>
                 <p>
-                  You have the right to request access to, correction of, or deletion of your personal data at any time by emailing us directly at <a href="mailto:hqapearix@gmail.com" className="text-[#6D28F5] underline font-semibold">hqapearix@gmail.com</a>.
+                  You have the right to request access to, correction of, or deletion of your personal data at any time by emailing us directly at <a href="mailto:contact@apearix.com" className="text-[#6D28F5] underline font-semibold">contact@apearix.com</a>.
                 </p>
               </div>
             </div>

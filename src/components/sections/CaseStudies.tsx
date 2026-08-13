@@ -1,162 +1,266 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowUpRight, ArrowRight, Sparkles } from 'lucide-react';
-import Image from 'next/image';
+import {
+  ArrowRight,
+  ExternalLink,
+  FlaskConical,
+  Sparkles,
+  Workflow,
+} from 'lucide-react';
 import Link from 'next/link';
 
-interface Project {
+interface Product {
   title: string;
   category: string;
   description: string;
-  image: string;
-  metrics: string;
-  href: string;
+  status: string;
+  statusType: 'active' | 'building' | 'soon';
+  technologies: string[];
+  href?: string;
+  featured?: boolean;
+  icon: React.ElementType;
 }
 
-const projects: Project[] = [
+const products: Product[] = [
   {
-    title: "NexGen Logistics",
-    category: "AI & Automation",
-    description: "Optimizing global supply chains with predictive AI models and real-time autonomous routing.",
-    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80",
-    metrics: "40% Cost Reduced",
-    href: "#case-study-nexgen",
+    title: 'SmartTabs',
+    category: 'Browser Productivity',
+    description:
+      'A workspace operating system for Chrome that helps people organize, launch and manage their browser workflows.',
+    status: 'In Development',
+    statusType: 'active',
+    technologies: ['Chrome Extension', 'React', 'TypeScript'],
+    href: '#smarttabs',
+    featured: true,
+    icon: Workflow,
   },
   {
-    title: "FinSafe Core",
-    category: "FinTech / Enterprise",
-    description: "Building a high-security, low-latency banking core infrastructure for modern digital finance.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
-    metrics: "99.99% Latency Drop",
-    href: "#case-study-finsafe",
+    title: 'AI Products',
+    category: 'Artificial Intelligence',
+    description:
+      'Our first generation of intelligent software powered by AI, automation and modern cloud infrastructure.',
+    status: 'Coming Soon',
+    statusType: 'soon',
+    technologies: ['AI', 'Automation', 'Cloud'],
+    href: '#ai-products',
+    icon: Sparkles,
   },
   {
-    title: "Orbit Cloud",
-    category: "Cloud Infrastructure",
-    description: "Distributed cloud micro-services architecture serving millions of concurrent global requests.",
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80",
-    metrics: "10M+ Daily Requests",
-    href: "#case-study-orbit",
+    title: 'Apearix Labs',
+    category: 'Product Innovation',
+    description:
+      'An experimental space for new SaaS products, developer tools, automation systems and intelligent software.',
+    status: 'Building',
+    statusType: 'building',
+    technologies: ['SaaS', 'Developer Tools', 'AI'],
+    href: '#apearix-labs',
+    icon: FlaskConical,
   },
 ];
 
+const statusStyles = {
+  active: 'bg-[#F4F0FF] text-[#6D28F5] border-[#DDD6FE]',
+  building: 'bg-gray-50 text-gray-700 border-gray-200',
+  soon: 'bg-gray-50 text-gray-500 border-gray-200',
+};
+
 export function CaseStudies() {
   return (
-    <section id="work" className="py-10 md:py-20 bg-[#FAF9FF] relative overflow-hidden">
-      
-      {/* Background Soft Glow Ambient */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-purple-200/30 rounded-full blur-[140px] pointer-events-none -z-10" />
+    <section
+      id="products"
+      className="relative overflow-hidden bg-white py-10 sm:py-16 lg:py-20"
+    >
+      {/* Ambient background */}
+      <div className="pointer-events-none absolute left-1/2 top-1/3 -z-10 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-[#6D28F5]/5 blur-[140px]" />
 
-      <div className="container max-w-7xl mx-auto px-6">
-        
-        {/* Header Section */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12  gap-6">
-          <div className="max-w-2xl">
-            <motion.div 
-              initial={{ opacity: 0, y: -10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-3 py-1 mb-4 rounded-full bg-[#EDE8FF] text-[#6320EE] text-xs font-semibold tracking-wider uppercase"
-            >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Selected Portfolio</span>
-            </motion.div>
-
-            <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#0F172A] tracking-tight leading-[1.08]"
-            >
-              Extraordinary <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6320EE] via-[#7B3FE4] to-[#A855F7]">
-                Case Studies.
-              </span>
-            </motion.h2>
-          </div>
-
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 xl:px-0">
+        {/* Header */}
+        <div className="mb-12 max-w-3xl sm:mb-16">
           <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.5 }}
+            className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#DDD6FE] bg-[#F4F0FF] px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#6D28F5]"
+          >
+            <FlaskConical className="h-3.5 w-3.5" />
+            <span>Apearix Labs</span>
+          </motion.div>
+
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-balance text-3xl font-bold tracking-tight text-[#111827] sm:text-4xl md:text-5xl lg:text-6xl"
           >
-            <Link 
-              href="#projects"
-              className="group inline-flex items-center gap-2 text-sm sm:text-base font-semibold text-[#6320EE] hover:text-[#4318FF] transition-all"
-            >
-              <span>View All Projects</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </motion.div>
+            Products We&apos;re <span className="text-[#6D28F5]">Building.</span>
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mt-5 max-w-2xl text-base leading-7 text-[#4B5563] sm:text-lg"
+          >
+            We don&apos;t just build software for businesses. We build
+            intelligent products that solve real problems and create lasting
+            value.
+          </motion.p>
         </div>
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          {projects.map((project, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="group relative flex flex-col justify-between rounded-2xl bg-white border border-gray-200/80 p-4 sm:p-5 hover:border-purple-300 hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300"
-            >
-              <div>
-                {/* Image Showcase Container */}
-                <div className="relative aspect-[16/10] w-full rounded-xl overflow-hidden mb-6 bg-gray-100 border border-gray-100">
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
-                    className="object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
+        {/* Products Grid */}
+        <div className="grid gap-6 lg:grid-cols-3">
+          {products.map((product, index) => {
+            const Icon = product.icon;
+            return (
+              <motion.article
+                key={product.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{
+                  duration: 0.6,
+                  delay: index * 0.1,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                className={`group h-fit relative overflow-hidden rounded-2xl border bg-white transition-all duration-300 hover:border-[#C4B5FD] hover:shadow-xl hover:shadow-[#6D28F5]/10 ${
+                  product.featured
+                    ? 'lg:col-span-2 border-[#DDD6FE]'
+                    : 'border-[#E5E7EB]'
+                }`}
+              >
+                {/* Featured visual area */}
+                <div
+                  className={`relative overflow-hidden border-b border-[#E5E7EB] bg-[#FAFAFC] ${
+                    product.featured
+                      ? 'min-h-[280px] sm:min-h-[340px]'
+                      : 'min-h-[190px]'
+                  }`}
+                >
+                  {/* Subtle Grid */}
+                  <div
+                    className="absolute inset-0 opacity-40"
+                    style={{
+                      backgroundImage:
+                        'linear-gradient(#E5E7EB 1px, transparent 1px), linear-gradient(90deg, #E5E7EB 1px, transparent 1px)',
+                      backgroundSize: '32px 32px',
+                    }}
                   />
-                  
-                  {/* Subtle Dark Gradient Overlay for Readability */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10 opacity-60 group-hover:opacity-40 transition-opacity" />
 
-                  {/* Top Glass Badge */}
-                  <div className="absolute top-3 left-3 z-10">
-                    <span className="inline-block px-3 py-1 text-[11px] font-semibold tracking-wider uppercase text-gray-900 bg-white/80 backdrop-blur-md rounded-full border border-white/50 shadow-sm">
-                      {project.category}
+                  {/* Purple Glow */}
+                  <div className="absolute left-1/2 top-1/2 h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#6D28F5]/10 blur-3xl" />
+
+                  {/* Product Icon Centerpiece */}
+                  <div className="absolute inset-0 flex items-center justify-center p-8">
+                    <div
+                      className={`relative flex items-center justify-center rounded-2xl border border-[#DDD6FE] bg-white shadow-lg shadow-[#6D28F5]/10 transition-transform duration-500 group-hover:scale-105 ${
+                        product.featured
+                          ? 'h-28 w-28 sm:h-36 sm:w-36'
+                          : 'h-20 w-20'
+                      }`}
+                    >
+                      <Icon
+                        className={`text-[#6D28F5] ${
+                          product.featured
+                            ? 'h-12 w-12 sm:h-14 sm:w-14'
+                            : 'h-9 w-9'
+                        }`}
+                        strokeWidth={1.5}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Category Badge */}
+                  <div className="absolute left-5 top-5">
+                    <span className="rounded-full border border-white/80 bg-white/90 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-[#4B5563] shadow-sm backdrop-blur">
+                      {product.category}
                     </span>
                   </div>
 
-                  {/* Bottom Metric Chip */}
-                  <div className="absolute bottom-3 right-3 z-10">
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-bold text-white bg-purple-600/80 backdrop-blur-md rounded-lg border border-purple-400/30">
-                      ⚡ {project.metrics}
+                  {/* Status Badge */}
+                  <div className="absolute bottom-5 right-5">
+                    <span
+                      className={`rounded-full border px-3 py-1.5 text-[11px] font-semibold ${statusStyles[product.statusType]}`}
+                    >
+                      {product.status}
                     </span>
                   </div>
                 </div>
 
-                {/* Title & Description */}
-                <div className="px-1">
-                  <h3 className="text-xl sm:text-2xl font-bold text-[#0F172A] mb-2.5 group-hover:text-[#6320EE] transition-colors flex items-center justify-between">
-                    <span>{project.title}</span>
-                    <ArrowUpRight className="w-5 h-5 text-gray-400 group-hover:text-[#6320EE] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all opacity-0 group-hover:opacity-100" />
-                  </h3>
-                  <p className="text-sm text-[#64748B] leading-relaxed mb-6 line-clamp-3">
-                    {project.description}
+                {/* Content Section */}
+                <div className="p-6 sm:p-7">
+                  <div className="mb-3 flex items-start justify-between gap-4">
+                    <h3 className="text-xl font-bold tracking-tight text-[#111827] sm:text-2xl">
+                      {product.title}
+                    </h3>
+
+                    {product.href && (
+                      <ArrowRight className="mt-1 h-5 w-5 shrink-0 text-[#9CA3AF] transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#6D28F5]" />
+                    )}
+                  </div>
+
+                  <p className="text-sm leading-6 text-[#4B5563] sm:text-base">
+                    {product.description}
                   </p>
-                </div>
-              </div>
 
-              {/* Bottom Card Footer / CTA */}
-              <div className="pt-4 px-1 border-t border-gray-100 flex items-center justify-between text-xs sm:text-sm font-semibold text-[#6320EE] group-hover:text-[#4318FF] transition-colors">
-                <span>Read Full Case Study</span>
-                <div className="w-7 h-7 rounded-full bg-purple-50 group-hover:bg-[#6320EE] text-[#6320EE] group-hover:text-white flex items-center justify-center transition-all">
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                  {/* Technology Tags */}
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {product.technologies.map((technology) => (
+                      <span
+                        key={technology}
+                        className="rounded-md bg-[#F6F7FB] px-2.5 py-1 text-xs font-medium text-[#6B7280]"
+                      >
+                        {technology}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Bottom CTA Link */}
+                  {product.href && (
+                    <div className="mt-7 border-t border-[#E5E7EB] pt-5">
+                      <Link
+                        href={product.href}
+                        className="group/link inline-flex items-center gap-2 text-sm font-semibold text-[#6D28F5] transition-colors hover:text-[#5B21E6]"
+                      >
+                        <span>
+                          {product.title === 'SmartTabs'
+                            ? 'Explore SmartTabs'
+                            : product.statusType === 'soon'
+                              ? 'Coming Soon'
+                              : 'Explore Labs'}
+                        </span>
+
+                        {product.statusType !== 'soon' ? (
+                          <ArrowRight className="h-4 w-4 transition-transform group-hover/link:translate-x-1" />
+                        ) : (
+                          <ExternalLink className="h-3.5 w-3.5" />
+                        )}
+                      </Link>
+                    </div>
+                  )}
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.article>
+            );
+          })}
         </div>
 
+        {/* Bottom Closing Statement */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mt-10 border-t border-[#E5E7EB] pt-8"
+        >
+          <p className="max-w-3xl text-sm leading-6 text-[#6B7280] sm:text-base">
+            We&apos;re building our first generation of software products with
+            a focus on intelligence, automation, productivity and real-world
+            business value.
+          </p>
+        </motion.div>
       </div>
     </section>
   );

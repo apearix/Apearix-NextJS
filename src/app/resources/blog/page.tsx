@@ -161,7 +161,7 @@ export default function BlogPage() {
           </div>
         </section>
 
-        <CTASection title="Subscribe to Engineering Insights" subtitle="Get periodic updates on AI breakthroughs, architecture deep dives, and product launches." ctaText="Contact Our Team" />
+        {/* <CTASection title="Subscribe to Engineering Insights" subtitle="Get periodic updates on AI breakthroughs, architecture deep dives, and product launches." ctaText="Contact Our Team" /> */}
       </main>
       <Footer />
     </>
