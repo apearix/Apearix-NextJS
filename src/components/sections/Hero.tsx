@@ -4,10 +4,20 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import ApearixFlow from '@/components/common/ApearixFlow';
+import { useEffect, useState } from 'react';
 
 export function Hero() {
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 1024px)");
+    const update = () => setIsDesktop(mediaQuery.matches);
+    update();
+    mediaQuery.addEventListener("change", update);
+    return () => mediaQuery.removeEventListener("change", update);
+  }, []);
+
   return (
-    <section className="relative w-full min-h-screen overflow-hidden bg-white flex items-center pt-24 pb-16 sm:pt-28 sm:pb-20 lg:pt-20 lg:pb-16">
+    <section className="relative w-full sm:min-h-screen overflow-hidden bg-white flex items-center pt-30 pb-10 sm:pt-28 sm:pb-20 lg:pt-20 lg:pb-16">
 
       {/* Technical Grid */}
       <div aria-hidden="true"
@@ -115,7 +125,7 @@ export function Hero() {
           {/* =========================
               RIGHT — Apearix Flow
           ========================== */}
-          <ApearixFlow />
+          {isDesktop && <ApearixFlow />}
         </div>
       </div>
     </section>
