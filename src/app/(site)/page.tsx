@@ -15,7 +15,10 @@ import { WhyApearix } from "@/components/sections/WhyApearix";
 import { WhatWeBuild } from "@/components/sections/WhatWeBuild";
 import { AIIntelligentSystems } from "@/components/sections/AIIntelligentSystems";
 import { EngineeringProcess } from "@/components/sections/EngineeringProcess";
-import { CTASection } from "@/components/sections/CTASectionOld";
+import { CTASection } from "@/components/sections/CTASection";
+import { HowWeWork } from "@/components/sections/HowWeWork";
+import { PerformanceSEO } from "@/components/sections/PerformanceSEO";
+import { FAQSection } from "@/components/sections/FAQSection";
 
 export const metadata: Metadata = {
   title: "Apearix | Software Engineering Company | AI-Powered Solutions & SaaS Development",
@@ -115,28 +118,28 @@ const jsonLdProfessionalService = {
 export default function Home() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdProfessionalService) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdProfessionalService) }} />
       <Navbar />
       <main>
         <Hero />
         <TechStack />
         <WhatWeBuild />
-        <AIIntelligentSystems />
-        <EngineeringProcess />
-        <ModernTechStack />
         <CaseStudies />
         <WhyApearix />
+        <HowWeWork />
+        <ModernTechStack />
+        <PerformanceSEO />
+        {/* <Testimonials /> */}
+        <FAQSection />
         <CTASection />
 
-        {/* <Capabilities /> */}
+        {/* <EngineeringProcess /> */}
         {/* <Process /> */}
+        {/* <AIIntelligentSystems /> */}
+        {/* <Capabilities /> */}
         {/* <AIEngine /> */}
         {/* <Showcase /> */}
         {/* <Metrics /> */}
-        {/* <Testimonials /> */}
       </main>
       <Footer />
     </>

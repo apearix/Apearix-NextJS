@@ -12,14 +12,14 @@
   --color-muted: #6B7280;
   --color-border: #E5E7EB;
   --color-border-accent: #DDD6FE;
-  --color-border-subtle: rgba(0,0,0,0.06);
+  --color-border-subtle: rgba(0, 0, 0, 0.06);
   --color-brand-purple: #6D28F5;
   --color-accent-purple: #5B21E6;
-  --color-glow: rgba(109,40,245,0.12);
+  --color-glow: rgba(109, 40, 245, 0.12);
   --color-footer: #0F172A;
-  
+
   --font-geist: var(--font-geist-sans);
-  
+
   --ease-apple: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -67,4 +67,3 @@ html.lenis {
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
 }
-

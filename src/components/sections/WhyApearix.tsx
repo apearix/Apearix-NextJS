@@ -3,45 +3,63 @@
 import { motion } from 'framer-motion';
 import {
   ArrowUpRight,
-  BrainCircuit,
+  Gauge,
+  Handshake,
   Layers3,
   Rocket,
-  ShieldCheck,
   Sparkles,
+  Target,
+  TrendingUp,
 } from 'lucide-react';
 
 const principles = [
   {
     number: '01',
-    title: 'Engineering First',
+    title: 'Business First',
     description:
-      'We care about architecture, performance, maintainability and long-term reliability—not just getting features shipped.',
-    icon: Layers3,
-    accent: 'Architecture',
+      'We start with the problem, not the technology. We understand your goals, users, workflows, and requirements before choosing the right solution.',
+    icon: Target,
+    accent: 'Business',
   },
   {
     number: '02',
-    title: 'AI-Native Thinking',
+    title: 'Engineering Excellence',
     description:
-      'We design modern systems with intelligence and automation in mind, using AI where it creates real value.',
-    icon: BrainCircuit,
-    accent: 'Intelligence',
+      'We focus on clean architecture, maintainable code, security, performance, and long-term reliability not just getting features shipped.',
+    icon: Layers3,
+    accent: 'Engineering',
   },
   {
     number: '03',
+    title: 'Performance & SEO',
+    description:
+      'We build fast, discoverable digital experiences with performance and technical SEO considered from the foundation.',
+    icon: Gauge,
+    accent: 'Performance',
+  },
+  {
+    number: '04',
     title: 'Product Thinking',
     description:
-      'We look beyond individual features to understand users, workflows and the business outcome behind the product.',
+      'We look beyond individual features to understand users, workflows, and the business outcomes behind the product.',
     icon: Rocket,
     accent: 'Product',
   },
   {
-    number: '04',
+    number: '05',
     title: 'Built to Scale',
     description:
-      'We build foundations that can evolve from an MVP into a reliable production system as your users, data and business grow.',
-    icon: ShieldCheck,
+      'We create foundations that can evolve from an MVP into a reliable production system as your users, data, and business grow.',
+    icon: TrendingUp,
     accent: 'Scalability',
+  },
+  {
+    number: '06',
+    title: 'Long-Term Partnership',
+    description:
+      'From deployment and maintenance to improvements and new features, we stay involved to help your product evolve after launch.',
+    icon: Handshake,
+    accent: 'Partnership',
   },
 ];
 
@@ -49,20 +67,21 @@ export function WhyApearix() {
   return (
     <section
       id="why-apearix"
-      className="relative overflow-hidden bg-[#FAFAFC] py-10 sm:py-16 lg:py-20"
+      className="relative overflow-hidden bg-surface py-10 sm:py-16 lg:py-20"
     >
-      {/* Ambient background */}
-      <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[420px] w-[760px] -translate-x-1/2 rounded-full bg-[#6D28F5]/5 blur-[130px]" />
+      {/* Ambient background glow */}
+      <div className="pointer-events-none absolute left-1/2 top-1/4 -z-10 h-[500px] w-[850px] -translate-x-1/2 rounded-full bg-[#6D28F5]/5 blur-[150px]" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 xl:px-0">
-        {/* Header */}
-        <div className="mx-auto max-w-3xl text-center">
+
+        {/* Header Section */}
+        <div className="max-w-3xl">
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.5 }}
-            className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#DDD6FE] bg-[#F4F0FF] px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#6D28F5]"
+            className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#DDD6FE] bg-[#F4F0FF] px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#6D28F5]"
           >
             <Sparkles className="h-3.5 w-3.5" />
             <span>Why Apearix</span>
@@ -75,9 +94,10 @@ export function WhyApearix() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-balance text-3xl font-bold tracking-tight text-[#111827] sm:text-4xl md:text-5xl lg:text-6xl"
           >
-            Built Different.
-            <br />
-            <span className="text-[#6D28F5]">Engineered to Last.</span>
+            Built With Purpose.{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6D28F5] via-[#7B3FE4] to-[#A855F7]">
+              Built to Last.
+            </span>
           </motion.h2>
 
           <motion.p
@@ -85,16 +105,14 @@ export function WhyApearix() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mx-auto mt-6 max-w-2xl text-base leading-7 text-[#4B5563] sm:text-lg"
+            className="mt-4 max-w-3xl text-base leading-relaxed text-[#4B5563] sm:text-lg"
           >
-            We combine strong engineering principles, AI-native thinking and
-            product-focused execution to build software that works today—and
-            is ready for what comes next.
+            We combine business understanding, strong engineering, modern technology, and long-term thinking to build digital products that create real value.
           </motion.p>
         </div>
 
-        {/* Principles Grid */}
-        <div className="mt-14 grid gap-5 sm:mt-16 md:grid-cols-2 lg:grid-cols-4">
+        {/* Principles Grid (3x2 Layout optimized for client trust & value props) */}
+        <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {principles.map((principle, index) => {
             const Icon = principle.icon;
 
@@ -109,70 +127,72 @@ export function WhyApearix() {
                   delay: index * 0.08,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="group relative flex min-h-[330px] flex-col overflow-hidden rounded-2xl border border-[#E5E7EB] bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#C4B5FD] hover:shadow-xl hover:shadow-[#6D28F5]/10 sm:p-7"
+                className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-[#E5E7EB] bg-white p-6 transition-all duration-500 hover:-translate-y-1.5 hover:border-[#C4B5FD] hover:shadow-2xl hover:shadow-[#6D28F5]/10 sm:p-9"
               >
-                {/* Number & Icon */}
-                <div className="flex items-start justify-between">
-                  <span className="font-mono text-sm font-semibold tracking-wider text-[#9CA3AF]">
-                    {principle.number}
-                  </span>
-
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#DDD6FE] bg-[#F4F0FF] text-[#6D28F5] transition-all duration-300 group-hover:bg-[#6D28F5] group-hover:text-white">
-                    <Icon className="h-5 w-5" strokeWidth={1.8} />
+                <span className="absolute right-6 top-6 text-7xl font-bold  text-muted/10 group-hover:text-primary/20 transition-colors">
+                      {principle.number}
+                    </span>
+                <div>
+                  {/* Number & Icon Header */}
+                  <div className="flex items-start justify-between mb-6"> 
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[#DDD6FE] bg-[#F4F0FF] text-[#6D28F5] transition-all duration-500 group-hover:bg-[#6D28F5] group-hover:text-white group-hover:shadow-md">
+                      <Icon className="h-5 w-5" strokeWidth={1.8} />
+                    </div> 
                   </div>
-                </div>
 
-                {/* Content Accent */}
-                <div className="mt-10">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-[#6D28F5]">
+                  {/* Accent & Title */}
+                  <span className="text-xs font-semibold uppercase tracking-wider text-[#6D28F5] block mb-2">
                     {principle.accent}
                   </span>
 
-                  <h3 className="mt-2 text-xl font-bold tracking-tight text-[#111827] sm:text-2xl">
+                  <h3 className="text-2xl font-bold tracking-tight text-[#111827] mb-3">
                     {principle.title}
                   </h3>
 
-                  <p className="mt-4 text-sm leading-6 text-[#4B5563] sm:text-base">
+                  <p className="text-sm leading-relaxed text-[#4B5563] sm:text-base">
                     {principle.description}
                   </p>
                 </div>
 
-                {/* Bottom line / Aesthetic Element */}
-                <div className="mt-auto flex items-center justify-between border-t border-[#E5E7EB] pt-5">
-                  <span className="text-xs font-medium text-[#9CA3AF]">
-                    Apearix Standard
-                  </span>
-
-                  <ArrowUpRight className="h-4 w-4 text-[#9CA3AF] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[#6D28F5]" />
+                {/* Bottom link indicator */}
+                <div className="mt-4 pt-4 border-t border-[#E5E7EB] flex items-center justify-between text-sm font-semibold text-[#6D28F5]">
+                  <span className="text-[#9CA3AF] font-normal">Apearix Standard</span>
+                  <div className="inline-flex items-center gap-1 transition-transform duration-300 group-hover:translate-x-1">
+                    <span>Explore</span>
+                    <ArrowUpRight className="h-3.5 w-3.5" />
+                  </div>
                 </div>
 
                 {/* Bottom Hover Accent Bar */}
-                <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-[#6D28F5] transition-all duration-500 group-hover:w-full" />
+                <div className="absolute bottom-0 left-0 h-1 w-0 bg-gradient-to-r from-[#6D28F5] to-[#A855F7] transition-all duration-500 group-hover:w-full" />
               </motion.article>
             );
           })}
         </div>
 
-        {/* Bottom Statement */}
+        {/* Bottom Closing Statement Bar */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-12 border-t border-[#E5E7EB] pt-8 sm:mt-16 sm:pt-10"
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="mt-10 rounded-2xl border border-[#E5E7EB] bg-white p-6 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-6"
         >
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-            <p className="max-w-2xl text-sm leading-6 text-[#6B7280] sm:text-base">
-              From architecture to deployment, every decision is made with
-              the product&apos;s long-term success in mind.
+          <div>
+            <p className="text-lg font-bold text-[#111827] tracking-tight mb-1">
+              From idea to deployment and beyond.
             </p>
+            <p className="text-sm text-[#6B7280]">
+              We build with the long term in mind, ensuring your software scales gracefully as your enterprise expands.
+            </p>
+          </div>
 
-            <div className="flex shrink-0 items-center gap-2 text-sm font-semibold text-[#6D28F5]">
-              <span>Engineering with intent</span>
-              <ArrowUpRight className="h-4 w-4" />
-            </div>
+          <div className="flex shrink-0 items-center gap-2 rounded-full bg-[#F4F0FF] border border-[#DDD6FE] px-5 py-2.5 text-xs font-semibold tracking-wider text-[#6D28F5]">
+            <span>Engineering with intent</span>
+            <ArrowUpRight className="h-4 w-4" />
           </div>
         </motion.div>
+
       </div>
     </section>
   );

@@ -139,7 +139,7 @@ export default function AIAutomationPage() {
           </div>
         </section>
 
-        <CTASection title="Want to automate your business operations?" subtitle="Schedule a discovery call to audit your processes and identify high-ROI AI automation opportunities." />
+        {/* <CTASection title="Want to automate your business operations?" subtitle="Schedule a discovery call to audit your processes and identify high-ROI AI automation opportunities." /> */}
       </main>
       <Footer />
     </>

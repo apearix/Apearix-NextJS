@@ -55,7 +55,7 @@ export function Hero() {
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="mb-5 inline-flex items-center rounded-full border border-[#6D28F5]/10 bg-[#F4F0FF] px-3.5 py-1.5 text-[11px] font-semibold tracking-wide text-[#6D28F5] sm:mb-6 sm:text-xs"
+              className="inline-flex items-center rounded-full border border-[#6D28F5]/10 bg-[#f7f4ff] px-3.5 py-1.5 text-[11px] font-semibold tracking-wide text-[#6D28F5] mb-5 sm:mb-4 sm:text-sm"
             >
               Software · AI · SaaS · Automation
             </motion.div>
@@ -104,22 +104,14 @@ export function Hero() {
 
               {/* Secondary CTA */}
               <Link
-                href="/work"
+                href="/work/portfolio"
                 className="inline-flex h-12 w-full items-center justify-center rounded-full border   bg-white px-7 text-sm font-semibold text-[#111827] transition-all duration-300 border-[#D8CCFA] hover:bg-[#FAF9FF] active:scale-[0.98] sm:w-auto"
               >
                 Explore Our Work
               </Link>
             </motion.div>
 
-            {/* Desktop/Tablet Capability Line */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="mt-6 hidden text-xs font-medium tracking-wide text-[#9CA3AF] sm:block"
-            >
-              Engineering intelligent systems for the next generation of businesses.
-            </motion.div>
+           
           </motion.div>
 
           {/* =========================

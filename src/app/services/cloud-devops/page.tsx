@@ -139,7 +139,7 @@ export default function CloudDevOpsPage() {
           </div>
         </section>
 
-        <CTASection title="Optimize your cloud infrastructure today." subtitle="Let's audit your DevOps stack and build a resilient infrastructure pipeline." />
+        {/* <CTASection title="Optimize your cloud infrastructure today." subtitle="Let's audit your DevOps stack and build a resilient infrastructure pipeline." /> */}
       </main>
       <Footer />
     </>

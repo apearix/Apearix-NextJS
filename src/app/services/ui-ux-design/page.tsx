@@ -138,7 +138,7 @@ export default function UIUXDesignPage() {
           </div>
         </section>
 
-        <CTASection title="Elevate your product's design." subtitle="Let's build an interface that users love to interact with every day." />
+        {/* <CTASection title="Elevate your product's design." subtitle="Let's build an interface that users love to interact with every day." /> */}
       </main>
       <Footer />
     </>

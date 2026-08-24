@@ -1,19 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import Link from 'next/link';
-import {
-    Mail,
-    Phone,
-    ArrowUp,
-    Send,
-    CheckCircle2,
-    Globe,
-    Sparkles,
-} from 'lucide-react';
-
-// Custom SVG Icons for Social Media Platforms
+import { Mail, Phone } from 'lucide-react';
+ 
 function FacebookIcon({ className = "w-5 h-5" }: { className?: string }) {
     return (
         <svg className={className} fill="currentColor" viewBox="0 0 24 24">
@@ -59,31 +49,31 @@ const socialLinks = [
         name: 'LinkedIn',
         href: 'https://www.linkedin.com/company/apearix/',
         icon: LinkedInIcon,
-        hoverColor: 'hover:text-[#6D28F5] hover:bg-[#6D28F5]/10 hover:border-[#6D28F5]/30',
+        hoverColor: 'hover:text-white hover:bg-[#6D28F5]/10 hover:border-white/70',
     },
     {
         name: 'GitHub',
         href: 'https://github.com/apearix',
         icon: GithubIcon,
-        hoverColor: 'hover:text-[#6D28F5] hover:bg-[#6D28F5]/10 hover:border-[#6D28F5]/30',
+        hoverColor: 'hover:text-white hover:bg-[#6D28F5]/10 hover:border-white/70',
     },
     {
         name: 'Twitter / X',
         href: 'https://x.com/apearix',
         icon: TwitterIcon,
-        hoverColor: 'hover:text-[#6D28F5] hover:bg-[#6D28F5]/10 hover:border-[#6D28F5]/30',
+        hoverColor: 'hover:text-white hover:bg-[#6D28F5]/10 hover:border-white/70',
     },
     {
         name: 'Instagram',
         href: 'https://www.instagram.com/apearix/',
         icon: InstagramIcon,
-        hoverColor: 'hover:text-[#6D28F5] hover:bg-[#6D28F5]/10 hover:border-[#6D28F5]/30',
+        hoverColor: 'hover:text-white hover:bg-[#6D28F5]/10 hover:border-white/70',
     },
     {
         name: 'Facebook',
         href: 'https://www.facebook.com/apearix',
         icon: FacebookIcon,
-        hoverColor: 'hover:text-[#6D28F5] hover:bg-[#6D28F5]/10 hover:border-[#6D28F5]/30',
+        hoverColor: 'hover:text-white hover:bg-[#6D28F5]/10 hover:border-white/70',
     },
 ];
 
@@ -105,7 +95,7 @@ const solutionsList = [
 ];
 const companyLinks = [
     { name: 'About', href: '/about' },
-    { name: 'Work', href: '/work' },
+    { name: 'Work', href: '/work/portfolio' },
     { name: 'Careers', href: '/careers' },
     { name: 'Contact', href: '/contact' },
 ];
@@ -146,16 +136,16 @@ export function Footer() {
     };
 
     return (
-        <footer className="relative bg-[#0F172A] text-white pt-20 pb-8 overflow-hidden border-t border-white/10">
+        <footer className="relative bg-footer text-white pt-12 sm:pt-20 pb-8 overflow-hidden border-t border-white/10">
             {/* Background Ambient Glows */}
-            <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-[#6D28F5]/15 rounded-full blur-[160px] pointer-events-none -z-0" />
-            <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-[#5B21E6]/10 rounded-full blur-[160px] pointer-events-none -z-0" />
+            <div className="absolute top-0 left-1/4 w-150 h-150 bg-[#6D28F5]/15 rounded-full blur-[160px] pointer-events-none z-0" />
+            <div className="absolute bottom-0 right-1/4 w-125 h-125 bg-[#5B21E6]/10 rounded-full blur-[160px] pointer-events-none z-0" />
 
-            <div className="container max-w-[1280px] mx-auto px-6 relative z-10">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 xl:px-0  relative z-10">
                 {/* Top Grid Section */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16 border-b border-white/10">
+                <div className="grid grid-cols-2 md:grid-cols-12 gap-6 sm:gap-12 pb-12 sm:pb-16 border-b border-white/10">
                     {/* Column 1: Brand & Tagline */}
-                    <div className="lg:col-span-4 space-y-6">
+                    <div className="col-span-2 md:col-span-6 lg:col-span-4  space-y-2 sm:space-y-4">
                         <div className="flex items-center gap-3">
                             <Link href="/" className="text-3xl font-bold tracking-tight text-white flex items-center gap-2">
                                 <span>Apearix</span>
@@ -190,48 +180,12 @@ export function Footer() {
                         </div>
                     </div>
 
-                    {/* Column 2: Navigation Links */}
-                    {/* <div className="lg:col-span-2 space-y-4">
-                        <h4 className="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
-                            Navigation
-                        </h4>
-                        <ul className="space-y-2.5">
-                            {quickLinks.map((link) => (
-                                <li key={link.name}>
-                                    <Link
-                                        href={link.href}
-                                        className="text-sm text-slate-400 hover:text-white hover:translate-x-1 inline-block transition-all duration-200"
-                                    >
-                                        {link.name}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div> */}
 
-                    {/* Column 3: Solutions */}
-                    {/* <div className="lg:col-span-2 space-y-4">
-                        <h4 className="text-sm font-bold uppercase tracking-wider text-white">
-                            Capabilities
-                        </h4>
-                        <ul className="space-y-2.5">
-                            {solutionsList.map((sol) => (
-                                <li key={sol.name}>
-                                    <Link
-                                        href={sol.href}
-                                        className="text-sm text-slate-400 hover:text-white hover:translate-x-1 inline-block transition-all duration-200"
-                                    >
-                                        {sol.name}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div> */}
-                    <div className="lg:col-span-2 space-y-4">
+                    <div className="md:col-span-3 lg:col-span-2 space-y-4 md:pt-1">
                         <h4 className="text-sm font-bold uppercase tracking-wider text-white">
                             Company
                         </h4>
-                        <ul className="space-y-2.5">
+                        <ul className="sm:space-y-2.5">
                             {companyLinks.map((sol) => (
                                 <li key={sol.name}>
                                     <Link
@@ -244,11 +198,11 @@ export function Footer() {
                             ))}
                         </ul>
                     </div>
-                    <div className="lg:col-span-2 space-y-4">
+                    <div className="md:col-span-3 lg:col-span-2 space-y-4 md:pt-1">
                         <h4 className="text-sm font-bold uppercase tracking-wider text-white">
                             Services
                         </h4>
-                        <ul className="space-y-2.5">
+                        <ul className="sm:space-y-2.5">
                             {serviceLinks.map((sol) => (
                                 <li key={sol.name}>
                                     <Link
@@ -262,11 +216,11 @@ export function Footer() {
                         </ul>
                     </div>
 
-                    <div className="lg:col-span-2 space-y-4">
+                    <div className="md:col-span-3 lg:col-span-2 space-y-4 md:pt-1">
                         <h4 className="text-sm font-bold uppercase tracking-wider text-white">
                             Products
                         </h4>
-                        <ul className="space-y-2.5">
+                        <ul className="sm:space-y-2.5">
                             {productLinks.map((sol) => (
                                 <li key={sol.name}>
                                     <Link
@@ -279,11 +233,11 @@ export function Footer() {
                             ))}
                         </ul>
                     </div>
-                    <div className="lg:col-span-2 space-y-4">
+                    <div className="md:col-span-3 lg:col-span-2 space-y-4 md:pt-1">
                         <h4 className="text-sm font-bold uppercase tracking-wider text-white">
                             Resources
                         </h4>
-                        <ul className="space-y-2.5">
+                        <ul className="sm:space-y-2.5">
                             {resourceLinks.map((sol) => (
                                 <li key={sol.name}>
                                     <Link
@@ -300,10 +254,10 @@ export function Footer() {
                 </div>
 
                 {/* Bottom Copyright & Legal Links Bar */}
-                <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400">
-                    <span>© {new Date().getFullYear()} Apearix. All rights reserved.</span>
+                <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-400">
+                    <span className="order-3 md:order-1">© {new Date().getFullYear()} Apearix. All rights reserved.</span>
                     {/* Social Icons Bar */}
-                    <div className="flex flex-wrap items-center gap-2.5 justify-center">
+                    <div className="order-1 md:order-2  flex flex-wrap items-center gap-2.5 justify-center">
                         {socialLinks.map((social) => (
                             <a
                                 key={social.name}
@@ -311,23 +265,23 @@ export function Footer() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 aria-label={social.name}
-                                className={`p-2.5 rounded-[10px] bg-white/5 border border-white/10 text-slate-400 transition-all duration-200 ${social.hoverColor} active:scale-95`}
+                                className={`p-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-400 transition-all duration-200 ${social.hoverColor} active:scale-95`}
                             >
                                 <social.icon className="w-4 h-4" />
                             </a>
                         ))}
                     </div>
 
-                    <div className="flex items-center gap-6">
+                    <div className="order-2 md:order-3 flex items-center gap-6">
                         <Link href="/legal/privacy-policy" className="hover:text-white transition-colors">
                             Privacy Policy
                         </Link>
                         <Link href="/legal/terms-and-conditions" className="hover:text-white transition-colors">
                             Terms of Service
                         </Link>
-                        <Link href="/legal/cookie-policy" className="hover:text-white transition-colors">
+                        {/* <Link href="/legal/cookie-policy" className="hover:text-white transition-colors">
                             Cookie Policy
-                        </Link>
+                        </Link> */}
                     </div>
                 </div>
             </div>

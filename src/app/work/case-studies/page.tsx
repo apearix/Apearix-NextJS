@@ -155,7 +155,7 @@ export default function CaseStudiesPage() {
           </div>
         </section>
 
-        <CTASection title="Want measurable results for your business?" subtitle="Let's analyze your technical bottlenecks and build software that scales." />
+        {/* <CTASection title="Want measurable results for your business?" subtitle="Let's analyze your technical bottlenecks and build software that scales." /> */}
       </main>
       <Footer />
     </>

@@ -138,7 +138,7 @@ export default function MobileAppDevelopmentPage() {
           </div>
         </section>
 
-        <CTASection title="Ready to launch a mobile application?" subtitle="Let's build an app that users love having on their home screen." />
+        {/* <CTASection title="Ready to launch a mobile application?" subtitle="Let's build an app that users love having on their home screen." /> */}
       </main>
       <Footer />
     </>

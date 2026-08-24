@@ -190,7 +190,7 @@ export default function PortfolioPage() {
           </div>
         </section>
 
-        <CTASection title="Have a product in mind?" subtitle="Let's add your project to our portfolio of successful software products." />
+        {/* <CTASection title="Have a product in mind?" subtitle="Let's add your project to our portfolio of successful software products." /> */}
       </main>
       <Footer />
     </>

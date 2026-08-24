@@ -27,7 +27,7 @@ export default function NotFound() {
               <span>Back to Home</span>
             </Link>
             <Link
-              href="/company/contact"
+              href="/contact"
               className="h-12 px-6 rounded-[10px] bg-white border border-[#E5E7EB] text-[#111827] hover:bg-[#FAFAFC] font-medium text-sm flex items-center gap-2 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
