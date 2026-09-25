@@ -16,29 +16,29 @@ import Apearix from "../common/Apearix";
 const navigation = {
   services: [
     {
-      name: "AI Engineering",
-      href: "/services/ai-engineering",
-      desc: "AI Agents, RAG & Automation",
+      name: "UI/UX Design",
+      href: "/services/ui-ux-design",
+      desc: "User research, wireframing & intuitive interface design",
     },
     {
-      name: "Software Engineering",
-      href: "/services/software-engineering",
-      desc: "Web & Mobile Applications",
+      name: "Web Development",
+      href: "/services/web-development",
+      desc: "Modern, fast & responsive websites and web apps",
     },
     {
       name: "SaaS Development",
       href: "/services/saas-development",
-      desc: "End-to-end product builds",
+      desc: "Scalable multi-tenant cloud applications & MVP builds",
     },
     {
-      name: "Cloud & DevOps",
-      href: "/services/cloud-devops",
-      desc: "Architecture & CI/CD",
+      name: "Mobile App Dev.",
+      href: "/services/mobile-app-development",
+      desc: "Cross-platform iOS & Android mobile applications",
     },
     {
-      name: "Product Design",
-      href: "/services/product-design",
-      desc: "UI/UX & Design Systems",
+      name: "AI Automation",
+      href: "/services/ai-automation",
+      desc: "Workflow automation, LLM integration & smart bots",
     },
   ],
   products: [
