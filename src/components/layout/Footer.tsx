@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Mail, Phone } from 'lucide-react';
- 
+
 function FacebookIcon({ className = "w-5 h-5" }: { className?: string }) {
     return (
         <svg className={className} fill="currentColor" viewBox="0 0 24 24">
@@ -77,35 +77,26 @@ const socialLinks = [
     },
 ];
 
-const quickLinks = [
-    { name: 'About Us', href: '/company/about' },
-    { name: 'Careers', href: '/company/careers' },
-    { name: 'Portfolio', href: '/work/portfolio' },
-    { name: 'Case Studies', href: '/work/case-studies' },
-    { name: 'Contact', href: '/company/contact' },
-];
+// const solutionsList = [
+//     { name: 'Workflow Automation', href: '/solutions/workflow-automation' },
+//     { name: 'Retail & Inventory', href: '/solutions/retail-pos' },
+//     { name: 'SaaS Platforms', href: '/solutions/saas-mvp' },
+//     { name: 'AI Business Agents', href: '/solutions/ai-agents' },
+// ];
 
-const solutionsList = [
-    { name: 'Web Development', href: '/services/web-development' },
-    { name: 'SaaS Development', href: '/services/saas-development' },
-    { name: 'AI Automation', href: '/services/ai-automation' },
-    { name: 'UI/UX Design', href: '/services/ui-ux-design' },
-    { name: 'Mobile App Dev', href: '/services/mobile-app-development' },
-    { name: 'Cloud & DevOps', href: '/services/cloud-devops' },
-];
 const companyLinks = [
     { name: 'About', href: '/about' },
-    { name: 'Work', href: '/work/portfolio' },
+    { name: 'Portfolio', href: '/portfolio' },
     { name: 'Careers', href: '/careers' },
     { name: 'Contact', href: '/contact' },
 ];
 
 const serviceLinks = [
-    { name: 'AI Engineering', href: '/services/ai-engineering' },
-    { name: 'Software Development', href: '/services/software-engineering' },
+    { name: 'UI/UX Design', href: '/services/ui-ux-design' },
+    { name: 'Web Development', href: '/services/web-development' },
     { name: 'SaaS Development', href: '/services/saas-development' },
-    { name: 'Automation', href: '/services/automation' },
-    { name: 'Cloud & DevOps', href: '/services/cloud-devops' },
+    { name: 'Mobile App Dev.', href: '/services/mobile-app-development' },
+    { name: 'AI Automation', href: '/services/ai-automation' },
 ];
 
 const productLinks = [
@@ -116,25 +107,12 @@ const productLinks = [
 ];
 
 const resourceLinks = [
-    { name: 'Blog', href: '#' },
-    { name: 'Documentation', href: '#' },
-    { name: 'FAQ', href: '#' },
+    { name: 'Blogs', href: '/blogs' },
+    { name: 'FAQ', href: '/faq' },
+    // { name: 'Documentation', href: '#' },
 ];
+
 export function Footer() {
-    const [email, setEmail] = useState('');
-    const [subscribed, setSubscribed] = useState(false);
-
-    const handleSubscribe = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (email.trim()) {
-            setSubscribed(true);
-            setTimeout(() => {
-                setEmail('');
-                setSubscribed(false);
-            }, 4000);
-        }
-    };
-
     return (
         <footer className="relative bg-footer text-white pt-12 sm:pt-20 pb-8 overflow-hidden border-t border-white/10">
             {/* Background Ambient Glows */}
@@ -147,7 +125,7 @@ export function Footer() {
                     {/* Column 1: Brand & Tagline */}
                     <div className="col-span-2 md:col-span-6 lg:col-span-4  space-y-2 sm:space-y-4">
                         <div className="flex items-center gap-3">
-                            <Link href="/" className="text-3xl font-bold tracking-tight text-white flex items-center gap-2">
+                            <Link href="/" className="text-3xl font-semibold tracking-tight text-white flex items-center gap-2">
                                 <span>Apearix</span>
                             </Link>
                         </div>

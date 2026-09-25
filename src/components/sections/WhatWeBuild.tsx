@@ -77,7 +77,13 @@ export function WhatWeBuild() {
     return (
         <section className="bg-surface py-10 sm:py-16 lg:py-20">
             {/* Subtle background glow effect */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-glow rounded-full blur-[140px] pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
+             w-70 h-70 sm:w-md sm:h-md md:w-150 md:h-150 lg:w-175 lg:h-175 
+             max-w-[90vw] max-h-[90vw] 
+             bg-glow rounded-full 
+             blur-[70px] sm:blur-[100px] md:blur-[140px] 
+             pointer-events-none"
+            />
 
             <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 xl:px-0">
 

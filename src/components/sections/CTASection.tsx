@@ -43,7 +43,7 @@ export function CTASection() {
           }}
           className="mx-auto mt-6 max-w-lg text-base leading-relaxed text-slate-300 sm:text-lg"
         >
-          Tell us what you&apos;re building, what you&apos;re trying to solve, or where you want to go next.
+          Tell us what you&apos;re building, what you&apos;re trying to solve.
         </motion.p>
 
         {/* Single Primary Action Button */}
@@ -62,7 +62,7 @@ export function CTASection() {
             href="/contact?type=project"
             className="group inline-flex h-12 items-center justify-center gap-2.5 rounded-xl bg-white px-8 text-sm font-semibold text-[#111827] shadow-[0_8px_24px_rgba(0,0,0,0.25)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#F4F0FF] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C4B5FD]"
           >
-            <span>Start a Project</span>
+            <span>Let's Talk</span>
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </motion.div>

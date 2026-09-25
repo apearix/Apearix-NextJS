@@ -1,24 +1,16 @@
 import { Metadata } from "next";
+import { Hero } from "@/components/sections/Hero";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { AIEngine } from "@/components/sections/AIEngine";
-import { Capabilities } from "@/components/sections/Capabilities";
-import { CaseStudies } from "@/components/sections/CaseStudies";
-import { Hero } from "@/components/sections/Hero";
-import { Metrics } from "@/components/sections/Metrics";
-import { Process } from "@/components/sections/Process";
-import { Showcase } from "@/components/sections/Showcase";
-import { TechStack } from "@/components/sections/TechStack";
-import { Testimonials } from "@/components/sections/Testimonials";
-import { ModernTechStack } from "@/components/sections/ModernTechStack";
-import { WhyApearix } from "@/components/sections/WhyApearix";
-import { WhatWeBuild } from "@/components/sections/WhatWeBuild";
-import { AIIntelligentSystems } from "@/components/sections/AIIntelligentSystems";
-import { EngineeringProcess } from "@/components/sections/EngineeringProcess";
-import { CTASection } from "@/components/sections/CTASection";
 import { HowWeWork } from "@/components/sections/HowWeWork";
-import { PerformanceSEO } from "@/components/sections/PerformanceSEO";
+import { TechStack } from "@/components/sections/TechStack";
+import { WhyApearix } from "@/components/sections/WhyApearix";
 import { FAQSection } from "@/components/sections/FAQSection";
+import { CTASection } from "@/components/sections/CTASection";
+import { CaseStudies } from "@/components/sections/CaseStudies";
+import { WhatWeBuild } from "@/components/sections/WhatWeBuild";
+import { PerformanceSEO } from "@/components/sections/PerformanceSEO";
+import { ModernTechStack } from "@/components/sections/ModernTechStack";
 
 export const metadata: Metadata = {
   title: "Apearix | Software Engineering Company | AI-Powered Solutions & SaaS Development",
@@ -120,6 +112,7 @@ export default function Home() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdProfessionalService) }} />
       <Navbar />
+
       <main>
         <Hero />
         <TechStack />
@@ -129,17 +122,12 @@ export default function Home() {
         <HowWeWork />
         <ModernTechStack />
         <PerformanceSEO />
-        {/* <Testimonials /> */}
         <FAQSection />
         <CTASection />
 
-        {/* <EngineeringProcess /> */}
-        {/* <Process /> */}
-        {/* <AIIntelligentSystems /> */}
-        {/* <Capabilities /> */}
-        {/* <AIEngine /> */}
-        {/* <Showcase /> */}
         {/* <Metrics /> */}
+        {/* <Testimonials /> */}
+        {/* <AIIntelligentSystems />  */}
       </main>
       <Footer />
     </>

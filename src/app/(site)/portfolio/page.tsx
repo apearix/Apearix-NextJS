@@ -147,7 +147,7 @@ export default function PortfolioPage() {
           badge="Selected Work"
           title="Portfolio"
           subtitle="Explore digital products, mobile applications, browser extensions, and AI automations engineered by Apearix for growing companies."
-          breadcrumbs={[{ label: "Work", href: "/work/portfolio" }, { label: "Portfolio", href: "/work/portfolio" }]}
+          breadcrumbs={[ { label: "Portfolio", href: "/portfolio" }]}
         />
 
         <section className="py-20 md:py-28 bg-white border-b border-[#E5E7EB]">

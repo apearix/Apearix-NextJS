@@ -166,10 +166,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth`}
-    >
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth`} >
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -182,11 +179,15 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebsite) }}
         />
       </head>
+      
       <body className="min-h-full flex flex-col font-sans selection:bg-[#6D28F5] selection:text-white relative bg-white text-[#4B5563]">
+
         <ApearixPreloader />
+
         <SmoothScroll>
           {children}
         </SmoothScroll>
+
         <BackToTop />
       </body>
     </html>

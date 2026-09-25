@@ -162,7 +162,7 @@ export default function AboutPage() {
                 <div className="p-2.5 rounded-[10px] bg-[#6D28F5] text-white">
                   <Compass className="w-6 h-6" />
                 </div>
-                <h3 className="text-2xl font-bold text-[#111827]">Our Mission</h3>
+                <h3 className="text-2xl font-bold text-heading">Our Mission</h3>
               </div>
               <p className="text-base text-[#4B5563] leading-relaxed">
                 To create software that helps businesses work smarter, grow faster, and build confidently in a digital world.

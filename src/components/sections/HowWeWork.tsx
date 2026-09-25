@@ -62,8 +62,8 @@ export function HowWeWork() {
 
     return (
         <section id="process" className="bg-white py-10 sm:py-16 lg:py-20">
-            <div className="max-w-7xl mx-auto px-6 xl:px-0">
-                <div className="max-w-3xl mb-16 md:mb-24">
+            <div className="max-w-7xl mx-auto">
+                <div className="max-w-3xl mb-10 md:mb-24 px-6 xl:px-0">
                     <motion.div
                         initial={{ opacity: 0, y: -10 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -83,53 +83,55 @@ export function HowWeWork() {
                     </p>
                 </div>
 
-                <div ref={containerRef} className="relative max-w-4xl mx-auto">
-                    {/* Timeline Line */}
-                    <div className="absolute left-[20px] md:left-1/2 top-0 bottom-0 w-px bg-[#E5E7EB] md:-translate-x-1/2" />
+                <div ref={containerRef} className="relative max-w-4xl mx-auto px-4 sm:px-6">
+                    {/* Base Background Line */}
+                    <div className="absolute left-[32px] sm:left-[45px] md:left-1/2 top-0 bottom-0 w-0.5 bg-gray-200 md:-translate-x-1/2" />
+
+                    {/* Animated Progress Line */}
                     <motion.div
                         style={{ scaleY, transformOrigin: 'top' }}
-                        className="absolute left-[20px] md:left-1/2 top-0 bottom-0 w-px bg-[#6D28F5] md:-translate-x-1/2"
+                        className="absolute left-[32px] sm:left-[45px] md:left-1/2 top-0 bottom-0 w-0.5 bg-[#6D28F5] md:-translate-x-1/2"
                     />
 
-                    {steps.map((step, index) => {
-                        const isEvenIndex = index % 2 === 0; // 0, 2, 4 -> Left on Desktop (Steps 01, 03, 05)
+                    <div className="relative">
+                        {steps.map((step, index) => {
+                            const isEvenIndex = index % 2 === 0;
 
-                        return (
-                            <div key={step.number} className="relative mb-16 md:mb-24 last:mb-0">
-                                <div className="flex items-start gap-6 md:gap-12">
-                                    {/* Left Slot (Desktop Only) */}
-                                    <div className="hidden md:flex flex-1 justify-end text-right">
-                                        {isEvenIndex ? (
-                                            <StepContent step={step} isLeft={true} />
-                                        ) : (
-                                            <div className="w-full" />
-                                        )}
-                                    </div>
+                            return (
+                                <div key={step.number} className="relative mb-10 sm:mb-16 md:mb-24 last:mb-0">
+                                    <div className="flex items-start gap-4 sm:gap-6 md:gap-10 lg:gap-12">
+                                        {/* Desktop Left Column */}
+                                        <div className="hidden md:flex flex-1 justify-end text-right">
+                                            {isEvenIndex ? (
+                                                <StepContent step={step} isLeft={true} />
+                                            ) : (
+                                                <div className="w-full" />
+                                            )}
+                                        </div>
 
-                                    {/* Center Step Badge */}
-                                    <div className="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-white border-2 border-[#6D28F5] flex items-center justify-center font-bold text-[#6D28F5] shadow-sm text-sm">
-                                        {step.number}
-                                    </div>
+                                        {/* Step Badge (Scales smoothly from mobile to desktop) */}
+                                        <div className="relative z-10 flex-shrink-0 w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full bg-white border-2 border-[#6D28F5] flex items-center justify-center font-bold text-[#6D28F5] shadow-sm text-xs sm:text-sm md:text-base">
+                                            {step.number}
+                                        </div>
 
-                                    {/* Right Slot (Mobile + Desktop) */}
-                                    <div className="flex-1 text-left">
-                                        {!isEvenIndex ? (
-                                            <StepContent step={step} isLeft={false} />
-                                        ) : (
-                                            <>
-                                                {/* On mobile, show step 01/03/05 on the right of the badge */}
-                                                <div className="md:hidden">
-                                                    <StepContent step={step} isLeft={false} />
-                                                </div>
-                                                {/* On desktop, keep the right column empty to balance grid */}
-                                                <div className="hidden md:block w-full" />
-                                            </>
-                                        )}
+                                        {/* Right Column (All screens on Odd, Mobile-only on Even) */}
+                                        <div className="flex-1 min-w-0 text-left">
+                                            {!isEvenIndex ? (
+                                                <StepContent step={step} isLeft={false} />
+                                            ) : (
+                                                <>
+                                                    <div className="md:hidden">
+                                                        <StepContent step={step} isLeft={false} />
+                                                    </div>
+                                                    <div className="hidden md:block w-full" />
+                                                </>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        );
-                    })}
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
         </section>
@@ -149,7 +151,7 @@ function StepContent({ step, isLeft }: { step: any; isLeft: boolean }) {
             <div className={`flex items-center gap-2 text-xs font-medium pb-2 ${isLeft ? 'md:justify-end' : 'justify-start'}`}>
                 <span className="text-[#6D28F5] font-semibold">{step.output}</span>
             </div>
-            <p className="text-[#4B5563] text-sm md:text-base leading-relaxed">
+            <p className="text-body text-sm md:text-base leading-relaxed">
                 {step.description}
             </p>
         </motion.div>

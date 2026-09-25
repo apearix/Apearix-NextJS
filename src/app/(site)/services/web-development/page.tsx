@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import { CTASection } from "@/components/sections/CTASection";
 import { Monitor, Zap, Search, ShieldCheck, CheckCircle2, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { ModernTechStack } from "@/components/sections/ModernTechStack";
 
 export const metadata: Metadata = {
   title: "Website Development Services | Next.js & React Web Apps",
@@ -140,26 +141,7 @@ export default function WebDevelopmentPage() {
           </div>
         </section>
 
-        {/* Tech Stack Details */}
-        <section className="py-20 md:py-28 bg-[#FAFAFC] border-b border-[#E5E7EB]">
-          <div className="container max-w-[1280px] mx-auto px-6">
-            <div className="max-w-3xl mx-auto text-center mb-16">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#6D28F5] mb-3 block">Modern Stack</span>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#111827] tracking-tight mb-4">
-                Technologies We Master
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-              {['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Vercel', 'GraphQL', 'Node.js', 'Sanity CMS'].map((tech, i) => (
-                <div key={i} className="p-6 rounded-[12px] bg-white border border-[#E5E7EB] shadow-sm flex items-center gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-[#6D28F5]" />
-                  <span className="font-bold text-[#111827] text-sm">{tech}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+         <ModernTechStack />
 
         {/* <CTASection title="Ready to launch a high-performance website?" subtitle="Get in touch to discuss your goals, design preferences, and timeline." /> */}
       </main>
