@@ -72,15 +72,7 @@ export default function AdminDashboardPage() {
             {currentDate}
           </p>
         </div>
-        <div className="flex items-center gap-3">
-          <button className="px-4 py-2 bg-background border border-border text-heading rounded-lg hover:bg-surface transition-colors text-sm font-medium shadow-sm">
-            Download CSV
-          </button>
-          <button className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-hover transition-colors text-sm font-medium shadow-sm flex items-center gap-2">
-            <FileText size={16} />
-            Create New Blog
-          </button>
-        </div>
+        
       </div>
 
       {/* Stats Grid */}

@@ -24,8 +24,7 @@ import {
 } from "lucide-react";
 import { getAuthUser } from "@/lib/helpers/helper";
 import Apearix from "@/components/common/Apearix";
-
-// --- Notification Mock Data ---
+ 
 const mockNotifications = [
   {
     id: 1,
@@ -131,10 +130,13 @@ export function Navbar() {
     try {
       const { user, role } = getAuthUser();
       if (user) {
+        const userName = user.name || user.full_name || (user.first_name ? `${user.first_name} ${user.last_name}`.trim() : "Admin User");
+        
         setAuthUser({
-          name: user.name,
+          name: userName,
           role: role,
-          initials: user.name
+          avatar: user.avatar,
+          initials: userName
             ?.split(" ")
             .map((n: string) => n[0])
             .join("")
@@ -376,35 +378,41 @@ export function Navbar() {
             <div className="relative" ref={profileRef}>
               <button
                 onClick={() => setProfileOpen(!profileOpen)}
-                className={`group flex items-center gap-2 sm:p-1.5 sm:pr-2 rounded-full border transition-all outline-none ${profileOpen
-                    ? "bg-gray-50 border-gray-300 ring-2 ring-gray-100"
+                className={`group flex items-center md:gap-1.5 md:p-1.5 md:pr-2 rounded-full border transition-all outline-none ${profileOpen
+                    ? "bg-gray-50 border-gray-300"
                     : "bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50"
                   }`}
               >
-                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-600 to-violet-600 text-white flex items-center justify-center text-sm font-bold ring-2 ring-white">
-                  {authUser.initials}
-                </div>
+                {authUser.avatar ? (
+                  <img src={authUser.avatar} alt="Avatar" className="w-8 h-8 rounded-full object-cover ring-2 ring-white" />
+                ) : (
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-600 to-violet-600 text-white flex items-center justify-center text-xs font-semibold ring-2 ring-white">
+                    {authUser.initials}
+                  </div>
+                )}
 
-                <div className="hidden sm:block text-left">
-                  <p className="text-sm font-semibold text-gray-700">{authUser.name}</p>
-                  <p className="text-[11px] font-medium text-gray-400">{authUser.role}</p>
+                <div className="text-left hidden md:flex flex-col leading-tight">
+                  <p className="text-xs font-semibold text-gray-700">
+                    {authUser.name?.length > 12 ? authUser.name.split(" ")[0] : authUser.name}
+                  </p>
+                  <p className="text-[10px] font-medium text-gray-400">{authUser.role}</p>
                 </div>
 
                 <ChevronDown
-                  className={`w-4 h-4 text-gray-400 transition-transform ${profileOpen ? "rotate-180 text-gray-600" : ""
-                    } hidden sm:block`}
+                  className={`hidden md:block w-3 h-3 text-gray-400 transition-transform ${profileOpen ? "rotate-180 text-gray-600" : ""
+                    }`}
                 />
               </button>
 
               {profileOpen && (
                 <div className="absolute right-0 mt-3 w-72 bg-white/95 backdrop-blur-sm border border-gray-100 rounded-2xl shadow-2xl ring-1 ring-black/5 z-50">
                   <div className="p-4 border-b border-gray-100">
-                    <div className="flex items-center justify-between bg-emerald-50/80 border border-emerald-100 rounded-2xl p-4 shadow-sm">
+                    <div className="flex items-center justify-between bg-primary/10 border border-primary/20 rounded-2xl p-4 shadow-sm">
                       <div className="flex flex-col gap-0.5">
-                        <p className="text-[11px] uppercase tracking-widest font-bold text-emerald-600/80">
+                        <p className="text-xs text-primary font-semibold tracking-wide">
                           Token Balance
                         </p>
-                        <p className="text-lg font-bold text-gray-900 tracking-tight">
+                        <p className="font-bold text-gray-900 tracking-tight">
                           {authUser.credits}
                         </p>
                       </div>
@@ -412,9 +420,9 @@ export function Navbar() {
                       <Link
                         href="/admin/wallet"
                         onClick={closeDropdowns}
-                        className="group flex items-center justify-center bg-white border border-emerald-200 hover:border-emerald-300 px-4 py-1.5 rounded-lg shadow-sm hover:shadow-md active:scale-95 transition-all duration-200 ease-in-out"
+                        className="group flex items-center justify-center bg-primary border border-primary/20 hover:border-primary/30 px-3 py-1.5 rounded-lg active:scale-95 transition-all duration-200 ease-in-out"
                       >
-                        <span className="text-xs font-semibold text-emerald-700 group-hover:text-emerald-800">
+                        <span className="text-xs font-semibold text-white">
                           Recharge
                         </span>
                       </Link>
@@ -422,15 +430,7 @@ export function Navbar() {
                   </div>
 
                   <div className="p-2 space-y-1">
-                    <Link
-                      href="/admin/dashboard"
-                      onClick={closeDropdowns}
-                      className="flex items-center gap-3 px-3 py-2.5 text-sm text-gray-600 rounded-xl hover:bg-gray-50 hover:text-indigo-600"
-                    >
-                      <LayoutDashboard className="w-4 h-4" />
-                      Dashboard
-                    </Link>
-
+                
                     <Link
                       href="/admin/profile"
                       onClick={closeDropdowns}
@@ -438,15 +438,6 @@ export function Navbar() {
                     >
                       <User className="w-4 h-4" />
                       My Profile
-                    </Link>
-
-                    <Link
-                      href="/admin/support-tickets"
-                      onClick={closeDropdowns}
-                      className="flex items-center gap-3 px-3 py-2.5 text-sm text-gray-600 rounded-xl hover:bg-gray-50 hover:text-indigo-600"
-                    >
-                      <Ticket className="w-4 h-4" />
-                      Support Tickets
                     </Link>
 
                     <Link
