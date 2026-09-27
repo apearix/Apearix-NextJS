@@ -1,8 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { SmoothScroll } from "@/components/layout/SmoothScroll";
-import { BackToTop } from "@/components/layout/BackToTop";
+import { SmoothScroll } from "@/components/common/SmoothScroll"; 
 import { ApearixPreloader } from '@/components/common/ApearixPreloader';
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -179,16 +178,14 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebsite) }}
         />
       </head>
-      
+
       <body className="min-h-full flex flex-col font-sans selection:bg-[#6D28F5] selection:text-white relative bg-white text-[#4B5563]">
 
         <ApearixPreloader />
 
         <SmoothScroll>
           {children}
-        </SmoothScroll>
-
-        <BackToTop />
+        </SmoothScroll> 
       </body>
     </html>
   );

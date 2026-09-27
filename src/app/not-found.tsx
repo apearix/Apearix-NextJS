@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ArrowLeft, Home } from 'lucide-react';
-import { Navbar } from '@/components/layout/Navbar';
-import { Footer } from '@/components/layout/Footer';
+import { Navbar } from '@/components/site/layout/Navbar';
+import { Footer } from '@/components/site/layout/Footer';
 
 export default function NotFound() {
   return (

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import {
   ADMIN_LOGIN_PATH,
-  USER_LOGIN_PATH,
+  // USER_LOGIN_PATH,
   getDashboardPathForRole,
   getLoginPathForPath,
 } from "@/lib/auth/routes";
@@ -91,7 +91,7 @@ export async function middleware(req: NextRequest) {
   // =======================================================
   // Auth pages
   // =======================================================
-  const authPages = [ADMIN_LOGIN_PATH, USER_LOGIN_PATH, "/login"];
+  const authPages = [ADMIN_LOGIN_PATH, "/login"];
 
   if (authPages.includes(pathname)) {
     if (hasSession && role) {

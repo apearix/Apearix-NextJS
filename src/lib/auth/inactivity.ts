@@ -1,7 +1,6 @@
 "use client";
 
-import { getLoginPathForPath, getLoginPathForRole } from "@/lib/auth/routes";
-import { unregisterFirebaseMessaging } from "@/lib/firebaseClient";
+import { getLoginPathForPath, getLoginPathForRole } from "@/lib/auth/routes"; 
 
 export const LAST_ACTIVITY_KEY = "auth_last_activity_at";
 const DEFAULT_SESSION_LIFETIME_MINUTES = 15;
@@ -52,9 +51,7 @@ export async function logoutForInactivity(redirectTo?: string) {
     ?.split("=")[1];
   const targetPath = redirectTo ?? (role ? getLoginPathForRole(decodeURIComponent(role)) : fallbackPath);
 
-  try {
-    await unregisterFirebaseMessaging();
-
+  try {  
     await fetch("/api/auth/logout", {
       method: "POST",
       credentials: "same-origin",

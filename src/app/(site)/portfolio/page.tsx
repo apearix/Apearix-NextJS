@@ -1,7 +1,7 @@
 import { Metadata } from "next";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
-import { PageHeader } from "@/components/layout/PageHeader";
+import { Navbar } from "@/components/site/layout/Navbar";
+import { Footer } from "@/components/site/layout/Footer";
+import { PageHeader } from "@/components/site/layout/PageHeader";
 import { CTASection } from "@/components/sections/CTASection";
 import { ArrowUpRight } from "lucide-react";
 
@@ -147,7 +147,7 @@ export default function PortfolioPage() {
           badge="Selected Work"
           title="Portfolio"
           subtitle="Explore digital products, mobile applications, browser extensions, and AI automations engineered by Apearix for growing companies."
-          breadcrumbs={[ { label: "Portfolio", href: "/portfolio" }]}
+          breadcrumbs={[{ label: "Portfolio", href: "/portfolio" }]}
         />
 
         <section className="py-20 md:py-28 bg-white border-b border-[#E5E7EB]">

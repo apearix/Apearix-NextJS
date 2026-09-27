@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@layer base {
+  label {
+    @apply text-sm font-medium mb-1.5;
+  }
+  input{
+    @apply w-full p-3.5 rounded-lg border border-border bg-background text-sm text-heading placeholder:text-muted focus:outline-none focus:border-primary transition-all;
+  }
+  .max-w-8xl {
+    @apply ;
+  }
+}

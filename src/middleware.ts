@@ -82,8 +82,8 @@ export async function middleware(req: NextRequest) {
     const token =
         req.cookies.get("access_token")?.value || req.cookies.get("token")?.value;
     const refreshToken = req.cookies.get("refresh_token")?.value;
-    const role = req.cookies.get("user_role")?.value?.toLowerCase();
-    let hasSession = Boolean(token || refreshToken);
+    const role = (req.cookies.get("user_role")?.value || "").toLowerCase().trim();
+    let hasSession = Boolean((token && token !== "undefined" && token !== "null") || (refreshToken && refreshToken !== "undefined" && refreshToken !== "null"));
 
     // Auth pages 
     const authPages = [ADMIN_LOGIN_PATH, "/login"];
@@ -94,12 +94,7 @@ export async function middleware(req: NextRequest) {
             return NextResponse.redirect(url);
         }
 
-        if (pathname === "/login") {
-            url.pathname = ADMIN_LOGIN_PATH;
-            const redirectResponse = NextResponse.redirect(url);
-            clearAuthCookies(redirectResponse);
-            return redirectResponse;
-        }
+        
 
         clearAuthCookies(res);
         return res;
@@ -121,7 +116,7 @@ export async function middleware(req: NextRequest) {
     }
 
     // Not logged in -> block dashboards
-    if (matchedRoute && !hasSession) {
+    if (matchedRoute && (!hasSession || !role)) {
         url.pathname = getLoginPathForPath(matchedRoute.prefix);
         const redirectResponse = NextResponse.redirect(url);
         clearAuthCookies(redirectResponse);
@@ -158,3 +153,5 @@ export const config = {
         "/((?!_next/static|_next/image|favicon.ico).*)",
     ],
 };
+
+

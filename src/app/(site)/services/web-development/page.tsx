@@ -1,7 +1,7 @@
 import { Metadata } from "next";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
-import { PageHeader } from "@/components/layout/PageHeader";
+import { Navbar } from "@/components/site/layout/Navbar";
+import { Footer } from "@/components/site/layout/Footer";
+import { PageHeader } from "@/components/site/layout/PageHeader";
 import { CTASection } from "@/components/sections/CTASection";
 import { Monitor, Zap, Search, ShieldCheck, CheckCircle2, ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -141,7 +141,7 @@ export default function WebDevelopmentPage() {
           </div>
         </section>
 
-         <ModernTechStack />
+        <ModernTechStack />
 
         {/* <CTASection title="Ready to launch a high-performance website?" subtitle="Get in touch to discuss your goals, design preferences, and timeline." /> */}
       </main>

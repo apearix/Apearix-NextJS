@@ -22,8 +22,5 @@ export function getLoginPathForRole(_role?: string | null): string {
 }
  
 export function getLoginPathForPath(pathname?: string | null): string {
-  if (pathname && pathname !== LOGIN_PATH) {
-    return `${LOGIN_PATH}?redirect=${encodeURIComponent(pathname)}`;
-  }
   return LOGIN_PATH;
 }

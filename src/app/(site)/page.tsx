@@ -1,7 +1,5 @@
 import { Metadata } from "next";
-import { Hero } from "@/components/sections/Hero";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
+import { Hero } from "@/components/sections/Hero"; 
 import { HowWeWork } from "@/components/sections/HowWeWork";
 import { TechStack } from "@/components/sections/TechStack";
 import { WhyApearix } from "@/components/sections/WhyApearix";
@@ -111,25 +109,21 @@ export default function Home() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdProfessionalService) }} />
-      <Navbar />
 
-      <main>
-        <Hero />
-        <TechStack />
-        <WhatWeBuild />
-        <CaseStudies />
-        <WhyApearix />
-        <HowWeWork />
-        <ModernTechStack />
-        <PerformanceSEO />
-        <FAQSection />
-        <CTASection />
+      <Hero />
+      <TechStack />
+      <WhatWeBuild />
+      <CaseStudies />
+      <WhyApearix />
+      <HowWeWork />
+      <ModernTechStack />
+      <PerformanceSEO />
+      <FAQSection />
+      <CTASection />
 
-        {/* <Metrics /> */}
-        {/* <Testimonials /> */}
-        {/* <AIIntelligentSystems />  */}
-      </main>
-      <Footer />
+      {/* <Metrics /> */}
+      {/* <Testimonials /> */}
+      {/* <AIIntelligentSystems />  */}
     </>
   );
 }

@@ -1,7 +1,7 @@
 import { Metadata } from "next";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
-import { PageHeader } from "@/components/layout/PageHeader";
+import { Navbar } from "@/components/site/layout/Navbar";
+import { Footer } from "@/components/site/layout/Footer";
+import { PageHeader } from "@/components/site/layout/PageHeader";
 import { CTASection } from "@/components/sections/CTASection";
 import { Clock, ArrowUpRight } from "lucide-react";
 
@@ -121,7 +121,7 @@ export default function BlogPage() {
           badge="Engineering Insights"
           title="Insights & Articles"
           subtitle="Deep dives into software architecture, AI automation, modern frontend development, and digital product design."
-          breadcrumbs={ [{ label: "Blogs", href: "/blogs" }]}
+          breadcrumbs={[{ label: "Blogs", href: "/blogs" }]}
         />
 
         <section className="py-20 md:py-28 bg-white border-b border-[#E5E7EB]">

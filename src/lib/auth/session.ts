@@ -50,13 +50,13 @@ export function getAccessTokenRole(token?: string) {
 
 export function backendBaseUrl() {
   const baseUrl =
-    process.env.NEST_API_BASE_URL || process.env.NEXT_PUBLIC_NEST_API_BASE_URL;
+    process.env.NEST_API_BASE_URL || process.env.NEXT_PUBLIC_NEST_API_BASE_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
   if (!baseUrl) {
     throw new Error("NEST_API_BASE_URL is not configured.");
   }
 
-  return baseUrl.replace(/\/$/, "");
+  return baseUrl.replace(/\/api\/?$/, "").replace(/\/$/, "");
 }
 
 export function authCookieOptions(httpOnly = true, maxAge = 60 * 60 * 24 * 7) {
@@ -267,3 +267,5 @@ export async function refreshBackendSession(refreshToken: string) {
     auth: auth.accessToken ? auth : null,
   };
 }
+
+

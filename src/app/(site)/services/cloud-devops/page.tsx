@@ -1,7 +1,7 @@
 import { Metadata } from "next";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
-import { PageHeader } from "@/components/layout/PageHeader";
+import { Navbar } from "@/components/site/layout/Navbar";
+import { Footer } from "@/components/site/layout/Footer";
+import { PageHeader } from "@/components/site/layout/PageHeader";
 import { CTASection } from "@/components/sections/CTASection";
 import { Cloud, Server, ShieldCheck, Cpu, CheckCircle2 } from "lucide-react";
 

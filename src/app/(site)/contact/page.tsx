@@ -1,7 +1,7 @@
 import { Metadata } from "next";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
-import { PageHeader } from "@/components/layout/PageHeader";
+import { Navbar } from "@/components/site/layout/Navbar";
+import { Footer } from "@/components/site/layout/Footer";
+import { PageHeader } from "@/components/site/layout/PageHeader";
 import { Mail, Phone, MapPin, Send, MessageSquare } from "lucide-react";
 
 export const metadata: Metadata = {
