@@ -18,7 +18,8 @@ import {
   Trash2
 } from "lucide-react";
 import Link from "next/link";
-import { blogFormSchema, BlogFormValues } from "@/types/blog";
+import { blogFormSchema, BlogFormValues } from "../blog";
+import TiptapEditor from "@/components/common/text-editor/TiptapEditor";
 
 // Slug generator helper
 function generateSlug(title: string): string {
