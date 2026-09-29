@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @theme {
   --color-background: #FFFFFF;
@@ -36,10 +37,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-*:focus-visible {
+/* *:focus-visible {
   outline: 2px solid #6D28F5 !important;
   outline-offset: 2px !important;
-}
+} */
 
 @layer utilities {
   .text-balance {
@@ -65,5 +66,14 @@ html.lenis {
 }
 
 .lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Tiptap Placeholder CSS */
+.tiptap p.is-editor-empty:first-child::before {
+  color: var(--color-muted);
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
   pointer-events: none;
 }
