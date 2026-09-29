@@ -33,10 +33,10 @@ export async function clientApi<T>(
   requireAuth: boolean = true,
 ): Promise<T> {
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
-  const baseUrl = process.env.NEXT_PUBLIC_NEST_API_BASE_URL?.replace(/\/$/, "") || "";
+  // Route all client API requests through our Next.js API proxy to securely attach HttpOnly auth cookies
   const url = normalizedPath.startsWith("http")
     ? normalizedPath
-    : `${baseUrl}${normalizedPath}`;
+    : `/api/proxy${normalizedPath}`;
   const isFormData = options.body instanceof FormData;
 
   const finalOptions: RequestInit = {

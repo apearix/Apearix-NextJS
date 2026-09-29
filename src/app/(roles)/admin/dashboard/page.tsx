@@ -10,40 +10,12 @@ import {
   Calendar,
   Eye,
   Edit,
-  Trash2
+  Trash2,
+  Package,
+  Wrench,
+  HelpCircle
 } from "lucide-react";
-
-// Mock Data for the dashboard
-const stats = [
-  {
-    title: "Total Blogs",
-    value: "1,248",
-    trend: "+12.5%",
-    isPositive: true,
-    icon: FileText,
-  },
-  {
-    title: "Active Categories",
-    value: "32",
-    trend: "+2.4%",
-    isPositive: true,
-    icon: Layers,
-  },
-  {
-    title: "Total Visitors",
-    value: "45.2K",
-    trend: "-1.2%",
-    isPositive: false,
-    icon: Users,
-  },
-  {
-    title: "Engagement Rate",
-    value: "64.8%",
-    trend: "+5.1%",
-    isPositive: true,
-    icon: TrendingUp,
-  }
-];
+import { serverApi } from "@/lib/serverApi";
 
 const recentBlogs = [
   { id: 1, title: "The Future of Next.js Architecture", category: "Technology", status: "Published", date: "Oct 24, 2026", views: "1.2K" },
@@ -53,7 +25,48 @@ const recentBlogs = [
   { id: 5, title: "Understanding React Server Components", category: "Technology", status: "Published", date: "Oct 15, 2026", views: "5.6K" },
 ];
 
-export default function AdminDashboardPage() {
+export const dynamic = 'force-dynamic';
+
+export default async function AdminDashboardPage() {
+  let dashboardData: any = {};
+  try {
+    const response = await serverApi<any>("/api/v1/admin/dashboard", { cache: "no-store" });
+    dashboardData = response?.data || {};
+  } catch (err) {
+    console.error("Failed to fetch dashboard data:", err);
+  }
+
+  const stats = [
+    {
+      title: "Total Blogs",
+      value: dashboardData.totalBlogs || "0",
+      trend: "+12.5%",
+      isPositive: true,
+      icon: FileText,
+    },
+    {
+      title: "Categories",
+      value: dashboardData.totalCategories || "0",
+      trend: "+2.4%",
+      isPositive: true,
+      icon: Layers,
+    },
+    {
+      title: "Products",
+      value: dashboardData.totalProducts || "0",
+      trend: "+5.1%",
+      isPositive: true,
+      icon: Package,
+    },
+    {
+      title: "Services",
+      value: dashboardData.totalServices || "0",
+      trend: "+1.2%",
+      isPositive: true,
+      icon: Wrench,
+    }
+  ];
+
   const currentDate = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
     year: 'numeric',
@@ -223,3 +236,5 @@ export default function AdminDashboardPage() {
     </div>
   );
 }
+
+
