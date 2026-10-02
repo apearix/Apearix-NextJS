@@ -79,7 +79,7 @@ export default function TiptapEditor({
         editorProps: {
             attributes: {
                 class:
-                    "min-h-[380px] w-full px-5 py-4 focus:outline-none text-[var(--color-heading)] text-sm leading-normal prose prose-sm max-w-none [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:my-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:my-2 [&_li]:my-1 [&_li_p]:my-0 [&_li_p]:leading-snug [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:my-3 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:my-2 [&_blockquote]:border-l-4 [&_blockquote]:border-[var(--color-primary)] [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:my-3",
+                    "min-h-[350px] w-full px-4 py-2 focus:outline-none text-[var(--color-heading)] text-sm leading-normal prose prose-sm max-w-none [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:my-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:my-2 [&_li]:my-1 [&_li_p]:my-0 [&_li_p]:leading-snug [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:my-3 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:my-2 [&_blockquote]:border-l-4 [&_blockquote]:border-[var(--color-primary)] [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:my-3",
             },
         },
         onUpdate: ({ editor }) => {

@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, "src/app/apple-icon.tsx"  ],
   "exclude": ["node_modules"]
 }
