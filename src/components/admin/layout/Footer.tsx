@@ -2,17 +2,20 @@
 import Link from 'next/link';
 export function Footer() {
     return (
-        <footer className="relative bg-white text-sm py-3.5 overflow-hidden border-t border-gray-100">
-            <div className="mx-auto max-w-8xl relative z-10">
-                <div className="flex flex-row items-center justify-between gap-4 transition-colors hover:text-black">
-                    <span className="order-1">© {new Date().getFullYear()} Apearix. All rights reserved.</span>
-
-                    <div className="order-2 flex items-center gap-6">
-                        <Link href="/legal/privacy-policy" className="transition-colors hover:text-black">
-                            Privacy Policy.
-                        </Link>
-                    </div>
+        <footer className="relative bg-white text-xs py-3.5 overflow-hidden border-t border-border">
+            <div className="mx-auto max-w-8xl relative z-10 justify-between flex items-center">
+                <div className="flex items-center gap-2">
+                    <Link href="/" className="font-medium text-heading hover:text-primary transition-colors">
+                        Apearix
+                    </Link>
+                    <span>© {new Date().getFullYear()} Apearix Technologies. All rights reserved.</span>
                 </div>
+                <div className="flex items-center gap-4">
+                    <Link href="/legal/privacy-policy" className="hover:text-primary transition-colors">
+                        Privacy Policy
+                    </Link>
+                </div>
+
             </div>
         </footer>
     );

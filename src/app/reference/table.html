@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blogs — Apearix Studio CMS</title>
+  
+  <!-- Google Fonts Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            background: '#FFFFFF',
+            surface: '#FAFAFC',
+            'surface-alt': '#F6F7FB',
+            primary: '#6D28F5',
+            'primary-hover': '#5B21E6',
+            'primary-light': '#F4F0FF',
+            heading: '#111827',
+            body: '#4B5563',
+            muted: '#6B7280',
+            border: '#E5E7EB',
+            'border-accent': '#DDD6FE',
+            'border-subtle': 'rgba(0, 0, 0, 0.06)',
+            'brand-purple': '#6D28F5',
+            'accent-purple': '#5B21E6',
+            glow: 'rgba(109, 40, 245, 0.12)',
+            footer: '#0F172A',
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            'subtle': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+            'glow': '0 0 0 3px rgba(109, 40, 245, 0.15)',
+            'card': '0 4px 20px -2px rgba(15, 23, 42, 0.06)',
+            'dropdown': '0 10px 25px -3px rgba(15, 23, 42, 0.1), 0 4px 6px -4px rgba(15, 23, 42, 0.05)',
+            'modal': '0 25px 50px -12px rgba(15, 23, 42, 0.25)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom refined scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #d8dadd;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #D1D5DB;
+    }
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 9999px;
+      display: inline-block;
+      margin-right: 6px;
+    }
+    @keyframes pulseSoft {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    .drag-active {
+      border-color: #6D28F5 !important;
+      background-color: #F4F0FF !important;
+    }
+  </style>
+  
+</head>
+<body class="bg-[#FAFAFC] text-body font-sans antialiased flex flex-col selection:bg-primary-light selection:text-primary">
+
+  <main class="flex-1 py-6 px-4 sm:px-6 lg:px-8 max-w-8xl mx-auto w-full">
+    
+    <!-- Top Header: Title, Description, and Primary CTA -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+      <div>
+        <div class="flex items-center gap-2">
+          <h1 class="text-2xl font-bold tracking-tight text-heading">Blogs</h1>
+          <span id="headerTotalBadge" class="text-xs font-semibold px-2 py-0.5 rounded-full bg-surface-alt border border-border text-muted">6 Articles</span>
+        </div>
+        <p class="text-sm text-muted mt-1">Manage, publish, bulk import and organize your Apearix blog articles.</p>
+      </div>
+
+      <div class="flex items-center gap-2.5">
+        <button id="btnCreateBlog" onclick="openCreateBlogDemo()" class="inline-flex items-center gap-2 px-4 py-2.5 bg-primary hover:bg-primary-hover text-white text-sm font-semibold rounded-lg shadow-sm shadow-primary/20 transition-all active:scale-[0.98]">
+          <i data-lucide="plus" class="w-4 h-4"></i>
+          Create Blog
+        </button>
+      </div>
+    </div>
+ 
+    <!-- Table Toolbar -->
+    <div class="bg-white border border-border rounded-xl p-3 mb-4 shadow-subtle flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
+      
+      <!-- Search Input -->
+      <div class="relative flex-1 min-w-[260px]">
+        <i data-lucide="search" class="w-4 h-4 text-muted absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+        <input 
+          id="searchInput" 
+          type="text" 
+          placeholder="Search blogs by title, slug, excerpt or author..." 
+          class="w-full pl-9 pr-8 py-2 rounded-lg border border-border bg-surface text-sm text-heading placeholder:text-muted focus:outline-none focus:border-primary focus:bg-white transition-all"
+          oninput="handleSearch()"
+        />
+        <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-heading">
+          <i data-lucide="x" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+
+      <!-- Filters & Action Buttons -->
+      <div class="flex flex-wrap items-center gap-2">
+        
+        <!-- Status Filter Select -->
+        <div class="relative min-w-[130px]">
+          <select id="statusFilter" onchange="applyFilters()" class="w-full text-xs font-medium py-2 px-3 rounded-lg border border-border bg-surface text-heading appearance-none cursor-pointer focus:outline-none focus:border-primary">
+            <option value="all">Status: All</option>
+            <option value="published">Published</option>
+            <option value="draft">Draft</option>
+            <option value="archived">Archived</option>
+          </select>
+          <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-muted absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+        </div>
+
+        <!-- Author Filter Select -->
+        <div class="relative min-w-[140px]">
+          <select id="authorFilter" onchange="applyFilters()" class="w-full text-xs font-medium py-2 px-3 rounded-lg border border-border bg-surface text-heading appearance-none cursor-pointer focus:outline-none focus:border-primary">
+            <option value="all">Author: All</option>
+            <option value="Dharmendra (Admin)">Dharmendra (Admin)</option>
+            <option value="Rahul Sharma">Rahul Sharma</option>
+            <option value="Priya Patel">Priya Patel</option>
+          </select>
+          <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-muted absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+        </div>
+
+        <!-- Sort Select -->
+        <div class="relative min-w-[140px]">
+          <select id="sortFilter" onchange="applyFilters()" class="w-full text-xs font-medium py-2 px-3 rounded-lg border border-border bg-surface text-heading appearance-none cursor-pointer focus:outline-none focus:border-primary">
+            <option value="newest">Sort: Newest</option>
+            <option value="oldest">Sort: Oldest</option>
+            <option value="title_asc">Title: A to Z</option>
+          </select>
+          <i data-lucide="arrow-up-down" class="w-3.5 h-3.5 text-muted absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+        </div>
+
+        <div class="h-6 w-px bg-border mx-1 hidden sm:block"></div>
+
+        <!-- Import Button -->
+        <button onclick="openImportModal()" class="inline-flex items-center gap-1.5 px-3 py-2 bg-white hover:bg-surface text-heading border border-border text-xs font-semibold rounded-lg transition-colors shadow-subtle hover:border-border-accent">
+          <i data-lucide="arrow-down-to-line" class="w-3.5 h-3.5 text-primary"></i>
+          Import
+        </button>
+
+        <!-- Export Dropdown -->
+        <div class="relative inline-block text-left" id="exportMenuContainer">
+          <button onclick="toggleExportMenu()" class="inline-flex items-center gap-1.5 px-3 py-2 bg-white hover:bg-surface text-heading border border-border text-xs font-semibold rounded-lg transition-colors shadow-subtle">
+            <i data-lucide="arrow-up-from-line" class="w-3.5 h-3.5 text-body"></i>
+            Export
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-muted"></i>
+          </button>
+          
+          <div id="exportMenu" class="hidden absolute right-0 mt-1.5 w-52 bg-white rounded-xl shadow-dropdown border border-border py-1.5 z-30 font-medium text-xs">
+            <div class="px-3 py-1 text-[10px] uppercase tracking-wider font-semibold text-muted">Export Formats</div>
+            <button onclick="exportData('all_json')" class="w-full text-left px-3 py-2 hover:bg-surface flex items-center justify-between text-heading">
+              <span>All Posts (JSON)</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-surface-alt border text-muted">.json</span>
+            </button>
+            <button onclick="exportData('filtered_json')" class="w-full text-left px-3 py-2 hover:bg-surface flex items-center justify-between text-heading">
+              <span>Filtered View (JSON)</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-surface-alt border text-muted">.json</span>
+            </button>
+            <button onclick="exportData('csv')" class="w-full text-left px-3 py-2 hover:bg-surface flex items-center justify-between text-heading">
+              <span>Export as CSV</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-surface-alt border text-muted">.csv</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Floating Bulk Selection Bar -->
+    <div id="bulkActionBar" class="hidden mb-4 bg-heading text-white px-4 py-3 rounded-xl shadow-lg flex items-center justify-between gap-4 animate-fade-in transition-all">
+      <div class="flex items-center gap-3">
+        <span class="flex h-2 w-2 relative">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+        </span>
+        <span id="selectedCountText" class="text-xs font-semibold tracking-wide">0 items selected</span>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button onclick="bulkChangeStatus('published')" class="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-medium text-white transition-colors flex items-center gap-1.5">
+          <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-400"></i>
+          Publish
+        </button>
+        <button onclick="bulkChangeStatus('archived')" class="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-medium text-white transition-colors flex items-center gap-1.5">
+          <i data-lucide="archive" class="w-3.5 h-3.5 text-slate-300"></i>
+          Archive
+        </button>
+        <button onclick="exportData('selected_json')" class="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-medium text-white transition-colors flex items-center gap-1.5">
+          <i data-lucide="download" class="w-3.5 h-3.5 text-purple-300"></i>
+          Export
+        </button>
+        <button onclick="confirmBulkDelete()" class="px-2.5 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-xs font-medium text-white transition-colors flex items-center gap-1.5">
+          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+          Delete
+        </button>
+        <button onclick="clearSelection()" class="p-1 rounded-md text-white/70 hover:text-white" title="Cancel Selection">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Blog Table Card -->
+    <div class="bg-white border border-border rounded-xl shadow-subtle overflow-hidden">
+      <div class="overflow-x-auto min-h-[360px]">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-surface border-b border-border text-sm text-muted font-normal! select-none">
+              <th scope="col" class="py-3.5 pl-4 pr-2 w-10">
+                <input 
+                  type="checkbox" 
+                  id="selectAllCheckbox" 
+                  onchange="toggleSelectAll(this.checked)"
+                  class="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 accent-primary cursor-pointer"
+                />
+              </th>
+              <th scope="col" class="py-3.5 px-3 min-w-[320px]">Article</th>
+              <th scope="col" class="py-3.5 px-3 min-w-[160px]">Author</th>
+              <th scope="col" class="py-3.5 px-3 min-w-[130px]">Status</th>
+              <th scope="col" class="py-3.5 px-3 min-w-[120px]">Published</th>
+              <th scope="col" class="py-3.5 px-3 min-w-[120px]">Updated</th>
+              <th scope="col" class="py-3.5 pr-4 pl-3 text-right w-16">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="blogsTableBody" class="divide-y divide-border text-sm">
+            <!-- Dynamic rows will be injected by JavaScript -->
+          </tbody>
+        </table>
+
+        <!-- Empty State Container -->
+        <div id="emptyState" class="hidden py-16 px-4 text-center">
+          <div class="w-14 h-14 mx-auto rounded-2xl bg-primary-light text-primary flex items-center justify-center mb-4">
+            <i data-lucide="file-text" class="w-7 h-7"></i>
+          </div>
+          <h3 class="text-base font-semibold text-heading">No blog posts found</h3>
+          <p class="text-sm text-muted max-w-sm mx-auto mt-1 mb-6">No articles match your current search or filters. Try adjusting them or import new articles via JSON.</p>
+          <div class="flex items-center justify-center gap-3">
+            <button onclick="resetFilters()" class="px-3.5 py-2 bg-surface hover:bg-surface-alt border border-border text-xs font-semibold text-heading rounded-lg transition-colors">
+              Reset Filters
+            </button>
+            <button onclick="openImportModal()" class="px-3.5 py-2 bg-primary hover:bg-primary-hover text-white text-xs font-semibold rounded-lg shadow-sm transition-colors">
+              Import JSON
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table Footer with Pagination -->
+      <div class="border-t border-border px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs bg-surface">
+        <div class="text-muted" id="paginationSummary">
+          Showing <span class="font-medium text-heading">1</span> to <span class="font-medium text-heading">6</span> of <span class="font-medium text-heading">6</span> results
+        </div>
+
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-1.5">
+            <span class="text-muted">Rows per page:</span>
+            <select id="pageSizeSelect" onchange="changePageSize(this.value)" class="py-1 px-2 border border-border rounded bg-white text-heading text-xs font-medium focus:outline-none">
+              <option value="10" selected>10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+            </select>
+          </div>
+
+          <div class="flex items-center space-x-1">
+            <button id="prevPageBtn" onclick="prevPage()" class="p-1.5 rounded border border-border bg-white text-muted hover:text-heading disabled:opacity-40 disabled:cursor-not-allowed">
+              <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            </button>
+            <div id="paginationNumbers" class="flex items-center space-x-1">
+              <!-- Dynamically populated page numbers -->
+            </div>
+            <button id="nextPageBtn" onclick="nextPage()" class="p-1.5 rounded border border-border bg-white text-muted hover:text-heading disabled:opacity-40 disabled:cursor-not-allowed">
+              <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Drag & Drop JSON Import Modal with Pre-Validation Step -->
+  <div id="importModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-heading/60 backdrop-blur-sm animate-fade-in">
+    <div class="bg-white rounded-2xl border border-border shadow-modal max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden">
+      
+      <!-- Modal Header -->
+      <div class="px-6 py-4 border-b border-border flex items-center justify-between bg-surface">
+        <div>
+          <h3 class="text-lg font-bold text-heading">Import Blog Posts</h3>
+          <p class="text-xs text-muted mt-0.5">Bulk upload articles conforming to the <code class="text-primary font-mono text-[11px] bg-primary-light px-1 py-0.5 rounded">PostFormValues</code> schema.</p>
+        </div>
+        <button onclick="closeImportModal()" class="p-1.5 rounded-lg text-muted hover:text-heading hover:bg-border/40 transition-colors">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body (Upload Step & Preview Step) -->
+      <div class="p-6 overflow-y-auto flex-1 space-y-5">
+        
+        <!-- Dropzone Container -->
+        <div id="dropzoneContainer" 
+             ondragover="handleDragOver(event)" 
+             ondragleave="handleDragLeave(event)" 
+             ondrop="handleFileDrop(event)"
+             class="border-2 border-dashed border-border hover:border-primary/60 rounded-xl p-8 text-center transition-all bg-surface hover:bg-primary-light/10 cursor-pointer flex flex-col items-center justify-center"
+             onclick="triggerFileInput()">
+          <input type="file" id="jsonFileInput" accept=".json,application/json" class="hidden" onchange="handleFileSelect(event)">
+          
+          <div class="w-12 h-12 rounded-xl bg-primary-light text-primary flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+            <i data-lucide="upload-cloud" class="w-6 h-6"></i>
+          </div>
+
+          <h4 class="text-sm font-semibold text-heading">Drag & drop your JSON file here</h4>
+          <p class="text-xs text-muted mt-1">or <span class="text-primary font-medium underline underline-offset-2">browse from your computer</span></p>
+          <span class="text-[11px] text-muted/80 mt-3 inline-block">JSON format only • Up to 10 MB</span>
+        </div>
+
+        <!-- Sample Download & Instructions -->
+        <div class="flex items-center justify-between text-xs bg-surface-alt p-3 rounded-lg border border-border">
+          <div class="flex items-center gap-2 text-muted">
+            <i data-lucide="info" class="w-4 h-4 text-primary"></i>
+            <span>Need sample format? Check all required fields like title, slug, and status.</span>
+          </div>
+          <button onclick="downloadSampleJSON()" class="text-xs font-semibold text-primary hover:text-primary-hover flex items-center gap-1">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            Sample JSON
+          </button>
+        </div>
+
+        <!-- Import Preview Section (hidden until valid file dropped) -->
+        <div id="importPreviewSection" class="hidden space-y-4">
+          <div class="flex items-center justify-between">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-heading flex items-center gap-2">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-primary"></i>
+              Import Validation Preview
+            </h4>
+            <span id="previewFileMeta" class="text-xs text-muted font-mono">data.json (5 records)</span>
+          </div>
+
+          <!-- Stats chips for validation results -->
+          <div class="grid grid-cols-3 gap-3">
+            <div class="p-2.5 rounded-lg border border-emerald-200 bg-emerald-50/50 text-emerald-800 text-center">
+              <div class="text-lg font-bold text-emerald-700" id="validCountStat">0</div>
+              <div class="text-[11px] font-medium text-emerald-600">Valid Posts</div>
+            </div>
+            <div class="p-2.5 rounded-lg border border-amber-200 bg-amber-50/50 text-amber-800 text-center">
+              <div class="text-lg font-bold text-amber-700" id="warnCountStat">0</div>
+              <div class="text-[11px] font-medium text-amber-600">Needs Attention</div>
+            </div>
+            <div class="p-2.5 rounded-lg border border-rose-200 bg-rose-50/50 text-rose-800 text-center">
+              <div class="text-lg font-bold text-rose-700" id="invalidCountStat">0</div>
+              <div class="text-[11px] font-medium text-rose-600">Invalid (Skipped)</div>
+            </div>
+          </div>
+
+          <!-- Preview Records Table -->
+          <div class="border border-border rounded-lg overflow-hidden max-h-56 overflow-y-auto">
+            <table class="w-full text-xs text-left">
+              <thead class="bg-surface border-b border-border font-semibold text-muted">
+                <tr>
+                  <th class="py-2 px-3">State</th>
+                  <th class="py-2 px-3">Title</th>
+                  <th class="py-2 px-3">Slug</th>
+                  <th class="py-2 px-3">Status</th>
+                  <th class="py-2 px-3">Remarks</th>
+                </tr>
+              </thead>
+              <tbody id="previewTableBody" class="divide-y divide-border">
+                <!-- Injected preview rows -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="px-6 py-3.5 bg-surface border-t border-border flex items-center justify-between">
+        <button onclick="closeImportModal()" class="px-4 py-2 text-xs font-semibold text-muted hover:text-heading transition-colors">
+          Cancel
+        </button>
+        <button id="btnCommitImport" onclick="commitImport()" disabled class="px-4 py-2 bg-primary hover:bg-primary-hover disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs font-semibold rounded-lg shadow-sm transition-all flex items-center gap-1.5">
+          <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+          <span id="btnCommitImportText">Import 0 Posts</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Blog Article Quick View Drawer -->
+  <div id="quickViewDrawer" class="hidden fixed inset-0 z-50 overflow-hidden bg-heading/40 backdrop-blur-sm">
+    <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
+      <div class="w-screen max-w-lg bg-white shadow-2xl border-l border-border flex flex-col">
+        <!-- Drawer Header -->
+        <div class="px-6 py-4 bg-surface border-b border-border flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span id="drawerStatusBadge" class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-primary-light text-primary">Status</span>
+            <span class="text-xs text-muted" id="drawerSlug">/blog/slug</span>
+          </div>
+          <button onclick="closeQuickView()" class="p-1.5 rounded-lg text-muted hover:text-heading hover:bg-border/30">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <!-- Drawer Content -->
+        <div class="p-6 overflow-y-auto flex-1 space-y-5">
+          <!-- Featured Image -->
+          <div id="drawerImageContainer" class="rounded-xl overflow-hidden aspect-video bg-surface-alt border border-border flex items-center justify-center">
+            <img id="drawerImage" src="" alt="Post cover" class="w-full h-full object-cover">
+          </div>
+
+          <div>
+            <h2 id="drawerTitle" class="text-xl font-bold text-heading">Article Title</h2>
+            <div class="flex items-center gap-2 mt-2 text-xs text-muted">
+              <span id="drawerAuthor" class="font-medium text-heading">Author Name</span>
+              <span>•</span>
+              <span id="drawerPublishedAt">Published Date</span>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-muted mb-1">Excerpt</h4>
+            <p id="drawerExcerpt" class="text-xs text-body bg-surface p-3 rounded-lg border border-border leading-relaxed"></p>
+          </div>
+
+          <div>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-muted mb-1">Article Content Preview</h4>
+            <div id="drawerContent" class="text-xs text-body bg-white p-3 rounded-lg border border-border space-y-2 max-h-44 overflow-y-auto leading-relaxed"></div>
+          </div>
+
+          <!-- SEO Metadata Box -->
+          <div class="border border-border rounded-xl p-4 bg-surface-alt space-y-2">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-heading flex items-center gap-1.5">
+              <i data-lucide="globe" class="w-3.5 h-3.5 text-primary"></i>
+              SEO Metadata
+            </h4>
+            <div class="text-[11px] space-y-1">
+              <div><span class="text-muted font-medium">Meta Title:</span> <span id="drawerMetaTitle" class="text-heading"></span></div>
+              <div><span class="text-muted font-medium">Meta Description:</span> <span id="drawerMetaDesc" class="text-body"></span></div>
+              <div><span class="text-muted font-medium">Canonical:</span> <span id="drawerCanonical" class="text-primary font-mono text-[10px]"></span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Drawer Footer Actions -->
+        <div class="px-6 py-4 bg-surface border-t border-border flex items-center justify-end gap-2">
+          <button onclick="closeQuickView()" class="px-4 py-2 border border-border text-xs font-semibold rounded-lg text-heading hover:bg-white transition-colors">
+            Close
+          </button>
+          <button onclick="editCurrentDrawerPost()" class="px-4 py-2 bg-primary hover:bg-primary-hover text-white text-xs font-semibold rounded-lg shadow-sm transition-colors flex items-center gap-1.5">
+            <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+            Edit in Form
+          </button>
+        </div>
+      </div>
+    </div>
+  </div> 
+
+  <script>
+    /*
+      PostFormValues schema:
+      {
+        title: string;
+        slug: string;
+        is_manual_slug: boolean;
+        excerpt?: string;
+        content: string;
+        featured_image?: string;
+        publishing: {
+          status: "draft" | "published" | "archived";
+          published_at?: string | null;
+          author_id: string; // e.g. "Dharmendra (Admin)"
+        };
+        seo: {
+          meta_title?: string;
+          meta_description?: string;
+          canonical_url?: string;
+        };
+        updated_at?: string; // added for dashboard sorting & display
+      }
+    */
+
+    // Seed Data conforming strictly to PostFormValues
+    let blogs = [
+      {
+        id: "post_1",
+        title: "How AI Agents are Changing Modern Enterprise Software in 2026",
+        slug: "how-ai-agents-are-changing-modern-enterprise",
+        is_manual_slug: false,
+        excerpt: "Autonomous intelligent workflows and multi-agent coordination frameworks are reshaping SaaS architectures and productivity.",
+        content: "Detailed deep dive into autonomous workflows, tool calling, and deterministic runtime guarantees across large engineering teams...",
+        featured_image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80",
+        publishing: {
+          status: "published",
+          published_at: "2026-03-28T10:30:00Z",
+          author_id: "Dharmendra (Admin)"
+        },
+        seo: {
+          meta_title: "How AI Agents are Changing Modern Enterprise Software",
+          meta_description: "Explore the profound shifts in enterprise computing driven by autonomous multi-agent systems.",
+          canonical_url: "https://apearix.com/blog/how-ai-agents-are-changing-modern-enterprise"
+        },
+        updated_at: "2 hours ago"
+      },
+      {
+        id: "post_2",
+        title: "Building Micro-frontends with Next.js 16 and Module Federation",
+        slug: "building-micro-frontends-nextjs-16",
+        is_manual_slug: true,
+        excerpt: "A practical guide to scalable decoupled client architectures without sacrificing SSR performance and type safety.",
+        content: "Architecting large scale frontends requires team independence. Here is how we decoupled our design system...",
+        featured_image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&auto=format&fit=crop&q=80",
+        publishing: {
+          status: "published",
+          published_at: "2026-03-24T14:15:00Z",
+          author_id: "Rahul Sharma"
+        },
+        seo: {
+          meta_title: "Next.js 16 Micro-frontends Tutorial",
+          meta_description: "Learn how to assemble zero-latency micro-frontends with the latest Next.js features.",
+          canonical_url: "https://apearix.com/blog/building-micro-frontends-nextjs-16"
+        },
+        updated_at: "5 hours ago"
+      },
+      {
+        id: "post_3",
+        title: "Design Tokens & Design Systems: Bridging Figma to Tailwind V4",
+        slug: "design-tokens-figma-to-tailwind-v4",
+        is_manual_slug: false,
+        excerpt: "How our design engineering pipeline syncs CSS custom properties and token dictionaries directly into CI/CD builds.",
+        content: "A single source of truth for color semantics, typography scales, and surface elevation curves...",
+        featured_image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800&auto=format&fit=crop&q=80",
+        publishing: {
+          status: "published",
+          published_at: "2026-03-18T09:00:00Z",
+          author_id: "Priya Patel"
+        },
+        seo: {
+          meta_title: "Design Tokens Pipeline with Tailwind V4",
+          meta_description: "Automate design token syncing from Figma directly into Tailwind CSS classes.",
+          canonical_url: "https://apearix.com/blog/design-tokens-figma-to-tailwind-v4"
+        },
+        updated_at: "1 day ago"
+      },
+      {
+        id: "post_4",
+        title: "Complete Guide to SEO Optimization and JSON-LD Structured Data",
+        slug: "complete-guide-seo-structured-data",
+        is_manual_slug: false,
+        excerpt: "Enhance crawlability, breadcrumbs, search snippets and LLM search discovery with structured schemas.",
+        content: "Search is evolving into conversational answer engines. Here is how to format schema.org markup...",
+        featured_image: "https://images.unsplash.com/photo-1562577309-4932fdd64cd1?w=800&auto=format&fit=crop&q=80",
+        publishing: {
+          status: "draft",
+          published_at: null,
+          author_id: "Dharmendra (Admin)"
+        },
+        seo: {
+          meta_title: "SEO Optimization & JSON-LD Guide 2026",
+          meta_description: "Everything you need to master search engine optimization and automated metadata generation.",
+          canonical_url: "https://apearix.com/blog/complete-guide-seo-structured-data"
+        },
+        updated_at: "3 days ago"
+      },
+      {
+        id: "post_5",
+        title: "Real-time Collaborative Editors using CRDTs and WebSockets",
+        slug: "realtime-collaborative-editors-crdt",
+        is_manual_slug: true,
+        excerpt: "Handling conflict-free replicated data types inside rich text documents without lock contention.",
+        content: "We benchmarked Yjs vs Automerge under heavy concurrent mutation loads and here are our findings...",
+        featured_image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&auto=format&fit=crop&q=80",
+        publishing: {
+          status: "published",
+          published_at: "2026-02-10T11:45:00Z",
+          author_id: "Rahul Sharma"
+        },
+        seo: {
+          meta_title: "Real-time Collaborative Editors with CRDTs",
+          meta_description: "Explore the internals of conflict-free document replication across browser nodes.",
+          canonical_url: "https://apearix.com/blog/realtime-collaborative-editors-crdt"
+        },
+        updated_at: "1 week ago"
+      },
+      {
+        id: "post_6",
+        title: "Legacy Monolith to Headless Jamstack: Migration Retrospective",
+        slug: "legacy-monolith-to-headless-jamstack",
+        is_manual_slug: false,
+        excerpt: "Lessons learned deprecating our decade-old WordPress setup into an API-first content ecosystem.",
+        content: "A detailed retrospective on redirect mappings, asset offloading to S3/Cloudflare, and edge caching...",
+        featured_image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+        publishing: {
+          status: "archived",
+          published_at: "2025-11-04T08:00:00Z",
+          author_id: "Dharmendra (Admin)"
+        },
+        seo: {
+          meta_title: "Legacy Monolith Migration Retrospective",
+          meta_description: "Step by step architecture decisions for migrating legacy content monoliths.",
+          canonical_url: "https://apearix.com/blog/legacy-monolith-to-headless-jamstack"
+        },
+        updated_at: "2 months ago"
+      }
+    ];
+
+    // State Variables
+    let selectedPostIds = new Set();
+    let currentFilterStatus = 'all';
+    let searchQuery = '';
+    let authorFilterValue = 'all';
+    let sortFilterValue = 'newest';
+    let currentPage = 1;
+    let pageSize = 10;
+    let currentDrawerPostId = null;
+    let validatedImportRecords = [];
+
+    // Initialize application on DOM load
+    window.addEventListener('DOMContentLoaded', () => {
+      renderTable();
+      updateStats();
+      lucide.createIcons();
+
+      // Close dropdowns on outside click
+      document.addEventListener('click', (e) => {
+        const menuContainer = document.getElementById('exportMenuContainer');
+        const exportMenu = document.getElementById('exportMenu');
+        if (menuContainer && !menuContainer.contains(e.target)) {
+          exportMenu.classList.add('hidden');
+        }
+
+        // Close row action menus
+        if (!e.target.closest('.row-action-menu-btn') && !e.target.closest('.row-action-dropdown')) {
+          document.querySelectorAll('.row-action-dropdown').forEach(el => el.classList.add('hidden'));
+        }
+      });
+    });
+
+    // Filter & Sort logic
+    function getFilteredPosts() {
+      return blogs.filter(post => {
+        // Status filter
+        if (currentFilterStatus !== 'all' && post.publishing.status !== currentFilterStatus) {
+          return false;
+        }
+
+        // Author filter
+        if (authorFilterValue !== 'all' && post.publishing.author_id !== authorFilterValue) {
+          return false;
+        }
+
+        // Search query filter (matches title, slug, excerpt, author)
+        if (searchQuery.trim() !== '') {
+          const q = searchQuery.toLowerCase().trim();
+          const matchTitle = (post.title || '').toLowerCase().includes(q);
+          const matchSlug = (post.slug || '').toLowerCase().includes(q);
+          const matchExcerpt = (post.excerpt || '').toLowerCase().includes(q);
+          const matchAuthor = (post.publishing.author_id || '').toLowerCase().includes(q);
+          if (!matchTitle && !matchSlug && !matchExcerpt && !matchAuthor) {
+            return false;
+          }
+        }
+
+        return true;
+      }).sort((a, b) => {
+        if (sortFilterValue === 'newest') {
+          return (new Date(b.publishing.published_at || 0)) - (new Date(a.publishing.published_at || 0));
+        } else if (sortFilterValue === 'oldest') {
+          return (new Date(a.publishing.published_at || 0)) - (new Date(b.publishing.published_at || 0));
+        } else if (sortFilterValue === 'title_asc') {
+          return (a.title || '').localeCompare(b.title || '');
+        }
+        return 0;
+      });
+    }
+
+    // Render Table Rows
+    function renderTable() {
+      const tbody = document.getElementById('blogsTableBody');
+      const emptyState = document.getElementById('emptyState');
+      const filtered = getFilteredPosts();
+
+      // Calculate pagination slice
+      const total = filtered.length;
+      const totalPages = Math.ceil(total / pageSize) || 1;
+      if (currentPage > totalPages) currentPage = totalPages;
+      const startIndex = (currentPage - 1) * pageSize;
+      const endIndex = Math.min(startIndex + pageSize, total);
+      const pagePosts = filtered.slice(startIndex, endIndex);
+
+      // Handle Empty State
+      if (pagePosts.length === 0) {
+        tbody.innerHTML = '';
+        emptyState.classList.remove('hidden');
+      } else {
+        emptyState.classList.add('hidden');
+        tbody.innerHTML = pagePosts.map(post => {
+          const isSelected = selectedPostIds.has(post.id);
+          const status = post.publishing?.status || 'draft';
+          
+          // Badge styling
+          let statusBadge = '';
+          if (status === 'published') {
+            statusBadge = `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              <span class="badge-dot bg-emerald-500"></span>Published
+            </span>`;
+          } else if (status === 'draft') {
+            statusBadge = `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+              <span class="badge-dot bg-amber-500"></span>Draft
+            </span>`;
+          } else {
+            statusBadge = `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">
+              <span class="badge-dot bg-slate-400"></span>Archived
+            </span>`;
+          }
+
+          // Published Date formatting
+          const pubDate = post.publishing?.published_at 
+            ? new Date(post.publishing.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+            : '<span class="text-muted/60">—</span>';
+
+          // Image thumbnail fallback
+          const imageTag = post.featured_image 
+            ? `<img src="${post.featured_image}" onerror="this.src='https://placehold.co/100x100/F4F0FF/6D28F5?text=Apearix'" alt="${escapeHtml(post.title)}" class="w-10 h-10 rounded-lg object-cover border border-border shrink-0 shadow-subtle">`
+            : `<div class="w-10 h-10 rounded-lg bg-primary-light border border-border-accent flex items-center justify-center text-primary shrink-0"><i data-lucide="image" class="w-4 h-4"></i></div>`;
+
+          return `
+            <tr class="group hover:bg-surface transition-colors cursor-pointer ${isSelected ? 'bg-primary-light/40 border-l-4 border-l-primary' : ''}" onclick="handleRowClick(event, '${post.id}')">
+              <!-- Checkbox -->
+              <td class="py-3 pl-4 pr-2 w-10" onclick="event.stopPropagation()">
+                <input 
+                  type="checkbox" 
+                  ${isSelected ? 'checked' : ''} 
+                  onchange="toggleRowSelection('${post.id}', this.checked)"
+                  class="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 accent-primary cursor-pointer"
+                />
+              </td>
+
+              <!-- Article Column -->
+              <td class="py-3 px-3">
+                <div class="flex items-center gap-3">
+                  ${imageTag}
+                  <div class="min-w-0 flex-1">
+                    <div class="font-semibold text-heading truncate text-sm hover:text-primary transition-colors" title="${escapeHtml(post.title)}">
+                      ${escapeHtml(post.title)}
+                    </div>
+                    <div class="text-xs text-muted font-mono truncate mt-0.5 flex items-center gap-1">
+                      <span>/blog/${escapeHtml(post.slug)}</span>
+                      ${post.is_manual_slug ? '<span class="text-[10px] text-primary bg-primary-light px-1 rounded font-sans font-medium" title="Manual custom slug">Custom</span>' : ''}
+                    </div>
+                  </div>
+                </div>
+              </td>
+
+              <!-- Author -->
+              <td class="py-3 px-3">
+                <div class="flex items-center gap-2">
+                  <div class="w-6 h-6 rounded-full bg-surface-alt border border-border flex items-center justify-center text-[10px] font-bold text-heading">
+                    ${escapeHtml(post.publishing?.author_id ? post.publishing.author_id.charAt(0) : 'A')}
+                  </div>
+                  <span class="text-xs text-heading font-medium truncate">${escapeHtml(post.publishing?.author_id || 'Unknown')}</span>
+                </div>
+              </td>
+
+              <!-- Status -->
+              <td class="py-3 px-3">
+                ${statusBadge}
+              </td>
+
+              <!-- Published Date -->
+              <td class="py-3 px-3 text-xs text-heading">
+                ${pubDate}
+              </td>
+
+              <!-- Updated Relative Time -->
+              <td class="py-3 px-3 text-xs text-muted">
+                ${escapeHtml(post.updated_at || 'Just now')}
+              </td>
+
+              <!-- Actions Dropdown -->
+              <td class="py-3 pr-4 pl-3 text-right relative" onclick="event.stopPropagation()">
+                <button onclick="toggleActionMenu('${post.id}', event)" class="row-action-menu-btn p-1.5 rounded-lg text-muted hover:text-heading hover:bg-surface-alt transition-colors focus:outline-none">
+                  <i data-lucide="more-vertical" class="w-4 h-4"></i>
+                </button>
+
+                <!-- Context Menu -->
+                <div id="actionMenu-${post.id}" class="row-action-dropdown hidden absolute right-4 top-10 w-44 bg-white rounded-xl shadow-dropdown border border-border py-1.5 z-40 text-xs font-medium text-heading text-left">
+                  <button onclick="viewPost('${post.id}')" class="w-full px-3 py-1.5 hover:bg-surface flex items-center gap-2">
+                    <i data-lucide="eye" class="w-3.5 h-3.5 text-muted"></i>
+                    View Preview
+                  </button>
+                  <button onclick="editPost('${post.id}')" class="w-full px-3 py-1.5 hover:bg-surface flex items-center gap-2">
+                    <i data-lucide="edit-2" class="w-3.5 h-3.5 text-muted"></i>
+                    Edit Post
+                  </button>
+                  <button onclick="duplicatePost('${post.id}')" class="w-full px-3 py-1.5 hover:bg-surface flex items-center gap-2">
+                    <i data-lucide="copy" class="w-3.5 h-3.5 text-muted"></i>
+                    Duplicate
+                  </button>
+                  
+                  <div class="my-1 border-t border-border"></div>
+
+                  ${status === 'published' ? `
+                    <button onclick="quickUpdateStatus('${post.id}', 'draft')" class="w-full px-3 py-1.5 hover:bg-surface flex items-center gap-2 text-amber-700">
+                      <i data-lucide="file-minus" class="w-3.5 h-3.5"></i>
+                      Unpublish
+                    </button>
+                  ` : `
+                    <button onclick="quickUpdateStatus('${post.id}', 'published')" class="w-full px-3 py-1.5 hover:bg-surface flex items-center gap-2 text-emerald-700">
+                      <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+                      Publish Now
+                    </button>
+                  `}
+
+                  <button onclick="quickUpdateStatus('${post.id}', 'archived')" class="w-full px-3 py-1.5 hover:bg-surface flex items-center gap-2 text-slate-600">
+                    <i data-lucide="archive" class="w-3.5 h-3.5"></i>
+                    Archive
+                  </button>
+
+                  <div class="my-1 border-t border-border"></div>
+
+                  <button onclick="deleteSinglePost('${post.id}')" class="w-full px-3 py-1.5 hover:bg-rose-50 flex items-center gap-2 text-rose-600">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                    Delete
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      // Update Pagination summary
+      const startNum = total === 0 ? 0 : startIndex + 1;
+      document.getElementById('paginationSummary').innerHTML = `Showing <span class="font-medium text-heading">${startNum}</span> to <span class="font-medium text-heading">${endIndex}</span> of <span class="font-medium text-heading">${total}</span> results`;
+      
+      renderPagination(totalPages);
+      updateSelectAllCheckboxState();
+      lucide.createIcons();
+    }
+
+    // Render pagination buttons
+    function renderPagination(totalPages) {
+      const container = document.getElementById('paginationNumbers');
+      const prevBtn = document.getElementById('prevPageBtn');
+      const nextBtn = document.getElementById('nextPageBtn');
+
+      prevBtn.disabled = currentPage <= 1;
+      nextBtn.disabled = currentPage >= totalPages;
+
+      let html = '';
+      for (let i = 1; i <= totalPages; i++) {
+        const isActive = i === currentPage;
+        html += `
+          <button onclick="goToPage(${i})" class="w-7 h-7 rounded text-xs font-semibold ${isActive ? 'bg-primary text-white' : 'border border-border bg-white text-muted hover:text-heading'}">
+            ${i}
+          </button>
+        `;
+      }
+      container.innerHTML = html;
+    }
+
+    function goToPage(page) {
+      currentPage = page;
+      renderTable();
+    }
+
+    function prevPage() {
+      if (currentPage > 1) {
+        currentPage--;
+        renderTable();
+      }
+    }
+
+    function nextPage() {
+      const filtered = getFilteredPosts();
+      const totalPages = Math.ceil(filtered.length / pageSize) || 1;
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderTable();
+      }
+    }
+
+    function changePageSize(size) {
+      pageSize = parseInt(size, 10);
+      currentPage = 1;
+      renderTable();
+    }
+
+    // Row selection logic
+    function toggleRowSelection(id, isSelected) {
+      if (isSelected) {
+        selectedPostIds.add(id);
+      } else {
+        selectedPostIds.delete(id);
+      }
+      updateBulkActionBar();
+      renderTable();
+    }
+
+    function toggleSelectAll(checked) {
+      const filtered = getFilteredPosts();
+      if (checked) {
+        filtered.forEach(p => selectedPostIds.add(p.id));
+      } else {
+        selectedPostIds.clear();
+      }
+      updateBulkActionBar();
+      renderTable();
+    }
+
+    function updateSelectAllCheckboxState() {
+      const selectAllCb = document.getElementById('selectAllCheckbox');
+      const filtered = getFilteredPosts();
+      if (filtered.length === 0) {
+        selectAllCb.checked = false;
+        selectAllCb.indeterminate = false;
+        return;
+      }
+      const selectedInFilter = filtered.filter(p => selectedPostIds.has(p.id)).length;
+      if (selectedInFilter === 0) {
+        selectAllCb.checked = false;
+        selectAllCb.indeterminate = false;
+      } else if (selectedInFilter === filtered.length) {
+        selectAllCb.checked = true;
+        selectAllCb.indeterminate = false;
+      } else {
+        selectAllCb.checked = false;
+        selectAllCb.indeterminate = true;
+      }
+    }
+
+    function updateBulkActionBar() {
+      const bulkBar = document.getElementById('bulkActionBar');
+      const count = selectedPostIds.size;
+      if (count > 0) {
+        bulkBar.classList.remove('hidden');
+        document.getElementById('selectedCountText').textContent = `${count} ${count === 1 ? 'article' : 'articles'} selected`;
+      } else {
+        bulkBar.classList.add('hidden');
+      }
+    }
+
+    function clearSelection() {
+      selectedPostIds.clear();
+      updateBulkActionBar();
+      renderTable();
+    }
+
+    function handleRowClick(event, postId) {
+      // Open drawer on row click
+      openQuickView(postId);
+    }
+
+    // Bulk status update
+    function bulkChangeStatus(newStatus) {
+      if (selectedPostIds.size === 0) return;
+      const count = selectedPostIds.size;
+      blogs.forEach(post => {
+        if (selectedPostIds.has(post.id)) {
+          post.publishing.status = newStatus;
+          if (newStatus === 'published' && !post.publishing.published_at) {
+            post.publishing.published_at = new Date().toISOString();
+          }
+          post.updated_at = "Just now";
+        }
+      });
+      clearSelection();
+      updateStats();
+      renderTable();
+      showToast(`Updated ${count} posts to ${newStatus}`);
+    }
+
+    function confirmBulkDelete() {
+      const count = selectedPostIds.size;
+      if (count === 0) return;
+      
+      // Inline custom non-alert confirmation
+      if (window.confirm(`Are you sure you want to delete ${count} selected post(s)? This action cannot be undone.`)) {
+        blogs = blogs.filter(post => !selectedPostIds.has(post.id));
+        clearSelection();
+        updateStats();
+        renderTable();
+        showToast(`Successfully deleted ${count} posts`);
+      }
+    }
+
+    function handleSearch() {
+      const input = document.getElementById('searchInput');
+      searchQuery = input.value;
+      const clearBtn = document.getElementById('clearSearchBtn');
+      if (searchQuery.trim().length > 0) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+      currentPage = 1;
+      renderTable();
+    }
+
+    function clearSearch() {
+      const input = document.getElementById('searchInput');
+      input.value = '';
+      searchQuery = '';
+      document.getElementById('clearSearchBtn').classList.add('hidden');
+      currentPage = 1;
+      renderTable();
+    }
+
+    function setFilterStatus(status) {
+      currentFilterStatus = status;
+      document.getElementById('statusFilter').value = status;
+
+      // Update tabs UI
+      document.querySelectorAll('.status-tab').forEach(tab => {
+        tab.className = 'status-tab px-3.5 py-1.5 rounded-full text-xs font-medium border border-border bg-white text-body hover:bg-surface transition-colors';
+      });
+
+      if (status === 'all') {
+        document.getElementById('tabAll').className = 'status-tab px-3.5 py-1.5 rounded-full text-xs font-semibold border transition-colors bg-heading text-white border-heading';
+      } else if (status === 'published') {
+        document.getElementById('tabPublished').className = 'status-tab px-3.5 py-1.5 rounded-full text-xs font-semibold border border-emerald-300 bg-emerald-50 text-emerald-800';
+      } else if (status === 'draft') {
+        document.getElementById('tabDraft').className = 'status-tab px-3.5 py-1.5 rounded-full text-xs font-semibold border border-amber-300 bg-amber-50 text-amber-800';
+      } else if (status === 'archived') {
+        document.getElementById('tabArchived').className = 'status-tab px-3.5 py-1.5 rounded-full text-xs font-semibold border border-slate-300 bg-slate-100 text-slate-800';
+      }
+
+      currentPage = 1;
+      renderTable();
+    }
+
+    function applyFilters() {
+      currentFilterStatus = document.getElementById('statusFilter').value;
+      authorFilterValue = document.getElementById('authorFilter').value;
+      sortFilterValue = document.getElementById('sortFilter').value;
+      setFilterStatus(currentFilterStatus);
+    }
+
+    function resetFilters() {
+      currentFilterStatus = 'all';
+      authorFilterValue = 'all';
+      sortFilterValue = 'newest';
+      document.getElementById('statusFilter').value = 'all';
+      document.getElementById('authorFilter').value = 'all';
+      document.getElementById('sortFilter').value = 'newest';
+      clearSearch();
+      setFilterStatus('all');
+    }
+
+    function updateStats() {
+      const total = blogs.length;
+      const pub = blogs.filter(b => b.publishing.status === 'published').length;
+      const draft = blogs.filter(b => b.publishing.status === 'draft').length;
+      const arch = blogs.filter(b => b.publishing.status === 'archived').length;
+
+      document.getElementById('countAll').textContent = total;
+      document.getElementById('countPublished').textContent = pub;
+      document.getElementById('countDraft').textContent = draft;
+      document.getElementById('countArchived').textContent = arch;
+      document.getElementById('headerTotalBadge').textContent = `${total} Articles`;
+    }
+
+    function toggleActionMenu(postId, event) {
+      event.stopPropagation();
+      const menu = document.getElementById(`actionMenu-${postId}`);
+      const isHidden = menu.classList.contains('hidden');
+      
+      // Close any other open dropdowns
+      document.querySelectorAll('.row-action-dropdown').forEach(el => el.classList.add('hidden'));
+
+      if (isHidden) {
+        menu.classList.remove('hidden');
+      }
+    }
+
+    function quickUpdateStatus(postId, newStatus) {
+      const post = blogs.find(p => p.id === postId);
+      if (post) {
+        post.publishing.status = newStatus;
+        if (newStatus === 'published' && !post.publishing.published_at) {
+          post.publishing.published_at = new Date().toISOString();
+        }
+        post.updated_at = "Just now";
+        updateStats();
+        renderTable();
+        showToast(`Post status updated to "${newStatus}"`);
+      }
+    }
+
+    function duplicatePost(postId) {
+      const post = blogs.find(p => p.id === postId);
+      if (post) {
+        const cloned = JSON.parse(JSON.stringify(post));
+        cloned.id = 'post_' + Date.now();
+        cloned.title = `${cloned.title} (Copy)`;
+        cloned.slug = `${cloned.slug}-copy`;
+        cloned.publishing.status = 'draft';
+        cloned.publishing.published_at = null;
+        cloned.updated_at = 'Just now';
+        blogs.unshift(cloned);
+        updateStats();
+        renderTable();
+        showToast(`Duplicated as draft: "${cloned.title}"`);
+      }
+    }
+
+    function deleteSinglePost(postId) {
+      if (window.confirm("Are you sure you want to delete this blog post?")) {
+        blogs = blogs.filter(p => p.id !== postId);
+        selectedPostIds.delete(postId);
+        updateBulkActionBar();
+        updateStats();
+        renderTable();
+        showToast("Post deleted successfully");
+      }
+    }
+
+    function editPost(postId) {
+      showToast(`Navigating to Apearix Blog Form for ID: ${postId}`);
+    }
+
+    function openCreateBlogDemo() {
+      showToast("Opening Create Blog Form editor...");
+    }
+
+    function openQuickView(postId) {
+      const post = blogs.find(p => p.id === postId);
+      if (!post) return;
+      currentDrawerPostId = postId;
+
+      document.getElementById('drawerTitle').textContent = post.title;
+      document.getElementById('drawerSlug').textContent = `/blog/${post.slug}`;
+      document.getElementById('drawerAuthor').textContent = post.publishing?.author_id || 'Unknown';
+      document.getElementById('drawerPublishedAt').textContent = post.publishing?.published_at 
+        ? new Date(post.publishing.published_at).toLocaleString() 
+        : 'Not Published';
+      document.getElementById('drawerExcerpt').textContent = post.excerpt || 'No excerpt provided.';
+      document.getElementById('drawerContent').textContent = post.content || 'No content provided.';
+      
+      // SEO
+      document.getElementById('drawerMetaTitle').textContent = post.seo?.meta_title || post.title;
+      document.getElementById('drawerMetaDesc').textContent = post.seo?.meta_description || post.excerpt || '—';
+      document.getElementById('drawerCanonical').textContent = post.seo?.canonical_url || `https://apearix.com/blog/${post.slug}`;
+
+      // Image
+      const img = document.getElementById('drawerImage');
+      const container = document.getElementById('drawerImageContainer');
+      if (post.featured_image) {
+        container.classList.remove('hidden');
+        img.src = post.featured_image;
+      } else {
+        container.classList.add('hidden');
+      }
+
+      // Status badge
+      const badge = document.getElementById('drawerStatusBadge');
+      badge.textContent = post.publishing.status.toUpperCase();
+
+      document.getElementById('quickViewDrawer').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeQuickView() {
+      document.getElementById('quickViewDrawer').classList.add('hidden');
+      currentDrawerPostId = null;
+    }
+
+    function editCurrentDrawerPost() {
+      if (currentDrawerPostId) {
+        editPost(currentDrawerPostId);
+      }
+    }
+
+    function openImportModal() {
+      document.getElementById('importModal').classList.remove('hidden');
+      resetImportModal();
+      lucide.createIcons();
+    }
+
+    function closeImportModal() {
+      document.getElementById('importModal').classList.add('hidden');
+      resetImportModal();
+    }
+
+    function resetImportModal() {
+      validatedImportRecords = [];
+      document.getElementById('importPreviewSection').classList.add('hidden');
+      document.getElementById('jsonFileInput').value = '';
+      document.getElementById('btnCommitImport').disabled = true;
+      document.getElementById('btnCommitImportText').textContent = 'Import 0 Posts';
+      const dropzone = document.getElementById('dropzoneContainer');
+      dropzone.classList.remove('drag-active');
+    }
+
+    function triggerFileInput() {
+      document.getElementById('jsonFileInput').click();
+    }
+
+    function handleDragOver(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      document.getElementById('dropzoneContainer').classList.add('drag-active');
+    }
+
+    function handleDragLeave(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      document.getElementById('dropzoneContainer').classList.remove('drag-active');
+    }
+
+    function handleFileDrop(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      document.getElementById('dropzoneContainer').classList.remove('drag-active');
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        processUploadedJsonFile(files[0]);
+      }
+    }
+
+    function handleFileSelect(e) {
+      const files = e.target.files;
+      if (files.length > 0) {
+        processUploadedJsonFile(files[0]);
+      }
+    }
+
+    // Validate uploaded JSON against PostFormValues schema
+    function processUploadedJsonFile(file) {
+      if (!file.name.endsWith('.json') && file.type !== 'application/json') {
+        showToast('Please upload a valid .json file');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        try {
+          const raw = JSON.parse(event.target.result);
+          const items = Array.isArray(raw) ? raw : [raw];
+          validateImportedPosts(items, file.name);
+        } catch (err) {
+          showToast('Invalid JSON structure: ' + err.message);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function validateImportedPosts(items, fileName) {
+      validatedImportRecords = [];
+      let validCount = 0;
+      let warnCount = 0;
+      let invalidCount = 0;
+
+      items.forEach((item, index) => {
+        const warnings = [];
+        const errors = [];
+
+        // Check required title
+        if (!item.title || typeof item.title !== 'string' || item.title.trim() === '') {
+          errors.push('Missing post title');
+        }
+
+        // Check slug
+        let slug = item.slug;
+        if (!slug || typeof slug !== 'string') {
+          if (item.title) {
+            slug = item.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+            warnings.push('Auto-derived slug from title');
+          } else {
+            errors.push('No slug or valid title to derive');
+          }
+        }
+
+        // Check publishing & status
+        let status = item.publishing?.status || item.status || 'draft';
+        if (!['draft', 'published', 'archived'].includes(status)) {
+          warnings.push(`Invalid status "${status}", defaulted to draft`);
+          status = 'draft';
+        }
+
+        let author = item.publishing?.author_id || item.author || 'Dharmendra (Admin)';
+        if (!item.publishing?.author_id && !item.author) {
+          warnings.push('Defaulted author to Admin');
+        }
+
+        const isValid = errors.length === 0;
+        const hasWarnings = warnings.length > 0;
+
+        if (isValid) {
+          if (hasWarnings) warnCount++;
+          else validCount++;
+        } else {
+          invalidCount++;
+        }
+
+        // Build valid PostFormValues object
+        const normalizedPost = {
+          id: 'imported_' + Date.now() + '_' + index,
+          title: item.title || 'Untitled Post',
+          slug: slug || 'untitled-post',
+          is_manual_slug: item.is_manual_slug !== undefined ? Boolean(item.is_manual_slug) : true,
+          excerpt: item.excerpt || '',
+          content: item.content || 'Content imported via JSON batch.',
+          featured_image: item.featured_image || 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80',
+          publishing: {
+            status: status,
+            published_at: item.publishing?.published_at || (status === 'published' ? new Date().toISOString() : null),
+            author_id: author
+          },
+          seo: {
+            meta_title: item.seo?.meta_title || item.title || '',
+            meta_description: item.seo?.meta_description || item.excerpt || '',
+            canonical_url: item.seo?.canonical_url || `https://apearix.com/blog/${slug}`
+          },
+          updated_at: 'Just now',
+          _isValid: isValid,
+          _remarks: isValid ? (warnings.length > 0 ? warnings.join(', ') : 'Valid') : errors.join(', ')
+        };
+
+        validatedImportRecords.push(normalizedPost);
+      });
+
+      // Update Preview UI
+      document.getElementById('previewFileMeta').textContent = `${fileName} (${items.length} records parsed)`;
+      document.getElementById('validCountStat').textContent = validCount;
+      document.getElementById('warnCountStat').textContent = warnCount;
+      document.getElementById('invalidCountStat').textContent = invalidCount;
+
+      const previewTableBody = document.getElementById('previewTableBody');
+      previewTableBody.innerHTML = validatedImportRecords.map(rec => `
+        <tr class="${rec._isValid ? 'bg-white' : 'bg-rose-50/60'}">
+          <td class="py-2 px-3">
+            ${rec._isValid 
+              ? (rec._remarks === 'Valid' 
+                ? '<span class="text-emerald-600 font-bold">✓</span>' 
+                : '<span class="text-amber-600 font-bold">⚠</span>')
+              : '<span class="text-rose-600 font-bold">✕</span>'}
+          </td>
+          <td class="py-2 px-3 font-medium text-heading max-w-[140px] truncate">${escapeHtml(rec.title)}</td>
+          <td class="py-2 px-3 text-muted font-mono text-[10px] max-w-[120px] truncate">/${escapeHtml(rec.slug)}</td>
+          <td class="py-2 px-3 capitalize">${escapeHtml(rec.publishing.status)}</td>
+          <td class="py-2 px-3 text-[11px] ${rec._isValid ? (rec._remarks === 'Valid' ? 'text-emerald-700' : 'text-amber-700') : 'text-rose-700'}">${escapeHtml(rec._remarks)}</td>
+        </tr>
+      `).join('');
+
+      const totalSavable = validCount + warnCount;
+      const btn = document.getElementById('btnCommitImport');
+      if (totalSavable > 0) {
+        btn.disabled = false;
+        document.getElementById('btnCommitImportText').textContent = `Import ${totalSavable} Valid Posts`;
+      } else {
+        btn.disabled = true;
+        document.getElementById('btnCommitImportText').textContent = 'No Valid Records';
+      }
+
+      document.getElementById('importPreviewSection').classList.remove('hidden');
+    }
+
+    function commitImport() {
+      const postsToAdd = validatedImportRecords.filter(r => r._isValid).map(r => {
+        const { _isValid, _remarks, ...cleanPost } = r;
+        return cleanPost;
+      });
+
+      if (postsToAdd.length === 0) return;
+
+      blogs = [...postsToAdd, ...blogs];
+      closeImportModal();
+      updateStats();
+      renderTable();
+      showToast(`Successfully imported ${postsToAdd.length} blog posts!`);
+    }
+
+    // Download Sample JSON conforming to PostFormValues
+    function downloadSampleJSON() {
+      const sample = [
+        {
+          title: "Optimizing High Throughput APIs in Distributed Systems",
+          slug: "optimizing-high-throughput-apis",
+          is_manual_slug: false,
+          excerpt: "Tactics for reducing p99 latency, pooling database connections, and managing backpressure.",
+          content: "Comprehensive benchmarks and architecture blueprints for high concurrency services...",
+          featured_image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&auto=format&fit=crop&q=80",
+          publishing: {
+            status: "published",
+            published_at: "2026-03-30T10:00:00Z",
+            author_id: "Dharmendra (Admin)"
+          },
+          seo: {
+            meta_title: "Optimizing High Throughput APIs",
+            meta_description: "Learn how to reduce p99 latency across distributed microservices.",
+            canonical_url: "https://apearix.com/blog/optimizing-high-throughput-apis"
+          }
+        },
+        {
+          title: "Introduction to React 19 Server Actions and Transitions",
+          slug: "react-19-server-actions-guide",
+          is_manual_slug: true,
+          excerpt: "Deep dive into progressive form enhancements, optimistic UI updates, and the useActionState hook.",
+          content: "Server Actions provide a seamless bridge between server boundaries and reactive user states...",
+          featured_image: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=800&auto=format&fit=crop&q=80",
+          publishing: {
+            status: "draft",
+            published_at: null,
+            author_id: "Rahul Sharma"
+          },
+          seo: {
+            meta_title: "React 19 Server Actions Guide",
+            meta_description: "Practical examples of modern React 19 server workflows.",
+            canonical_url: "https://apearix.com/blog/react-19-server-actions-guide"
+          }
+        }
+      ];
+
+      triggerFileDownload(JSON.stringify(sample, null, 2), "apearix_blog_sample_import.json", "application/json");
+      showToast("Sample PostFormValues JSON downloaded");
+    }
+
+    function toggleExportMenu() {
+      const menu = document.getElementById('exportMenu');
+      menu.classList.toggle('hidden');
+    }
+
+    function exportData(type) {
+      document.getElementById('exportMenu').classList.add('hidden');
+      let targetPosts = [];
+
+      if (type === 'all_json') {
+        targetPosts = blogs;
+      } else if (type === 'filtered_json') {
+        targetPosts = getFilteredPosts();
+      } else if (type === 'selected_json') {
+        targetPosts = blogs.filter(b => selectedPostIds.has(b.id));
+      } else if (type === 'csv') {
+        targetPosts = getFilteredPosts();
+        exportCSV(targetPosts);
+        return;
+      }
+
+      if (targetPosts.length === 0) {
+        showToast('No articles available to export');
+        return;
+      }
+
+      // Sanitize schema for PostFormValues format
+      const exportPayload = targetPosts.map(post => ({
+        title: post.title,
+        slug: post.slug,
+        is_manual_slug: post.is_manual_slug,
+        excerpt: post.excerpt || '',
+        content: post.content || '',
+        featured_image: post.featured_image || '',
+        publishing: {
+          status: post.publishing.status,
+          published_at: post.publishing.published_at,
+          author_id: post.publishing.author_id
+        },
+        seo: {
+          meta_title: post.seo?.meta_title || post.title,
+          meta_description: post.seo?.meta_description || post.excerpt || '',
+          canonical_url: post.seo?.canonical_url || `https://apearix.com/blog/${post.slug}`
+        }
+      }));
+
+      const jsonStr = JSON.stringify(exportPayload, null, 2);
+      const fileName = `apearix_blogs_export_${new Date().toISOString().slice(0, 10)}.json`;
+      triggerFileDownload(jsonStr, fileName, 'application/json');
+      showToast(`Exported ${targetPosts.length} posts as JSON`);
+    }
+
+    function exportCSV(posts) {
+      if (posts.length === 0) {
+        showToast('No articles available to export');
+        return;
+      }
+
+      const headers = ["Title", "Slug", "Status", "Author", "Published At", "Excerpt", "Canonical URL"];
+      const rows = posts.map(p => [
+        `"${(p.title || '').replace(/"/g, '""')}"`,
+        `"${p.slug || ''}"`,
+        `"${p.publishing.status || ''}"`,
+        `"${(p.publishing.author_id || '').replace(/"/g, '""')}"`,
+        `"${p.publishing.published_at || ''}"`,
+        `"${(p.excerpt || '').replace(/"/g, '""')}"`,
+        `"${p.seo?.canonical_url || ''}"`
+      ]);
+
+      const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+      triggerFileDownload(csvContent, `apearix_blogs_${new Date().toISOString().slice(0,10)}.csv`, 'text/csv;charset=utf-8;');
+      showToast(`Exported ${posts.length} posts as CSV`);
+    }
+
+    function triggerFileDownload(content, fileName, contentType) {
+      const blob = new Blob([content], { type: contentType });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', fileName);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }
+
+    let toastTimeout = null;
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const msg = document.getElementById('toastMessage');
+      msg.textContent = message;
+      
+      toast.classList.remove('opacity-0', 'translate-y-20');
+      toast.classList.add('opacity-100', 'translate-y-0');
+
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-20');
+        toast.classList.remove('opacity-100', 'translate-y-0');
+      }, 3500);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+</body>
+</html>
