@@ -128,10 +128,13 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
 
   return (
     <div className={`space-y-3 pt-2 ${className}`}>
-      {label && <label className="block text-heading">{label}</label>}
+      {label && <label htmlFor="image-upload" className="block text-heading">
+        {label}
+      </label>}
 
       {/* Hidden File Input */}
       <input
+        id="image-upload"
         ref={fileInputRef}
         type="file"
         accept={acceptedFormats.join(",")}

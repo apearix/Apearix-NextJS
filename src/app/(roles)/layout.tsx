@@ -1,7 +1,7 @@
+import type { ReactNode } from "react";
 import { Navbar } from "@/components/admin/layout/Navbar";
 import { Footer } from "@/components/admin/layout/Footer";
-import { Toaster } from "sonner";
-import type { ReactNode } from "react";
+import { Toaster } from "@/components/admin/common/Toaster";
 
 export default function SiteLayout({
   children,
@@ -15,12 +15,7 @@ export default function SiteLayout({
         {children}
       </main>
       <Footer />
-      <Toaster
-        position="bottom-right"
-        toastOptions={{
-          className: "!bg-white !text-heading !border !border-border !shadow-lg !rounded-xl !text-xs !py-3 !px-4"
-        }}
-      />
+      <Toaster />
     </div>
   );
 }
