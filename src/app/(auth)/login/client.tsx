@@ -53,12 +53,24 @@ export default function AdminLoginClient() {
         return;
       }
 
-      const role = data?.data?.role || data?.role;
-      if (role) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user_data");
-        localStorage.removeItem("user_role");
-        localStorage.removeItem("user_language");
+      const role = data?.data?.role || data?.role || data?.user?.role;
+      const userObj = data?.user || data?.data?.user;
+      const tokenVal = data?.token || data?.data?.token || data?.access_token;
+
+      if (role || tokenVal || userObj || data?.success) {
+        if (userObj) {
+          localStorage.setItem("user_data", JSON.stringify(userObj));
+          document.cookie = `user_data=${encodeURIComponent(JSON.stringify(userObj))}; path=/; max-age=604800`;
+        }
+        if (tokenVal) {
+          localStorage.setItem("token", tokenVal);
+          localStorage.setItem("authToken", tokenVal);
+          document.cookie = `token=${encodeURIComponent(tokenVal)}; path=/; max-age=604800`;
+        }
+        if (role) {
+          localStorage.setItem("user_role", role);
+          document.cookie = `user_role=${encodeURIComponent(role)}; path=/; max-age=604800`;
+        }
         markActivity();
 
         toast.success("Login successful. Redirecting...");

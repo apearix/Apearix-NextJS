@@ -113,7 +113,7 @@ export function Navbar() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   // Profile & Notification states
-  const [notifOpen, setNotifOpen] = useState(false);
+  const [notificationOpen, setNotificationOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [authUser, setAuthUser] = useState<any>(null);
@@ -153,11 +153,10 @@ export function Navbar() {
         <div className="relative" ref={profileRef}>
           <button
             onClick={() => setProfileOpen(!profileOpen)}
-            className={`group flex items-center md:gap-1.5 md:p-1.5 md:pr-2 rounded-full border transition-all outline-none ${
-              profileOpen
+            className={`group flex items-center md:gap-1.5 md:p-1.5 md:pr-2 rounded-full border transition-all outline-none ${profileOpen
                 ? "bg-gray-50 border-gray-300"
                 : "bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50"
-            }`}
+              }`}
           >
             {authUser.avatar ? (
               <img
@@ -171,27 +170,46 @@ export function Navbar() {
               </div>
             )}
 
-            <div className="text-left hidden md:flex flex-col leading-tight">
-              <p className="text-xs font-semibold text-gray-700">
-                {authUser.name?.length > 12
-                  ? authUser.name.split(" ")[0]
-                  : authUser.name}
+            <div className="text-left hidden md:flex flex-col leading-tight max-w-[150px]">
+              <p className="text-xs font-semibold text-gray-700 truncate">
+                {authUser.name}
               </p>
-              <p className="text-[10px] font-medium text-gray-400">
+              <p className="text-[10px] font-medium text-gray-400 capitalize truncate">
                 {authUser.role}
               </p>
             </div>
 
             <ChevronDown
-              className={`hidden md:block w-3 h-3 text-gray-400 transition-transform ${
-                profileOpen ? "rotate-180 text-gray-600" : ""
-              }`}
+              className={`hidden md:block w-3 h-3 text-gray-400 transition-transform ${profileOpen ? "rotate-180 text-gray-600" : ""
+                }`}
             />
           </button>
 
           {profileOpen && (
             <div className="absolute right-0 mt-3 w-72 bg-white/95 backdrop-blur-sm border border-gray-100 rounded-2xl shadow-2xl ring-1 ring-black/5 z-50">
-              <div className="p-4 border-b border-gray-100">
+              <div className="p-4 border-b border-gray-100 space-y-3">
+                <div className="flex items-center gap-3 pb-3 border-b border-gray-100">
+                  {authUser.avatar ? (
+                    <img
+                      src={authUser.avatar}
+                      alt="Avatar"
+                      className="w-10 h-10 rounded-full object-cover ring-2 ring-primary/20 shrink-0"
+                    />
+                  ) : (
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-600 to-violet-600 text-white flex items-center justify-center text-sm font-semibold shrink-0">
+                      {authUser.initials}
+                    </div>
+                  )}
+                  <div className="flex flex-col min-w-0">
+                    <p className="text-sm font-semibold text-gray-900 truncate">
+                      {authUser.name}
+                    </p>
+                    <p className="text-xs text-gray-500 truncate">
+                      {authUser.email || authUser.role}
+                    </p>
+                  </div>
+                </div>
+
                 <div className="flex items-center justify-between bg-primary/10 border border-primary/20 rounded-2xl p-4 shadow-sm">
                   <div className="flex flex-col gap-0.5">
                     <p className="text-xs text-primary font-semibold tracking-wide">
@@ -258,7 +276,7 @@ export function Navbar() {
       </Link>
     );
   };
-  
+
   useEffect(() => {
     setMounted(true);
     if (typeof document === "undefined") return;
@@ -268,8 +286,8 @@ export function Navbar() {
       if (user && typeof user === "object" && Object.keys(user).length > 0) {
         const actualUser = (user as any).user || user;
         const userName =
-          actualUser.name ||
           actualUser.full_name ||
+          actualUser.name ||
           actualUser.displayName ||
           (actualUser.first_name
             ? `${actualUser.first_name} ${actualUser.last_name || ""}`.trim()
@@ -287,6 +305,7 @@ export function Navbar() {
 
         setAuthUser({
           name: userName,
+          email: actualUser.email || "",
           role: userRole,
           avatar: actualUser.avatar || actualUser.profile_picture || actualUser.image,
           initials: userName
@@ -311,7 +330,7 @@ export function Navbar() {
       if (e.key === "Escape") {
         setActiveDropdown(null);
         setProfileOpen(false);
-        setNotifOpen(false);
+        setNotificationOpen(false);
       }
     };
 
@@ -326,7 +345,7 @@ export function Navbar() {
         notifRef.current &&
         !notifRef.current.contains(event.target as Node)
       ) {
-        setNotifOpen(false);
+        setNotificationOpen(false);
       }
     }
 
@@ -356,7 +375,7 @@ export function Navbar() {
 
   const closeDropdowns = () => {
     setProfileOpen(false);
-    setNotifOpen(false);
+    setNotificationOpen(false);
     setMobileMenuOpen(false);
   };
 
@@ -391,19 +410,17 @@ export function Navbar() {
       onFocus={() => setActiveDropdown(id)}
     >
       <button
-        className={`flex items-center gap-1 transition-colors ${
-          isActive(`/${id}`) || activeDropdown === id
+        className={`flex items-center gap-1 transition-colors ${isActive(`/${id}`) || activeDropdown === id
             ? "text-black"
             : "hover:text-black"
-        }`}
+          }`}
         aria-expanded={activeDropdown === id}
         aria-haspopup="menu"
       >
         {title}
         <ChevronDown
-          className={`w-4 h-4 transition-transform duration-300 ${
-            activeDropdown === id ? "rotate-180" : ""
-          }`}
+          className={`w-4 h-4 transition-transform duration-300 ${activeDropdown === id ? "rotate-180" : ""
+            }`}
         />
       </button>
 
@@ -438,11 +455,10 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
           ? "bg-white/80 backdrop-blur-md border-b border-stone-200 shadow-xs py-3"
           : "bg-transparent border-transparent py-4"
-      }`}
+        }`}
     >
       <div className="mx-auto max-w-8xl flex justify-between items-center">
         {/* Logo */}
@@ -470,9 +486,8 @@ export function Navbar() {
             <Link
               key={link.name}
               href={link.href}
-              className={`py-2 transition-colors ${
-                isActive(link.href) ? "text-primary" : "hover:text-black"
-              }`}
+              className={`py-2 transition-colors ${isActive(link.href) ? "text-primary" : "hover:text-black"
+                }`}
             >
               {link.name}
             </Link>
@@ -484,10 +499,9 @@ export function Navbar() {
           {/* Notifications */}
           <div className="relative" ref={notifRef}>
             <button
-              onClick={() => setNotifOpen(!notifOpen)}
-              className={`relative p-2 rounded-full hover:bg-gray-100 transition-colors ${
-                notifOpen ? "bg-indigo-50 text-indigo-600" : "text-gray-600"
-              }`}
+              onClick={() => setNotificationOpen(!notificationOpen)}
+              className={`relative p-2 rounded-full hover:bg-gray-100 transition-colors ${notificationOpen ? "bg-indigo-50 text-indigo-600" : "text-gray-600"
+                }`}
             >
               <Bell className="w-5 h-5" />
               {hasUnread && (
@@ -495,7 +509,7 @@ export function Navbar() {
               )}
             </button>
 
-            {notifOpen && (
+            {notificationOpen && (
               <div className="absolute right-0 mt-3 w-72 sm:w-80 bg-white/95 backdrop-blur-sm border border-gray-100 rounded-2xl shadow-2xl ring-1 ring-black/5 overflow-hidden animate-in fade-in zoom-in-95 slide-in-from-top-2 duration-200 origin-top-right z-50">
                 <div className="px-4 py-3 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
                   <h3 className="text-sm font-semibold text-gray-900">

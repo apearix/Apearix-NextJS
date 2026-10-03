@@ -174,12 +174,17 @@ export async function parseJsonResponse(response: Response) {
 export function extractAuthPayload(data: any) {
   const payload = data?.data ?? data ?? {};
   const tokenPayload = payload?.tokenPayload ?? {};
-  const user = payload?.user ?? payload?.authUser ?? data?.user ?? null;
+  const rawUser = payload?.user ?? payload?.authUser ?? data?.user ?? null;
   const accessToken =
     payload?.access_token ??
     payload?.token ??
     tokenPayload?.access_token ??
     tokenPayload?.token;
+
+  const decoded = decodeJwtPayload(accessToken);
+  const user = rawUser
+    ? { ...(decoded || {}), ...rawUser }
+    : decoded ?? null;
 
   const roleValue =
     user?.role ??

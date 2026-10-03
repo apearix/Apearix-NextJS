@@ -221,7 +221,8 @@ export function getAuthUser(): { user: AuthUser | null; role: string | null } {
   try {
     const rawUserData = getCookie("user_data");
     if (rawUserData) {
-      user = JSON.parse(rawUserData);
+      const parsed = JSON.parse(rawUserData);
+      user = typeof parsed === "string" ? JSON.parse(parsed) : parsed;
     }
   } catch (e) {
     user = null;
@@ -235,7 +236,8 @@ export function getAuthUser(): { user: AuthUser | null; role: string | null } {
         localStorage.getItem("currentUser") ||
         localStorage.getItem("user");
       if (localUserData) {
-        user = JSON.parse(localUserData);
+        const parsed = JSON.parse(localUserData);
+        user = typeof parsed === "string" ? JSON.parse(parsed) : parsed;
       }
     } catch (e) {
       // ignore
