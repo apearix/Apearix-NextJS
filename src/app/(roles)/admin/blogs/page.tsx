@@ -1,101 +1,39 @@
 "use client";
 
-import React, { useState, useMemo, useRef } from "react";
+import React, { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import {
   Plus,
   CheckCircle,
   Archive,
   Trash2,
-  MoreVertical,
   Eye,
-  Edit3,
   Copy,
+  Edit,
   FileMinus,
   FileText,
   ImageIcon,
   X,
+  Loader2,
 } from "lucide-react";
 import { PageHeader } from "@/components/admin/common/PageHeader";
 import { TablePagination } from "@/components/admin/common/TablePagination";
 import { TableToolbar } from "@/components/admin/common/TableToolbar";
 import { BulkImportModal } from "@/components/admin/common/BulkImportModal";
+import { formatDateInTimezone } from "@/lib/timezone";
 import { BlogQuickViewDrawer } from "@/components/admin/drawer/BlogQuickViewDrawer";
 import { ActionMenu } from "@/components/admin/common/ActionMenu";
-
-export type PostStatus = "draft" | "published" | "archived";
-
-export interface PostFormValues {
-  id?: string;
-  title: string;
-  slug: string;
-  is_manual_slug: boolean;
-  excerpt?: string;
-  content: string;
-  featured_image?: string;
-  publishing: {
-    status: PostStatus;
-    published_at?: string | null;
-    author_id: string;
-  };
-  seo: {
-    meta_title?: string;
-    meta_description?: string;
-    canonical_url?: string;
-  };
-  updated_at?: string;
-}
-
-const INITIAL_BLOGS: PostFormValues[] = [
-  {
-    id: "post_1",
-    title: "How AI Agents are Changing Modern Enterprise Software in 2026",
-    slug: "how-ai-agents-are-changing-modern-enterprise",
-    is_manual_slug: false,
-    excerpt:
-      "Autonomous intelligent workflows and multi-agent coordination frameworks are reshaping SaaS architectures and productivity.",
-    content:
-      "Detailed deep dive into autonomous workflows, tool calling, and deterministic runtime guarantees across large engineering teams...",
-    featured_image:
-      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80",
-    publishing: {
-      status: "published",
-      published_at: "2026-03-28T10:30:00Z",
-      author_id: "Dharmendra (Admin)",
-    },
-    seo: {
-      meta_title: "How AI Agents are Changing Modern Enterprise Software",
-      meta_description:
-        "Explore the profound shifts in enterprise computing driven by autonomous multi-agent systems.",
-      canonical_url: "https://apearix.com/blog/how-ai-agents-are-changing-modern-enterprise",
-    },
-    updated_at: "2 hours ago",
-  },
-  {
-    id: "post_2",
-    title: "Building Micro-frontends with Next.js 16 and Module Federation",
-    slug: "building-micro-frontends-nextjs-16",
-    is_manual_slug: true,
-    excerpt:
-      "A practical guide to scalable decoupled client architectures without sacrificing SSR performance and type safety.",
-    content:
-      "Architecting large scale frontends requires team independence. Here is how we decoupled our design system...",
-    featured_image:
-      "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&auto=format&fit=crop&q=80",
-    publishing: {
-      status: "published",
-      published_at: "2026-03-24T14:15:00Z",
-      author_id: "Rahul Sharma",
-    },
-    seo: {
-      meta_title: "Next.js 16 Micro-frontends Tutorial",
-      meta_description:
-        "Learn how to assemble zero-latency micro-frontends with the latest Next.js features.",
-      canonical_url: "https://apearix.com/blog/building-micro-frontends-nextjs-16",
-    },
-    updated_at: "5 hours ago",
-  },
-];
+import { type PostStatus, type PostFormValues } from "@/schemas/blog.schema";
+import {
+  index as fetchBlogsApi,
+  destroy as deleteBlogApi,
+  update as updateBlogApi,
+  store as createBlogApi,
+  bulkUpdateStatus as bulkUpdateStatusApi,
+  bulkDelete as bulkDeleteApi,
+  bulkImport as bulkImportApi,
+  getAuthorName,
+} from "@/lib/services/admin/blogs";
 
 const SAMPLE_BLOG_IMPORT = [
   {
@@ -109,9 +47,9 @@ const SAMPLE_BLOG_IMPORT = [
     featured_image:
       "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&auto=format&fit=crop&q=80",
     publishing: {
-      status: "published",
+      status: "published" as PostStatus,
       published_at: "2026-03-30T10:00:00Z",
-      author_id: "Dharmendra (Admin)",
+      author_id: "1",
     },
     seo: {
       meta_title: "Optimizing High Throughput APIs",
@@ -122,7 +60,8 @@ const SAMPLE_BLOG_IMPORT = [
 ];
 
 export default function AdminBlogsPage() {
-  const [blogs, setBlogs] = useState<PostFormValues[]>(INITIAL_BLOGS);
+  const [blogs, setBlogs] = useState<PostFormValues[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
@@ -132,7 +71,6 @@ export default function AdminBlogsPage() {
   const [pageSize, setPageSize] = useState<number>(10);
 
   // Modals & Panels
-  const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
   const [drawerPost, setDrawerPost] = useState<PostFormValues | null>(null);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
 
@@ -148,6 +86,23 @@ export default function AdminBlogsPage() {
     }, 3500);
   };
 
+  const loadBlogs = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const res = await fetchBlogsApi();
+      setBlogs(res.items);
+    } catch (error) {
+      console.error("Error loading blogs:", error);
+      showToast("Failed to load blog posts from server.");
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadBlogs();
+  }, [loadBlogs]);
+
   const authorsList = useMemo(() => {
     const set = new Set<string>();
     blogs.forEach((b) => {
@@ -159,9 +114,9 @@ export default function AdminBlogsPage() {
   const counts = useMemo(
     () => ({
       all: blogs.length,
-      published: blogs.filter((b) => b.publishing.status === "published").length,
-      draft: blogs.filter((b) => b.publishing.status === "draft").length,
-      archived: blogs.filter((b) => b.publishing.status === "archived").length,
+      published: blogs.filter((b) => b.publishing?.status === "published").length,
+      draft: blogs.filter((b) => b.publishing?.status === "draft").length,
+      archived: blogs.filter((b) => b.publishing?.status === "archived").length,
     }),
     [blogs]
   );
@@ -169,14 +124,15 @@ export default function AdminBlogsPage() {
   const filteredBlogs = useMemo(() => {
     return blogs
       .filter((post) => {
-        if (statusFilter !== "all" && post.publishing.status !== statusFilter) return false;
-        if (authorFilter !== "all" && post.publishing.author_id !== authorFilter) return false;
+        if (statusFilter !== "all" && post.publishing?.status !== statusFilter) return false;
+        if (authorFilter !== "all" && post.publishing?.author_id !== authorFilter) return false;
         if (searchQuery.trim() !== "") {
           const q = searchQuery.toLowerCase().trim();
           const matchTitle = (post.title || "").toLowerCase().includes(q);
           const matchSlug = (post.slug || "").toLowerCase().includes(q);
           const matchExcerpt = (post.excerpt || "").toLowerCase().includes(q);
-          const matchAuthor = (post.publishing.author_id || "").toLowerCase().includes(q);
+          const authorName = getAuthorName(post.publishing?.author_id);
+          const matchAuthor = authorName.toLowerCase().includes(q);
           if (!matchTitle && !matchSlug && !matchExcerpt && !matchAuthor) return false;
         }
         return true;
@@ -184,14 +140,14 @@ export default function AdminBlogsPage() {
       .sort((a, b) => {
         if (sortFilter === "newest") {
           return (
-            new Date(b.publishing.published_at || 0).getTime() -
-            new Date(a.publishing.published_at || 0).getTime()
+            new Date(b.publishing?.published_at || 0).getTime() -
+            new Date(a.publishing?.published_at || 0).getTime()
           );
         }
         if (sortFilter === "oldest") {
           return (
-            new Date(a.publishing.published_at || 0).getTime() -
-            new Date(b.publishing.published_at || 0).getTime()
+            new Date(a.publishing?.published_at || 0).getTime() -
+            new Date(b.publishing?.published_at || 0).getTime()
           );
         }
         if (sortFilter === "title_asc") {
@@ -226,85 +182,92 @@ export default function AdminBlogsPage() {
     setSelectedIds(next);
   };
 
-  const handleBulkStatusChange = (newStatus: PostStatus) => {
+  const handleBulkStatusChange = async (newStatus: PostStatus) => {
     if (selectedIds.size === 0) return;
-    setBlogs((prev) =>
-      prev.map((post) => {
-        if (selectedIds.has(post.id!)) {
-          return {
-            ...post,
-            publishing: {
-              ...post.publishing,
-              status: newStatus,
-              published_at:
-                newStatus === "published" && !post.publishing.published_at
-                  ? new Date().toISOString()
-                  : post.publishing.published_at,
-            },
-            updated_at: "Just now",
-          };
-        }
-        return post;
-      })
-    );
-    showToast(`Updated ${selectedIds.size} posts to ${newStatus}`);
-    setSelectedIds(new Set());
-  };
-
-  const handleBulkDelete = () => {
-    if (selectedIds.size === 0) return;
-    if (window.confirm(`Are you sure you want to delete ${selectedIds.size} selected post(s)?`)) {
-      setBlogs((prev) => prev.filter((p) => !selectedIds.has(p.id!)));
-      showToast(`Deleted ${selectedIds.size} posts`);
+    try {
+      await bulkUpdateStatusApi(Array.from(selectedIds), newStatus);
+      showToast(`Updated ${selectedIds.size} posts to ${newStatus}`);
       setSelectedIds(new Set());
+      await loadBlogs();
+    } catch (error: any) {
+      showToast(error?.message || "Failed to update bulk status");
     }
   };
 
-  const updateSingleStatus = (id: string, status: PostStatus) => {
-    setBlogs((prev) =>
-      prev.map((p) =>
-        p.id === id
-          ? {
-            ...p,
-            publishing: {
-              ...p.publishing,
-              status,
-              published_at:
-                status === "published" && !p.publishing.published_at
-                  ? new Date().toISOString()
-                  : p.publishing.published_at,
-            },
-            updated_at: "Just now",
-          }
-          : p
-      )
-    );
-    setActiveMenuId(null);
-    showToast(`Post status updated to ${status}`);
+  const handleBulkDelete = async () => {
+    if (selectedIds.size === 0) return;
+    if (window.confirm(`Are you sure you want to delete ${selectedIds.size} selected post(s)?`)) {
+      try {
+        await bulkDeleteApi(Array.from(selectedIds));
+        showToast(`Deleted ${selectedIds.size} posts`);
+        setSelectedIds(new Set());
+        await loadBlogs();
+      } catch (error: any) {
+        showToast(error?.message || "Failed to delete selected posts");
+      }
+    }
   };
 
-  const duplicateSinglePost = (id: string) => {
+  const updateSingleStatus = async (id: string, status: PostStatus) => {
     const item = blogs.find((b) => b.id === id);
     if (!item) return;
-    const duplicated: PostFormValues = {
-      ...JSON.parse(JSON.stringify(item)),
-      id: "post_" + Date.now(),
-      title: `${item.title} (Copy)`,
-      slug: `${item.slug}-copy`,
-      publishing: { ...item.publishing, status: "draft", published_at: null },
-      updated_at: "Just now",
-    };
-    setBlogs((prev) => [duplicated, ...prev]);
-    setActiveMenuId(null);
-    showToast(`Duplicated: "${duplicated.title}"`);
+    try {
+      await updateBlogApi(id, {
+        id,
+        title: item.title,
+        slug: item.slug,
+        content: item.content,
+        publishing: {
+          status,
+          author_id: item.publishing?.author_id || "1",
+          published_at:
+            status === "published"
+              ? item.publishing?.published_at || new Date().toISOString()
+              : item.publishing?.published_at || "",
+        },
+      });
+      showToast(`Post status updated to ${status}`);
+      await loadBlogs();
+    } catch (error: any) {
+      showToast(error?.message || "Failed to update status");
+    }
   };
 
-  const deleteSinglePost = (id: string) => {
+  const duplicateSinglePost = async (id: string) => {
+    const item = blogs.find((b) => b.id === id);
+    if (!item) return;
+    try {
+      await createBlogApi({
+        title: `${item.title} (Copy)`,
+        slug: `${item.slug}-copy`,
+        is_manual_slug: true,
+        excerpt: item.excerpt,
+        content: item.content,
+        featured_image: item.featured_image,
+        publishing: {
+          status: "draft",
+          author_id: item.publishing?.author_id || "1",
+          published_at: "",
+        },
+        seo: item.seo,
+      });
+      showToast(`Duplicated: "${item.title}"`);
+      await loadBlogs();
+    } catch (error: any) {
+      showToast(error?.message || "Failed to duplicate post");
+    }
+  };
+
+  const deleteSinglePost = async (id: string) => {
     if (window.confirm("Are you sure you want to delete this blog post?")) {
-      setBlogs((prev) => prev.filter((p) => p.id !== id));
-      setActiveMenuId(null);
-      if (drawerPost?.id === id) setDrawerPost(null);
-      showToast("Blog post deleted");
+      try {
+        await deleteBlogApi(id);
+        if (drawerPost?.id === id) setDrawerPost(null);
+        showToast("Blog post deleted");
+        await loadBlogs();
+      } catch (error: any) {
+        showToast(error?.message || "Failed to delete blog post");
+      }
     }
   };
 
@@ -336,9 +299,9 @@ export default function AdminBlogsPage() {
       const rows = target.map((p) => [
         `"${(p.title || "").replace(/"/g, '""')}"`,
         `"${p.slug || ""}"`,
-        `"${p.publishing.status || ""}"`,
-        `"${(p.publishing.author_id || "").replace(/"/g, '""')}"`,
-        `"${p.publishing.published_at || ""}"`,
+        `"${p.publishing?.status || ""}"`,
+        `"${(getAuthorName(p.publishing?.author_id)).replace(/"/g, '""')}"`,
+        `"${p.publishing?.published_at || ""}"`,
         `"${(p.excerpt || "").replace(/"/g, '""')}"`,
         `"${p.seo?.canonical_url || ""}"`,
       ]);
@@ -371,6 +334,12 @@ export default function AdminBlogsPage() {
       } else {
         errors.push("No slug/title");
       }
+    } else {
+      const cleanSlug = slug.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+      if (cleanSlug !== slug) {
+        warnings.push("Slug sanitized");
+        slug = cleanSlug;
+      }
     }
 
     let status: PostStatus = item.publishing?.status || item.status || "draft";
@@ -379,16 +348,12 @@ export default function AdminBlogsPage() {
       status = "draft";
     }
 
-    const author = item.publishing?.author_id || item.author || "Dharmendra (Admin)";
-    if (!item.publishing?.author_id && !item.author) {
-      warnings.push("Defaulted author to Admin");
-    }
+    const author = String(item.publishing?.author_id || item.author_id || item.author || "1");
 
     const isValid = errors.length === 0;
     const remarks = isValid ? (warnings.length > 0 ? warnings.join(", ") : "Valid") : errors.join(", ");
 
     const postData: PostFormValues = {
-      id: "imported_" + Date.now() + "_" + index,
       title: item.title || "Untitled Article",
       slug: slug || "untitled-article",
       is_manual_slug: item.is_manual_slug !== undefined ? Boolean(item.is_manual_slug) : true,
@@ -400,7 +365,7 @@ export default function AdminBlogsPage() {
       publishing: {
         status,
         published_at:
-          item.publishing?.published_at || (status === "published" ? new Date().toISOString() : null),
+          item.publishing?.published_at || (status === "published" ? new Date().toISOString() : ""),
         author_id: author,
       },
       seo: {
@@ -408,7 +373,6 @@ export default function AdminBlogsPage() {
         meta_description: item.seo?.meta_description || item.excerpt || "",
         canonical_url: item.seo?.canonical_url || `https://apearix.com/blog/${slug}`,
       },
-      updated_at: "Just now",
     };
 
     return {
@@ -416,6 +380,33 @@ export default function AdminBlogsPage() {
       isValid,
       remarks,
     };
+  };
+
+  const handleImportCommit = async (importedPosts: PostFormValues[]) => {
+    try {
+      const payload = importedPosts.map((post) => ({
+        title: post.title,
+        slug: post.slug,
+        is_manual_slug: post.is_manual_slug,
+        excerpt: post.excerpt,
+        content: post.content,
+        featured_image: post.featured_image,
+        publishing: {
+          status: post.publishing.status,
+          author_id: post.publishing.author_id,
+          published_at: post.publishing.published_at || "",
+        },
+        seo: post.seo,
+      }));
+
+      const res = await bulkImportApi(payload);
+      const count = res?.count ?? res?.items?.length ?? importedPosts.length;
+      showToast(`Successfully imported ${count} blog post(s)!`);
+      await loadBlogs();
+    } catch (err: any) {
+      console.error("Bulk import posts error:", err);
+      showToast(err?.message || "Failed to bulk import blog posts");
+    }
   };
 
   return (
@@ -432,6 +423,7 @@ export default function AdminBlogsPage() {
       <PageHeader
         title="Blogs"
         subtitle="Manage, publish, bulk import and organize your Apearix blog articles."
+        badge={`${blogs.length} Articles`}
         btn={
           <Link
             href="/admin/blogs/create"
@@ -476,7 +468,10 @@ export default function AdminBlogsPage() {
             minWidth: "140px",
             options: [
               { label: "Author: All", value: "all" },
-              ...authorsList.map((auth) => ({ label: auth, value: auth })),
+              ...authorsList.map((authId) => ({
+                label: getAuthorName(authId),
+                value: authId,
+              })),
             ],
           },
         ]}
@@ -529,31 +524,31 @@ export default function AdminBlogsPage() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => handleBulkStatusChange("published")}
-              className="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-medium text-white transition-colors flex items-center gap-1.5"
+              className="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-medium text-white transition-colors flex items-center gap-1.5 cursor-pointer"
             >
               <CheckCircle className="w-3.5 h-3.5 text-emerald-400" /> Publish
             </button>
             <button
               onClick={() => handleBulkStatusChange("archived")}
-              className="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-medium text-white transition-colors flex items-center gap-1.5"
+              className="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-medium text-white transition-colors flex items-center gap-1.5 cursor-pointer"
             >
               <Archive className="w-3.5 h-3.5 text-slate-300" /> Archive
             </button>
             <button
               onClick={() => handleExport("selected_json")}
-              className="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-medium text-white transition-colors flex items-center gap-1.5"
+              className="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-medium text-white transition-colors flex items-center gap-1.5 cursor-pointer"
             >
               Export
             </button>
             <button
               onClick={handleBulkDelete}
-              className="px-2.5 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-xs font-medium text-white transition-colors flex items-center gap-1.5"
+              className="px-2.5 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-xs font-medium text-white transition-colors flex items-center gap-1.5 cursor-pointer"
             >
               <Trash2 className="w-3.5 h-3.5" /> Delete
             </button>
             <button
               onClick={() => setSelectedIds(new Set())}
-              className="p-1 rounded-md text-white/70 hover:text-white"
+              className="p-1 rounded-md text-white/70 hover:text-white cursor-pointer"
               title="Clear selection"
             >
               <X className="w-4 h-4" />
@@ -565,209 +560,216 @@ export default function AdminBlogsPage() {
       {/* Main Table Card */}
       <div className="bg-white border border-border rounded-xl shadow-sm overflow-hidden">
         <div className="overflow-x-auto min-h-95">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-surface border-b border-border text-xs text-muted uppercase tracking-wider font-semibold select-none">
-                <th scope="col" className="py-3.5 pl-4 pr-2 w-10">
-                  <input
-                    type="checkbox"
-                    checked={allFilteredSelected}
-                    ref={(el) => {
-                      if (el) el.indeterminate = isIndeterminate;
-                    }}
-                    onChange={(e) => toggleSelectAll(e.target.checked)}
-                    className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 accent-primary cursor-pointer"
-                  />
-                </th>
-                <th scope="col" className="py-3.5 px-3 min-w-[320px]">Article</th>
-                <th scope="col" className="py-3.5 px-3 min-w-40">Author</th>
-                <th scope="col" className="py-3.5 px-3 min-w-32.5">Status</th>
-                <th scope="col" className="py-3.5 px-3 min-w-32.5">Published</th>
-                <th scope="col" className="py-3.5 px-3 min-w-30">Updated</th>
-                <th scope="col" className="py-3.5 pr-4 pl-3 text-right w-16">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border text-sm">
-              {paginatedBlogs.length === 0 ? (
-                <tr>
-                  <td colSpan={7} className="py-16 px-4 text-center">
-                    <div className="w-12 h-12 mx-auto rounded-2xl bg-primary-light text-primary flex items-center justify-center mb-3">
-                      <FileText className="w-6 h-6" />
-                    </div>
-                    <h3 className="text-base font-semibold text-heading">No blog posts found</h3>
-                    <p className="text-xs text-muted max-w-sm mx-auto mt-1 mb-5">
-                      No articles match your current search or status filter. Try resetting them or upload a JSON backup.
-                    </p>
-                    <div className="flex items-center justify-center gap-2">
-                      <button
-                        onClick={() => {
-                          setSearchQuery("");
-                          setStatusFilter("all");
-                          setAuthorFilter("all");
-                        }}
-                        className="px-3 py-1.5 bg-surface hover:bg-surface-alt border border-border text-xs font-semibold text-heading rounded-lg transition-colors"
-                      >
-                        Reset Filters
-                      </button>
-                      <button
-                        onClick={() => setIsImportModalOpen(true)}
-                        className="px-3 py-1.5 bg-primary hover:bg-primary-hover text-white text-xs font-semibold rounded-lg transition-colors"
-                      >
-                        Import JSON
-                      </button>
-                    </div>
-                  </td>
+          {isLoading ? (
+            <div className="py-20 text-center text-muted flex flex-col items-center justify-center gap-2">
+              <Loader2 className="w-6 h-6 animate-spin text-primary" />
+              <span className="text-xs font-medium">Loading blogs...</span>
+            </div>
+          ) : (
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-surface border-b border-border text-xs text-muted uppercase tracking-wider font-semibold select-none">
+                  <th scope="col" className="py-3.5 pl-4 pr-2 w-10">
+                    <input
+                      type="checkbox"
+                      checked={allFilteredSelected}
+                      ref={(el) => {
+                        if (el) el.indeterminate = isIndeterminate;
+                      }}
+                      onChange={(e) => toggleSelectAll(e.target.checked)}
+                      className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 accent-primary cursor-pointer"
+                    />
+                  </th>
+                  <th scope="col" className="py-3.5 px-3 min-w-[320px]">Article</th>
+                  <th scope="col" className="py-3.5 px-3 min-w-40">Author</th>
+                  <th scope="col" className="py-3.5 px-3 min-w-32.5">Status</th>
+                  <th scope="col" className="py-3.5 px-3 min-w-32.5">Published</th>
+                  <th scope="col" className="py-3.5 px-3 min-w-30">Updated</th>
+                  <th scope="col" className="py-3.5 pr-4 pl-3 text-right w-16">Actions</th>
                 </tr>
-              ) : (
-                paginatedBlogs.map((post) => {
-                  const isSelected = selectedIds.has(post.id!);
-                  const status = post.publishing.status;
-                  return (
-                    <tr
-                      key={post.id}
-                      onClick={() => setDrawerPost(post)}
-                      className={`group hover:bg-surface transition-colors cursor-pointer ${isSelected ? "bg-primary-light/40 border-l-4 border-l-primary" : ""
-                        }`}
-                    >
-                      <td className="py-3.5 pl-4 pr-2 w-10" onClick={(e) => e.stopPropagation()}>
-                        <input
-                          type="checkbox"
-                          checked={isSelected}
-                          onChange={(e) => toggleSelectOne(post.id!, e.target.checked)}
-                          className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 accent-primary cursor-pointer"
-                        />
-                      </td>
-                      <td className="py-3.5 px-3">
-                        <div className="flex items-center gap-3">
-                          {post.featured_image ? (
-                            <img
-                              src={post.featured_image}
-                              alt={post.title}
-                              className="w-10 h-10 rounded-lg object-cover border border-border shrink-0 shadow-sm"
-                            />
-                          ) : (
-                            <div className="w-10 h-10 rounded-lg bg-primary-light border border-border-accent flex items-center justify-center text-primary shrink-0">
-                              <ImageIcon className="w-4 h-4" />
-                            </div>
-                          )}
-                          <div className="min-w-0 flex-1">
-                            <div
-                              className="font-semibold text-heading truncate text-sm hover:text-primary transition-colors"
-                              title={post.title}
-                            >
-                              {post.title}
-                            </div>
-                            <div className="text-xs text-muted font-mono truncate mt-0.5 flex items-center gap-1.5">
-                              <span>/blog/{post.slug}</span>
-                              {post.is_manual_slug && (
-                                <span className="text-[10px] text-primary bg-primary-light px-1 py-0.2 rounded font-sans font-medium">
-                                  Custom
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="py-3.5 px-3">
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded-full bg-surface-alt border border-border flex items-center justify-center text-[10px] font-bold text-heading">
-                            {post.publishing.author_id ? post.publishing.author_id.charAt(0) : "A"}
-                          </div>
-                          <span className="text-xs text-heading font-medium truncate">
-                            {post.publishing.author_id}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="py-3.5 px-3">
-                        {status === "published" && (
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Published
-                          </span>
-                        )}
-                        {status === "draft" && (
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
-                            <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Draft
-                          </span>
-                        )}
-                        {status === "archived" && (
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">
-                            <span className="w-1.5 h-1.5 rounded-full bg-slate-400"></span> Archived
-                          </span>
-                        )}
-                      </td>
-                      <td className="py-3.5 px-3 text-xs text-heading">
-                        {post.publishing.published_at
-                          ? new Date(post.publishing.published_at).toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                          })
-                          : "—"}
-                      </td>
-                      <td className="py-3.5 px-3 text-xs text-muted">
-                        {post.updated_at || "Just now"}
-                      </td>
-                      {/* Actions Column */}
-                      <td
-                        className="py-3.5 pr-4 pl-3 text-right"
-                        onClick={(e) => e.stopPropagation()}
+              </thead>
+              <tbody className="divide-y divide-border text-sm">
+                {paginatedBlogs.length === 0 ? (
+                  <tr>
+                    <td colSpan={7} className="py-16 px-4 text-center">
+                      <div className="w-12 h-12 mx-auto rounded-2xl bg-primary-light text-primary flex items-center justify-center mb-3">
+                        <FileText className="w-6 h-6" />
+                      </div>
+                      <h3 className="text-base font-semibold text-heading">No blog posts found</h3>
+                      <p className="text-xs text-muted max-w-sm mx-auto mt-1 mb-5">
+                        No articles match your current search or status filter. Try resetting them or upload a JSON backup.
+                      </p>
+                      <div className="flex items-center justify-center gap-2">
+                        <button
+                          onClick={() => {
+                            setSearchQuery("");
+                            setStatusFilter("all");
+                            setAuthorFilter("all");
+                          }}
+                          className="px-3 py-1.5 bg-surface hover:bg-surface-alt border border-border text-xs font-semibold text-heading rounded-lg transition-colors cursor-pointer"
+                        >
+                          Reset Filters
+                        </button>
+                        <button
+                          onClick={() => setIsImportModalOpen(true)}
+                          className="px-3 py-1.5 bg-primary hover:bg-primary-hover text-white text-xs font-semibold rounded-lg transition-colors cursor-pointer"
+                        >
+                          Import JSON
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ) : (
+                  paginatedBlogs.map((post) => {
+                    const isSelected = selectedIds.has(post.id!);
+                    const status = post.publishing?.status || "draft";
+                    const authorDisplayName = getAuthorName(post.publishing?.author_id);
+                    return (
+                      <tr
+                        key={post.id}
+                        onClick={() => setDrawerPost(post)}
+                        className={`group hover:bg-surface transition-colors cursor-pointer ${isSelected ? "bg-primary-light/40 border-l-4 border-l-primary" : ""
+                          }`}
                       >
-                        <ActionMenu
-                          items={[
-                            {
-                              label: "View Preview",
-                              icon: <Eye className="w-3.5 h-3.5 text-muted" />,
-                              onClick: () => setDrawerPost(post),
-                            },
-                            {
-                              label: "Edit in Form",
-                              icon: <Edit3 className="w-3.5 h-3.5 text-muted" />,
-                              href: `/admin/blogs/edit/${post.id}`,
-                            },
-                            {
-                              label: "Duplicate",
-                              icon: <Copy className="w-3.5 h-3.5 text-muted" />,
-                              onClick: () => duplicateSinglePost(post.id!),
-                              dividerAfter: true,
-                            },
-                            ...(status === "published"
-                              ? [
+                        <td className="py-3.5 pl-4 pr-2 w-10" onClick={(e) => e.stopPropagation()}>
+                          <input
+                            type="checkbox"
+                            checked={isSelected}
+                            onChange={(e) => toggleSelectOne(post.id!, e.target.checked)}
+                            className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 accent-primary cursor-pointer"
+                          />
+                        </td>
+                        <td className="py-3.5 px-3 max-w-[320px]">
+                          <div className="flex items-start gap-3">
+                            {post.featured_image ? (
+                              <img
+                                src={post.featured_image}
+                                alt={post.title}
+                                className="w-10 h-10 rounded-lg object-cover border border-border shrink-0 shadow-sm mt-0.5"
+                              />
+                            ) : (
+                              <div className="w-10 h-10 rounded-lg bg-primary-light border border-border-accent flex items-center justify-center text-primary shrink-0 mt-0.5">
+                                <ImageIcon className="w-4 h-4" />
+                              </div>
+                            )}
+                            <div className="min-w-0 flex-1">
+                              {/* 2 lines max with ellipsis (...) */}
+                              <div
+                                className="font-semibold text-heading text-sm hover:text-primary transition-colors line-clamp-2 leading-snug break-words"
+                                title={post.title}
+                              >
+                                {post.title}
+                              </div>
+                              <div className="text-xs text-muted font-mono truncate mt-1 flex items-center gap-1.5">
+                                <span className="truncate">/blog/{post.slug}</span>
+                                {post.is_manual_slug && (
+                                  <span className="text-[10px] text-primary bg-primary-light px-1 py-0.5 rounded font-sans font-medium shrink-0">
+                                    Custom
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="py-3.5 px-3">
+                          <div className="flex items-center gap-2">
+                            <div className="w-6 h-6 rounded-full bg-surface-alt border border-border flex items-center justify-center text-[10px] font-bold text-heading shrink-0">
+                              {authorDisplayName.charAt(0)}
+                            </div>
+                            <span className="text-xs text-heading font-medium truncate">
+                              {authorDisplayName}
+                            </span>
+                          </div>
+                        </td>
+                        <td className="py-3.5 px-3">
+                          {status === "published" && (
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Published
+                            </span>
+                          )}
+                          {status === "draft" && (
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+                              <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Draft
+                            </span>
+                          )}
+                          {status === "archived" && (
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">
+                              <span className="w-1.5 h-1.5 rounded-full bg-slate-400"></span> Archived
+                            </span>
+                          )}
+                        </td>
+                        <td className="py-3.5 px-3 text-xs text-heading">
+                          {post.publishing?.published_at
+                            ? formatDateInTimezone(post.publishing.published_at, undefined, { month: "short", day: "numeric", year: "numeric" })
+                            : "—"}
+                        </td>
+                        <td className="py-3.5 px-3 text-xs text-muted">
+                          {post.updated_at
+                            ? formatDateInTimezone(post.updated_at, undefined, { month: "short", day: "numeric", year: "numeric" })
+                            : "Just now"}
+                        </td>
+                        {/* Actions Column */}
+                        <td
+                          className="py-3.5 pr-4 pl-3 text-right"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <ActionMenu
+                            items={[
                                 {
-                                  label: "Unpublish",
-                                  icon: <FileMinus className="w-3.5 h-3.5" />,
-                                  variant: "warning" as const,
-                                  onClick: () => updateSingleStatus(post.id!, "draft"),
+                                  label: "Edit",
+                                  icon: <Edit className="w-3.5 h-3.5 text-muted" />,
+                                  onClick: () => window.location.href = `/admin/blogs/${post.id}/edit`,
                                 },
-                              ]
-                              : [
-                                {
-                                  label: "Publish Now",
-                                  icon: <CheckCircle className="w-3.5 h-3.5" />,
-                                  variant: "success" as const,
-                                  onClick: () => updateSingleStatus(post.id!, "published"),
-                                },
-                              ]),
-                            {
-                              label: "Archive",
-                              icon: <Archive className="w-3.5 h-3.5" />,
-                              onClick: () => updateSingleStatus(post.id!, "archived"),
-                              dividerAfter: true,
-                            },
-                            {
-                              label: "Delete",
-                              icon: <Trash2 className="w-3.5 h-3.5" />,
-                              variant: "danger" as const,
-                              onClick: () => deleteSinglePost(post.id!),
-                            },
-                          ]}
-                        />
-                      </td>
-                    </tr>
-                  );
-                })
-              )}
-            </tbody>
-          </table>
+                              {
+                                label: "View Preview",
+                                icon: <Eye className="w-3.5 h-3.5 text-muted" />,
+                                onClick: () => setDrawerPost(post),
+                              },
+                              {
+                                label: "Duplicate",
+                                icon: <Copy className="w-3.5 h-3.5 text-muted" />,
+                                onClick: () => duplicateSinglePost(post.id!),
+                                dividerAfter: true,
+                              },
+                              ...(status === "published"
+                                ? [
+                                  {
+                                    label: "Unpublish",
+                                    icon: <FileMinus className="w-3.5 h-3.5" />,
+                                    variant: "warning" as const,
+                                    onClick: () => updateSingleStatus(post.id!, "draft"),
+                                  },
+                                ]
+                                : [
+                                  {
+                                    label: "Publish Now",
+                                    icon: <CheckCircle className="w-3.5 h-3.5" />,
+                                    variant: "success" as const,
+                                    onClick: () => updateSingleStatus(post.id!, "published"),
+                                  },
+                                ]),
+                              {
+                                label: "Archive",
+                                icon: <Archive className="w-3.5 h-3.5" />,
+                                onClick: () => updateSingleStatus(post.id!, "archived"),
+                                dividerAfter: true,
+                              },
+                              {
+                                label: "Delete",
+                                icon: <Trash2 className="w-3.5 h-3.5" />,
+                                variant: "danger" as const,
+                                onClick: () => deleteSinglePost(post.id!),
+                              },
+                            ]}
+                          />
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
+              </tbody>
+            </table>
+          )}
         </div>
 
         {/* Pagination */}
@@ -820,10 +822,7 @@ export default function AdminBlogsPage() {
             ),
           },
         ]}
-        onCommit={(importedPosts) => {
-          setBlogs((prev) => [...importedPosts, ...prev]);
-          showToast(`Successfully imported ${importedPosts.length} blog post(s)!`);
-        }}
+        onCommit={handleImportCommit}
       />
 
       {/* Quick View Drawer Component */}
@@ -831,3 +830,7 @@ export default function AdminBlogsPage() {
     </main>
   );
 }
+
+
+
+

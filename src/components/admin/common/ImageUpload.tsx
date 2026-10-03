@@ -206,13 +206,13 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
             <LinkIcon className="h-4 w-4" />
           </div>
           <input
-            type="url"
+            type="text"
             value={value}
             onChange={(e) => {
               setInternalError(null);
               onChange(e.target.value);
             }}
-            placeholder="Or paste an image URL (https://...)"
+            placeholder="Or paste an image URL (https://... or /storage/...)"
             className="pl-9 text-xs"
           />
         </div>

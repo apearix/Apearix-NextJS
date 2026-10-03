@@ -4,7 +4,9 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Globe, Edit3 } from "lucide-react";
 import { QuickViewDrawer } from "@/components/admin/common/QuickViewDrawer";
-import type { PostFormValues } from "@/app/(roles)/admin/blogs/page";
+import type { PostFormValues } from "@/schemas/blog.schema";
+import { getAuthorName } from "@/lib/services/admin/blogs";
+import { formatDateTimeInTimezone } from "@/lib/timezone";
 
 export interface BlogQuickViewDrawerProps {
   post: PostFormValues | null;
@@ -80,12 +82,12 @@ export function BlogQuickViewDrawer({ post, onClose }: Readonly<BlogQuickViewDra
             </h2>
             <div className="flex items-center gap-2 mt-2 text-xs text-muted">
               <span className="font-medium text-heading">
-                {activePost.publishing.author_id}
+                {getAuthorName(activePost.publishing.author_id)}
               </span>
               <span>•</span>
               <span>
                 {activePost.publishing.published_at
-                  ? new Date(activePost.publishing.published_at).toLocaleString()
+                  ? formatDateTimeInTimezone(activePost.publishing.published_at)
                   : "Not Published"}
               </span>
             </div>
@@ -108,10 +110,11 @@ export function BlogQuickViewDrawer({ post, onClose }: Readonly<BlogQuickViewDra
             </h4>
             <div
               data-lenis-prevent="true"
-              className="text-xs text-body bg-white p-3 rounded-lg border border-border max-h-44 overflow-y-auto leading-relaxed overscroll-contain"
-            >
-              {activePost.content || "No content."}
-            </div>
+              className="text-xs text-body bg-white px-3 py-2 rounded-lg border border-border max-h-44 overflow-y-auto leading-relaxed overscroll-contain prose prose-xs max-w-none [&_p]:mb-2 [&_h1]:text-sm [&_h1]:font-bold [&_h2]:text-xs [&_h2]:font-bold [&_ul]:list-disc [&_ul]:pl-4 [&_ol]:list-decimal [&_ol]:pl-4"
+              dangerouslySetInnerHTML={{
+                __html: activePost.content?.trim() || "<p>No content.</p>",
+              }}
+            />
           </div>
 
           {/* SEO Metadata */}

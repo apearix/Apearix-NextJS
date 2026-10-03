@@ -1,5 +1,36 @@
 import { z } from "zod";
 
+export const postStatusEnum = z.enum(["draft", "published", "archived"]);
+export type PostStatus = z.infer<typeof postStatusEnum>;
+
+export const publishingSchema = z.object({
+  status: postStatusEnum.default("draft"),
+  author_id: z.string().min(1, "Author select karein"),
+  published_at: z.string().optional().nullable().or(z.literal("")),
+});
+
+export const seoSchema = z.object({
+  meta_title: z
+    .string()
+    .max(60, "Meta title 60 characters se chota hona chahiye")
+    .optional()
+    .or(z.literal("")),
+  meta_description: z
+    .string()
+    .max(160, "Meta description 160 characters se chota hona chahiye")
+    .optional()
+    .or(z.literal("")),
+  canonical_url: z
+    .string()
+    .max(500, "Canonical URL 500 characters se zyada nahi ho sakta")
+    .refine(
+      (val) => !val || /^(https?:\/\/|\/).+/.test(val),
+      "Valid canonical URL dalein"
+    )
+    .optional()
+    .or(z.literal("")),
+});
+
 export const baseBlogSchema = z.object({
   title: z
     .string()
@@ -13,49 +44,42 @@ export const baseBlogSchema = z.object({
       /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
       "Slug sirf lowercase letters, numbers aur hyphens (-) contain kar sakta hai"
     ),
-  excerpt: z.string().optional(),
-  content: z.string().min(1, "Content zaroori hai"),
+  is_manual_slug: z.boolean().default(false),
+  excerpt: z.string().optional().or(z.literal("")),
+  content: z
+    .string()
+    .min(1, "Blog content is required")
+    .max(100000, "Blog content 1,00,000 characters (HTML ke sath) se zyada nahi ho sakta."),
   featured_image: z
     .string()
     .refine(
-      (val) => !val || /^https?:\/\/.+/.test(val),
+      (val) => !val || /^(https?:\/\/|\/).+/.test(val),
       "Valid image URL dalein"
     )
     .optional()
     .or(z.literal("")),
-  status: z.enum(["draft", "published", "archived"]).default("draft"),
-  author_id: z.string().min(1, "Author select karein"),
-  published_at: z.string().optional().nullable().or(z.literal("")),
-  meta_title: z
-    .string()
-    .max(60, "Meta title 60 characters se chota hona chahiye")
-    .optional(),
-  meta_description: z
-    .string()
-    .max(160, "Meta description 160 characters se chota hona chahiye")
-    .optional(),
-  canonical_url: z
-    .string()
-    .max(500, "Canonical URL 500 characters se zyada nahi ho sakta")
-    .refine(
-      (val) => !val || /^https?:\/\/.+/.test(val),
-      "Valid canonical URL dalein"
-    )
-    .optional()
-    .or(z.literal("")),
+  publishing: publishingSchema,
+  seo: seoSchema,
 });
 
-export const createBlogSchema = baseBlogSchema.extend({
-  is_manual_slug: z.boolean().default(false),
-});
+export const createBlogSchema = baseBlogSchema;
 
 export const updateBlogSchema = baseBlogSchema.partial().extend({
   id: z.string().min(1, "Blog ID missing hai"),
 });
 
-// Primary Types
-export type CreateBlogInput = z.infer<typeof createBlogSchema>;
-export type UpdateBlogInput = z.infer<typeof updateBlogSchema>;
+export const bulkImportBlogSchema = z.object({
+  items: z.array(createBlogSchema).min(1, "Kam se kam ek blog post hona chahiye"),
+});
 
-// Aliases (backward compatibility ke liye)
-export const blogFormSchema = createBlogSchema; 
+// Primary Types
+export type CreateBlogInput = z.input<typeof createBlogSchema>;
+export type CreateBlogOutput = z.output<typeof createBlogSchema>;
+export type UpdateBlogInput = z.input<typeof updateBlogSchema>;
+export type BulkImportBlogInput = z.input<typeof bulkImportBlogSchema>;
+
+// Exact Match to your PostFormValues interface
+export type PostFormValues = CreateBlogOutput & {
+  id?: string;
+  updated_at?: string;
+};

@@ -182,8 +182,8 @@ export function authRoleClient(requiredRole: string): boolean {
 // helper to read cookie
 export function getCookie(name: string): string | null {
   if (typeof document === "undefined") return null; // SSR-safe
-  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-  return match ? decodeURIComponent(match[2]) : null;
+  const match = document.cookie.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]+)'));
+  return match ? decodeURIComponent(match[1]) : null;
 }
 
 export function parseCookies(cookieHeader: string | null) {
@@ -215,16 +215,45 @@ export interface AuthUser {
 export function getAuthUser(): { user: AuthUser | null; role: string | null } {
   if (typeof document === "undefined") return { user: null, role: null }; // SSR safety
 
-  const cookieValue = document.cookie;
+  let user: AuthUser | null = null;
+  let role: string | null = null;
 
-  const userDataMatch = cookieValue.split("; ").find(c => c.startsWith("user_data="));
-  const roleMatch = cookieValue.split("; ").find(c => c.startsWith("user_role="));
+  try {
+    const rawUserData = getCookie("user_data");
+    if (rawUserData) {
+      user = JSON.parse(rawUserData);
+    }
+  } catch (e) {
+    user = null;
+  }
 
-  const user = userDataMatch
-    ? JSON.parse(decodeURIComponent(userDataMatch.split("=")[1]))
-    : null;
+  // Fallback to localStorage if cookie user is not found or empty
+  if (!user || (typeof user === "object" && Object.keys(user).length === 0)) {
+    try {
+      const localUserData =
+        localStorage.getItem("user_data") ||
+        localStorage.getItem("currentUser") ||
+        localStorage.getItem("user");
+      if (localUserData) {
+        user = JSON.parse(localUserData);
+      }
+    } catch (e) {
+      // ignore
+    }
+  }
 
-  const role = roleMatch ? capitalizeFirst(decodeURIComponent(roleMatch.split("=")[1])) : null;
+  try {
+    const rawRole =
+      getCookie("user_role") ||
+      (typeof window !== "undefined"
+        ? localStorage.getItem("user_role") || localStorage.getItem("role")
+        : null);
+    if (rawRole) {
+      role = capitalizeFirst(rawRole);
+    }
+  } catch (e) {
+    // ignore
+  }
 
   return { user, role };
 }
@@ -232,7 +261,14 @@ export function getAuthUser(): { user: AuthUser | null; role: string | null } {
 export function getAuthUserFullName(): string {
   const { user } = getAuthUser();
   if (!user) return "Guest";
-  return `${user.full_name}`.trim();
+  const actualUser = (user as any)?.user || user;
+  return (
+    actualUser.full_name ||
+    actualUser.name ||
+    (actualUser.first_name ? `${actualUser.first_name} ${actualUser.last_name || ""}`.trim() : null) ||
+    actualUser.username ||
+    "User"
+  );
 }
 
 export function getAuthUserId(): number | null {

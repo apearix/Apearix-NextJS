@@ -1,26 +1,41 @@
 import { NextResponse } from "next/server";
 import { DEFAULT_TIMEZONE } from "@/lib/timezone";
 
-const ACCESS_COOKIE = "access_token";
-const REFRESH_COOKIE = "refresh_token";
-const LEGACY_ACCESS_COOKIE = "token";
+// Sync with .env.local keys with fallback defaults
+export const ACCESS_COOKIE =
+  process.env.NEXT_PUBLIC_AUTH_TOKEN_KEY || "access_token";
+export const REFRESH_COOKIE =
+  process.env.NEXT_PUBLIC_REFRESH_TOKEN_KEY || "refresh_token";
+export const LEGACY_ACCESS_COOKIE = "token";
 
 type CookieValue = string | number | boolean | null | undefined;
 
 const DEFAULT_SESSION_LIFETIME_MINUTES = 15;
-const REFRESH_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 7;
+const REFRESH_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 7; // 7 days
 
 /**
- * The backend uses 403 as well as 401 when an access token is missing,
- * expired, or no longer valid. Both statuses may therefore be refreshed once;
- * callers must still return the retry response so a real permission denial is
- * not hidden.
+ * Backend base URL resolver using environment variables
  */
-export function isAuthenticationFailure(status: number) {
+export function backendBaseUrl(): string {
+  const rawUrl =
+    process.env.NEXT_PUBLIC_API_URL ||
+    process.env.NEST_PUBLIC_API_URL ||
+    process.env.NEST_API_BASE_URL ||
+    process.env.NEXT_PUBLIC_NEST_API_BASE_URL ||
+    "http://localhost:3001/api";
+
+  // Strips trailing slashes and redundant trailing "/api"
+  return rawUrl.replace(/\/api\/?$/, "").replace(/\/$/, "");
+}
+
+/**
+ * Status checks for expired or unauthenticated tokens
+ */
+export function isAuthenticationFailure(status: number): boolean {
   return status === 401 || status === 403;
 }
 
-export function decodeJwtPayload(token?: string) {
+export function decodeJwtPayload(token?: string): Record<string, any> | null {
   if (!token) return null;
 
   try {
@@ -39,7 +54,7 @@ export function decodeJwtPayload(token?: string) {
   }
 }
 
-export function getAccessTokenRole(token?: string) {
+export function getAccessTokenRole(token?: string): string | undefined {
   const payload = decodeJwtPayload(token);
   const role = Array.isArray(payload?.roles)
     ? payload.roles[0]
@@ -48,18 +63,7 @@ export function getAccessTokenRole(token?: string) {
   return role ? String(role).toLowerCase() : undefined;
 }
 
-export function backendBaseUrl() {
-  const baseUrl =
-    process.env.NEST_API_BASE_URL || process.env.NEXT_PUBLIC_NEST_API_BASE_URL || process.env.NEST_PUBLIC_API_URL || "http://localhost:4000";
-
-  if (!baseUrl) {
-    throw new Error("NEST_API_BASE_URL is not configured.");
-  }
-
-  return baseUrl.replace(/\/api\/?$/, "").replace(/\/$/, "");
-}
-
-export function authCookieOptions(httpOnly = true, maxAge = 60 * 60 * 24 * 7) {
+export function authCookieOptions(httpOnly = true, maxAge = REFRESH_COOKIE_MAX_AGE_SECONDS) {
   return {
     httpOnly,
     path: "/",
@@ -69,7 +73,7 @@ export function authCookieOptions(httpOnly = true, maxAge = 60 * 60 * 24 * 7) {
   };
 }
 
-export function sessionLifetimeMinutes(data?: any) {
+export function sessionLifetimeMinutes(data?: any): number {
   const payload = data?.data ?? data ?? {};
   const tokenPayload = payload?.tokenPayload ?? {};
   const value =
@@ -79,14 +83,14 @@ export function sessionLifetimeMinutes(data?: any) {
     tokenPayload?.sessionLifetimeMinutes ??
     process.env.SESSION_LIFETIME ??
     process.env.NEXT_PUBLIC_SESSION_LIFETIME;
-  const minutes = Number(value);
 
+  const minutes = Number(value);
   return Number.isFinite(minutes) && minutes > 0
     ? minutes
     : DEFAULT_SESSION_LIFETIME_MINUTES;
 }
 
-export function sessionLifetimeSeconds(data?: any) {
+export function sessionLifetimeSeconds(data?: any): number {
   return sessionLifetimeMinutes(data) * 60;
 }
 
@@ -95,7 +99,7 @@ export function setAuthCookie(
   name: string,
   value: CookieValue,
   httpOnly = true,
-  maxAge = 60 * 60 * 24 * 7,
+  maxAge = REFRESH_COOKIE_MAX_AGE_SECONDS,
 ) {
   if (value === null || value === undefined || value === "") return;
 
@@ -107,7 +111,7 @@ export function setAuthCookie(
 }
 
 export function clearAuthCookies(response: NextResponse) {
-  [
+  const cookiesToClear = [
     ACCESS_COOKIE,
     REFRESH_COOKIE,
     LEGACY_ACCESS_COOKIE,
@@ -117,7 +121,10 @@ export function clearAuthCookies(response: NextResponse) {
     "temp_user_id",
     "auth_user_id",
     "user_timezone",
-  ].forEach((name) => {
+    "user_language",
+  ];
+
+  cookiesToClear.forEach((name) => {
     response.cookies.set({
       name,
       value: "",
@@ -130,7 +137,7 @@ export function clearAuthCookies(response: NextResponse) {
   });
 }
 
-export function getCookieValue(request: Request, name: string) {
+export function getCookieValue(request: Request, name: string): string | undefined {
   const cookieHeader = request.headers.get("cookie");
   if (!cookieHeader) return undefined;
 
@@ -142,20 +149,19 @@ export function getCookieValue(request: Request, name: string) {
   return match ? decodeURIComponent(match.slice(name.length + 1)) : undefined;
 }
 
-export function getAccessToken(request: Request) {
+export function getAccessToken(request: Request): string | undefined {
   return (
     getCookieValue(request, ACCESS_COOKIE) ||
     getCookieValue(request, LEGACY_ACCESS_COOKIE)
   );
 }
 
-export function getRefreshToken(request: Request) {
+export function getRefreshToken(request: Request): string | undefined {
   return getCookieValue(request, REFRESH_COOKIE);
 }
 
 export async function parseJsonResponse(response: Response) {
   const text = await response.text();
-
   if (!text) return null;
 
   try {
@@ -174,6 +180,7 @@ export function extractAuthPayload(data: any) {
     payload?.token ??
     tokenPayload?.access_token ??
     tokenPayload?.token;
+
   const roleValue =
     user?.role ??
     user?.roles?.[0]?.name ??
@@ -202,20 +209,26 @@ export function extractAuthPayload(data: any) {
 
 export function setSessionCookies(response: NextResponse, data: any) {
   const auth = extractAuthPayload(data);
-  const sessionMaxAge = REFRESH_COOKIE_MAX_AGE_SECONDS;
+  const accessMaxAge = sessionLifetimeSeconds(data); // 15 mins (Dynamic/Configurable)
+  const refreshMaxAge = REFRESH_COOKIE_MAX_AGE_SECONDS; // 7 days
 
-  setAuthCookie(response, ACCESS_COOKIE, auth.accessToken, true, sessionMaxAge);
-  setAuthCookie(response, REFRESH_COOKIE, auth.refreshToken, true, REFRESH_COOKIE_MAX_AGE_SECONDS);
-  setAuthCookie(response, "user_role", auth.role, false, sessionMaxAge);
-  setAuthCookie(response, "user_language", auth.language, false, sessionMaxAge);
-  setAuthCookie(response, "user_data", JSON.stringify(auth.user || {}), false, sessionMaxAge);
-  setAuthCookie(response, "user_progress", auth.progress, false, sessionMaxAge);
+  // Access token cookie (Short lived)
+  setAuthCookie(response, ACCESS_COOKIE, auth.accessToken, true, accessMaxAge);
+  
+  // Refresh token cookie (Long lived)
+  setAuthCookie(response, REFRESH_COOKIE, auth.refreshToken, true, refreshMaxAge);
+
+  // Client non-sensitive cookies
+  setAuthCookie(response, "user_role", auth.role, false, refreshMaxAge);
+  setAuthCookie(response, "user_language", auth.language, false, refreshMaxAge);
+  setAuthCookie(response, "user_data", JSON.stringify(auth.user || {}), false, refreshMaxAge);
+  setAuthCookie(response, "user_progress", auth.progress, false, refreshMaxAge);
   setAuthCookie(
     response,
     "user_timezone",
     auth.timezone || DEFAULT_TIMEZONE,
     false,
-    sessionMaxAge,
+    refreshMaxAge,
   );
 
   return auth;
@@ -239,11 +252,6 @@ export async function fetchBackendWithFallback(
   return lastResponse!;
 }
 
-/**
- * Refresh a backend session through the same endpoint fallback used by the
- * browser-facing auth routes. Keeping this here prevents server-rendered and
- * proxied requests from drifting into separate refresh flows.
- */
 export async function refreshBackendSession(refreshToken: string) {
   const response = await fetchBackendWithFallback(
     ["/api/v1/admin/auth/refresh", "/admin/auth/refresh", "/refresh-token"],
@@ -267,5 +275,3 @@ export async function refreshBackendSession(refreshToken: string) {
     auth: auth.accessToken ? auth : null,
   };
 }
-
-

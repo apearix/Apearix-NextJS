@@ -119,6 +119,14 @@ html.lenis {
   pointer-events: none;
 }
 
+.tiptap p {
+  margin: 0.2rem 0;
+}
+
+hr {
+  margin: 1rem 0;
+}
+
 /* Next.js dev indicator badge hide karne ke liye */
 nextjs-portal,
 [data-nextjs-toast],

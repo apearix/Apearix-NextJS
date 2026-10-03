@@ -1,4 +1,4 @@
-export const DEFAULT_TIMEZONE = "Asia/Kolkata";
+export const DEFAULT_TIMEZONE = process.env.NEXT_PUBLIC_TIMEZONE || "Asia/Kolkata";
 /** Stable timezone used when client-only preferences are unavailable during SSR. */
 export const CREATED_AT_SSR_TIMEZONE = "UTC";
 export const TIMEZONE_COOKIE = "user_timezone";
@@ -173,3 +173,29 @@ export function getTimezoneOptions(): Array<{ value: string; label: string }> {
     };
   });
 }
+
+export function formatForDateTimeLocalInput(value: DateInput, timezone = getUserTimezone()): string {
+  const date = parseApiDate(value);
+  if (!date) return "";
+
+  // formatToParts to get exact local values
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: normalizeTimezone(timezone),
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).formatToParts(date);
+
+  const part = (type: Intl.DateTimeFormatPartTypes) => parts.find((p) => p.type === type)?.value || "00";
+  
+  // Format: YYYY-MM-DDThh:mm (for <input type="datetime-local">)
+  // Note: en-US uses hour 24 as 24 instead of 00 sometimes, so we fix 24 to 00.
+  let hour = part("hour");
+  if (hour === "24") hour = "00";
+  
+  return `${part("year")}-${part("month")}-${part("day")}T${hour}:${part("minute")}`;
+}
+

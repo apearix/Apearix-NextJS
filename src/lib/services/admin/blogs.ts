@@ -1,186 +1,160 @@
-// import { clientApi } from '@/lib/clientApi'; 
-// import { makeDefaultPagination } from './common';
-// import { serverApi } from '@/lib/serverApi'; 
+import { clientApi } from "@/lib/clientApi";
+import { serverApi } from "@/lib/serverApi";
+import { CreateBlogInput, UpdateBlogInput, PostFormValues, PostStatus } from "@/schemas/blog.schema";
 
-// export interface BlogUser {
-//   id: string;
-//   first_name: string;
-//   last_name: string;
-// }
+export const AUTHOR_MAP: Record<string, string> = {
+  "1": "Dharmendra (Admin)",
+  "2": "Editorial Team",
+};
 
-// export interface Blogs {
-//   id: string; 
-//   secure_id: string;
-//   title: string;
-//   slug: string;
-//   type: number;
-//   category_id: number;
-//   user_id: number;
-//   description: string;
-//   short_description: string;
-//   is_published: boolean;
-//   is_system: number;
-//   views: number;
-//   prefix: string;
-//   created_at: string;
-//   updated_at: string;
-//   meta: {
-//     seo_title: string;
-//     seo_keywords: string;
-//     seo_description: string;
-//   };
-//   user: BlogUser;
-//   status_meta: Statuses;
-//   category: {
-//     id: number;
-//     name: string;
-//   }
-// }
+export function getAuthorName(authorId?: string): string {
+  if (!authorId) return "Dharmendra (Admin)";
+  return AUTHOR_MAP[authorId] || authorId;
+}
 
-// export interface Statuses {
-//   value: number;
-//   name: string;
-//   code: string;
-// }
+export function formatBlogItem(item: any): PostFormValues {
+  return {
+    id: item.id ? String(item.id) : undefined,
+    title: item.title || "",
+    slug: item.slug || "",
+    is_manual_slug: Boolean(item.is_manual_slug),
+    excerpt: item.excerpt || "",
+    content: item.content || "",
+    featured_image: item.featured_image || "",
+    publishing: {
+      status: (item.publishing?.status as PostStatus) || "draft",
+      author_id: item.publishing?.author_id || "1",
+      published_at: item.publishing?.published_at || "",
+    },
+    seo: {
+      meta_title: item.seo?.meta_title || "",
+      meta_description: item.seo?.meta_description || "",
+      canonical_url: item.seo?.canonical_url || "",
+    },
+    updated_at: item.updatedAt ? new Date(item.updatedAt).toISOString() : item.updated_at || "",
+  };
+}
 
-// export interface Role {
-//   id: number;
-//   name: string;
-//   code: string;
-// }
+export async function uploadImage(file: File): Promise<{ url: string; filename: string }> {
+  const formData = new FormData();
+  formData.append("file", file);
 
-// export interface BlogMasters {
-//   statuses: Statuses[];
-//   roles: Role[];
-// }
+  const response = await clientApi<any>("/api/v1/admin/blogs/upload", {
+    method: "POST",
+    body: formData,
+  });
 
-// // TOGGLE THIS: 'api' or 'mock'
-// const flow: 'api' | 'mock' = 'api'; 
+  if (!response?.url) {
+    throw new Error(response?.message || "Failed to upload image");
+  }
 
-// // --- API Functions ---
+  return response;
+}
 
-// export async function index(
-//   params: URLSearchParams
-// ): Promise<{ items: Blogs[]; pagination: any; total: number }> {
+export async function index(
+  params?: URLSearchParams
+): Promise<{ items: PostFormValues[]; total: number }> {
+  try {
+    const queryString = params?.toString() ? `?${params.toString()}` : "";
+    const response = await serverApi<any>(`/api/v1/admin/blogs${queryString}`);
+    const rawItems = Array.isArray(response) ? response : response?.data?.items || response?.items || [];
+    const items = rawItems.map(formatBlogItem);
+    return { items, total: items.length };
+  } catch (error) {
+    console.error("Blogs Index API Error:", error);
+    return { items: [], total: 0 };
+  }
+}
 
-//   const page = Number(params.get('page')) || 1;
-//   const limit = Number(params.get('limit')) || 10;
+export async function show(id: string): Promise<PostFormValues | null> {
+  try {
+    const response = await serverApi<any>(`/api/v1/admin/blogs/${id}`);
+    const item = response?.data || response;
+    return item ? formatBlogItem(item) : null;
+  } catch (error) {
+    console.error("Blog Show API Error:", error);
+    return null;
+  }
+}
 
-//   if (flow === 'mock') {
-//     console.log('--- Using Mock Data Flow ---');
-//     await new Promise(resolve => setTimeout(resolve, 500));
-//     const total = mockBlogs.length;
-//     return {
-//       items: mockBlogs as any,
-//       pagination: makeDefaultPagination(total, page, limit),
-//       total,
-//     };
-//   }
+export async function store(payload: CreateBlogInput) {
+  try {
+    const response = await clientApi<any>("/api/v1/admin/blogs", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    return response;
+  } catch (error: any) {
+    console.error("Blog Store Error:", error);
+    throw error;
+  }
+}
 
-//   try {
-//     const response = await serverApi<any>(
-//       `/admin/blogs?${params.toString()}`
-//     );
+export async function update(id: string, payload: UpdateBlogInput) {
+  try {
+    const response = await clientApi<any>(`/api/v1/admin/blogs/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    return response;
+  } catch (error: any) {
+    console.error("Blog Update Error:", error);
+    throw error;
+  }
+}
 
-//     // Based on your response: data contains items and pagination
-//     const items = response?.data?.items || [];
-//     const apiPagination = response?.data?.pagination;
+export async function destroy(id: string) {
+  try {
+    const response = await clientApi<any>(`/api/v1/admin/blogs/${id}`, {
+      method: "DELETE",
+    });
+    return response;
+  } catch (error: any) {
+    console.error("Blog Delete Error:", error);
+    throw error;
+  }
+}
 
-//     const pagination = apiPagination
-//       ? apiPagination
-//       : makeDefaultPagination(items.length, page, limit);
+export async function bulkUpdateStatus(ids: string[], status: PostStatus) {
+  try {
+    const response = await clientApi<any>("/api/v1/admin/blogs/bulk-status", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ids, status }),
+    });
+    return response;
+  } catch (error: any) {
+    console.error("Bulk Status Error:", error);
+    throw error;
+  }
+}
 
-//     return {
-//       items,
-//       pagination,
-//       total: pagination.total || 0,
-//     };
-//   } catch (error) {
-//     console.error('API Error:', error);
-//     return {
-//       items: [],
-//       pagination: makeDefaultPagination(0, page, limit),
-//       total: 0,
-//     };
-//   }
-// }
+export async function bulkDelete(ids: string[]) {
+  try {
+    const response = await clientApi<any>("/api/v1/admin/blogs/bulk-delete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ids }),
+    });
+    return response;
+  } catch (error: any) {
+    console.error("Bulk Delete Error:", error);
+    throw error;
+  }
+}
 
-// export async function store(payload: any) {
-//   try {
-//     const response = await clientApi<any>(`/admin/blogs`, {
-//       method: "POST",
-//       body: payload,
-//     });
-
-//     if (response.status !== "success") {
-//       throw new Error(response.message || "Failed to create record");
-//     }
-
-//     return response;
-//   } catch (error: any) {
-//     console.error("Blog create error:", error);
-//     throw error;
-//   }
-// }
-
-// export async function show(id: string): Promise<Blogs | null> {
-//   try {
-//     const response = await serverApi<any>(`/admin/blogs/${id}`);
-//     // Extracting .data from the response
-//     return response?.data || null;
-//   } catch (error) {
-//     console.error("Fetch Error:", error);
-//     return null;
-//   }
-// }
-
-// export async function update(id: string, payload: any) {
-//   try {
-//     const response = await clientApi<any>(`/admin/blogs/${id}`, {
-//       method: "PATCH",
-//       body: payload,
-//     });
-//     return response;
-//   } catch (error: any) {
-//     console.error("Blog update error:", error);
-//     throw error;
-//   }
-// }
-
-// export async function destroy(id: string | number) {
-//   try {
-//     const response = await clientApi<any>(`/admin/blogs/${id}`, {
-//       method: "DELETE",
-//     });
-
-//     if (response?.status === "error") {
-//       const trans = await getUiTranslator();
-//       throw new Error(
-//         translateMessage(trans, response?.message, "failed_to_delete_blog"),
-//       );
-//     }
-
-//     return response;
-//   } catch (error: any) {
-//     console.error("Blog delete error:", error);
-//     throw error;
-//   }
-// }
-
-
-// export async function bulkUpdateStatus(payload: {
-//   ids: number[];
-//   is_published: boolean;
-// }) {
-//   try {
-//     const response = await clientApi<any>(`/admin/blogs/bulk-status`, {
-//       method: "POST",
-//        body: JSON.stringify(payload),
-//     });
-
-//     return response;
-//   } catch (error: any) {
-//     console.error("Bulk status update error:", error);
-//     throw error;
-//   }
-// }
+export async function bulkImport(items: CreateBlogInput[]) {
+  try {
+    const response = await clientApi<any>("/api/v1/admin/blogs/bulk-import", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ items }),
+    });
+    return response;
+  } catch (error: any) {
+    console.error("Bulk Import Error:", error);
+    throw error;
+  }
+}

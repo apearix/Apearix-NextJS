@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Sparkles, Info, Calendar, ChevronDown, Plus, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { createBlogSchema, type CreateBlogInput } from "@/schemas/blog.schema";
-import { store, uploadImage } from "@/lib/services/admin/blogs";
+import { update, uploadImage } from "@/lib/services/admin/blogs";
 import { formatForDateTimeLocalInput } from "@/lib/timezone";
 import TiptapEditor from "@/components/common/text-editor/TiptapEditor";
 import SEOSection from "@/components/admin/common/SEOSection";
@@ -32,35 +32,23 @@ function generateSlug(title: string): string {
   return slug;
 }
 
-// Asia/Kolkata timezone support ke sath current datetime-local string
 function getCurrentDateTimeLocal(): string {
-  if (typeof formatForDateTimeLocalInput === "function") {
-    return formatForDateTimeLocalInput(new Date());
-  }
-
-  // Fallback for standard IST YYYY-MM-DDTHH:mm format
   const now = new Date();
-  const options: Intl.DateTimeFormatOptions = {
-    timeZone: process.env.NEXT_PUBLIC_TIMEZONE || "Asia/Kolkata",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  };
-  const parts = new Intl.DateTimeFormat("en-GB", options).formatToParts(now);
-  const find = (type: string) => parts.find((p) => p.type === type)?.value || "00";
-  return `${find("year")}-${find("month")}-${find("day")}T${find("hour")}:${find("minute")}`;
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  const hours = String(now.getHours()).padStart(2, "0");
+  const minutes = String(now.getMinutes()).padStart(2, "0");
+  return formatForDateTimeLocalInput(new Date());
 }
 
-export default function CreateBlogPage() {
+export default function EditBlogClient({ blog }: { blog: any }) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
-  const [autoSlug, setAutoSlug] = useState(true);
-  const [imageUrl, setImageUrl] = useState("");
-  const [currentMinDateTime, setCurrentMinDateTime] = useState<string>(() => getCurrentDateTimeLocal());
+  const [autoSlug, setAutoSlug] = useState(!blog.is_manual_slug);
+  const [imageUrl, setImageUrl] = useState(blog.featured_image || "");
+  const currentMinDateTime = getCurrentDateTimeLocal();
 
   const {
     register,
@@ -72,21 +60,21 @@ export default function CreateBlogPage() {
   } = useForm<CreateBlogInput>({
     resolver: zodResolver(createBlogSchema),
     defaultValues: {
-      title: "",
-      slug: "",
-      is_manual_slug: false,
-      excerpt: "",
-      content: "",
-      featured_image: "",
+      title: blog.title || "",
+      slug: blog.slug || "",
+      is_manual_slug: blog.is_manual_slug || false,
+      excerpt: blog.excerpt || "",
+      content: blog.content || "",
+      featured_image: blog.featured_image || "",
       publishing: {
-        status: "draft",
-        author_id: "1",
-        published_at: currentMinDateTime,
+        status: blog.publishing?.status || "draft",
+        author_id: blog.publishing?.author_id || "1",
+        published_at: blog.publishing?.published_at ? formatForDateTimeLocalInput(blog.publishing.published_at) : "",
       },
       seo: {
-        meta_title: "",
-        meta_description: "",
-        canonical_url: "",
+        meta_title: blog.seo?.meta_title || "",
+        meta_description: blog.seo?.meta_description || "",
+        canonical_url: blog.seo?.canonical_url || "",
       },
     },
   });
@@ -95,18 +83,8 @@ export default function CreateBlogPage() {
   const watchedSlug = watch("slug");
   const watchedMetaTitle = watch("seo.meta_title");
   const watchedMetaDesc = watch("seo.meta_description");
-  const watchedPublishedAt = watch("publishing.published_at");
 
   const appBaseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-
-  // Har 30 second me minimum datetime update hoti rahegi taaki page khula rehne par bhi past time lock rahe
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const nowTime = getCurrentDateTimeLocal();
-      setCurrentMinDateTime(nowTime);
-    }, 30000);
-    return () => clearInterval(interval);
-  }, []);
 
   useEffect(() => {
     if (autoSlug && watchedTitle) {
@@ -135,26 +113,17 @@ export default function CreateBlogPage() {
   };
 
   const onSubmit: SubmitHandler<CreateBlogInput> = async (data) => {
-    if (isSubmitting || isUploadingImage) return;
-
-    // Strict validation: Agar user ne kisi tarah past date select kar li ho
-    const freshCurrentMin = getCurrentDateTimeLocal();
-    if (data.publishing?.published_at && data.publishing.published_at < freshCurrentMin) {
-      toast.error("Past time allow nahi hai. Kripya current ya future time select karein.");
-      setValue("publishing.published_at", freshCurrentMin, { shouldValidate: true });
-      return;
-    }
-
     try {
       setIsSubmitting(true);
-      await store(data);
-      toast.success("Blog post successfully created!");
+      await update(blog.id, { ...data, id: blog.id });
+      toast.success("Blog post successfully updated!");
       setTimeout(() => {
         router.push("/admin/blogs");
       }, 1000);
     } catch (error: any) {
       console.error("Submission error:", error);
       toast.error(error?.message || "Blog post save karne me error aaya.");
+    } finally {
       setIsSubmitting(false);
     }
   };
@@ -170,56 +139,20 @@ export default function CreateBlogPage() {
     toast.error(`Validation Error: ${firstMsg}`);
   };
 
-  // Global Enter Key Handler (Page par mouse kahi bhi ho)
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key !== "Enter") return;
-
-      const activeEl = document.activeElement as HTMLElement | null;
-
-      // Textarea ya rich-text editor me Enter dabane par submit na karein
-      if (
-        activeEl?.tagName === "TEXTAREA" ||
-        activeEl?.isContentEditable ||
-        activeEl?.closest(".ProseMirror") ||
-        e.shiftKey
-      ) {
-        return;
-      }
-
-      if (isSubmitting || isUploadingImage) return;
-
-      e.preventDefault();
-      handleSubmit(onSubmit, onInvalid)();
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [handleSubmit, onSubmit, onInvalid, isSubmitting, isUploadingImage]);
-
   return (
     <main>
       <PageHeader
-        title="Create Blogs"
-        subtitle="Draft, optimize SEO, and publish a new article on Apearix."
+        title="Edit Blog"
+        subtitle="Modify your existing blog post details."
         btn={
           <button
             type="submit"
             form="blog-create-form"
             disabled={isSubmitting || isUploadingImage}
-            className="inline-flex items-center gap-2 px-4 py-2.5 bg-primary hover:bg-primary-hover disabled:opacity-60 disabled:cursor-not-allowed disabled:pointer-events-none text-white text-sm font-semibold rounded-lg shadow-sm shadow-primary/20 transition-all active:scale-[0.98]"
+            className="inline-flex items-center gap-2 px-4 py-2.5 bg-primary hover:bg-primary-hover text-white text-sm font-semibold rounded-lg shadow-sm shadow-primary/20 transition-all active:scale-[0.98]"
           >
-            {isSubmitting ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                <span>Creating...</span>
-              </>
-            ) : (
-              <>
-                <Plus className="w-4 h-4" />
-                <span>Create Blog</span>
-              </>
-            )}
+            <Plus className="w-4 h-4" />
+            {isSubmitting ? "Updating..." : "Update Blog"}
           </button>
         }
       />
@@ -341,7 +274,6 @@ export default function CreateBlogPage() {
             errors={errors}
             baseDomain={appBaseUrl}
             urlPrefix="blog/"
-            fieldNamePrefix="seo."
             watchedValues={{
               meta_title: watchedMetaTitle,
               meta_description: watchedMetaDesc,
@@ -374,7 +306,6 @@ export default function CreateBlogPage() {
               </div>
             </div>
 
-            {/* Publish Date & Time */}
             <div>
               <label htmlFor="published_at" className="block">
                 Publish Date & Time
@@ -384,19 +315,9 @@ export default function CreateBlogPage() {
                 id="published_at"
                 min={currentMinDateTime}
                 {...register("publishing.published_at")}
-                onChange={(e) => {
-                  const val = e.target.value;
-                  const nowLocal = getCurrentDateTimeLocal();
-                  if (val && val < nowLocal) {
-                    toast.error("Past time select nahi kar sakte. Current time set kar diya gaya hai.");
-                    setValue("publishing.published_at", nowLocal, { shouldValidate: true });
-                    return;
-                  }
-                  register("publishing.published_at").onChange(e);
-                }}
               />
               <p className="mt-1 text-[11px] text-muted">
-                Sirf current ya future time select kar sakte hain (Timezone: {process.env.NEXT_PUBLIC_TIMEZONE || "Asia/Kolkata"}).
+                Publishing ke liye current ya future timestamp set rakhein.
               </p>
             </div>
 
@@ -439,3 +360,6 @@ export default function CreateBlogPage() {
     </main>
   );
 }
+
+
+

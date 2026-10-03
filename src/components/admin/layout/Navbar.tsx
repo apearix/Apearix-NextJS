@@ -265,24 +265,37 @@ export function Navbar() {
 
     try {
       const { user, role } = getAuthUser();
-      if (user) {
+      if (user && typeof user === "object" && Object.keys(user).length > 0) {
+        const actualUser = (user as any).user || user;
         const userName =
-          user.name ||
-          user.full_name ||
-          (user.first_name
-            ? `${user.first_name} ${user.last_name}`.trim()
-            : "Apearix");
+          actualUser.name ||
+          actualUser.full_name ||
+          actualUser.displayName ||
+          (actualUser.first_name
+            ? `${actualUser.first_name} ${actualUser.last_name || ""}`.trim()
+            : null) ||
+          actualUser.username ||
+          (actualUser.email ? actualUser.email.split("@")[0] : null) ||
+          "User";
+
+        const userRole =
+          role ||
+          actualUser.role ||
+          (actualUser.roles?.[0]?.name
+            ? actualUser.roles[0].name.charAt(0).toUpperCase() + actualUser.roles[0].name.slice(1)
+            : "User");
 
         setAuthUser({
           name: userName,
-          role: role,
-          avatar: user.avatar,
+          role: userRole,
+          avatar: actualUser.avatar || actualUser.profile_picture || actualUser.image,
           initials: userName
             ?.split(" ")
+            .filter(Boolean)
             .map((n: string) => n[0])
             .join("")
-            .toUpperCase(),
-          credits: user.credits ?? "240.00",
+            .toUpperCase() || "U",
+          credits: actualUser.credits ?? actualUser.wallet_balance ?? "240.00",
         });
       } else {
         setAuthUser(null);
@@ -327,9 +340,18 @@ export function Navbar() {
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
+    localStorage.removeItem("token");
     localStorage.removeItem("currentUser");
+    localStorage.removeItem("user_data");
     localStorage.removeItem("userRole");
-    window.location.href = "/";
+    localStorage.removeItem("user_role");
+
+    document.cookie = "user_data=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    document.cookie = "user_role=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    document.cookie = "access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+
+    window.location.href = "/login";
   };
 
   const closeDropdowns = () => {

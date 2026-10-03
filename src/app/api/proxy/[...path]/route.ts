@@ -28,7 +28,8 @@ async function handleRequest(req: NextRequest, context: any) {
       headers,
       body,
       redirect: "manual",
-    });
+      duplex: "half",
+    } as any);
 
     const responseHeaders = new Headers(response.headers);
     responseHeaders.delete("content-encoding");
