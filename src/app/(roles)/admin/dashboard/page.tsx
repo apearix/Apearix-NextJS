@@ -75,7 +75,7 @@ export default async function AdminDashboardPage() {
   });
 
   return (
-    <div className="p-6 lg:p-8 font-geist bg-surface-alt min-h-screen">
+    <div className="p-6 lg:p-8 font-geist  min-h-screen">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>

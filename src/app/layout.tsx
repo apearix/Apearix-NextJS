@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { SmoothScroll } from "@/components/common/SmoothScroll"; 
+import { SmoothScroll } from "@/components/common/SmoothScroll";
 import { ApearixPreloader } from '@/components/common/ApearixPreloader';
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -12,6 +13,13 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
+  variable: "--font-plus-jakarta-sans",
   display: "swap",
 });
 
@@ -165,27 +173,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth`} >
+    <html lang="en" className={`${plusJakartaSans.variable} ${geistSans.variable} ${geistMono.variable} font-sans h-full antialiased scroll-smooth`}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <script
-          type="application/ld+json"
+        <script type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization) }}
         />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebsite) }}
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebsite) }}
         />
       </head>
 
-      <body className="min-h-full flex flex-col font-sans selection:bg-[#6D28F5] selection:text-white relative bg-white text-[#4B5563]">
+      <body className="min-h-full flex flex-col font-sans selection:bg-[#6D28F5] selection:text-white relative bg-white text-body">
 
         <ApearixPreloader />
 
         <SmoothScroll>
           {children}
-        </SmoothScroll> 
+        </SmoothScroll>
       </body>
     </html>
   );

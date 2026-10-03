@@ -1,26 +1,21 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  ArrowLeft,
-  Image as ImageIcon,
   Sparkles,
-  Save,
-  Send,
-  Trash2,
-  Globe,
   Info,
   Calendar,
-  ChevronDown,
+  ChevronDown, 
+  Plus,
 } from "lucide-react";
-import Link from "next/link";
 import { blogFormSchema, BlogFormValues } from "../blog";
 import TiptapEditor from "@/components/common/text-editor/TiptapEditor";
 import SEOSection from "@/components/admin/common/SEOSection";
 import { SectionCard } from "@/components/admin/common/SectionCard";
 import { ImageUpload } from "@/components/admin/common/ImageUpload";
+import { PageHeader } from "@/components/admin/common/PageHeader";
 
 function generateSlug(title: string): string {
   return title
@@ -91,7 +86,18 @@ export default function CreateBlogPage() {
   };
 
   return (
-    <main className="sm:p-6">
+    <main>
+      <PageHeader
+        title="Create Blogs"
+        subtitle="Draft, optimize SEO, and publish a new article on Apearix."
+        btn={
+          <button className="inline-flex items-center gap-2 px-4 py-2.5 bg-primary hover:bg-primary-hover text-white text-sm font-semibold rounded-lg shadow-sm shadow-primary/20 transition-all active:scale-[0.98]">
+         <Plus className="w-4 h-4" />
+          Create Blog
+        </button>
+        }
+      />
+
       <form id="blog-create-form" onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 gap-6 lg:grid-cols-12">
 
         {/* Left Column: Core Content (8 Cols) */}

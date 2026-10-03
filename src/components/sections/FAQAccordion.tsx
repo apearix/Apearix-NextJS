@@ -17,7 +17,7 @@ export function FAQAccordion({ faqs }: FAQAccordionProps) {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
 
   return (
-    <div className="mx-auto max-w-4xl space-y-3.5">
+    <div className="mx-auto max-w-4xl space-y-3.5 px-4 sm:px-6 xl:px-0">
       {faqs.map((faq, idx) => {
         const isOpen = openIdx === idx;
         return (

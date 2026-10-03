@@ -9,10 +9,12 @@ export default function SiteLayout({
   children: ReactNode;
 }>) {
   return (
-    <div className="pt-18.5">
+    <div className="roles-font bg-surface min-h-screen flex flex-col">
       <Navbar />
-      {children}
-      <Footer /> 
+      <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8 pt-20">
+        {children}
+      </main>
+      <Footer />
       <Toaster
         position="bottom-right"
         toastOptions={{

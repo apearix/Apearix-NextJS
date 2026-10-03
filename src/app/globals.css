@@ -25,6 +25,37 @@
 
 }
 
+@layer base {
+  .roles-font {
+    font-family: var(--font-plus-jakarta-sans), ui-sans-serif, system-ui, sans-serif;
+  }
+
+  a,
+  button {
+    @apply cursor-pointer;
+  }
+
+  label {
+    @apply text-sm font-medium mb-1.5;
+  }
+
+  input,
+  select,
+  textarea {
+    @apply w-full px-3 py-2.5 rounded-lg border border-border bg-background text-sm text-heading placeholder:text-muted focus:outline-none focus:border-primary transition-all;
+  }
+
+  .max-w-8xl {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
 :root {
   --background: #FFFFFF;
   --foreground: #111827;
@@ -33,7 +64,7 @@
 body {
   background: var(--background);
   color: #4B5563;
-  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-geist-sans), var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -57,27 +88,6 @@ body {
   background: #D1D5DB;
 }
 
-@layer base {
-  label {
-    @apply text-sm font-medium mb-1.5;
-  }
-
-  input,
-  select,
-  textarea {
-    @apply w-full px-3 py-2.5 rounded-lg border border-border bg-background text-sm text-heading placeholder:text-muted focus:outline-none focus:border-primary transition-all;
-  }
-
-  .max-w-8xl {
-    @apply px-4 sm:px-6 lg:px-8;
-  }
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
 
 /* Lenis smooth scroll */
 html.lenis {
@@ -107,4 +117,11 @@ html.lenis {
   float: left;
   height: 0;
   pointer-events: none;
+}
+
+/* Next.js dev indicator badge hide karne ke liye */
+nextjs-portal,
+[data-nextjs-toast],
+div[data-nextjs-dev-indicator] {
+  display: none !important;
 }
