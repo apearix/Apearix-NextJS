@@ -1,88 +1,124 @@
 import { clientApi } from "@/lib/clientApi";
-import { makeDefaultPagination } from "./common";
 import { serverApi } from "@/lib/serverApi";
+import { CreateFaqInput, UpdateFaqInput, FaqFormValues } from "@/schemas/faq.schema";
 
-export interface FAQ {
-  id: string;
-  category_id: number;
-  title: string;
-  slug: string;
-  description: string;
-  is_published: number;
-  is_permanent: number;
-  role_id: number;
-  created_at: string;
-  updated_at: string;
-  secure_id: string;
-  prefix: string;
-  category?: { name: string };
+export function formatFaqItem(item: any): FaqFormValues {
+  return {
+    id: item.id ? String(item.id) : undefined,
+    question: item.question || item.title || "",
+    answer: item.answer || item.description || "",
+    category: item.category || "general",
+    order: item.order !== undefined ? Number(item.order) : 0,
+    is_active: item.is_active !== undefined ? Boolean(item.is_active) : (item.is_published !== undefined ? Boolean(item.is_published) : true),
+    created_at: item.createdAt ? new Date(item.createdAt).toISOString() : item.created_at || "",
+    updated_at: item.updatedAt ? new Date(item.updatedAt).toISOString() : item.updated_at || "",
+  };
 }
-
-const flow: "api" | "mock" = "api";
 
 export async function index(
-  params: URLSearchParams
-): Promise<{ items: FAQ[]; pagination: any; total: number }> {
-  const page = Number(params.get("page")) || 1;
-  const limit = Number(params.get("limit")) || 10;
-
+  params?: URLSearchParams
+): Promise<{ items: FaqFormValues[]; total: number }> {
   try {
-    const response = await serverApi<any>(`/admin/faqs?${params.toString()}`);
-    const items = response?.data?.items || [];
-    const apiPagination = response?.data?.pagination;
-    const pagination = apiPagination ? apiPagination : makeDefaultPagination(items.length, page, limit);
-
-    return { items, pagination, total: pagination.total };
+    const queryString = params?.toString() ? `?${params.toString()}` : "";
+    const response = await serverApi<any>(`/api/v1/admin/faqs${queryString}`);
+    const rawItems = Array.isArray(response) ? response : response?.data?.items || response?.data || response?.items || [];
+    const items = rawItems.map(formatFaqItem);
+    return { items, total: items.length };
   } catch (error) {
-    console.error("FAQ API Error:", error);
-    return { items: [], pagination: makeDefaultPagination(0, page, limit), total: 0 };
+    console.error("FAQs Index API Error:", error);
+    return { items: [], total: 0 };
   }
 }
 
-export async function store(payload: Partial<FAQ>) {
+export async function show(id: string): Promise<FaqFormValues | null> {
   try {
-    const response = await clientApi<any>(`/admin/faqs`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-
-    if (response.status !== "success" && response.statusCode !== 201) {
-      throw new Error(response.message || "Failed to create record");
-    }
-    return response;
-  } catch (error: any) {
-    throw error;
-  }
-}
-
-export async function show(id: string): Promise<FAQ | null> {
-  try {
-    const response = await serverApi<any>(`/admin/faqs/${id}`);
-    return response?.data || null;
+    const response = await serverApi<any>(`/api/v1/admin/faqs/${id}`);
+    const item = response?.data || response;
+    return item ? formatFaqItem(item) : null;
   } catch (error) {
+    console.error("FAQ Show API Error:", error);
     return null;
   }
 }
 
-export async function update(id: string, payload: Partial<FAQ>) {
+export async function store(payload: CreateFaqInput) {
   try {
-    return await clientApi<any>(`/admin/faqs/${id}`, {
+    const response = await clientApi<any>("/api/v1/admin/faqs", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    return response;
+  } catch (error: any) {
+    console.error("FAQ Store Error:", error);
+    throw error;
+  }
+}
+
+export async function update(id: string, payload: UpdateFaqInput) {
+  try {
+    const response = await clientApi<any>(`/api/v1/admin/faqs/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
+    return response;
   } catch (error: any) {
+    console.error("FAQ Update Error:", error);
     throw error;
   }
 }
 
 export async function destroy(id: string) {
   try {
-    return await clientApi<any>(`/admin/faqs/${id}`, {
+    const response = await clientApi<any>(`/api/v1/admin/faqs/${id}`, {
       method: "DELETE",
     });
+    return response;
   } catch (error: any) {
+    console.error("FAQ Delete Error:", error);
+    throw error;
+  }
+}
+
+export async function bulkUpdateStatus(ids: string[], is_active: boolean) {
+  try {
+    const response = await clientApi<any>("/api/v1/admin/faqs/bulk-status", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ids, is_active }),
+    });
+    return response;
+  } catch (error: any) {
+    console.error("Bulk Status Error:", error);
+    throw error;
+  }
+}
+
+export async function bulkDelete(ids: string[]) {
+  try {
+    const response = await clientApi<any>("/api/v1/admin/faqs/bulk-delete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ids }),
+    });
+    return response;
+  } catch (error: any) {
+    console.error("Bulk Delete Error:", error);
+    throw error;
+  }
+}
+
+export async function bulkImport(items: CreateFaqInput[]) {
+  try {
+    const response = await clientApi<any>("/api/v1/admin/faqs/bulk-import", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ items }),
+    });
+    return response;
+  } catch (error: any) {
+    console.error("Bulk Import Error:", error);
     throw error;
   }
 }

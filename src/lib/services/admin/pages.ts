@@ -1,105 +1,127 @@
 import { clientApi } from "@/lib/clientApi";
-import { makeDefaultPagination } from "./common";
 import { serverApi } from "@/lib/serverApi";
+import { CreatePageInput, UpdatePageInput, PageFormValues, PageStatus } from "@/schemas/page.schema";
 
-export interface LegalPages {
-  status_meta: any;
-  id: string;
-  title: string;
-  slug: string;
-  content: string;
-  status: string | number;
-  meta: string;
-
-  is_permanent: number;
-  prefix: string;
-  secure_id: string;
-  created_at: string;
-  updated_at: string;
-  media: any[];
+export function formatPageItem(item: any): PageFormValues {
+  return {
+    id: item.id ? String(item.id) : undefined,
+    title: item.title || "",
+    slug: item.slug || "",
+    is_manual_slug: Boolean(item.is_manual_slug),
+    content: item.content || "",
+    status: (item.status as PageStatus) || "published",
+    meta_title: item.meta_title || "",
+    meta_description: item.meta_description || "",
+    published_at: item.published_at ? new Date(item.published_at).toISOString() : "",
+    created_at: item.createdAt ? new Date(item.createdAt).toISOString() : item.created_at || "",
+    updated_at: item.updatedAt ? new Date(item.updatedAt).toISOString() : item.updated_at || "",
+  };
 }
-
-export const parseLegalPageMeta = (metaStr: string) => {
-  try {
-    return JSON.parse(metaStr || "{}");
-  } catch {
-    return {};
-  }
-};
-
-const flow: "api" | "mock" = "api";
 
 export async function index(
-  params: URLSearchParams
-): Promise<{ items: LegalPages[]; pagination: any; total: number }> {
-  const page = Number(params.get("page")) || 1;
-  const limit = Number(params.get("limit")) || 10;
-
+  params?: URLSearchParams
+): Promise<{ items: PageFormValues[]; total: number }> {
   try {
-    const response = await serverApi<any>(`/admin/legal-pages?${params.toString()}`);
-    const items = response?.data?.items || [];
-    const apiPagination = response?.data?.pagination;
-    const pagination = apiPagination ? apiPagination : makeDefaultPagination(items.length, page, limit);
-
-    return { items, pagination, total: pagination.total };
+    const queryString = params?.toString() ? `?${params.toString()}` : "";
+    const response = await serverApi<any>(`/api/v1/admin/pages${queryString}`);
+    const rawItems = Array.isArray(response) ? response : response?.data?.items || response?.data || response?.items || [];
+    const items = rawItems.map(formatPageItem);
+    return { items, total: items.length };
   } catch (error) {
-    console.error("LegalPages API Error:", error);
-    return { items: [], pagination: makeDefaultPagination(0, page, limit), total: 0 };
+    console.error("Pages Index API Error:", error);
+    return { items: [], total: 0 };
   }
 }
 
-export async function store(payload: FormData) {
+export async function show(id: string): Promise<PageFormValues | null> {
   try {
-    const response = await clientApi<any>(`/admin/legal-pages`, {
-      method: "POST",
-      body: payload, // Pattern: Reference uses body, for files we send FormData
-    });
-    if (response.status !== "success" && response.statusCode !== 201) {
-      throw new Error(response.message || "Failed to create record");
-    }
-    return response;
-  } catch (error: any) {
-    throw error;
-  }
-}
-
-export async function show(id: string): Promise<LegalPages | null> {
-  try {
-    const response = await serverApi<any>(`/admin/legal-pages/${id}`);
-    return response?.data || null;
+    const response = await serverApi<any>(`/api/v1/admin/pages/${id}`);
+    const item = response?.data || response;
+    return item ? formatPageItem(item) : null;
   } catch (error) {
+    console.error("Page Show API Error:", error);
     return null;
   }
 }
 
-export async function update(id: string, payload: FormData) {
+export async function store(payload: CreatePageInput) {
   try {
-    return await clientApi<any>(`/admin/legal-pages/${id}`, {
-      method: "PATCH",
-      body: payload,
+    const response = await clientApi<any>("/api/v1/admin/pages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
     });
+    return response;
   } catch (error: any) {
+    console.error("Page Store Error:", error);
+    throw error;
+  }
+}
+
+export async function update(id: string, payload: UpdatePageInput) {
+  try {
+    const response = await clientApi<any>(`/api/v1/admin/pages/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    return response;
+  } catch (error: any) {
+    console.error("Page Update Error:", error);
     throw error;
   }
 }
 
 export async function destroy(id: string) {
   try {
-    return await clientApi<any>(`/admin/legal-pages/${id}`, {
+    const response = await clientApi<any>(`/api/v1/admin/pages/${id}`, {
       method: "DELETE",
     });
+    return response;
   } catch (error: any) {
+    console.error("Page Delete Error:", error);
     throw error;
   }
 }
 
-export async function bulkUpdateStatus(ids: string[], status: number) {
+export async function bulkUpdateStatus(ids: string[], status: PageStatus) {
   try {
-    return await clientApi<any>(`/admin/legal-pages/bulk-status`, {
+    const response = await clientApi<any>("/api/v1/admin/pages/bulk-status", {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ids, status }),
     });
+    return response;
   } catch (error: any) {
+    console.error("Bulk Status Error:", error);
+    throw error;
+  }
+}
+
+export async function bulkDelete(ids: string[]) {
+  try {
+    const response = await clientApi<any>("/api/v1/admin/pages/bulk-delete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ids }),
+    });
+    return response;
+  } catch (error: any) {
+    console.error("Bulk Delete Error:", error);
+    throw error;
+  }
+}
+
+export async function bulkImport(items: CreatePageInput[]) {
+  try {
+    const response = await clientApi<any>("/api/v1/admin/pages/bulk-import", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ items }),
+    });
+    return response;
+  } catch (error: any) {
+    console.error("Bulk Import Error:", error);
     throw error;
   }
 }

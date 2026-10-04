@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { createUserSchema, type CreateUserInput } from "@/schemas/user.schema";
 import { store, uploadAvatar, fetchRoles } from "@/lib/services/admin/users";
 import { SectionCard } from "@/components/admin/common/SectionCard";
-import { ImageUpload } from "@/components/admin/common/ImageUpload";
+import { AvatarUpload } from "@/components/admin/common/AvatarUpload";
 import { PageHeader } from "@/components/admin/common/PageHeader";
 
 export default function CreateUserPage() {
@@ -318,8 +318,9 @@ export default function CreateUserPage() {
                   <Loader2 className="w-5 h-5 animate-spin text-primary" />
                 </div>
               )}
-              <ImageUpload
+              <AvatarUpload
                 value={avatarUrl}
+                nameInitials={`${watch("first_name")?.[0] || ""}${watch("last_name")?.[0] || ""}`}
                 onChange={handleAvatarChange}
                 maxSizeMB={5}
               />
