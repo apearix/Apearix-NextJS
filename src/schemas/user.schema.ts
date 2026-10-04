@@ -24,10 +24,7 @@ export const baseUserSchema = z.object({
     .trim(),
   phone: z
     .string()
-    .regex(
-      /^\+?[1-9]\d{7,14}$/,
-      "Valid phone number dalein (jaise +919876543210)"
-    )
+    .refine((val) => !val || /^\+?[0-9\s\-()]{7,20}$/.test(val), "Valid phone number dalein")
     .optional()
     .nullable()
     .or(z.literal("")),
@@ -46,12 +43,11 @@ export const baseUserSchema = z.object({
     .or(z.literal("")),
   dob: z
     .string()
-    .regex(/^\d{4}-\d{2}-\d{2}$/, "Valid date format dalein (YYYY-MM-DD)")
     .optional()
     .nullable()
     .or(z.literal("")),
   status: userStatusEnum.default("active"),
-  role_id: z.string().uuid("Valid Role select karein"),
+  role_id: z.string().min(1, "Valid Role select karein"),
 });
 
 // Form creation schema
@@ -69,7 +65,7 @@ export const updateUserSchema = baseUserSchema
   })
   .partial()
   .extend({
-    id: z.string().uuid("User ID missing ya invalid hai"),
+    id: z.string().min(1, "User ID missing ya invalid hai"),
   });
 
 export const bulkImportUserSchema = z.object({
@@ -86,6 +82,7 @@ export type BulkImportUserInput = z.input<typeof bulkImportUserSchema>;
 export type UserFormValues = Omit<CreateUserOutput, "password"> & {
   id?: string;
   password?: string;
+  role?: { id: string; name: string };
   last_login_at?: string | null;
   created_at?: string;
   updated_at?: string;

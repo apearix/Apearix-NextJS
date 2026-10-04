@@ -6,6 +6,17 @@ export const baseRoleSchema = z.object({
     .min(1, "Role ka naam zaroori hai")
     .max(50, "Role name 50 characters se chota hona chahiye")
     .trim(),
+  slug: z
+    .string()
+    .max(50, "Slug 50 characters se chota hona chahiye")
+    .regex(
+      /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+      "Slug sirf lowercase letters, numbers aur hyphens (-) contain kar sakta hai"
+    )
+    .optional()
+    .nullable()
+    .or(z.literal("")),
+  is_manual_slug: z.boolean().default(false),
   description: z
     .string()
     .max(255, "Description 255 characters se chota hona chahiye")
@@ -17,7 +28,7 @@ export const baseRoleSchema = z.object({
 export const createRoleSchema = baseRoleSchema;
 
 export const updateRoleSchema = baseRoleSchema.partial().extend({
-  id: z.string().uuid("Valid Role ID zaroori hai"),
+  id: z.string().min(1, "Valid Role ID zaroori hai"),
 });
 
 export const bulkImportRoleSchema = z.object({
@@ -32,6 +43,9 @@ export type BulkImportRoleInput = z.input<typeof bulkImportRoleSchema>;
 
 export type RoleFormValues = CreateRoleOutput & {
   id?: string;
+  slug?: string;
+  is_manual_slug?: boolean;
+  users_count?: number;
   created_at?: string;
   updated_at?: string;
   deleted_at?: string | null;
