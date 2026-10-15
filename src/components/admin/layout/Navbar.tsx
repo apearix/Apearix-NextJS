@@ -23,33 +23,14 @@ import {
 import { getAuthUser, updateAuthUserCookie } from "@/lib/helpers/helper";
 import { fetchProfile } from "@/lib/services/admin/profile";
 import Apearix from "@/components/common/Apearix";
-
-const mockNotifications = [
-  {
-    id: 1,
-    title: "Report Finalized",
-    desc: "Q4 Security Review Meeting report is ready for download.",
-    time: "2 min ago",
-    type: "success",
-    read: false,
-  },
-  {
-    id: 2,
-    title: "Payment Required",
-    desc: "Invoice #INV-2024-001 is pending payment.",
-    time: "1 hour ago",
-    type: "alert",
-    read: false,
-  },
-  {
-    id: 3,
-    title: "System Update",
-    desc: "Sirus platform maintenance scheduled for Sunday.",
-    time: "1 day ago",
-    type: "info",
-    read: true,
-  },
-];
+import {
+  getStoredNotifications,
+  markAllNotificationsAsRead,
+  markNotificationAsRead,
+  NOTIFICATIONS_UPDATED_EVENT,
+  getRelativeTimeString,
+  type NotificationItem,
+} from "@/lib/services/admin/notifications";
 
 // --- Navigation Configuration ---
 const navigation = {
@@ -118,6 +99,7 @@ export function Navbar() {
   const [profileOpen, setProfileOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [authUser, setAuthUser] = useState<any>(null);
+  const [notifications, setNotifications] = useState<NotificationItem[]>([]);
 
   const profileRef = useRef<HTMLDivElement>(null);
   const notifRef = useRef<HTMLDivElement>(null);
@@ -125,7 +107,8 @@ export function Navbar() {
   const pathname = usePathname();
   const { scrollY } = useScroll();
 
-  const hasUnread = mockNotifications.some((n) => !n.read);
+  const unreadCount = notifications.filter((n) => !n.read).length;
+  const hasUnread = unreadCount > 0;
 
   // Scroll State Listener
   useMotionValueEvent(scrollY, "change", (latest) => {
@@ -335,6 +318,16 @@ export function Navbar() {
     syncUser();
     window.addEventListener("auth_user_updated", syncUser);
 
+    const syncNotifs = () => {
+      try {
+        setNotifications(getStoredNotifications());
+      } catch {
+        // Fallback
+      }
+    };
+    syncNotifs();
+    window.addEventListener(NOTIFICATIONS_UPDATED_EVENT, syncNotifs);
+
     // Fetch fresh profile in background to automatically sync database avatar if cookie has default/stale avatar
     fetchProfile()
       .then((data) => {
@@ -352,6 +345,7 @@ export function Navbar() {
 
     return () => {
       window.removeEventListener("auth_user_updated", syncUser);
+      window.removeEventListener(NOTIFICATIONS_UPDATED_EVENT, syncNotifs);
     };
   }, []);
 
@@ -531,30 +525,47 @@ export function Navbar() {
           <div className="relative" ref={notifRef}>
             <button
               onClick={() => setNotificationOpen(!notificationOpen)}
-              className={`relative p-2 rounded-full hover:bg-gray-100 transition-colors ${notificationOpen ? "bg-indigo-50 text-indigo-600" : "text-gray-600"
-                }`}
+              className={`relative p-2 rounded-full hover:bg-gray-100 transition-colors ${
+                notificationOpen ? "bg-indigo-50 text-indigo-600" : "text-gray-600"
+              }`}
+              aria-label="Toggle notifications dropdown"
             >
               <Bell className="w-5 h-5" />
               {hasUnread && (
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white" />
+                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 bg-primary text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white shadow-xs">
+                  {unreadCount > 9 ? "9+" : unreadCount}
+                </span>
               )}
             </button>
 
             {notificationOpen && (
-              <div className="absolute right-0 mt-3 w-72 sm:w-80 bg-white/95 backdrop-blur-sm border border-gray-100 rounded-2xl shadow-2xl ring-1 ring-black/5 overflow-hidden animate-in fade-in zoom-in-95 slide-in-from-top-2 duration-200 origin-top-right z-50">
+              <div className="absolute right-0 mt-3 w-80 sm:w-88 bg-white/95 backdrop-blur-sm border border-gray-100 rounded-2xl shadow-2xl ring-1 ring-black/5 overflow-hidden animate-in fade-in zoom-in-95 slide-in-from-top-2 duration-200 origin-top-right z-50">
                 <div className="px-4 py-3 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-                  <h3 className="text-sm font-semibold text-gray-900">
-                    Notifications
-                  </h3>
-                  {mockNotifications.length > 0 && hasUnread && (
-                    <button className="text-xs text-indigo-600 hover:text-indigo-700 font-medium">
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-sm font-semibold text-gray-900">
+                      Notifications
+                    </h3>
+                    {unreadCount > 0 && (
+                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-primary/10 text-primary">
+                        {unreadCount} new
+                      </span>
+                    )}
+                  </div>
+                  {notifications.length > 0 && hasUnread && (
+                    <button
+                      onClick={() => {
+                        const updated = markAllNotificationsAsRead();
+                        setNotifications(updated);
+                      }}
+                      className="text-xs text-primary hover:text-primary-hover font-medium cursor-pointer"
+                    >
                       Mark all read
                     </button>
                   )}
                 </div>
 
-                <div className="max-h-[350px] overflow-y-auto">
-                  {mockNotifications.length === 0 ? (
+                <div className="max-h-87.5 overflow-y-auto divide-y divide-gray-50">
+                  {notifications.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
                       <div className="bg-gray-50 p-4 rounded-full mb-3">
                         <BellOff className="w-6 h-6 text-gray-400" />
@@ -567,23 +578,47 @@ export function Navbar() {
                       </p>
                     </div>
                   ) : (
-                    mockNotifications.map((notif) => (
+                    notifications.slice(0, 5).map((notif) => (
                       <div
                         key={notif.id}
-                        className="px-3 py-3 hover:bg-gray-50 flex gap-2 border-b border-gray-50 last:border-0 cursor-pointer"
+                        onClick={() => {
+                          if (!notif.read) {
+                            const updated = markNotificationAsRead(notif.id);
+                            setNotifications(updated);
+                          }
+                          closeDropdowns();
+                        }}
+                        className={`px-3.5 py-3 hover:bg-gray-50 flex items-start gap-3 transition-colors cursor-pointer ${
+                          !notif.read ? "bg-primary/[0.02]" : ""
+                        }`}
                       >
-                        <div className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-blue-600 bg-blue-100">
-                          <Check size={14} className="text-blue-600" />
+                        <div className="flex-shrink-0 mt-0.5">
+                          {notif.actor?.avatar ? (
+                            <img
+                              src={notif.actor.avatar}
+                              alt={notif.actor.name}
+                              className="w-7 h-7 rounded-lg object-cover ring-1 ring-black/5"
+                            />
+                          ) : (
+                            <div className="w-7 h-7 rounded-lg flex items-center justify-center text-primary bg-primary-light text-xs font-bold">
+                              <Check size={14} className="text-primary" />
+                            </div>
+                          )}
                         </div>
-                        <div>
-                          <p className="text-sm font-medium text-gray-900">
-                            {notif.title}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between gap-1">
+                            <p className="text-xs font-semibold text-gray-900 truncate">
+                              {notif.title}
+                            </p>
+                            {!notif.read && (
+                              <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                            )}
+                          </div>
+                          <p className="text-xs text-gray-500 mt-0.5 line-clamp-2 leading-relaxed">
+                            {notif.snippet}
                           </p>
-                          <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">
-                            {notif.desc}
-                          </p>
-                          <p className="text-[10px] text-gray-400 mt-1.5">
-                            {notif.time}
+                          <p className="text-[10px] text-gray-400 mt-1">
+                            {getRelativeTimeString(notif.createdAt)}
                           </p>
                         </div>
                       </div>
@@ -591,17 +626,22 @@ export function Navbar() {
                   )}
                 </div>
 
-                {mockNotifications.length > 0 && (
-                  <div className="p-2 border-t border-gray-100 bg-gray-50/50 text-center">
-                    <Link
-                      href="/admin/notifications"
-                      onClick={closeDropdowns}
-                      className="text-xs font-medium text-gray-600 hover:text-indigo-600"
-                    >
-                      View all activity
-                    </Link>
-                  </div>
-                )}
+                <div className="p-2.5 border-t border-gray-100 bg-gray-50/50 text-center flex items-center justify-between px-4">
+                  <Link
+                    href="/admin/notifications"
+                    onClick={closeDropdowns}
+                    className="text-xs font-semibold text-primary hover:text-primary-hover"
+                  >
+                    View all notifications ({notifications.length})
+                  </Link>
+                  <Link
+                    href="/admin/profile?tab=preferences"
+                    onClick={closeDropdowns}
+                    className="text-xs text-muted hover:text-heading"
+                  >
+                    Settings
+                  </Link>
+                </div>
               </div>
             )}
           </div>

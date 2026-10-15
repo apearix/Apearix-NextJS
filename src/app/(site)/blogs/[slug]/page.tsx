@@ -1,169 +1,81 @@
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { Navbar } from "@/components/site/layout/Navbar";
 import { Footer } from "@/components/site/layout/Footer";
-import { PageHeader } from "@/components/site/layout/PageHeader";
-import { CTASection } from "@/components/sections/CTASection";
-import { Clock, ArrowUpRight } from "lucide-react";
+import BlogShowClient from "./client";
+import { MOCK_BLOGS } from "../data"; // <-- client.tsx ke badle data.ts se import karein
 
-export const metadata: Metadata = {
-  title: "Engineering Insights & Technical Articles | Next.js, AI & Cloud",
-  description: "Read in-depth technical articles on Next.js App Router performance, custom AI agent architectures, RAG vector pipelines, design systems, and DevOps.",
-  keywords: [
-    "Software Engineering Blog",
-    "Next.js Performance Optimization",
-    "AI Agent Architecture Guide",
-    "Vector Database RAG Deep Dive",
-    "DevOps Database Migrations"
-  ],
-  alternates: {
-    canonical: "https://www.apearix.com/resources/blog",
-  },
-  openGraph: {
-    title: "Engineering Insights & Technical Articles | Apearix",
-    description: "Read technical articles on Next.js performance, custom AI agent architecture, RAG, and DevOps.",
-    url: "https://www.apearix.com/resources/blog",
-    siteName: "Apearix",
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Engineering Insights & Technical Articles | Apearix",
-    description: "Read technical articles on Next.js performance, custom AI agent architecture, and DevOps.",
-    site: "@apearix",
-    creator: "@apearix",
-  },
-};
+interface PageProps {
+  params: Promise<{
+    slug: string;
+  }>;
+}
 
-const jsonLdBlog = {
-  "@context": "https://schema.org",
-  "@type": "Blog",
-  "@id": "https://www.apearix.com/resources/blog/#webpage",
-  "name": "Apearix Engineering Insights",
-  "url": "https://www.apearix.com/resources/blog",
-  "description": "Technical articles and deep dives on software architecture, AI agents, RAG, and design systems.",
-  "publisher": {
-    "@id": "https://www.apearix.com/#organization"
-  },
-  "blogPost": [
-    {
-      "@type": "BlogPosting",
-      "headline": "Building High-Performance Next.js Web Apps with Sub-100ms Load Times",
-      "datePublished": "2026-07-24",
-      "articleSection": "Engineering Deep Dive",
-      "author": { "@id": "https://www.apearix.com/#organization" }
+export async function generateStaticParams() {
+  return MOCK_BLOGS.map((post) => ({
+    slug: post.slug,
+  }));
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const post = MOCK_BLOGS.find((item) => item.slug === slug);
+
+  if (!post) {
+    return {
+      title: "Article Not Found | Apearix",
+    };
+  }
+
+  return {
+    title: `${post.title} | Apearix Engineering Insights`,
+    description: post.snippet,
+    keywords: [...post.tags, post.category, "Software Architecture", "Engineering"],
+    alternates: {
+      canonical: `https://www.apearix.com/resources/blog/${post.slug}`,
     },
-    {
-      "@type": "BlogPosting",
-      "headline": "Designing Custom AI Agents for Enterprise Workflow Automation",
-      "datePublished": "2026-07-18",
-      "articleSection": "AI Architecture",
-      "author": { "@id": "https://www.apearix.com/#organization" }
+    openGraph: {
+      title: post.title,
+      description: post.snippet,
+      url: `https://www.apearix.com/resources/blog/${post.slug}`,
+      siteName: "Apearix",
+      type: "article",
+      publishedTime: post.date,
+      authors: [post.author.name],
+      images: [
+        {
+          url: post.coverImage,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
     },
-    {
-      "@type": "BlogPosting",
-      "headline": "The 8pt Spacing Grid: Achieving Apple-Level UI Consistency in Web Apps",
-      "datePublished": "2026-07-10",
-      "articleSection": "UI/UX Design",
-      "author": { "@id": "https://www.apearix.com/#organization" }
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.snippet,
+      images: [post.coverImage],
+      creator: "@apearix",
     },
-    {
-      "@type": "BlogPosting",
-      "headline": "Zero-Downtime Database Migrations in Multi-Tenant SaaS Environments",
-      "datePublished": "2026-06-28",
-      "articleSection": "DevOps & Cloud",
-      "author": { "@id": "https://www.apearix.com/#organization" }
-    }
-  ]
-};
+  };
+}
 
-const articles = [
-  {
-    title: "Building High-Performance Next.js Web Apps with Sub-100ms Load Times",
-    category: "Engineering Deep Dive",
-    date: "July 24, 2026",
-    readTime: "6 min read",
-    snippet: "A practical guide to optimizing Next.js App Router performance using streaming SSR, edge caching, and asset bundling.",
-  },
-  {
-    title: "Designing Custom AI Agents for Enterprise Workflow Automation",
-    category: "AI Architecture",
-    date: "July 18, 2026",
-    readTime: "8 min read",
-    snippet: "How to combine LLMs, pgvector, and deterministic state machines to build reliable AI agents that do not hallucinate.",
-  },
-  {
-    title: "The 8pt Spacing Grid: Achieving Apple-Level UI Consistency in Web Apps",
-    category: "UI/UX Design",
-    date: "July 10, 2026",
-    readTime: "5 min read",
-    snippet: "Why mathematical spacing systems create visual harmony and streamline developer handoff across design teams.",
-  },
-  {
-    title: "Zero-Downtime Database Migrations in Multi-Tenant SaaS Environments",
-    category: "DevOps & Cloud",
-    date: "June 28, 2026",
-    readTime: "7 min read",
-    snippet: "Strategies for running backward-compatible schema changes on active production PostgreSQL databases.",
-  },
-];
+export default async function BlogDetailPage({ params }: PageProps) {
+  const { slug } = await params;
+  const post = MOCK_BLOGS.find((item) => item.slug === slug);
 
-export default function BlogPage() {
-  return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBlog) }}
-      />
-      <Navbar />
-      <main>
-        <PageHeader
-          badge="Engineering Insights"
-          title="Insights & Articles"
-          subtitle="Deep dives into software architecture, AI automation, modern frontend development, and digital product design."
-          breadcrumbs={[{ label: "Resources", href: "/resources/blog" }, { label: "Blog", href: "/resources/blog" }]}
-        />
+  if (!post) {
+    notFound();
+  }
 
-        <section className="py-20 md:py-28 bg-white border-b border-[#E5E7EB]">
-          <div className="container max-w-[1280px] mx-auto px-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {articles.map((article, idx) => (
-                <article key={idx} className="group p-8 rounded-[12px] bg-[#FAFAFC] border border-[#E5E7EB] hover:border-[#DDD6FE] hover:shadow-md transition-all flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center justify-between gap-4 mb-4">
-                      <span className="px-3 py-1 bg-[#F4F0FF] text-[#6D28F5] text-xs font-semibold rounded-full">
-                        {article.category}
-                      </span>
-                      <div className="flex items-center gap-2 text-xs text-[#6B7280]">
-                        <Clock className="w-3.5 h-3.5" />
-                        <span>{article.readTime}</span>
-                      </div>
-                    </div>
-
-                    <h2 className="text-xl sm:text-2xl font-bold text-[#111827] mb-3 group-hover:text-[#6D28F5] transition-colors leading-snug">
-                      {article.title}
-                    </h2>
-                    <p className="text-sm text-[#4B5563] leading-relaxed mb-6">
-                      {article.snippet}
-                    </p>
-                  </div>
-
-                  <div className="flex items-center justify-between pt-4 border-t border-[#E5E7EB]">
-                    <span className="text-xs font-medium text-[#6B7280]">{article.date}</span>
-                    <span className="inline-flex items-center gap-1 text-xs font-bold text-[#6D28F5]">
-                      <span>Read Article</span>
-                      <ArrowUpRight className="w-4 h-4" />
-                    </span>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* <CTASection title="Subscribe to Engineering Insights" subtitle="Get periodic updates on AI breakthroughs, architecture deep dives, and product launches." ctaText="Contact Our Team" /> */}
-      </main>
-      <Footer />
-    </>
+  const relatedPosts = MOCK_BLOGS.filter(
+    (item) => item.slug !== slug && (item.category === post.category || true)
+  ).slice(0, 2);
+ 
+  return ( 
+      <main  >
+        <BlogShowClient post={post} relatedPosts={relatedPosts} />
+      </main> 
   );
 }
