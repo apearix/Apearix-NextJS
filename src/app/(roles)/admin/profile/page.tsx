@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { AvatarUpload } from "@/components/admin/common/AvatarUpload";
 import { fetchProfile, updateProfile, changePassword, uploadAvatar } from "@/lib/services/admin/profile";
+import { updateAuthUserCookie } from "@/lib/helpers/helper";
 
 export default function AdminProfilePage() {
   const [activeTab, setActiveTab] = useState<"general" | "security" | "sessions" | "preferences">("general");
@@ -94,6 +95,15 @@ export default function AdminProfilePage() {
             slug: data.role.slug || "admin",
           });
         }
+        if (data.user?.avatar) {
+          updateAuthUserCookie({
+            avatar: data.user.avatar,
+            first_name: data.user.first_name,
+            last_name: data.user.last_name,
+            full_name: `${data.user.first_name || ""} ${data.user.last_name || ""}`.trim(),
+            email: data.user.email,
+          });
+        }
       }
     } catch (err: any) {
       console.error("Error loading profile:", err);
@@ -113,7 +123,17 @@ export default function AdminProfilePage() {
         setIsUploadingAvatar(true);
         const res = await uploadAvatar(file);
         setFormData((prev) => ({ ...prev, avatar: res.url }));
-        showToast("Avatar image uploaded successfully!");
+
+        // Automatically persist the newly uploaded avatar to the user profile
+        await updateProfile({
+          id: formData.id,
+          avatar: res.url,
+        });
+
+        // Sync browser session cookie for instant navbar avatar update
+        updateAuthUserCookie({ avatar: res.url });
+
+        showToast("Profile picture uploaded and saved successfully!");
       } catch (err: any) {
         console.error("Avatar upload error:", err);
         showToast(err?.message || "Failed to upload avatar image", "error");
@@ -132,6 +152,7 @@ export default function AdminProfilePage() {
     try {
       setIsSaving(true);
       await updateProfile({
+        id: formData.id,
         first_name: formData.first_name,
         last_name: formData.last_name,
         email: formData.email,
@@ -139,6 +160,16 @@ export default function AdminProfilePage() {
         dob: formData.dob,
         avatar: formData.avatar,
       });
+
+      // Sync updated profile details with session cookies & navbar
+      updateAuthUserCookie({
+        first_name: formData.first_name,
+        last_name: formData.last_name,
+        full_name: `${formData.first_name} ${formData.last_name}`.trim(),
+        email: formData.email,
+        avatar: formData.avatar,
+      });
+
       showToast("Profile details updated successfully!");
     } catch (error: any) {
       console.error("Profile Save Error:", error);

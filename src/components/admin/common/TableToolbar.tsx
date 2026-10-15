@@ -86,7 +86,7 @@ export function TableToolbar({
     <div className="bg-white border border-border rounded-xl p-3 mb-4 shadow-xs flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
       {/* Search Input (Rendered only if onSearchChange is passed) */}
       {onSearchChange !== undefined && (
-        <div className="relative flex-1 min-w-65">
+        <div className="relative flex-1 min-w-65 md:max-w-[50%]">
           <Search className="w-4 h-4 text-muted absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"

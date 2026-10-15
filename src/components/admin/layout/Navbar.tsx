@@ -20,7 +20,8 @@ import {
   Settings,
   LogOut,
 } from "lucide-react";
-import { getAuthUser } from "@/lib/helpers/helper";
+import { getAuthUser, updateAuthUserCookie } from "@/lib/helpers/helper";
+import { fetchProfile } from "@/lib/services/admin/profile";
 import Apearix from "@/components/common/Apearix";
 
 const mockNotifications = [
@@ -281,47 +282,77 @@ export function Navbar() {
     setMounted(true);
     if (typeof document === "undefined") return;
 
-    try {
-      const { user, role } = getAuthUser();
-      if (user && typeof user === "object" && Object.keys(user).length > 0) {
-        const actualUser = (user as any).user || user;
-        const userName =
-          actualUser.full_name ||
-          actualUser.name ||
-          actualUser.displayName ||
-          (actualUser.first_name
-            ? `${actualUser.first_name} ${actualUser.last_name || ""}`.trim()
-            : null) ||
-          actualUser.username ||
-          (actualUser.email ? actualUser.email.split("@")[0] : null) ||
-          "User";
+    const syncUser = () => {
+      try {
+        const { user, role } = getAuthUser();
+        if (user && typeof user === "object" && Object.keys(user).length > 0) {
+          const actualUser = (user as any).user || user;
+          const userName =
+            actualUser.full_name ||
+            actualUser.name ||
+            actualUser.displayName ||
+            (actualUser.first_name
+              ? `${actualUser.first_name} ${actualUser.last_name || ""}`.trim()
+              : null) ||
+            actualUser.username ||
+            (actualUser.email ? actualUser.email.split("@")[0] : null) ||
+            "User";
 
-        const userRole =
-          role ||
-          actualUser.role ||
-          (actualUser.roles?.[0]?.name
-            ? actualUser.roles[0].name.charAt(0).toUpperCase() + actualUser.roles[0].name.slice(1)
-            : "User");
+          const userRole =
+            role ||
+            actualUser.role ||
+            (actualUser.roles?.[0]?.name
+              ? actualUser.roles[0].name.charAt(0).toUpperCase() + actualUser.roles[0].name.slice(1)
+              : "User");
 
-        setAuthUser({
-          name: userName,
-          email: actualUser.email || "",
-          role: userRole,
-          avatar: actualUser.avatar || actualUser.profile_picture || actualUser.image,
-          initials: userName
-            ?.split(" ")
-            .filter(Boolean)
-            .map((n: string) => n[0])
-            .join("")
-            .toUpperCase() || "U",
-          credits: actualUser.credits ?? actualUser.wallet_balance ?? "240.00",
-        });
-      } else {
+          const userAvatar =
+            actualUser.avatar ||
+            (user as any).avatar ||
+            actualUser.profile_picture ||
+            actualUser.image;
+
+          setAuthUser({
+            name: userName,
+            email: actualUser.email || "",
+            role: userRole,
+            avatar: userAvatar,
+            initials: userName
+              ?.split(" ")
+              .filter(Boolean)
+              .map((n: string) => n[0])
+              .join("")
+              .toUpperCase() || "U",
+            credits: actualUser.credits ?? actualUser.wallet_balance ?? "240.00",
+          });
+        } else {
+          setAuthUser(null);
+        }
+      } catch {
         setAuthUser(null);
       }
-    } catch {
-      setAuthUser(null);
-    }
+    };
+
+    syncUser();
+    window.addEventListener("auth_user_updated", syncUser);
+
+    // Fetch fresh profile in background to automatically sync database avatar if cookie has default/stale avatar
+    fetchProfile()
+      .then((data) => {
+        if (data?.user?.avatar) {
+          updateAuthUserCookie({
+            avatar: data.user.avatar,
+            first_name: data.user.first_name,
+            last_name: data.user.last_name,
+            full_name: `${data.user.first_name || ""} ${data.user.last_name || ""}`.trim(),
+            email: data.user.email,
+          });
+        }
+      })
+      .catch(() => {});
+
+    return () => {
+      window.removeEventListener("auth_user_updated", syncUser);
+    };
   }, []);
 
   // Keyboard Accessibility & Click Outside

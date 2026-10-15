@@ -56,6 +56,7 @@ export async function fetchProfile(): Promise<ProfileResponse["data"] | null> {
 }
 
 export async function updateProfile(payload: {
+  id?: string;
   first_name?: string;
   last_name?: string;
   email?: string;

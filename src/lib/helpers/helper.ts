@@ -368,6 +368,39 @@ export function saveSettingsToCookie(settings: Record<string, any>, cookieName =
   setCookieData(cookieName, jsonValue, days);
 }
 
+export function updateAuthUserCookie(updates: Record<string, any>) {
+  if (typeof document === "undefined") return;
+  try {
+    const rawUserData = getCookie("user_data");
+    let currentUser: any = {};
+    if (rawUserData) {
+      try {
+        const parsed = JSON.parse(rawUserData);
+        currentUser = typeof parsed === "string" ? JSON.parse(parsed) : parsed;
+      } catch {
+        currentUser = {};
+      }
+    }
+    const updatedUser = { ...currentUser, ...updates };
+    if (updatedUser.user && typeof updatedUser.user === "object") {
+      updatedUser.user = { ...updatedUser.user, ...updates };
+    }
+    setCookieData("user_data", JSON.stringify(updatedUser), 7);
+    if (typeof localStorage !== "undefined") {
+      try {
+        localStorage.setItem("user_data", JSON.stringify(updatedUser));
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+        localStorage.setItem("currentUser", JSON.stringify(updatedUser));
+      } catch {}
+    }
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new Event("auth_user_updated"));
+    }
+  } catch (err) {
+    console.error("Failed to update user cookie:", err);
+  }
+}
+
 export function getUserBioFormat(user: any) {
   const business = user.business_payload ? JSON.parse(user.business_payload) : null;
 
