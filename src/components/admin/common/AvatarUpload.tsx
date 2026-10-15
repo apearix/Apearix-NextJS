@@ -152,19 +152,34 @@ export const AvatarUpload: React.FC<AvatarUploadProps> = ({
       return;
     }
 
-    const previewBoxSize = 260; // Dimensions of modal crop window
+    const previewBoxSize = 260; // Dimensions of modal crop window (260px)
+    const ratio = outputSize / previewBoxSize;
 
-    // Calculate source bounds
-    const centerSourceX =
-      img.naturalWidth / 2 - (pan.x * (img.naturalWidth / previewBoxSize)) / zoom;
-    const centerSourceY =
-      img.naturalHeight / 2 - (pan.y * (img.naturalHeight / previewBoxSize)) / zoom;
-    const sWidth = img.naturalWidth / zoom;
-    const sHeight = img.naturalHeight / zoom;
-    const sx = centerSourceX - sWidth / 2;
-    const sy = centerSourceY - sHeight / 2;
+    // Smooth image rendering
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
 
-    ctx.drawImage(img, sx, sy, sWidth, sHeight, 0, 0, outputSize, outputSize);
+    // Clear canvas
+    ctx.clearRect(0, 0, outputSize, outputSize);
+
+    // Canvas matrix ko viewport ke center ke saath align karein
+    ctx.save();
+    ctx.translate(outputSize / 2, outputSize / 2);
+
+    // Pan aur Zoom apply karein (exact preview matrix match)
+    ctx.translate(pan.x * ratio, pan.y * ratio);
+    ctx.scale(zoom * ratio, zoom * ratio);
+
+    // Image ko draw karein (-naturalWidth/2, -naturalHeight/2 center offset par)
+    ctx.drawImage(
+      img,
+      -img.naturalWidth / 2,
+      -img.naturalHeight / 2,
+      img.naturalWidth,
+      img.naturalHeight
+    );
+
+    ctx.restore();
 
     canvas.toBlob(
       (blob) => {
@@ -371,7 +386,8 @@ export const AvatarUpload: React.FC<AvatarUploadProps> = ({
             {/* Interactive Canvas Viewport */}
             <div className="flex justify-center">
               <div
-                className="relative w-65 h-65 rounded-full overflow-hidden bg-surface-alt border-2 border-primary shadow-inner cursor-grab active:cursor-grabbing select-none"
+                className="relative rounded-full overflow-hidden bg-surface-alt border-2 border-primary shadow-inner cursor-grab active:cursor-grabbing select-none"
+                style={{ width: "260px", height: "260px" }}
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleMouseUp}
@@ -383,18 +399,12 @@ export const AvatarUpload: React.FC<AvatarUploadProps> = ({
                   src={rawImageSrc}
                   alt="Crop preview"
                   draggable={false}
-                  className="absolute pointer-events-none max-w-none origin-center"
+                  className="absolute pointer-events-none max-w-none select-none"
                   style={{
-                    transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
                     left: "50%",
                     top: "50%",
-                    marginLeft: imageRef.current ? -imageRef.current.width / 2 : 0,
-                    marginTop: imageRef.current ? -imageRef.current.height / 2 : 0,
-                  }}
-                  onLoad={(e) => {
-                    const target = e.currentTarget;
-                    target.style.marginLeft = `${-target.naturalWidth / 2}px`;
-                    target.style.marginTop = `${-target.naturalHeight / 2}px`;
+                    transform: `translate(-50%, -50%) translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
+                    transformOrigin: "center center",
                   }}
                 />
                 {/* Circular Guide Ring */}
