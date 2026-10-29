@@ -12,10 +12,11 @@ async function handleRequest(req: NextRequest, context: any) {
     headers.set("Authorization", `Bearer ${token}`);
   }
 
-  // Remove host/origin headers to prevent issues with the backend server
+  // Remove host/origin/encoding headers to prevent issues with upstream proxy & decompression
   headers.delete("host");
   headers.delete("origin");
   headers.delete("referer");
+  headers.delete("accept-encoding");
 
   let body: any = undefined;
   if (req.method !== "GET" && req.method !== "HEAD") {
@@ -32,9 +33,16 @@ async function handleRequest(req: NextRequest, context: any) {
     } as any);
 
     const responseHeaders = new Headers(response.headers);
+    // Remove headers that conflict with Next.js response body streaming
     responseHeaders.delete("content-encoding");
+    responseHeaders.delete("content-length");
+    responseHeaders.delete("transfer-encoding");
+    responseHeaders.delete("connection");
+    responseHeaders.delete("keep-alive");
 
-    return new NextResponse(response.body, {
+    const dataBuffer = await response.arrayBuffer();
+
+    return new NextResponse(dataBuffer, {
       status: response.status,
       statusText: response.statusText,
       headers: responseHeaders,

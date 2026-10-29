@@ -148,7 +148,7 @@ export default function DashboardClient() {
               <Sparkles size={13} /> Apearix Console
             </div>
             <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-heading">
-              Platform Overview
+              Apearix Overview
             </h1>
             <p className="text-muted text-sm flex items-center gap-2">
               <Calendar size={14} className="text-muted/70" />
@@ -189,11 +189,10 @@ export default function DashboardClient() {
                   <Icon size={20} strokeWidth={2.2} />
                 </div>
                 <span
-                  className={`inline-flex items-center gap-0.5 text-xs font-semibold px-2 py-0.5 rounded-full border ${
-                    stat.isPositive
+                  className={`inline-flex items-center gap-0.5 text-xs font-semibold px-2 py-0.5 rounded-full border ${stat.isPositive
                       ? "bg-emerald-50 text-emerald-700 border-emerald-200"
                       : "bg-rose-50 text-rose-700 border-rose-200"
-                  }`}
+                    }`}
                 >
                   {stat.isPositive ? <ArrowUpRight size={13} /> : <ArrowDownRight size={13} />}
                   {stat.trend}
@@ -263,8 +262,8 @@ export default function DashboardClient() {
                     const formattedDate = blog.publishing?.published_at
                       ? formatDateInTimezone(blog.publishing.published_at, undefined, { month: "short", day: "numeric", year: "numeric" })
                       : blog.updated_at
-                      ? formatDateInTimezone(blog.updated_at, undefined, { month: "short", day: "numeric", year: "numeric" })
-                      : "Unscheduled";
+                        ? formatDateInTimezone(blog.updated_at, undefined, { month: "short", day: "numeric", year: "numeric" })
+                        : "Unscheduled";
 
                     const updatedDate = blog.updated_at
                       ? formatDateInTimezone(blog.updated_at, undefined, { month: "short", day: "numeric" })
@@ -282,20 +281,19 @@ export default function DashboardClient() {
                           </p>
                           <span className="text-[11px] text-muted">{formattedDate}</span>
                         </td>
-                        <td className="px-6 py-4">
-                          <span className="px-2.5 py-1 bg-surface-alt border border-border text-body rounded-md text-xs font-medium">
+                        <td className="whitespace-nowrap px-6 py-4">
+                          <span className="inline-block whitespace-nowrap shrink-0 px-2.5 py-1 bg-surface-alt border border-border text-body rounded-md text-xs font-medium">
                             {authorName}
                           </span>
                         </td>
-                        <td className="px-6 py-4">
+                        <td className="whitespace-nowrap px-6 py-4">
                           <span
-                            className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold border ${
-                              status === "published"
+                            className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold border ${status === "published"
                                 ? "bg-emerald-50 border-emerald-200 text-emerald-700"
                                 : status === "draft"
-                                ? "bg-neutral-100 border-neutral-200 text-neutral-700"
-                                : "bg-amber-50 border-amber-200 text-amber-700"
-                            }`}
+                                  ? "bg-neutral-100 border-neutral-200 text-neutral-700"
+                                  : "bg-amber-50 border-amber-200 text-amber-700"
+                              }`}
                           >
                             {status === "published" && (
                               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span>
@@ -368,17 +366,15 @@ export default function DashboardClient() {
               ].map((item, i) => (
                 <div key={i} className="flex-1 flex flex-col items-center gap-2 group h-full justify-end">
                   <div
-                    className={`w-full rounded-md transition-all duration-300 ${
-                      item.active
+                    className={`w-full rounded-md transition-all duration-300 ${item.active
                         ? "bg-primary shadow-sm shadow-primary/40"
                         : "bg-primary-light group-hover:bg-primary/50"
-                    }`}
+                      }`}
                     style={{ height: `${item.val}%` }}
                   />
                   <span
-                    className={`text-[11px] font-medium ${
-                      item.active ? "text-primary font-bold" : "text-muted"
-                    }`}
+                    className={`text-[11px] font-medium ${item.active ? "text-primary font-bold" : "text-muted"
+                      }`}
                   >
                     {item.day}
                   </span>

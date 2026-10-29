@@ -9,7 +9,7 @@ export async function getDashboard(month?: string): Promise<any> {
     }
 
     const response = await serverApi<any>(
-      `/admin/dashboard${params.size ? `?${params.toString()}` : ""}`,
+      `/api/v1/admin/dashboard${params.size ? `?${params.toString()}` : ""}`,
     );
 
     return response?.data;

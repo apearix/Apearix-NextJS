@@ -6,7 +6,6 @@ import { ActionModal } from "@/components/admin/modals/ActionModal";
 import { ConfirmDeleteModal } from "@/components/admin/modals/ConfirmDeleteModal";
 import { clientApi } from "@/lib/clientApi";
 import { useRouter } from "next/navigation";
-import { Plus } from "lucide-react";
 
 export interface FormField {
   name: string;
@@ -55,7 +54,10 @@ export function CrudPageClient<T extends Record<string, any>>({
 
   const handleOpenEdit = (item: T) => {
     setEditingItem(item);
-    setFormData(item);
+    setFormData({
+      ...item,
+      category_id: item.category_id || (item.category && item.category.id) || "",
+    });
     setError("");
     setIsFormOpen(true);
   };
@@ -75,22 +77,31 @@ export function CrudPageClient<T extends Record<string, any>>({
     setError("");
 
     try {
+      const payload: Record<string, any> = { ...formData };
+      if (!payload.category_id) {
+        delete payload.category_id;
+      }
+      delete payload.category;
+      delete payload.created_at;
+      delete payload.updated_at;
+      delete payload.deleted_at;
+
       if (editingItem) {
         const id = editingItem[keyField];
         const res = await clientApi<T>(`${resourceEndpoint}/${id}`, {
           method: "PATCH",
-          body: JSON.stringify(formData),
+          body: JSON.stringify(payload),
         });
         setData(data.map((item) => (item[keyField] === id ? { ...item, ...res } : item)));
       } else {
         const res = await clientApi<T>(resourceEndpoint, {
           method: "POST",
-          body: JSON.stringify(formData),
+          body: JSON.stringify(payload),
         });
         setData([res, ...data]);
       }
       setIsFormOpen(false);
-      router.refresh(); // Refresh server state if needed
+      router.refresh();
     } catch (err: any) {
       setError(err.message || "An error occurred");
     } finally {
@@ -117,7 +128,7 @@ export function CrudPageClient<T extends Record<string, any>>({
   };
 
   return (
-    <div className="p-6 lg:p-8 font-geist bg-surface-alt min-h-screen">
+    <div className="p-6 lg:p-8 font-geist min-h-screen">
       <AdminPageHeader 
         title={title} 
         actionText={`Add ${title}`} 
@@ -147,7 +158,7 @@ export function CrudPageClient<T extends Record<string, any>>({
           
           {formFields.map((field) => (
             <div key={field.name}>
-              <label htmlFor={field.name} className="block">
+              <label htmlFor={field.name} className="block text-sm font-medium text-heading mb-1">
                 {field.label} {field.required && <span className="text-red-500">*</span>}
               </label>
               
@@ -158,16 +169,19 @@ export function CrudPageClient<T extends Record<string, any>>({
                   value={formData[field.name] || ""}
                   onChange={(e) => handleFormChange(field.name, e.target.value)}
                   placeholder={`Enter ${field.label}...`}
+                  className="w-full px-3 py-2 border border-border rounded-lg bg-surface text-heading focus:outline-none focus:ring-2 focus:ring-primary/20"
+                  rows={3}
                 />
               ) : field.type === "boolean" ? (
                 <label className="flex items-center gap-2 cursor-pointer mt-2">
                   <input
                     id={field.name}
                     type="checkbox"
-                    checked={!!formData[field.name]}
+                    checked={formData[field.name] !== undefined ? !!formData[field.name] : true}
                     onChange={(e) => handleFormChange(field.name, e.target.checked)}
+                    className="w-4 h-4 text-primary rounded border-border focus:ring-primary/20"
                   />
-                  <span className="text-sm text-body">Enabled / Yes</span>
+                  <span className="text-sm text-body">Enabled / Active</span>
                 </label>
               ) : field.type === "select" ? (
                 <select
@@ -175,6 +189,7 @@ export function CrudPageClient<T extends Record<string, any>>({
                   required={field.required}
                   value={formData[field.name] || ""}
                   onChange={(e) => handleFormChange(field.name, e.target.value)}
+                  className="w-full px-3 py-2 border border-border rounded-lg bg-surface text-heading focus:outline-none focus:ring-2 focus:ring-primary/20"
                 >
                   <option value="">Select option...</option>
                   {field.options?.map((opt) => (
@@ -188,9 +203,10 @@ export function CrudPageClient<T extends Record<string, any>>({
                   id={field.name}
                   type={field.type}
                   required={field.required}
-                  value={formData[field.name] || ""}
+                  value={formData[field.name] !== undefined ? formData[field.name] : ""}
                   onChange={(e) => handleFormChange(field.name, field.type === "number" ? Number(e.target.value) : e.target.value)}
                   placeholder={`Enter ${field.label}...`}
+                  className="w-full px-3 py-2 border border-border rounded-lg bg-surface text-heading focus:outline-none focus:ring-2 focus:ring-primary/20"
                 />
               )}
             </div>
@@ -226,5 +242,3 @@ export function CrudPageClient<T extends Record<string, any>>({
     </div>
   );
 }
-
-

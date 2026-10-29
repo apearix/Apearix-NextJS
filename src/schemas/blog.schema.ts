@@ -6,6 +6,7 @@ export type PostStatus = z.infer<typeof postStatusEnum>;
 export const publishingSchema = z.object({
   status: postStatusEnum.default("draft"),
   author_id: z.string().min(1, "Author select karein"),
+  category_id: z.string().optional().nullable().or(z.literal("")),
   published_at: z.string().optional().nullable().or(z.literal("")),
 });
 
@@ -58,6 +59,7 @@ export const baseBlogSchema = z.object({
     )
     .optional()
     .or(z.literal("")),
+  category_id: z.string().optional().nullable().or(z.literal("")),
   publishing: publishingSchema,
   seo: seoSchema,
 });
@@ -78,8 +80,11 @@ export type CreateBlogOutput = z.output<typeof createBlogSchema>;
 export type UpdateBlogInput = z.input<typeof updateBlogSchema>;
 export type BulkImportBlogInput = z.input<typeof bulkImportBlogSchema>;
 
-// Exact Match to your PostFormValues interface
+// Match to PostFormValues interface
 export type PostFormValues = CreateBlogOutput & {
   id?: string;
+  category?: { id: string; name: string; slug: string } | null;
+  author?: { id: string; first_name?: string; last_name?: string; email?: string } | null;
+  author_name?: string | null;
   updated_at?: string;
 };

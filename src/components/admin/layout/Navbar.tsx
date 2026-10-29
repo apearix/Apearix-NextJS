@@ -85,7 +85,7 @@ const navigation = {
   ],
   directLinks: [
     { name: "Dashboard", href: "/admin/dashboard" },
-    { name: "Settings", href: "/admin/settings" },
+    // { name: "Settings", href: "/admin/settings" },
   ],
 };
 

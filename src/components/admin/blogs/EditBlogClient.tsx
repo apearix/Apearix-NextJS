@@ -2,12 +2,13 @@
 
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Sparkles, Info, Calendar, ChevronDown, Plus, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { createBlogSchema, type CreateBlogInput } from "@/schemas/blog.schema";
-import { update, uploadImage } from "@/lib/services/admin/blogs";
+import { update, uploadImage, fetchBlogCategories, fetchBlogAuthors, getAuthorName } from "@/lib/services/admin/blogs";
 import { formatForDateTimeLocalInput } from "@/lib/timezone";
 import TiptapEditor from "@/components/common/text-editor/TiptapEditor";
 import SEOSection from "@/components/admin/common/SEOSection";
@@ -33,12 +34,6 @@ function generateSlug(title: string): string {
 }
 
 function getCurrentDateTimeLocal(): string {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  const day = String(now.getDate()).padStart(2, "0");
-  const hours = String(now.getHours()).padStart(2, "0");
-  const minutes = String(now.getMinutes()).padStart(2, "0");
   return formatForDateTimeLocalInput(new Date());
 }
 
@@ -48,7 +43,12 @@ export default function EditBlogClient({ blog }: { blog: any }) {
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [autoSlug, setAutoSlug] = useState(!blog.is_manual_slug);
   const [imageUrl, setImageUrl] = useState(blog.featured_image || "");
+  const [categories, setCategories] = useState<{ id: string; name: string; slug: string }[]>([]);
+  const [loadingCategories, setLoadingCategories] = useState(true);
+  const [authors, setAuthors] = useState<{ id: string; name: string }[]>([]);
   const currentMinDateTime = getCurrentDateTimeLocal();
+
+  const initialCategoryId = blog.category_id || blog.publishing?.category_id || blog.category?.id || "";
 
   const {
     register,
@@ -69,6 +69,7 @@ export default function EditBlogClient({ blog }: { blog: any }) {
       publishing: {
         status: blog.publishing?.status || "draft",
         author_id: blog.publishing?.author_id || "1",
+        category_id: initialCategoryId,
         published_at: blog.publishing?.published_at ? formatForDateTimeLocalInput(blog.publishing.published_at) : "",
       },
       seo: {
@@ -85,6 +86,25 @@ export default function EditBlogClient({ blog }: { blog: any }) {
   const watchedMetaDesc = watch("seo.meta_description");
 
   const appBaseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+
+  useEffect(() => {
+    fetchBlogCategories()
+      .then((cats) => setCategories(cats))
+      .catch((err) => console.error(err))
+      .finally(() => setLoadingCategories(false));
+
+    fetchBlogAuthors()
+      .then((auths) => {
+        const currentAuthorId = blog.publishing?.author_id || blog.author_id || blog.author?.id;
+        const currentAuthorName = getAuthorName(currentAuthorId, blog.author, blog.author_name);
+        if (currentAuthorId && !auths.some((a) => a.id === currentAuthorId)) {
+          setAuthors([{ id: currentAuthorId, name: currentAuthorName }, ...auths]);
+        } else {
+          setAuthors(auths);
+        }
+      })
+      .catch((err) => console.error(err));
+  }, [blog]);
 
   useEffect(() => {
     if (autoSlug && watchedTitle) {
@@ -113,17 +133,18 @@ export default function EditBlogClient({ blog }: { blog: any }) {
   };
 
   const onSubmit: SubmitHandler<CreateBlogInput> = async (data) => {
+    if (isSubmitting || isUploadingImage) return;
+
     try {
       setIsSubmitting(true);
-      await update(blog.id, { ...data, id: blog.id });
+      await update(String(blog.id), { ...data, id: String(blog.id) });
       toast.success("Blog post successfully updated!");
       setTimeout(() => {
         router.push("/admin/blogs");
       }, 1000);
     } catch (error: any) {
-      console.error("Submission error:", error);
-      toast.error(error?.message || "Blog post save karne me error aaya.");
-    } finally {
+      console.error("Update error:", error);
+      toast.error(error?.message || "Blog update karne me error aaya.");
       setIsSubmitting(false);
     }
   };
@@ -143,22 +164,31 @@ export default function EditBlogClient({ blog }: { blog: any }) {
     <main>
       <PageHeader
         title="Edit Blog"
-        subtitle="Modify your existing blog post details."
+        subtitle="Update article content, metadata, or status."
         btn={
           <button
             type="submit"
-            form="blog-create-form"
+            form="blog-edit-form"
             disabled={isSubmitting || isUploadingImage}
-            className="inline-flex items-center gap-2 px-4 py-2.5 bg-primary hover:bg-primary-hover text-white text-sm font-semibold rounded-lg shadow-sm shadow-primary/20 transition-all active:scale-[0.98]"
+            className="inline-flex items-center gap-2 px-4 py-2.5 bg-primary hover:bg-primary-hover disabled:opacity-60 disabled:cursor-not-allowed disabled:pointer-events-none text-white text-sm font-semibold rounded-lg shadow-sm shadow-primary/20 transition-all active:scale-[0.98]"
           >
-            <Plus className="w-4 h-4" />
-            {isSubmitting ? "Updating..." : "Update Blog"}
+            {isSubmitting ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span>Saving...</span>
+              </>
+            ) : (
+              <>
+                <Plus className="w-4 h-4" />
+                <span>Save Changes</span>
+              </>
+            )}
           </button>
         }
       />
 
       <form
-        id="blog-create-form"
+        id="blog-edit-form"
         noValidate
         onSubmit={handleSubmit(onSubmit, onInvalid)}
         className="grid grid-cols-1 gap-6 lg:grid-cols-12"
@@ -274,6 +304,7 @@ export default function EditBlogClient({ blog }: { blog: any }) {
             errors={errors}
             baseDomain={appBaseUrl}
             urlPrefix="blog/"
+            fieldNamePrefix="seo."
             watchedValues={{
               meta_title: watchedMetaTitle,
               meta_description: watchedMetaDesc,
@@ -306,6 +337,41 @@ export default function EditBlogClient({ blog }: { blog: any }) {
               </div>
             </div>
 
+            {/* Category Select */}
+            <div>
+              <div className="flex items-center justify-between mb-1">
+                <label htmlFor="category_id" className="block">
+                  Category
+                </label>
+                <Link
+                  href="/admin/categories/create?type=blogs"
+                  className="text-[11px] text-primary hover:underline font-medium"
+                  target="_blank"
+                >
+                  + New Category
+                </Link>
+              </div>
+              <div className="relative">
+                <select
+                  id="category_id"
+                  disabled={loadingCategories}
+                  {...register("publishing.category_id")}
+                  className="w-full appearance-none pr-8"
+                >
+                  <option value="">Uncategorized</option>
+                  {categories.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
+                  ))}
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-heading opacity-60">
+                  <ChevronDown className="h-4 w-4" />
+                </div>
+              </div>
+            </div>
+
+            {/* Publish Date & Time */}
             <div>
               <label htmlFor="published_at" className="block">
                 Publish Date & Time
@@ -331,8 +397,21 @@ export default function EditBlogClient({ blog }: { blog: any }) {
                   {...register("publishing.author_id")}
                   className="w-full appearance-none"
                 >
-                  <option value="1">Dharmendra (Admin)</option>
-                  <option value="2">Editorial Team</option>
+                  {authors.length > 0 ? (
+                    authors.map((a) => (
+                      <option key={a.id} value={a.id}>
+                        {a.name}
+                      </option>
+                    ))
+                  ) : (
+                    <>
+                      <option value={blog.publishing?.author_id || "1"}>
+                        {getAuthorName(blog.publishing?.author_id, blog.author, blog.author_name)}
+                      </option>
+                      <option value="1">Dharmendra (Admin)</option>
+                      <option value="2">Editorial Team</option>
+                    </>
+                  )}
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-heading opacity-60">
                   <ChevronDown className="h-4 w-4" />
@@ -360,6 +439,3 @@ export default function EditBlogClient({ blog }: { blog: any }) {
     </main>
   );
 }
-
-
-

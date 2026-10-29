@@ -366,6 +366,7 @@ export default function AdminProfilePage() {
                   <input
                     type="text"
                     value={formData.first_name}
+                    placeholder="Enter your first name"
                     onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
                     required
                   />
@@ -375,6 +376,7 @@ export default function AdminProfilePage() {
                   <input
                     type="text"
                     value={formData.last_name}
+                    placeholder="Enter your last name"
                     onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
                   />
                 </div>
@@ -386,6 +388,7 @@ export default function AdminProfilePage() {
                   <input
                     type="email"
                     value={formData.email}
+                    placeholder="Enter your email address"
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     required
                   />
@@ -395,6 +398,7 @@ export default function AdminProfilePage() {
                   <input
                     type="tel"
                     value={formData.phone}
+                    placeholder="Enter your phone number"
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   />
                 </div>
@@ -406,6 +410,7 @@ export default function AdminProfilePage() {
                   <input
                     type="text"
                     value={formData.designation}
+                    placeholder="Enter your designation"
                     onChange={(e) => setFormData({ ...formData, designation: e.target.value })}
                   />
                 </div>
@@ -414,6 +419,7 @@ export default function AdminProfilePage() {
                   <input
                     type="date"
                     value={formData.dob}
+                    placeholder="Enter your date of birth"
                     onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
                   />
                 </div>
@@ -424,6 +430,7 @@ export default function AdminProfilePage() {
                 <textarea
                   rows={3}
                   value={formData.bio}
+                  placeholder="Write a short bio about yourself"
                   onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
                 />
               </div>
@@ -456,8 +463,8 @@ export default function AdminProfilePage() {
                     <input
                       type={showPass.current ? "text" : "password"}
                       value={passwords.current_password}
-                      onChange={(e) => setPasswords({ ...passwords, current_password: e.target.value })}
-                      placeholder="••••••••••••"
+                      placeholder="Enter current password" 
+                      onChange={(e) => setPasswords({ ...passwords, current_password: e.target.value })} 
                     />
                     <button
                       type="button"
@@ -476,8 +483,8 @@ export default function AdminProfilePage() {
                       <input
                         type={showPass.new ? "text" : "password"}
                         value={passwords.new_password}
+                        placeholder="Enter new password"
                         onChange={(e) => setPasswords({ ...passwords, new_password: e.target.value })}
-                        placeholder="At least 6 chars"
                         required
                       />
                       <button
@@ -495,8 +502,8 @@ export default function AdminProfilePage() {
                       <input
                         type={showPass.confirm ? "text" : "password"}
                         value={passwords.confirm_password}
-                        onChange={(e) => setPasswords({ ...passwords, confirm_password: e.target.value })}
                         placeholder="Re-enter password"
+                        onChange={(e) => setPasswords({ ...passwords, confirm_password: e.target.value })}
                         required
                       />
                       <button

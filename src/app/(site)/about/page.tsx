@@ -63,8 +63,7 @@ export default function AboutPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdAbout) }}
-      />
-      <Navbar />
+      /> 
       <main>
         <PageHeader
           badge="Thoughtfully Built Software"
@@ -184,8 +183,7 @@ export default function AboutPage() {
         </section>
 
         <CTASection />
-      </main>
-      <Footer />
+      </main> 
     </>
   );
 }

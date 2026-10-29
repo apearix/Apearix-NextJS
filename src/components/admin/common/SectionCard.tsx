@@ -3,6 +3,7 @@ import { LucideIcon } from "lucide-react";
 
 interface SectionCardProps {
     title: string;
+    subtitle?: string;
     icon?: LucideIcon | React.ComponentType<{ className?: string }>;
     action?: React.ReactNode;
     children: React.ReactNode;
@@ -12,6 +13,7 @@ interface SectionCardProps {
 
 export const SectionCard: React.FC<SectionCardProps> = ({
     title,
+    subtitle,
     icon: Icon,
     action,
     children,
@@ -26,9 +28,16 @@ export const SectionCard: React.FC<SectionCardProps> = ({
             <div className="relative flex flex-wrap items-center justify-between gap-2 rounded-t-xl border-b border-[var(--color-border)] bg-[var(--color-surface-alt)] px-4 py-2.5">
                 <div className="flex items-center gap-2">
                     {Icon && <Icon className="h-4 w-4 text-[var(--color-primary)]" />}
-                    <span className="text-xs font-semibold uppercase tracking-wider text-[var(--color-heading)]">
-                        {title}
-                    </span>
+                    <div className="flex flex-col">
+                        <span className="text-xs font-semibold uppercase tracking-wider text-[var(--color-heading)]">
+                            {title}
+                        </span>
+                        {subtitle && (
+                            <span className="text-[11px] text-[var(--color-muted)] font-normal mt-0.5">
+                                {subtitle}
+                            </span>
+                        )}
+                    </div>
                 </div>
                 {action && <div className="flex items-center gap-2">{action}</div>}
             </div>

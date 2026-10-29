@@ -22,6 +22,7 @@ export function FaqQuickViewDrawer({ faq, onClose }: Readonly<FaqQuickViewDrawer
   }, [faq]);
 
   const activeFaq = faq || cachedFaq;
+  const categoryDisplay = activeFaq?.category_relation?.name || activeFaq?.category || "general";
 
   return (
     <QuickViewDrawer
@@ -40,7 +41,7 @@ export function FaqQuickViewDrawer({ faq, onClose }: Readonly<FaqQuickViewDrawer
               </span>
             )}
             <span className="text-xs text-muted font-mono truncate">
-              {activeFaq.category || "general"}
+              {categoryDisplay}
             </span>
           </div>
         ) : null
@@ -66,21 +67,22 @@ export function FaqQuickViewDrawer({ faq, onClose }: Readonly<FaqQuickViewDrawer
         ) : null
       }
     >
-      {activeFaq && (
-        <>
-          {/* Question & Meta */}
-          <div>
-            <div className="flex items-center gap-2 mb-1 text-xs text-muted">
-              <HelpCircle className="w-4 h-4 text-primary" />
-              <span>FAQ Item</span>
+      {activeFaq ? (
+        <div className="space-y-6">
+          {/* Question Summary */}
+          <div className="border border-border rounded-xl p-4 bg-surface-alt">
+            <div className="flex items-start gap-2.5">
+              <HelpCircle className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+              <div>
+                <h3 className="text-sm font-bold text-heading leading-snug">
+                  {activeFaq.question}
+                </h3>
+              </div>
             </div>
-            <h2 className="text-lg font-bold text-heading leading-snug">
-              {activeFaq.question}
-            </h2>
             <div className="flex items-center gap-3 mt-3">
               <span className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-lg bg-surface border border-border text-heading">
                 <Tag className="w-3 h-3 text-primary" />
-                Category: {activeFaq.category || "general"}
+                Category: {categoryDisplay}
               </span>
               <span className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-lg bg-surface border border-border text-heading">
                 <Hash className="w-3 h-3 text-primary" />
@@ -108,27 +110,35 @@ export function FaqQuickViewDrawer({ faq, onClose }: Readonly<FaqQuickViewDrawer
             <h4 className="text-xs font-bold uppercase tracking-wider text-heading flex items-center gap-1.5">
               System Audit Info
             </h4>
-            <div className="text-[11px] space-y-1.5 text-muted">
-              <div className="flex justify-between">
-                <span>FAQ ID:</span>
-                <span className="font-mono text-heading">{activeFaq.id || "—"}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Created Date:</span>
-                <span className="text-heading">
-                  {activeFaq.created_at ? formatDateTimeInTimezone(activeFaq.created_at) : "—"}
+            <div className="grid grid-cols-2 gap-3 text-xs">
+              <div>
+                <span className="text-muted block text-[11px]">FAQ ID</span>
+                <span className="font-mono text-heading font-medium truncate block">
+                  {activeFaq.id || "N/A"}
                 </span>
               </div>
-              <div className="flex justify-between">
-                <span>Last Modified:</span>
+              <div>
+                <span className="text-muted block text-[11px]">Display Order</span>
+                <span className="font-mono text-heading font-medium">
+                  {activeFaq.order ?? 0}
+                </span>
+              </div>
+              <div>
+                <span className="text-muted block text-[11px]">Created At</span>
                 <span className="text-heading">
-                  {activeFaq.updated_at ? formatDateTimeInTimezone(activeFaq.updated_at) : "Just now"}
+                  {activeFaq.created_at ? formatDateTimeInTimezone(activeFaq.created_at) : "N/A"}
+                </span>
+              </div>
+              <div>
+                <span className="text-muted block text-[11px]">Last Updated</span>
+                <span className="text-heading">
+                  {activeFaq.updated_at ? formatDateTimeInTimezone(activeFaq.updated_at) : "N/A"}
                 </span>
               </div>
             </div>
           </div>
-        </>
-      )}
+        </div>
+      ) : null}
     </QuickViewDrawer>
   );
 }

@@ -10,6 +10,11 @@ export const baseFaqSchema = z.object({
     .string()
     .min(1, "Answer zaroori hai")
     .max(50000, "Answer 50,000 characters se chota hona chahiye"),
+  category_id: z
+    .string()
+    .optional()
+    .nullable()
+    .or(z.literal("")),
   category: z
     .string()
     .max(50, "Category name 50 characters se chota hona chahiye")
@@ -38,6 +43,8 @@ export type BulkImportFaqInput = z.input<typeof bulkImportFaqSchema>;
 
 export type FaqFormValues = CreateFaqOutput & {
   id?: string;
+  category_id?: string | null;
+  category_relation?: { id: string; name: string; slug: string } | null;
   created_at?: string;
   updated_at?: string;
 };

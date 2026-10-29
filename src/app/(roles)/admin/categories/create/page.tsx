@@ -14,16 +14,13 @@ import { PageHeader } from "@/components/admin/common/PageHeader";
 export default function CreateCategoryPage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [categoryTypes, setCategoryTypes] = useState<{ id: string; name: string }[]>([]);
-
-  useEffect(() => {
-    fetchCategoryTypes().then(setCategoryTypes).catch(console.error);
-  }, []);
+  const [categoryTypes, setCategoryTypes] = useState<{ id: string; name: string; slug?: string }[]>([]);
 
   const {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<CreateCategoryInput>({
     resolver: zodResolver(createCategorySchema),
@@ -40,6 +37,26 @@ export default function CreateCategoryPage() {
     },
   });
 
+  useEffect(() => {
+    fetchCategoryTypes()
+      .then((types: any[]) => {
+        setCategoryTypes(types);
+        if (typeof window !== "undefined") {
+          const params = new URLSearchParams(window.location.search);
+          const typeParam = params.get("type");
+          if (typeParam && types.length > 0) {
+            const matched = types.find(
+              (t) => t.slug?.toLowerCase() === typeParam.toLowerCase() || t.id === typeParam
+            );
+            if (matched) {
+              setValue("category_type_id", matched.id);
+            }
+          }
+        }
+      })
+      .catch(console.error);
+  }, [setValue]);
+
   const watchedName = watch("name");
 
   const onSubmit: SubmitHandler<CreateCategoryInput> = async (data) => {
@@ -50,7 +67,7 @@ export default function CreateCategoryPage() {
       await store(data);
       toast.success("Category successfully created!");
       setTimeout(() => {
-        router.push("/admin/category");
+        router.push("/admin/categories");
       }, 1000);
     } catch (error: any) {
       console.error("Category Store Error:", error);
@@ -72,7 +89,7 @@ export default function CreateCategoryPage() {
     <main>
       <PageHeader
         title="Create Category"
-        subtitle="Add a new category with description, icon, and SEO parameters."
+        subtitle="Add a new category with hierarchal structures and SEO fields."
         btn={
           <button
             type="submit"
@@ -101,10 +118,10 @@ export default function CreateCategoryPage() {
         onSubmit={handleSubmit(onSubmit, onInvalid)}
         className="grid grid-cols-1 gap-6 lg:grid-cols-12"
       >
-        {/* Left Column: General & SEO Info (8 Cols) */}
+        {/* Left Column: Core Fields & SEO (8 Cols) */}
         <section className="space-y-6 lg:col-span-8">
           <SectionCard title="General Information" icon={Folder}>
-            {/* Name */}
+            {/* Category Name */}
             <div>
               <label htmlFor="name" className="block text-heading text-xs font-semibold mb-1">
                 Category Name <span className="text-red-500">*</span>
@@ -112,7 +129,7 @@ export default function CreateCategoryPage() {
               <input
                 id="name"
                 type="text"
-                placeholder="e.g. Web Development"
+                placeholder="e.g. Technology, Billing & Accounts..."
                 maxLength={150}
                 {...register("name")}
               />
@@ -126,15 +143,15 @@ export default function CreateCategoryPage() {
               </div>
             </div>
 
-            {/* Slug */}
+            {/* Custom Slug */}
             <div>
               <label htmlFor="slug" className="block text-heading text-xs font-semibold mb-1">
-                Slug (Optional)
+                URL Slug
               </label>
               <input
                 id="slug"
                 type="text"
-                placeholder="e.g. web-development (auto-generated if empty)"
+                placeholder="Leave blank to auto-generate from name..."
                 maxLength={160}
                 {...register("slug")}
               />
@@ -268,9 +285,7 @@ export default function CreateCategoryPage() {
                   className="w-full appearance-none"
                   onChange={(e) => {
                     const isActive = e.target.value === "true";
-                    register("is_active").onChange({
-                      target: { name: "is_active", value: isActive },
-                    });
+                    setValue("is_active", isActive, { shouldValidate: true });
                   }}
                   defaultValue="true"
                 >

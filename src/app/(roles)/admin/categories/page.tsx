@@ -331,7 +331,7 @@ export default function AdminCategoryPage() {
         badge={`${items.length} Categories`}
         btn={
           <Link
-            href="/admin/category/create"
+            href="/admin/categories/create"
             className="inline-flex items-center gap-2 px-4 py-2.5 bg-primary hover:bg-primary-hover text-white text-sm font-semibold rounded-lg shadow-sm shadow-primary/20 transition-all active:scale-[0.98]"
           >
             <Plus className="w-4 h-4" /> Create Category

@@ -10,6 +10,12 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'images.unsplash.com',
         port: '',
         pathname: '/**',
@@ -21,6 +27,18 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/apearix/storage/:path*',
+        destination: '/api/proxy/apearix/storage/:path*',
+      },
+      {
+        source: '/storage/:path*',
+        destination: '/api/proxy/storage/:path*',
+      },
+    ];
   },
   async headers() {
     return [

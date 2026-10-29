@@ -33,6 +33,7 @@ import {
   bulkDelete as bulkDeleteApi,
   bulkImport as bulkImportApi,
   getAuthorName,
+  fetchBlogAuthors,
 } from "@/lib/services/admin/blogs";
 
 const SAMPLE_BLOG_IMPORT = [
@@ -89,7 +90,10 @@ export default function AdminBlogsPage() {
   const loadBlogs = useCallback(async () => {
     try {
       setIsLoading(true);
-      const res = await fetchBlogsApi();
+      const [res] = await Promise.all([
+        fetchBlogsApi(),
+        fetchBlogAuthors().catch(() => []),
+      ]);
       setBlogs(res.items);
     } catch (error) {
       console.error("Error loading blogs:", error);
@@ -131,7 +135,7 @@ export default function AdminBlogsPage() {
           const matchTitle = (post.title || "").toLowerCase().includes(q);
           const matchSlug = (post.slug || "").toLowerCase().includes(q);
           const matchExcerpt = (post.excerpt || "").toLowerCase().includes(q);
-          const authorName = getAuthorName(post.publishing?.author_id);
+          const authorName = getAuthorName(post.publishing?.author_id, post.author, post.author_name);
           const matchAuthor = authorName.toLowerCase().includes(q);
           if (!matchTitle && !matchSlug && !matchExcerpt && !matchAuthor) return false;
         }
@@ -300,7 +304,7 @@ export default function AdminBlogsPage() {
         `"${(p.title || "").replace(/"/g, '""')}"`,
         `"${p.slug || ""}"`,
         `"${p.publishing?.status || ""}"`,
-        `"${(getAuthorName(p.publishing?.author_id)).replace(/"/g, '""')}"`,
+        `"${(getAuthorName(p.publishing?.author_id, p.author, p.author_name)).replace(/"/g, '""')}"`,
         `"${p.publishing?.published_at || ""}"`,
         `"${(p.excerpt || "").replace(/"/g, '""')}"`,
         `"${p.seo?.canonical_url || ""}"`,
@@ -469,7 +473,7 @@ export default function AdminBlogsPage() {
             options: [
               { label: "Author: All", value: "all" },
               ...authorsList.map((authId) => ({
-                label: getAuthorName(authId),
+                label: getAuthorName(authId, blogs.find((b) => b.publishing?.author_id === authId)?.author, blogs.find((b) => b.publishing?.author_id === authId)?.author_name),
                 value: authId,
               })),
             ],
@@ -623,7 +627,7 @@ export default function AdminBlogsPage() {
                   paginatedBlogs.map((post) => {
                     const isSelected = selectedIds.has(post.id!);
                     const status = post.publishing?.status || "draft";
-                    const authorDisplayName = getAuthorName(post.publishing?.author_id);
+                    const authorDisplayName = getAuthorName(post.publishing?.author_id, post.author, post.author_name);
                     return (
                       <tr
                         key={post.id}

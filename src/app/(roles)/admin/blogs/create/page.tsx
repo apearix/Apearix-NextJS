@@ -2,12 +2,13 @@
 
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Sparkles, Info, Calendar, ChevronDown, Plus, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { createBlogSchema, type CreateBlogInput } from "@/schemas/blog.schema";
-import { store, uploadImage } from "@/lib/services/admin/blogs";
+import { store, uploadImage, fetchBlogCategories, fetchBlogAuthors } from "@/lib/services/admin/blogs";
 import { formatForDateTimeLocalInput } from "@/lib/timezone";
 import TiptapEditor from "@/components/common/text-editor/TiptapEditor";
 import SEOSection from "@/components/admin/common/SEOSection";
@@ -38,7 +39,6 @@ function getCurrentDateTimeLocal(): string {
     return formatForDateTimeLocalInput(new Date());
   }
 
-  // Fallback for standard IST YYYY-MM-DDTHH:mm format
   const now = new Date();
   const options: Intl.DateTimeFormatOptions = {
     timeZone: process.env.NEXT_PUBLIC_TIMEZONE || "Asia/Kolkata",
@@ -61,6 +61,9 @@ export default function CreateBlogPage() {
   const [autoSlug, setAutoSlug] = useState(true);
   const [imageUrl, setImageUrl] = useState("");
   const [currentMinDateTime, setCurrentMinDateTime] = useState<string>(() => getCurrentDateTimeLocal());
+  const [categories, setCategories] = useState<{ id: string; name: string; slug: string }[]>([]);
+  const [loadingCategories, setLoadingCategories] = useState(true);
+  const [authors, setAuthors] = useState<{ id: string; name: string }[]>([]);
 
   const {
     register,
@@ -81,6 +84,7 @@ export default function CreateBlogPage() {
       publishing: {
         status: "draft",
         author_id: "1",
+        category_id: "",
         published_at: currentMinDateTime,
       },
       seo: {
@@ -95,11 +99,25 @@ export default function CreateBlogPage() {
   const watchedSlug = watch("slug");
   const watchedMetaTitle = watch("seo.meta_title");
   const watchedMetaDesc = watch("seo.meta_description");
-  const watchedPublishedAt = watch("publishing.published_at");
 
   const appBaseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
-  // Har 30 second me minimum datetime update hoti rahegi taaki page khula rehne par bhi past time lock rahe
+  useEffect(() => {
+    fetchBlogCategories()
+      .then((cats) => setCategories(cats))
+      .catch((err) => console.error(err))
+      .finally(() => setLoadingCategories(false));
+
+    fetchBlogAuthors()
+      .then((auths) => {
+        setAuthors(auths);
+        if (auths.length > 0) {
+          setValue("publishing.author_id", auths[0].id);
+        }
+      })
+      .catch((err) => console.error(err));
+  }, [setValue]);
+
   useEffect(() => {
     const interval = setInterval(() => {
       const nowTime = getCurrentDateTimeLocal();
@@ -137,7 +155,6 @@ export default function CreateBlogPage() {
   const onSubmit: SubmitHandler<CreateBlogInput> = async (data) => {
     if (isSubmitting || isUploadingImage) return;
 
-    // Strict validation: Agar user ne kisi tarah past date select kar li ho
     const freshCurrentMin = getCurrentDateTimeLocal();
     if (data.publishing?.published_at && data.publishing.published_at < freshCurrentMin) {
       toast.error("Past time allow nahi hai. Kripya current ya future time select karein.");
@@ -170,14 +187,12 @@ export default function CreateBlogPage() {
     toast.error(`Validation Error: ${firstMsg}`);
   };
 
-  // Global Enter Key Handler (Page par mouse kahi bhi ho)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key !== "Enter") return;
 
       const activeEl = document.activeElement as HTMLElement | null;
 
-      // Textarea ya rich-text editor me Enter dabane par submit na karein
       if (
         activeEl?.tagName === "TEXTAREA" ||
         activeEl?.isContentEditable ||
@@ -374,6 +389,40 @@ export default function CreateBlogPage() {
               </div>
             </div>
 
+            {/* Category Select */}
+            <div>
+              <div className="flex items-center justify-between mb-1">
+                <label htmlFor="category_id" className="block">
+                  Category
+                </label>
+                <Link
+                  href="/admin/categories/create?type=blogs"
+                  className="text-[11px] text-primary hover:underline font-medium"
+                  target="_blank"
+                >
+                  + New Category
+                </Link>
+              </div>
+              <div className="relative">
+                <select
+                  id="category_id"
+                  disabled={loadingCategories}
+                  {...register("publishing.category_id")}
+                  className="w-full appearance-none pr-8"
+                >
+                  <option value="">Uncategorized</option>
+                  {categories.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
+                  ))}
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-heading opacity-60">
+                  <ChevronDown className="h-4 w-4" />
+                </div>
+              </div>
+            </div>
+
             {/* Publish Date & Time */}
             <div>
               <label htmlFor="published_at" className="block">
@@ -410,8 +459,18 @@ export default function CreateBlogPage() {
                   {...register("publishing.author_id")}
                   className="w-full appearance-none"
                 >
-                  <option value="1">Dharmendra (Admin)</option>
-                  <option value="2">Editorial Team</option>
+                  {authors.length > 0 ? (
+                    authors.map((a) => (
+                      <option key={a.id} value={a.id}>
+                        {a.name}
+                      </option>
+                    ))
+                  ) : (
+                    <>
+                      <option value="1">Dharmendra (Admin)</option>
+                      <option value="2">Editorial Team</option>
+                    </>
+                  )}
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-heading opacity-60">
                   <ChevronDown className="h-4 w-4" />

@@ -1,13 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Link from "next/link";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { HelpCircle, ChevronDown, Plus, Loader2, Settings } from "lucide-react";
 import { toast } from "sonner";
 import { updateFaqSchema, type UpdateFaqInput } from "@/schemas/faq.schema";
-import { update } from "@/lib/services/admin/faqs";
+import { update, fetchFaqCategories } from "@/lib/services/admin/faqs";
 import TiptapEditor from "@/components/common/text-editor/TiptapEditor";
 import { SectionCard } from "@/components/admin/common/SectionCard";
 import { PageHeader } from "@/components/admin/common/PageHeader";
@@ -15,8 +16,12 @@ import { PageHeader } from "@/components/admin/common/PageHeader";
 export default function EditFaqClient({ faq }: { faq: any }) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [categories, setCategories] = useState<{ id: string; name: string; slug: string }[]>([]);
+  const [loadingCategories, setLoadingCategories] = useState(true);
 
   const initialIsActive = faq.is_active !== undefined ? Boolean(faq.is_active) : true;
+  const initialCategoryId = faq.category_id || faq.category?.id || "";
+  const initialCategoryName = faq.category?.name || (typeof faq.category === "string" ? faq.category : "general");
 
   const {
     register,
@@ -31,11 +36,19 @@ export default function EditFaqClient({ faq }: { faq: any }) {
       id: String(faq.id),
       question: faq.question || faq.title || "",
       answer: faq.answer || faq.description || "",
-      category: faq.category || "general",
+      category_id: initialCategoryId,
+      category: initialCategoryName,
       order: faq.order !== undefined ? Number(faq.order) : 0,
       is_active: initialIsActive,
     },
   });
+
+  useEffect(() => {
+    fetchFaqCategories()
+      .then((cats) => setCategories(cats))
+      .catch((err) => console.error(err))
+      .finally(() => setLoadingCategories(false));
+  }, []);
 
   const watchedQuestion = watch("question");
 
@@ -72,7 +85,7 @@ export default function EditFaqClient({ faq }: { faq: any }) {
     <main>
       <PageHeader
         title="Edit FAQ"
-        subtitle="Modify existing FAQ question, answer details and category."
+        subtitle="Update existing FAQ details and content."
         btn={
           <button
             type="submit"
@@ -83,12 +96,12 @@ export default function EditFaqClient({ faq }: { faq: any }) {
             {isSubmitting ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin" />
-                <span>Updating...</span>
+                <span>Saving...</span>
               </>
             ) : (
               <>
                 <Plus className="w-4 h-4" />
-                <span>Update FAQ</span>
+                <span>Save Changes</span>
               </>
             )}
           </button>
@@ -149,22 +162,48 @@ export default function EditFaqClient({ faq }: { faq: any }) {
         {/* Right Column: Settings, Category & Order (4 Cols) */}
         <aside className="space-y-6 lg:col-span-4">
           <SectionCard title="FAQ Settings" icon={Settings}>
-            {/* Category */}
+            {/* Category Dropdown */}
             <div>
-              <label htmlFor="category" className="block text-heading text-xs font-semibold mb-1">
-                Category
-              </label>
-              <div className="relative">
-                <input
-                  id="category"
-                  type="text"
-                  placeholder="general, billing, account..."
-                  maxLength={50}
-                  {...register("category")}
-                />
+              <div className="flex items-center justify-between mb-1">
+                <label htmlFor="category_id" className="block text-heading text-xs font-semibold">
+                  Category
+                </label>
+                <Link
+                  href="/admin/categories/create?type=faqs"
+                  className="text-[11px] text-primary hover:underline font-medium"
+                  target="_blank"
+                >
+                  + Add Category
+                </Link>
               </div>
-              {errors.category && (
-                <p className="mt-1 text-xs text-red-500">{errors.category.message}</p>
+              <div className="relative">
+                <select
+                  id="category_id"
+                  disabled={loadingCategories}
+                  {...register("category_id")}
+                  onChange={(e) => {
+                    const selectedCatId = e.target.value;
+                    setValue("category_id", selectedCatId);
+                    const found = categories.find((c) => c.id === selectedCatId);
+                    if (found) {
+                      setValue("category", found.slug || found.name);
+                    }
+                  }}
+                  className="w-full appearance-none pr-8"
+                >
+                  <option value="">General (No Category)</option>
+                  {categories.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
+                  ))}
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-heading opacity-60">
+                  <ChevronDown className="h-4 w-4" />
+                </div>
+              </div>
+              {errors.category_id && (
+                <p className="mt-1 text-xs text-red-500">{errors.category_id.message}</p>
               )}
             </div>
 

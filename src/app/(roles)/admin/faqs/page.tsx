@@ -563,7 +563,7 @@ export default function AdminFaqsPage() {
                         <td className="py-3.5 px-3">
                           <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-surface-alt text-heading border border-border">
                             <Tag className="w-3 h-3 text-primary" />
-                            {faq.category || "general"}
+                            {faq.category_relation?.name || faq.category || "general"}
                           </span>
                         </td>
                         <td className="py-3.5 px-3 text-xs font-mono text-heading">

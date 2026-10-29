@@ -65,17 +65,45 @@ export function DataTable<T>({
                   key={keyExtractor(item)}
                   className="hover:bg-surface/50 transition-colors group"
                 >
-                  {columns.map((col) => (
-                    <td key={col.key} className="px-6 py-4">
-                      {col.cell ? (
-                        col.cell(item)
-                      ) : (
-                        <span className="text-heading font-medium">
-                          {(item as any)[col.key]}
+                  {columns.map((col) => {
+                    const val = (item as any)[col.key];
+
+                    let renderedContent: React.ReactNode;
+                    if (col.cell) {
+                      renderedContent = col.cell(item);
+                    } else if (col.key === "price" && (typeof val === "number" || typeof val === "string")) {
+                      const num = Number(val);
+                      renderedContent = isNaN(num) ? String(val) : `$${num.toFixed(2)}`;
+                    } else if (col.key === "is_active" || typeof val === "boolean") {
+                      renderedContent = (
+                        <span
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${
+                            val
+                              ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                              : "bg-zinc-100 text-zinc-600 border border-zinc-200"
+                          }`}
+                        >
+                          {val ? "Active" : "Inactive"}
                         </span>
-                      )}
-                    </td>
-                  ))}
+                      );
+                    } else if (typeof val === "object" && val !== null) {
+                      renderedContent = (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-surface-alt border border-border text-primary">
+                          {val.name || val.title || val.slug || "-"}
+                        </span>
+                      );
+                    } else {
+                      renderedContent = String(val ?? "-");
+                    }
+
+                    return (
+                      <td key={col.key} className="px-6 py-4">
+                        <span className="text-heading font-medium">
+                          {renderedContent}
+                        </span>
+                      </td>
+                    );
+                  })}
                   {(onEdit || onDelete) && (
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -109,4 +137,3 @@ export function DataTable<T>({
     </div>
   );
 }
-

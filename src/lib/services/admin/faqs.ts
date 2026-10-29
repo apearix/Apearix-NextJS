@@ -3,16 +3,33 @@ import { serverApi } from "@/lib/serverApi";
 import { CreateFaqInput, UpdateFaqInput, FaqFormValues } from "@/schemas/faq.schema";
 
 export function formatFaqItem(item: any): FaqFormValues {
+  const categoryName = item.category?.name || (typeof item.category === "string" ? item.category : "general");
+  const categoryId = item.category_id || item.category?.id || "";
+
   return {
     id: item.id ? String(item.id) : undefined,
     question: item.question || item.title || "",
     answer: item.answer || item.description || "",
-    category: item.category || "general",
+    category_id: categoryId,
+    category: categoryName,
+    category_relation: item.category && typeof item.category === "object" ? item.category : null,
     order: item.order !== undefined ? Number(item.order) : 0,
     is_active: item.is_active !== undefined ? Boolean(item.is_active) : (item.is_published !== undefined ? Boolean(item.is_published) : true),
     created_at: item.createdAt ? new Date(item.createdAt).toISOString() : item.created_at || "",
     updated_at: item.updatedAt ? new Date(item.updatedAt).toISOString() : item.updated_at || "",
   };
+}
+
+export async function fetchFaqCategories(): Promise<{ id: string; name: string; slug: string }[]> {
+  try {
+    const response = await clientApi<any>("/api/v1/admin/categories");
+    const rawItems = Array.isArray(response) ? response : response?.data?.items || response?.data || response?.items || [];
+    const faqCategories = rawItems.filter((c: any) => c.category_type?.slug === "faqs");
+    return faqCategories.length > 0 ? faqCategories : rawItems;
+  } catch (error) {
+    console.error("Failed to fetch FAQ categories:", error);
+    return [];
+  }
 }
 
 export async function index(
@@ -109,7 +126,7 @@ export async function bulkDelete(ids: string[]) {
   }
 }
 
-export async function bulkImport(items: CreateFaqInput[]) {
+export async function bulkImport(items: any[]) {
   try {
     const response = await clientApi<any>("/api/v1/admin/faqs/bulk-import", {
       method: "POST",
