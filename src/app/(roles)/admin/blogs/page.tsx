@@ -20,6 +20,7 @@ import { PageHeader } from "@/components/admin/common/PageHeader";
 import { TablePagination } from "@/components/admin/common/TablePagination";
 import { TableToolbar } from "@/components/admin/common/TableToolbar";
 import { BulkImportModal } from "@/components/admin/common/BulkImportModal";
+import { getAuthUser } from "@/lib/helpers/helper";
 import { formatDateInTimezone } from "@/lib/timezone";
 import { BlogQuickViewDrawer } from "@/components/admin/drawer/BlogQuickViewDrawer";
 import { ActionMenu } from "@/components/admin/common/ActionMenu";
@@ -50,7 +51,6 @@ const SAMPLE_BLOG_IMPORT = [
     publishing: {
       status: "published" as PostStatus,
       published_at: "2026-03-30T10:00:00Z",
-      author_id: "1",
     },
     seo: {
       meta_title: "Optimizing High Throughput APIs",
@@ -62,6 +62,7 @@ const SAMPLE_BLOG_IMPORT = [
 
 export default function AdminBlogsPage() {
   const [blogs, setBlogs] = useState<PostFormValues[]>([]);
+  const [availableAuthors, setAvailableAuthors] = useState<{ id: string; name: string }[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [searchQuery, setSearchQuery] = useState("");
@@ -90,11 +91,14 @@ export default function AdminBlogsPage() {
   const loadBlogs = useCallback(async () => {
     try {
       setIsLoading(true);
-      const [res] = await Promise.all([
+      const [res, authors] = await Promise.all([
         fetchBlogsApi(),
         fetchBlogAuthors().catch(() => []),
       ]);
       setBlogs(res.items);
+      if (Array.isArray(authors) && authors.length > 0) {
+        setAvailableAuthors(authors);
+      }
     } catch (error) {
       console.error("Error loading blogs:", error);
       showToast("Failed to load blog posts from server.");
@@ -352,7 +356,21 @@ export default function AdminBlogsPage() {
       status = "draft";
     }
 
-    const author = String(item.publishing?.author_id || item.author_id || item.author || "1");
+    const isUuid = (val?: any) =>
+      Boolean(val && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(String(val).trim()));
+
+    const rawAuthor = item.publishing?.author_id || item.author_id || item.author;
+    let author = "";
+    if (rawAuthor && isUuid(rawAuthor)) {
+      author = String(rawAuthor).trim();
+    } else {
+      const loggedInUserId = getAuthUser()?.user?.id;
+      if (loggedInUserId && isUuid(String(loggedInUserId))) {
+        author = String(loggedInUserId);
+      } else if (availableAuthors.length > 0 && isUuid(availableAuthors[0].id)) {
+        author = availableAuthors[0].id;
+      }
+    }
 
     const isValid = errors.length === 0;
     const remarks = isValid ? (warnings.length > 0 ? warnings.join(", ") : "Valid") : errors.join(", ");
@@ -388,20 +406,32 @@ export default function AdminBlogsPage() {
 
   const handleImportCommit = async (importedPosts: PostFormValues[]) => {
     try {
-      const payload = importedPosts.map((post) => ({
-        title: post.title,
-        slug: post.slug,
-        is_manual_slug: post.is_manual_slug,
-        excerpt: post.excerpt,
-        content: post.content,
-        featured_image: post.featured_image,
-        publishing: {
-          status: post.publishing.status,
-          author_id: post.publishing.author_id,
-          published_at: post.publishing.published_at || "",
-        },
-        seo: post.seo,
-      }));
+      const isUuid = (val?: any) =>
+        Boolean(val && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(String(val).trim()));
+
+      const payload = importedPosts.map((post) => {
+        const rawAuthorId = post.publishing?.author_id?.trim();
+        const validAuthorId = rawAuthorId && isUuid(rawAuthorId) ? rawAuthorId : undefined;
+
+        const rawCatId = (post as any).category_id || post.publishing?.category_id;
+        const validCatId = rawCatId && isUuid(rawCatId) ? String(rawCatId).trim() : undefined;
+
+        return {
+          title: post.title,
+          slug: post.slug,
+          is_manual_slug: post.is_manual_slug,
+          excerpt: post.excerpt,
+          content: post.content,
+          featured_image: post.featured_image,
+          publishing: {
+            status: post.publishing.status,
+            ...(validAuthorId ? { author_id: validAuthorId } : {}),
+            ...(validCatId ? { category_id: validCatId } : {}),
+            published_at: post.publishing.published_at || undefined,
+          },
+          seo: post.seo,
+        };
+      });
 
       const res = await bulkImportApi(payload);
       const count = res?.count ?? res?.items?.length ?? importedPosts.length;

@@ -227,7 +227,7 @@ export async function bulkDelete(ids: string[]) {
   }
 }
 
-export async function bulkImport(items: CreateBlogInput[]) {
+export async function bulkImport(items: any[]) {
   try {
     const response = await clientApi<any>("/api/v1/admin/blogs/bulk-import", {
       method: "POST",

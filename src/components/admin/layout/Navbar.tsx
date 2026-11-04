@@ -138,8 +138,8 @@ export function Navbar() {
           <button
             onClick={() => setProfileOpen(!profileOpen)}
             className={`group flex items-center md:gap-1.5 md:p-1.5 md:pr-2 rounded-full border transition-all outline-none ${profileOpen
-                ? "bg-gray-50 border-gray-300"
-                : "bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+              ? "bg-gray-50 border-gray-300"
+              : "bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50"
               }`}
           >
             {authUser.avatar ? (
@@ -171,7 +171,9 @@ export function Navbar() {
 
           {profileOpen && (
             <div className="absolute right-0 mt-3 w-72 bg-white/95 backdrop-blur-sm border border-gray-100 rounded-2xl shadow-2xl ring-1 ring-black/5 z-50">
-              <div className="p-4 border-b border-gray-100 space-y-3">
+              {/* <div className="p-4 border-b border-gray-100 space-y-3"></div> */}
+              <div className="p-4 pb-0 space-y-3">
+
                 <div className="flex items-center gap-3 pb-3 border-b border-gray-100">
                   {authUser.avatar ? (
                     <img
@@ -194,7 +196,7 @@ export function Navbar() {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between bg-primary/10 border border-primary/20 rounded-2xl p-4 shadow-sm">
+                {/* <div className="flex items-center justify-between bg-primary/10 border border-primary/20 rounded-2xl p-4 shadow-sm">
                   <div className="flex flex-col gap-0.5">
                     <p className="text-xs text-primary font-semibold tracking-wide">
                       Token Balance
@@ -213,7 +215,7 @@ export function Navbar() {
                       Recharge
                     </span>
                   </Link>
-                </div>
+                </div> */}
               </div>
 
               <div className="p-2 space-y-1">
@@ -341,7 +343,7 @@ export function Navbar() {
           });
         }
       })
-      .catch(() => {});
+      .catch(() => { });
 
     return () => {
       window.removeEventListener("auth_user_updated", syncUser);
@@ -436,8 +438,8 @@ export function Navbar() {
     >
       <button
         className={`flex items-center gap-1 transition-colors ${isActive(`/${id}`) || activeDropdown === id
-            ? "text-black"
-            : "hover:text-black"
+          ? "text-black"
+          : "hover:text-black"
           }`}
         aria-expanded={activeDropdown === id}
         aria-haspopup="menu"
@@ -481,8 +483,8 @@ export function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-          ? "bg-white/80 backdrop-blur-md border-b border-stone-200 shadow-xs py-3"
-          : "bg-transparent border-transparent py-4"
+        ? "bg-white/80 backdrop-blur-md border-b border-stone-200 shadow-xs py-3"
+        : "bg-transparent border-transparent py-4"
         }`}
     >
       <div className="mx-auto max-w-8xl flex justify-between items-center">
@@ -525,9 +527,8 @@ export function Navbar() {
           <div className="relative" ref={notifRef}>
             <button
               onClick={() => setNotificationOpen(!notificationOpen)}
-              className={`relative p-2 rounded-full hover:bg-gray-100 transition-colors ${
-                notificationOpen ? "bg-indigo-50 text-indigo-600" : "text-gray-600"
-              }`}
+              className={`relative p-2 rounded-full hover:bg-gray-100 transition-colors ${notificationOpen ? "bg-indigo-50 text-indigo-600" : "text-gray-600"
+                }`}
               aria-label="Toggle notifications dropdown"
             >
               <Bell className="w-5 h-5" />
@@ -588,9 +589,8 @@ export function Navbar() {
                           }
                           closeDropdowns();
                         }}
-                        className={`px-3.5 py-3 hover:bg-gray-50 flex items-start gap-3 transition-colors cursor-pointer ${
-                          !notif.read ? "bg-primary/[0.02]" : ""
-                        }`}
+                        className={`px-3.5 py-3 hover:bg-gray-50 flex items-start gap-3 transition-colors cursor-pointer ${!notif.read ? "bg-primary/[0.02]" : ""
+                          }`}
                       >
                         <div className="flex-shrink-0 mt-0.5">
                           {notif.actor?.avatar ? (

@@ -1,8 +1,7 @@
 import { Metadata } from "next";
 import { Navbar } from "@/components/site/layout/Navbar";
 import { Footer } from "@/components/site/layout/Footer";
-import { PageHeader } from "@/components/site/layout/PageHeader";
-import { CTASection } from "@/components/sections/CTASection";
+import { PageHeader } from "@/components/site/layout/PageHeader"; 
 import { FAQAccordion } from "@/components/sections/FAQAccordion";
 
 export const metadata: Metadata = {

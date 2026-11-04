@@ -5,7 +5,7 @@ export type PostStatus = z.infer<typeof postStatusEnum>;
 
 export const publishingSchema = z.object({
   status: postStatusEnum.default("draft"),
-  author_id: z.string().min(1, "Author select karein"),
+  author_id: z.string().optional().nullable().or(z.literal("")),
   category_id: z.string().optional().nullable().or(z.literal("")),
   published_at: z.string().optional().nullable().or(z.literal("")),
 });

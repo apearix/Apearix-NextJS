@@ -17,10 +17,14 @@ async function handleRequest(req: NextRequest, context: any) {
   headers.delete("origin");
   headers.delete("referer");
   headers.delete("accept-encoding");
+  headers.delete("content-length");
 
   let body: any = undefined;
   if (req.method !== "GET" && req.method !== "HEAD") {
-    body = await req.blob();
+    const blob = await req.blob();
+    if (blob.size > 0) {
+      body = blob;
+    }
   }
 
   try {
