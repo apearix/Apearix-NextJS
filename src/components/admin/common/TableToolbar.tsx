@@ -52,6 +52,19 @@ export interface TableToolbarProps {
 
   // Extra Custom Controls / Slot (Optional)
   children?: React.ReactNode;
+
+  // Compatibility props for custom filter slots
+  statusFilter?: string;
+  onStatusChange?: (val: any) => void;
+  statusOptions?: FilterOption[];
+  categoryFilter?: string;
+  onCategoryChange?: (val: any) => void;
+  categoryOptions?: FilterOption[];
+  sortFilter?: string;
+  onSortChange?: (val: any) => void;
+  sortOptions?: FilterOption[];
+  selectedCount?: number;
+  bulkActions?: any[];
 }
 
 export function TableToolbar({

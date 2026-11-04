@@ -6,6 +6,7 @@ interface PageHeaderProps {
   subtitle?: string | React.ReactNode;
   badge?: string | React.ReactNode;
   btn?: string | React.ReactNode;
+  actions?: React.ReactNode;
   onAction?: () => void;
   icon?: React.ElementType;
 }
@@ -14,9 +15,11 @@ export function PageHeader({
   title,
   subtitle,
   btn,
+  actions,
   icon: Icon,
   badge,
 }: Readonly<PageHeaderProps>) {
+  const actionContent = btn || actions;
   return (
     <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
       <div>
@@ -35,12 +38,11 @@ export function PageHeader({
           </div>
         )}
       </div>
-      {btn && (
+      {actionContent && (
         <div className="flex items-center gap-2.5">
-          {btn}
+          {actionContent}
         </div>
       )}
     </div>
   );
 }
-

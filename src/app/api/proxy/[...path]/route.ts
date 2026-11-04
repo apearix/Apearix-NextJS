@@ -36,6 +36,20 @@ async function handleRequest(req: NextRequest, context: any) {
       duplex: "half",
     } as any);
 
+    const contentType = response.headers.get("content-type") || "";
+
+    // Support streaming responses like Server-Sent Events (SSE)
+    if (contentType.includes("text/event-stream")) {
+      return new NextResponse(response.body, {
+        status: response.status,
+        headers: {
+          "Content-Type": "text/event-stream",
+          "Cache-Control": "no-cache, no-transform",
+          Connection: "keep-alive",
+        },
+      });
+    }
+
     const responseHeaders = new Headers(response.headers);
     // Remove headers that conflict with Next.js response body streaming
     responseHeaders.delete("content-encoding");

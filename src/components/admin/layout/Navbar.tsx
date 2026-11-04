@@ -25,6 +25,8 @@ import { fetchProfile } from "@/lib/services/admin/profile";
 import Apearix from "@/components/common/Apearix";
 import {
   getStoredNotifications,
+  fetchNotificationsFromApi,
+  subscribeToNotificationStream,
   markAllNotificationsAsRead,
   markNotificationAsRead,
   NOTIFICATIONS_UPDATED_EVENT,
@@ -82,6 +84,17 @@ const navigation = {
       href: "/admin/services",
       desc: "Configure offered services & packages",
     },
+    {
+      name: "Careers",
+      href: "/admin/careers",
+      desc: "Manage open job vacancies & requirements",
+    },
+    {
+      name: "Job Applicants",
+      href: "/admin/careers/applications",
+      desc: "Review candidate CVs, update stages & hire",
+    },
+
   ],
   directLinks: [
     { name: "Dashboard", href: "/admin/dashboard" },
@@ -328,7 +341,9 @@ export function Navbar() {
       }
     };
     syncNotifs();
+    fetchNotificationsFromApi().catch(() => {});
     window.addEventListener(NOTIFICATIONS_UPDATED_EVENT, syncNotifs);
+    const unsubscribeStream = subscribeToNotificationStream();
 
     // Fetch fresh profile in background to automatically sync database avatar if cookie has default/stale avatar
     fetchProfile()
@@ -348,6 +363,7 @@ export function Navbar() {
     return () => {
       window.removeEventListener("auth_user_updated", syncUser);
       window.removeEventListener(NOTIFICATIONS_UPDATED_EVENT, syncNotifs);
+      unsubscribeStream();
     };
   }, []);
 
@@ -554,8 +570,8 @@ export function Navbar() {
                   </div>
                   {notifications.length > 0 && hasUnread && (
                     <button
-                      onClick={() => {
-                        const updated = markAllNotificationsAsRead();
+                      onClick={async () => {
+                        const updated = await markAllNotificationsAsRead();
                         setNotifications(updated);
                       }}
                       className="text-xs text-primary hover:text-primary-hover font-medium cursor-pointer"
@@ -582,9 +598,9 @@ export function Navbar() {
                     notifications.slice(0, 5).map((notif) => (
                       <div
                         key={notif.id}
-                        onClick={() => {
+                        onClick={async () => {
                           if (!notif.read) {
-                            const updated = markNotificationAsRead(notif.id);
+                            const updated = await markNotificationAsRead(notif.id);
                             setNotifications(updated);
                           }
                           closeDropdowns();

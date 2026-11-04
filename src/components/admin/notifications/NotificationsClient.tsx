@@ -41,6 +41,8 @@ import {
   INITIAL_NOTIFICATIONS,
   getStoredNotifications,
   saveNotifications,
+  fetchNotificationsFromApi,
+  subscribeToNotificationStream,
   markNotificationAsRead,
   markNotificationAsUnread,
   markAllNotificationsAsRead,
@@ -59,7 +61,7 @@ export function NotificationsClient() {
   const router = useRouter();
 
   // Core Data States
-  const [notifications, setNotifications] = useState<NotificationItem[]>(INITIAL_NOTIFICATIONS);
+  const [notifications, setNotifications] = useState<NotificationItem[]>(getStoredNotifications());
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLiveActive, setIsLiveActive] = useState<boolean>(true);
 
@@ -94,13 +96,17 @@ export function NotificationsClient() {
     }, 3500);
   }, []);
 
-  // Sync notifications from localStorage / Initial load
-  const loadNotifications = useCallback(() => {
+  // Load notifications from backend API & cache
+  const loadNotifications = useCallback(async () => {
     try {
-      const items = getStoredNotifications();
-      setNotifications(items);
+      const res = await fetchNotificationsFromApi();
+      if (res?.items) {
+        setNotifications(res.items);
+      }
     } catch (err) {
       console.error("Error loading notifications:", err);
+      const items = getStoredNotifications();
+      setNotifications(items);
     } finally {
       setIsLoading(false);
     }
@@ -108,15 +114,6 @@ export function NotificationsClient() {
 
   useEffect(() => {
     loadNotifications();
-
-    // Fetch from backend if available
-    import("@/lib/services/admin/notifications")
-      .then(({ fetchNotificationsFromApi }) => {
-        fetchNotificationsFromApi().then((items) => {
-          if (items && items.length > 0) setNotifications(items);
-        }).catch(() => {});
-      })
-      .catch(() => {});
 
     const handleExternalUpdate = (event: Event) => {
       const customEvent = event as CustomEvent;
@@ -146,68 +143,35 @@ export function NotificationsClient() {
     };
   }, []);
 
-  // Real-time Simulation: Auto-generate periodic realistic notification if live is active
+  // Real-time Server-Sent Events (SSE) Stream Subscription
   useEffect(() => {
     if (!isLiveActive) return;
 
-    const sampleLiveEvents: Partial<NotificationItem>[] = [
-      {
-        title: "Database Index Rebuilt",
-        action: "finished re-indexing high-frequency tables in",
-        target: "Analytics DB",
-        snippet: "Query performance improved by 24% after automated pg_repack indexing.",
-        category: "system",
-        priority: "low",
-        cta: { label: "View Metrics", href: "/admin/dashboard", variant: "secondary" },
-        metadata: { engine: "PostgreSQL 17", duration: "42s" },
-      },
-      {
-        title: "API Key Generated",
-        actor: { name: "Priyanshi Patel", initials: "PP", role: "DevOps Engineer" },
-        action: "generated a new read-only production token for",
-        target: "Prometheus Monitoring",
-        snippet: "Scoped token 'sc-prod-metrics-v3' generated with 30-day expiration.",
-        category: "security",
-        priority: "medium",
-        cta: { label: "Review Keys", href: "/admin/settings", variant: "outline" },
-        metadata: { ip: "103.44.112.90", scope: "read:metrics" },
-      },
-      {
-        title: "New User Registration",
-        actor: { name: "Kabir Mehra", initials: "KM", role: "Enterprise Client" },
-        action: "completed onboarding for",
-        target: "Apearix Cloud Suite",
-        snippet: "New enterprise workspace configured with 10 team seats activated.",
-        category: "activity",
-        priority: "low",
-        cta: { label: "View User", href: "/admin/users", variant: "primary" },
-      },
-    ];
+    const unsubscribe = subscribeToNotificationStream((event) => {
+      if (event.type === "NOTIFICATION_CREATED" && event.payload) {
+        showToast(`Live alert received: ${event.payload.title}`, "info");
+      }
+    });
 
-    // Background interval every 75 seconds for natural live behavior
-    const interval = setInterval(() => {
-      const randomEvent = sampleLiveEvents[Math.floor(Math.random() * sampleLiveEvents.length)];
-      const added = addLiveNotification(randomEvent);
-      showToast(`New alert received: ${added.title}`, "info");
-    }, 75000);
-
-    return () => clearInterval(interval);
+    return () => {
+      unsubscribe();
+    };
   }, [isLiveActive, showToast]);
 
   // Quick Action Handlers
-  const handleMarkAllRead = () => {
-    const updated = markAllNotificationsAsRead();
+  const handleMarkAllRead = async () => {
+    const updated = await markAllNotificationsAsRead();
     setNotifications(updated);
     showToast("All notifications marked as read");
   };
 
-  const handleToggleRead = (id: string, currentRead: boolean) => {
+  const handleToggleRead = async (id: string, currentRead: boolean) => {
     let updated: NotificationItem[];
     if (currentRead) {
-      updated = markNotificationAsUnread(id);
+      updated = await markNotificationAsUnread(id);
       showToast("Notification marked as unread", "info");
     } else {
-      updated = markNotificationAsRead(id);
+      updated = await markNotificationAsRead(id);
       showToast("Notification marked as read", "success");
     }
     setNotifications(updated);
@@ -216,8 +180,8 @@ export function NotificationsClient() {
     }
   };
 
-  const handleDelete = (id: string) => {
-    const updated = deleteNotificationItem(id);
+  const handleDelete = async (id: string) => {
+    const updated = await deleteNotificationItem(id);
     setNotifications(updated);
     showToast("Notification removed", "info");
     if (selectedNotification?.id === id) {
@@ -226,8 +190,8 @@ export function NotificationsClient() {
     }
   };
 
-  const handleClearAll = () => {
-    const updated = clearAllNotifications();
+  const handleClearAll = async () => {
+    const updated = await clearAllNotifications();
     setNotifications(updated);
     setIsClearModalOpen(false);
     showToast("All notifications cleared");
@@ -239,8 +203,8 @@ export function NotificationsClient() {
     showToast("Restored default notifications");
   };
 
-  const handleSimulateNewAlert = () => {
-    const newAlert = addLiveNotification({
+  const handleSimulateNewAlert = async () => {
+    const newAlert = await addLiveNotification({
       title: "Real-time Test Alert",
       actor: { name: "System Sentinel", initials: "SS", role: "Real-time Bot" },
       action: "simulated a live system event for",
@@ -272,9 +236,9 @@ export function NotificationsClient() {
     }
   };
 
-  const handleCardClick = (item: NotificationItem) => {
+  const handleCardClick = async (item: NotificationItem) => {
     if (!item.read) {
-      const updated = markNotificationAsRead(item.id);
+      const updated = await markNotificationAsRead(item.id);
       setNotifications(updated);
     }
     setSelectedNotification(item);
