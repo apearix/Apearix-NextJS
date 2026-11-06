@@ -206,11 +206,11 @@ export default function AdminLoginClient() {
             <div>
               <label
                 htmlFor="password"
-                className="block"
+                className="block text-sm font-medium text-heading mb-1"
               >
                 Password <span className="text-red-500">*</span>
               </label>
-              <div className="relative">
+              <div className="relative flex items-center">
                 <input
                   id="password"
                   type={showPassword ? "text" : "password"}
@@ -218,16 +218,15 @@ export default function AdminLoginClient() {
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="pr-10"
+                  className="w-full px-3 py-2 pr-10 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary text-sm"
                 />
                 <button
                   type="button"
-                  tabIndex={-1}
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted hover:text-heading transition-colors"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 z-10 p-1 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
-                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
             </div>

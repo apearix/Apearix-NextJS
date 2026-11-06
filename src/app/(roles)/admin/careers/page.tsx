@@ -16,6 +16,8 @@ import {
   Loader2,
   Check,
   XCircle,
+  ArrowUpRight,
+  ArrowDownRight,
 } from "lucide-react";
 import { PageHeader } from "@/components/admin/common/PageHeader";
 import { TablePagination } from "@/components/admin/common/TablePagination";
@@ -205,15 +207,14 @@ export default function AdminCareersPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {/* Toast Alert */}
       {toastMessage && (
         <div
-          className={`fixed bottom-5 right-5 z-50 flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg border text-sm font-medium transition-all ${
-            toastMessage.type === "success"
-              ? "bg-emerald-50 text-emerald-800 border-emerald-200"
-              : "bg-rose-50 text-rose-800 border-rose-200"
-          }`}
+          className={`fixed bottom-5 right-5 z-50 flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg border text-sm font-medium transition-all ${toastMessage.type === "success"
+            ? "bg-emerald-50 text-emerald-800 border-emerald-200"
+            : "bg-rose-50 text-rose-800 border-rose-200"
+            }`}
         >
           {toastMessage.type === "success" ? (
             <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
@@ -249,39 +250,57 @@ export default function AdminCareersPage() {
       />
 
       {/* Metrics Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="p-4 bg-white rounded-xl border border-border flex items-center justify-between">
-          <div>
-            <p className="text-xs text-muted font-medium uppercase">Total Roles</p>
-            <p className="text-2xl font-bold text-heading mt-1">{stats.totalJobs || jobs.length}</p>
-          </div>
-          <div className="w-10 h-10 rounded-lg bg-purple-50 text-primary flex items-center justify-center">
-            <Briefcase className="w-5 h-5" />
-          </div>
-        </div>
+      {(() => {
+        const metricsData = [
+          {
+            title: "Total Roles",
+            value: stats.totalJobs || jobs.length, 
+            icon: Briefcase,
+            colorClass: "bg-purple-50 text-purple-600 group-hover:bg-purple-600",
+          },
+          {
+            title: "Active / Published",
+            value: jobs.filter((j) => j.status === "published").length, 
+            icon: Check,
+            colorClass: "bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600",
+          },
+          {
+            title: "Total Applicants",
+            value: stats.totalApplications || 0, 
+            icon: Users,
+            colorClass: "bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600",
+          },
+        ];
 
-        <div className="p-4 bg-white rounded-xl border border-border flex items-center justify-between">
-          <div>
-            <p className="text-xs text-muted font-medium uppercase">Active / Published</p>
-            <p className="text-2xl font-bold text-emerald-600 mt-1">
-              {jobs.filter((j) => j.status === "published").length}
-            </p>
-          </div>
-          <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
-            <Check className="w-5 h-5" />
-          </div>
-        </div>
+        return (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {metricsData.map((item, index) => {
+              const Icon = item.icon;
+              return (
+                <div
+                  key={index}
+                  className="relative flex gap-3 group bg-white rounded-2xl p-5 border border-border hover:border-border-accent/80 shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-lg hover:shadow-glow/20 transition-all duration-300"
+                >
+                  <div className="flex items-center justify-between">
+                    <div
+                      className={`w-11 h-11 rounded-xl flex items-center justify-center transition-colors duration-200 group-hover:text-white ${item.colorClass}`}
+                    >
+                      <Icon size={20} strokeWidth={2.2} />
+                    </div>
+                  </div>
 
-        <div className="p-4 bg-white rounded-xl border border-border flex items-center justify-between">
-          <div>
-            <p className="text-xs text-muted font-medium uppercase">Total Applicants</p>
-            <p className="text-2xl font-bold text-indigo-600 mt-1">{stats.totalApplications || 0}</p>
+                  <div className="">
+                    <p className="text-heading text-sm font-semibold">{item.title}</p>
+                    <h3 className="text-3xl font-extrabold text-heading tracking-tight">
+                      {item.value}
+                    </h3> 
+                  </div>
+                </div>
+              );
+            })}
           </div>
-          <div className="w-10 h-10 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
-            <Users className="w-5 h-5" />
-          </div>
-        </div>
-      </div>
+        );
+      })()}
 
       {/* Table Toolbar */}
       <TableToolbar
@@ -417,9 +436,8 @@ export default function AdminCareersPage() {
                   return (
                     <tr
                       key={job.id}
-                      className={`hover:bg-surface/50 transition-colors ${
-                        isChecked ? "bg-purple-50/30" : ""
-                      }`}
+                      className={`hover:bg-surface/50 transition-colors ${isChecked ? "bg-purple-50/30" : ""
+                        }`}
                     >
                       <td className="py-3 px-4">
                         <input
@@ -470,13 +488,12 @@ export default function AdminCareersPage() {
                         <button
                           type="button"
                           onClick={() => handleToggleStatus(job)}
-                          className={`text-[11px] font-semibold px-2.5 py-1 rounded-full border transition-all cursor-pointer ${
-                            job.status === "published"
-                              ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100"
-                              : job.status === "draft"
+                          className={`text-[11px] font-semibold px-2.5 py-1 rounded-full border transition-all cursor-pointer ${job.status === "published"
+                            ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100"
+                            : job.status === "draft"
                               ? "bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100"
                               : "bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100"
-                          }`}
+                            }`}
                         >
                           {job.status === "published" ? "Published" : job.status === "draft" ? "Draft" : "Closed"}
                         </button>

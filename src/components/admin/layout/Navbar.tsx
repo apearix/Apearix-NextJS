@@ -649,14 +649,7 @@ export function Navbar() {
                     className="text-xs font-semibold text-primary hover:text-primary-hover"
                   >
                     View all notifications ({notifications.length})
-                  </Link>
-                  <Link
-                    href="/admin/profile?tab=preferences"
-                    onClick={closeDropdowns}
-                    className="text-xs text-muted hover:text-heading"
-                  >
-                    Settings
-                  </Link>
+                  </Link> 
                 </div>
               </div>
             )}
