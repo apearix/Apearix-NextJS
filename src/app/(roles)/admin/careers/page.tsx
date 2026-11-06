@@ -1,23 +1,20 @@
 "use client";
 
-import React, { useState, useMemo, useEffect, useCallback } from "react";
+import React, { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import {
   Plus,
-  Users,
   Briefcase,
+  Users,
   CheckCircle,
+  Archive,
   Trash2,
   Eye,
   Edit,
+  FileMinus,
   MapPin,
-  Calendar,
-  AlertCircle,
+  X,
   Loader2,
-  Check,
-  XCircle,
-  ArrowUpRight,
-  ArrowDownRight,
 } from "lucide-react";
 import { PageHeader } from "@/components/admin/common/PageHeader";
 import { TablePagination } from "@/components/admin/common/TablePagination";
@@ -51,14 +48,15 @@ export default function AdminCareersPage() {
   const [drawerJob, setDrawerJob] = useState<JobFormValues | null>(null);
 
   // Toast feedback
-  const [toastMessage, setToastMessage] = useState<{
-    type: "success" | "error";
-    text: string;
-  } | null>(null);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const toastTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const showToast = useCallback((text: string, type: "success" | "error" = "success") => {
-    setToastMessage({ type, text });
-    setTimeout(() => setToastMessage(null), 3000);
+  const showToast = useCallback((msg: string) => {
+    setToastMessage(msg);
+    if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
+    toastTimeoutRef.current = setTimeout(() => {
+      setToastMessage(null);
+    }, 3500);
   }, []);
 
   const loadData = useCallback(async () => {
@@ -66,13 +64,13 @@ export default function AdminCareersPage() {
       setIsLoading(true);
       const [jobsData, statsData] = await Promise.all([
         fetchJobsApi(),
-        fetchStatsApi(),
+        fetchStatsApi().catch(() => ({ totalJobs: 0, activeJobs: 0, totalApplications: 0 })),
       ]);
       setJobs(jobsData.items || []);
       setStats(statsData || { totalJobs: 0, activeJobs: 0, totalApplications: 0 });
     } catch (err) {
-      console.error("Failed to load careers data", err);
-      showToast("Jobs load karne mein samasya aayi", "error");
+      console.error("Failed to load careers data:", err);
+      showToast("Failed to load job openings from server.");
     } finally {
       setIsLoading(false);
     }
@@ -90,6 +88,16 @@ export default function AdminCareersPage() {
     return Array.from(set);
   }, [jobs]);
 
+  const counts = useMemo(
+    () => ({
+      all: jobs.length,
+      published: jobs.filter((j) => j.status === "published").length,
+      draft: jobs.filter((j) => j.status === "draft").length,
+      closed: jobs.filter((j) => j.status === "closed").length,
+    }),
+    [jobs]
+  );
+
   const filteredJobs = useMemo(() => {
     return jobs
       .filter((job) => {
@@ -100,7 +108,8 @@ export default function AdminCareersPage() {
           const matchTitle = (job.title || "").toLowerCase().includes(q);
           const matchDept = (job.department || "").toLowerCase().includes(q);
           const matchLocation = (job.location || "").toLowerCase().includes(q);
-          if (!matchTitle && !matchDept && !matchLocation) return false;
+          const matchSlug = (job.slug || "").toLowerCase().includes(q);
+          if (!matchTitle && !matchDept && !matchLocation && !matchSlug) return false;
         }
         return true;
       })
@@ -110,6 +119,9 @@ export default function AdminCareersPage() {
         }
         if (sortFilter === "oldest") {
           return new Date(a.created_at || 0).getTime() - new Date(b.created_at || 0).getTime();
+        }
+        if (sortFilter === "title_asc") {
+          return (a.title || "").localeCompare(b.title || "");
         }
         if (sortFilter === "order_asc") {
           return (a.order ?? 0) - (b.order ?? 0);
@@ -143,173 +155,169 @@ export default function AdminCareersPage() {
     setSelectedIds(next);
   };
 
-  const handleDeleteJob = async (id: string) => {
-    if (!window.confirm("Kya aap sach me is job opening ko delete karna chahte hain?")) return;
-    try {
-      await deleteJobApi(id);
-      setJobs((prev) => prev.filter((j) => j.id !== id));
-      setSelectedIds((prev) => {
-        const next = new Set(prev);
-        next.delete(id);
-        return next;
-      });
-      showToast("Job opening delete ho gayi");
-    } catch (err) {
-      console.error(err);
-      showToast("Delete karne mein samasya aayi", "error");
-    }
-  };
-
-  const handleToggleStatus = async (job: JobFormValues) => {
-    if (!job.id) return;
-    const nextStatus = job.status === "published" ? "closed" : "published";
-    try {
-      await updateJobApi(job.id, { id: job.id, status: nextStatus as any });
-      setJobs((prev) =>
-        prev.map((j) => (j.id === job.id ? { ...j, status: nextStatus as any } : j))
-      );
-      showToast(`Job status updated to ${nextStatus}`);
-    } catch (err) {
-      console.error(err);
-      showToast("Status update karne mein samasya aayi", "error");
-    }
-  };
-
-  const handleBulkStatus = async (status: string) => {
+  const handleBulkStatusChange = async (newStatus: "published" | "draft" | "closed") => {
     if (selectedIds.size === 0) return;
     try {
-      const ids = Array.from(selectedIds);
-      await bulkUpdateStatusApi(ids, status);
-      setJobs((prev) =>
-        prev.map((j) => (j.id && selectedIds.has(j.id) ? { ...j, status: status as any } : j))
-      );
+      await bulkUpdateStatusApi(Array.from(selectedIds), newStatus);
+      showToast(`Updated ${selectedIds.size} openings to ${newStatus}`);
       setSelectedIds(new Set());
-      showToast(`${ids.length} jobs ka status change ho gaya`);
-    } catch (err) {
-      console.error(err);
-      showToast("Bulk status update fail ho gaya", "error");
+      await loadData();
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : "Failed to update bulk status";
+      showToast(msg);
     }
   };
 
   const handleBulkDelete = async () => {
     if (selectedIds.size === 0) return;
-    if (!window.confirm(`Kya aap sach me in ${selectedIds.size} openings ko delete karna chahte hain?`)) return;
+    if (window.confirm(`Are you sure you want to delete ${selectedIds.size} selected opening(s)?`)) {
+      try {
+        await bulkDeleteApi(Array.from(selectedIds));
+        showToast(`Deleted ${selectedIds.size} job openings`);
+        setSelectedIds(new Set());
+        await loadData();
+      } catch (error: unknown) {
+        const msg = error instanceof Error ? error.message : "Failed to delete selected openings";
+        showToast(msg);
+      }
+    }
+  };
+
+  const updateSingleStatus = async (id: string, status: "published" | "draft" | "closed") => {
+    const item = jobs.find((j) => j.id === id);
+    if (!item) return;
     try {
-      const ids = Array.from(selectedIds);
-      await bulkDeleteApi(ids);
-      setJobs((prev) => prev.filter((j) => j.id && !selectedIds.has(j.id)));
-      setSelectedIds(new Set());
-      showToast(`${ids.length} jobs delete ho gayi`);
-    } catch (err) {
-      console.error(err);
-      showToast("Bulk delete fail ho gaya", "error");
+      await updateJobApi(id, { id, status: status as JobFormValues["status"] });
+      showToast(`Job status updated to ${status}`);
+      await loadData();
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : "Failed to update status";
+      showToast(msg);
+    }
+  };
+
+  const deleteSingleJob = async (id: string) => {
+    if (window.confirm("Are you sure you want to delete this job opening?")) {
+      try {
+        await deleteJobApi(id);
+        if (drawerJob?.id === id) setDrawerJob(null);
+        showToast("Job opening deleted");
+        await loadData();
+      } catch (error: unknown) {
+        const msg = error instanceof Error ? error.message : "Failed to delete job opening";
+        showToast(msg);
+      }
+    }
+  };
+
+  const downloadFile = (blob: Blob, filename: string) => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleExport = (type: "all_json" | "filtered_json" | "selected_json" | "csv") => {
+    let target: JobFormValues[] = [];
+    if (type === "all_json") target = jobs;
+    else if (type === "filtered_json") target = filteredJobs;
+    else if (type === "selected_json") target = jobs.filter((j) => selectedIds.has(j.id!));
+    else if (type === "csv") target = filteredJobs;
+
+    if (target.length === 0) {
+      showToast("No openings available to export");
+      return;
+    }
+
+    if (type === "csv") {
+      const headers = [
+        "Title",
+        "Slug",
+        "Department",
+        "Type",
+        "Workplace",
+        "Location",
+        "Experience Level",
+        "Status",
+        "Applicants",
+        "Created At",
+      ];
+      const rows = target.map((j) => [
+        `"${(j.title || "").replace(/"/g, '""')}"`,
+        `"${j.slug || ""}"`,
+        `"${(j.department || "").replace(/"/g, '""')}"`,
+        `"${j.job_type || ""}"`,
+        `"${j.workplace_type || ""}"`,
+        `"${(j.location || "").replace(/"/g, '""')}"`,
+        `"${(j.experience_level || "").replace(/"/g, '""')}"`,
+        `"${j.status || ""}"`,
+        `"${j.applicant_count || 0}"`,
+        `"${j.created_at || ""}"`,
+      ]);
+      const csvStr = [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
+      const blob = new Blob([csvStr], { type: "text/csv;charset=utf-8;" });
+      downloadFile(blob, `apearix_careers_${new Date().toISOString().slice(0, 10)}.csv`);
+      showToast(`Exported ${target.length} openings as CSV`);
+    } else {
+      const cleanJson = target.map(({ id, created_at, updated_at, ...clean }) => clean);
+      const jsonStr = JSON.stringify(cleanJson, null, 2);
+      const blob = new Blob([jsonStr], { type: "application/json" });
+      downloadFile(blob, `apearix_careers_${type}_${new Date().toISOString().slice(0, 10)}.json`);
+      showToast(`Exported ${target.length} openings as JSON`);
     }
   };
 
   return (
-    <div className="space-y-5">
-      {/* Toast Alert */}
+    <main>
+      {/* Toast Feedback */}
       {toastMessage && (
-        <div
-          className={`fixed bottom-5 right-5 z-50 flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg border text-sm font-medium transition-all ${toastMessage.type === "success"
-            ? "bg-emerald-50 text-emerald-800 border-emerald-200"
-            : "bg-rose-50 text-rose-800 border-rose-200"
-            }`}
-        >
-          {toastMessage.type === "success" ? (
-            <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
-          ) : (
-            <XCircle className="w-4 h-4 text-rose-600 shrink-0" />
-          )}
-          <span>{toastMessage.text}</span>
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-3 bg-heading text-white text-xs font-semibold rounded-xl shadow-2xl border border-white/10 animate-in fade-in slide-in-from-bottom-4 duration-200">
+          <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" />
+          <span>{toastMessage}</span>
         </div>
       )}
 
       {/* Page Header */}
       <PageHeader
-        title="Careers & Job Openings"
-        subtitle="Manage job positions, remote roles, and review applicant submissions"
+        title="Careers & Openings"
+        subtitle="Manage job positions, remote vacancies, publication status, and applicant pipelines."
+        badge={`${jobs.length} Openings`}
         btn={
           <div className="flex items-center gap-2.5">
             <Link
               href="/admin/careers/applications"
-              className="px-4 py-2 border border-border text-heading bg-white hover:bg-surface text-xs font-semibold rounded-lg shadow-sm transition-colors flex items-center gap-1.5 cursor-pointer"
+              className="inline-flex items-center gap-2 px-3.5 py-2.5 bg-surface hover:bg-surface-alt border border-border text-heading text-sm font-semibold rounded-lg shadow-xs transition-all active:scale-[0.98]"
             >
-              <Users className="w-3.5 h-3.5 text-primary" />
+              <Users className="w-4 h-4 text-primary" />
               <span>Review Applicants</span>
+              {stats.totalApplications > 0 && (
+                <span className="ml-1 px-1.5 py-0.5 rounded-full text-[11px] font-bold bg-primary/10 text-primary">
+                  {stats.totalApplications}
+                </span>
+              )}
             </Link>
             <Link
               href="/admin/careers/create"
-              className="px-4 py-2 bg-primary hover:bg-primary-hover text-white text-xs font-semibold rounded-lg shadow-sm transition-colors flex items-center gap-1.5 cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 bg-primary hover:bg-primary-hover text-white text-sm font-semibold rounded-lg shadow-sm shadow-primary/20 transition-all active:scale-[0.98]"
             >
-              <Plus className="w-3.5 h-3.5" />
-              <span>Create New Opening</span>
+              <Plus className="w-4 h-4" /> Create Opening
             </Link>
           </div>
         }
       />
 
-      {/* Metrics Row */}
-      {(() => {
-        const metricsData = [
-          {
-            title: "Total Roles",
-            value: stats.totalJobs || jobs.length, 
-            icon: Briefcase,
-            colorClass: "bg-purple-50 text-purple-600 group-hover:bg-purple-600",
-          },
-          {
-            title: "Active / Published",
-            value: jobs.filter((j) => j.status === "published").length, 
-            icon: Check,
-            colorClass: "bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600",
-          },
-          {
-            title: "Total Applicants",
-            value: stats.totalApplications || 0, 
-            icon: Users,
-            colorClass: "bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600",
-          },
-        ];
-
-        return (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {metricsData.map((item, index) => {
-              const Icon = item.icon;
-              return (
-                <div
-                  key={index}
-                  className="relative flex gap-3 group bg-white rounded-2xl p-5 border border-border hover:border-border-accent/80 shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-lg hover:shadow-glow/20 transition-all duration-300"
-                >
-                  <div className="flex items-center justify-between">
-                    <div
-                      className={`w-11 h-11 rounded-xl flex items-center justify-center transition-colors duration-200 group-hover:text-white ${item.colorClass}`}
-                    >
-                      <Icon size={20} strokeWidth={2.2} />
-                    </div>
-                  </div>
-
-                  <div className="">
-                    <p className="text-heading text-sm font-semibold">{item.title}</p>
-                    <h3 className="text-3xl font-extrabold text-heading tracking-tight">
-                      {item.value}
-                    </h3> 
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        );
-      })()}
-
-      {/* Table Toolbar */}
+      {/* Toolbar */}
       <TableToolbar
         searchQuery={searchQuery}
         onSearchChange={(q) => {
           setSearchQuery(q);
           setCurrentPage(1);
         }}
-        searchPlaceholder="Search roles by title, department, location..."
+        searchPlaceholder="Search roles by title, department, location, slug..."
         filters={[
           {
             id: "status-filter",
@@ -318,12 +326,12 @@ export default function AdminCareersPage() {
               setStatusFilter(val);
               setCurrentPage(1);
             },
-            minWidth: "135px",
+            minWidth: "140px",
             options: [
-              { label: "Status: All", value: "all" },
-              { label: "Published", value: "published" },
-              { label: "Draft", value: "draft" },
-              { label: "Closed", value: "closed" },
+              { label: `Status: All (${counts.all})`, value: "all" },
+              { label: `Published (${counts.published})`, value: "published" },
+              { label: `Draft (${counts.draft})`, value: "draft" },
+              { label: `Closed (${counts.closed})`, value: "closed" },
             ],
           },
           {
@@ -345,216 +353,361 @@ export default function AdminCareersPage() {
           onChange: setSortFilter,
           minWidth: "140px",
           options: [
-            { label: "Newest First", value: "newest" },
-            { label: "Oldest First", value: "oldest" },
-            { label: "Sort Order", value: "order_asc" },
+            { label: "Sort: Newest", value: "newest" },
+            { label: "Sort: Oldest", value: "oldest" },
+            { label: "Title: A to Z", value: "title_asc" },
+            { label: "Order: Ascending", value: "order_asc" },
           ],
         }}
-      >
-        {selectedIds.size > 0 && (
+        exportOptions={[
+          {
+            id: "all_json",
+            label: "All Openings (JSON)",
+            badge: ".json",
+            onClick: () => handleExport("all_json"),
+          },
+          {
+            id: "filtered_json",
+            label: "Filtered View (JSON)",
+            badge: ".json",
+            onClick: () => handleExport("filtered_json"),
+          },
+          {
+            id: "csv",
+            label: "Export as CSV",
+            badge: ".csv",
+            onClick: () => handleExport("csv"),
+          },
+        ]}
+      />
+
+      {/* Floating Bulk Action Bar */}
+      {selectedIds.size > 0 && (
+        <div className="mb-4 bg-heading text-white px-4 py-3 rounded-xl shadow-lg flex items-center justify-between gap-4 animate-in fade-in slide-in-from-top-2 duration-150">
+          <div className="flex items-center gap-3">
+            <span className="flex h-2 w-2 relative">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+            </span>
+            <span className="text-xs font-semibold tracking-wide">
+              {selectedIds.size} {selectedIds.size === 1 ? "opening" : "openings"} selected
+            </span>
+          </div>
+
           <div className="flex items-center gap-2">
             <button
-              type="button"
-              onClick={() => handleBulkStatus("published")}
-              className="px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition-colors"
+              onClick={() => handleBulkStatusChange("published")}
+              className="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-medium text-white transition-colors flex items-center gap-1.5 cursor-pointer"
             >
-              Publish ({selectedIds.size})
+              <CheckCircle className="w-3.5 h-3.5 text-emerald-400" /> Publish
             </button>
             <button
-              type="button"
-              onClick={() => handleBulkStatus("closed")}
-              className="px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100 transition-colors"
+              onClick={() => handleBulkStatusChange("draft")}
+              className="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-medium text-white transition-colors flex items-center gap-1.5 cursor-pointer"
             >
-              Close ({selectedIds.size})
+              <FileMinus className="w-3.5 h-3.5 text-amber-300" /> Draft
             </button>
             <button
-              type="button"
+              onClick={() => handleBulkStatusChange("closed")}
+              className="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-medium text-white transition-colors flex items-center gap-1.5 cursor-pointer"
+            >
+              <Archive className="w-3.5 h-3.5 text-slate-300" /> Close
+            </button>
+            <button
+              onClick={() => handleExport("selected_json")}
+              className="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-medium text-white transition-colors flex items-center gap-1.5 cursor-pointer"
+            >
+              Export
+            </button>
+            <button
               onClick={handleBulkDelete}
-              className="px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100 transition-colors"
+              className="px-2.5 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-xs font-medium text-white transition-colors flex items-center gap-1.5 cursor-pointer"
             >
-              Delete ({selectedIds.size})
+              <Trash2 className="w-3.5 h-3.5" /> Delete
+            </button>
+            <button
+              onClick={() => setSelectedIds(new Set())}
+              className="p-1 rounded-md text-white/70 hover:text-white cursor-pointer"
+              title="Clear selection"
+            >
+              <X className="w-4 h-4" />
             </button>
           </div>
-        )}
-      </TableToolbar>
+        </div>
+      )}
 
-      {/* Jobs Data Table */}
-      <div className="bg-white rounded-xl border border-border overflow-hidden shadow-sm">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs border-collapse">
-            <thead>
-              <tr className="bg-surface border-b border-border text-muted uppercase font-semibold">
-                <th className="py-3.5 px-4 w-10">
-                  <input
-                    type="checkbox"
-                    checked={allFilteredSelected}
-                    ref={(el) => {
-                      if (el) el.indeterminate = isIndeterminate;
-                    }}
-                    onChange={(e) => toggleSelectAll(e.target.checked)}
-                    className="rounded border-border text-primary focus:ring-primary h-3.5 w-3.5 cursor-pointer"
-                  />
-                </th>
-                <th className="py-3.5 px-4">Role & Department</th>
-                <th className="py-3.5 px-4">Type & Location</th>
-                <th className="py-3.5 px-4 text-center">Applicants</th>
-                <th className="py-3.5 px-4">Status</th>
-                <th className="py-3.5 px-4">Created Date</th>
-                <th className="py-3.5 px-4 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
-              {isLoading ? (
-                <tr>
-                  <td colSpan={7} className="py-12 text-center text-muted">
-                    <div className="flex flex-col items-center justify-center gap-2">
-                      <Loader2 className="w-6 h-6 animate-spin text-primary" />
-                      <span>Loading job openings...</span>
-                    </div>
-                  </td>
+      {/* Main Table Card */}
+      <div className="bg-white border border-border rounded-xl shadow-sm overflow-hidden">
+        <div className="overflow-x-auto min-h-95">
+          {isLoading ? (
+            <div className="py-20 text-center text-muted flex flex-col items-center justify-center gap-2">
+              <Loader2 className="w-6 h-6 animate-spin text-primary" />
+              <span className="text-xs font-medium">Loading job openings...</span>
+            </div>
+          ) : (
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-surface border-b border-border text-xs text-muted uppercase tracking-wider font-semibold select-none">
+                  <th scope="col" className="py-3.5 pl-4 pr-2 w-10">
+                    <input
+                      type="checkbox"
+                      checked={allFilteredSelected}
+                      ref={(el) => {
+                        if (el) el.indeterminate = isIndeterminate;
+                      }}
+                      onChange={(e) => toggleSelectAll(e.target.checked)}
+                      className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 accent-primary cursor-pointer"
+                    />
+                  </th>
+                  <th scope="col" className="py-3.5 px-3 min-w-[320px]">Role & Department</th>
+                  <th scope="col" className="py-3.5 px-3 min-w-40">Type & Location</th>
+                  <th scope="col" className="py-3.5 px-3 min-w-28 text-center">Applicants</th>
+                  <th scope="col" className="py-3.5 px-3 min-w-32.5">Status</th>
+                  <th scope="col" className="py-3.5 px-3 min-w-30">Created</th>
+                  <th scope="col" className="py-3.5 pr-4 pl-3 text-right w-16">Actions</th>
                 </tr>
-              ) : paginatedJobs.length === 0 ? (
-                <tr>
-                  <td colSpan={7} className="py-12 text-center text-muted">
-                    <div className="max-w-xs mx-auto space-y-2">
-                      <Briefcase className="w-8 h-8 text-muted mx-auto opacity-50" />
-                      <p className="font-semibold text-heading text-sm">No job openings found</p>
-                      <p className="text-xs">Adjust filters or create your first job posting.</p>
-                      <Link
-                        href="/admin/careers/create"
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary text-white text-xs font-semibold rounded-lg mt-2"
-                      >
-                        <Plus className="w-3.5 h-3.5" />
-                        Create Role
-                      </Link>
-                    </div>
-                  </td>
-                </tr>
-              ) : (
-                paginatedJobs.map((job) => {
-                  const isChecked = job.id ? selectedIds.has(job.id) : false;
-                  return (
-                    <tr
-                      key={job.id}
-                      className={`hover:bg-surface/50 transition-colors ${isChecked ? "bg-purple-50/30" : ""
-                        }`}
-                    >
-                      <td className="py-3 px-4">
-                        <input
-                          type="checkbox"
-                          checked={isChecked}
-                          onChange={(e) => toggleSelectOne(job.id!, e.target.checked)}
-                          className="rounded border-border text-primary focus:ring-primary h-3.5 w-3.5 cursor-pointer"
-                        />
-                      </td>
-
-                      {/* Title & Department */}
-                      <td className="py-3 px-4 max-w-xs">
-                        <div className="font-semibold text-heading truncate">{job.title}</div>
-                        <div className="flex items-center gap-2 mt-1">
-                          <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-purple-50 text-primary border border-purple-100">
-                            {job.department}
-                          </span>
-                          {job.experience_level && (
-                            <span className="text-[11px] text-muted">{job.experience_level}</span>
-                          )}
-                        </div>
-                      </td>
-
-                      {/* Type & Location */}
-                      <td className="py-3 px-4">
-                        <div className="text-heading font-medium">
-                          {job.job_type} • {job.workplace_type}
-                        </div>
-                        <div className="text-muted text-[11px] flex items-center gap-1 mt-0.5">
-                          <MapPin className="w-3 h-3" />
-                          <span>{job.location}</span>
-                        </div>
-                      </td>
-
-                      {/* Applicants */}
-                      <td className="py-3 px-4 text-center">
-                        <Link
-                          href={`/admin/careers/applications?jobId=${job.id}`}
-                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface hover:bg-purple-50 border border-border text-heading font-semibold text-xs transition-colors"
-                        >
-                          <Users className="w-3 h-3 text-primary" />
-                          <span>{job.applicant_count || 0}</span>
-                        </Link>
-                      </td>
-
-                      {/* Status */}
-                      <td className="py-3 px-4">
+              </thead>
+              <tbody className="divide-y divide-border text-sm">
+                {paginatedJobs.length === 0 ? (
+                  <tr>
+                    <td colSpan={7} className="py-16 px-4 text-center">
+                      <div className="w-12 h-12 mx-auto rounded-2xl bg-primary-light text-primary flex items-center justify-center mb-3">
+                        <Briefcase className="w-6 h-6" />
+                      </div>
+                      <h3 className="text-base font-semibold text-heading">No job openings found</h3>
+                      <p className="text-xs text-muted max-w-sm mx-auto mt-1 mb-5">
+                        No positions match your current search or status filter. Try resetting them or post a new vacancy.
+                      </p>
+                      <div className="flex items-center justify-center gap-2">
                         <button
-                          type="button"
-                          onClick={() => handleToggleStatus(job)}
-                          className={`text-[11px] font-semibold px-2.5 py-1 rounded-full border transition-all cursor-pointer ${job.status === "published"
-                            ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100"
-                            : job.status === "draft"
-                              ? "bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100"
-                              : "bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100"
-                            }`}
+                          onClick={() => {
+                            setSearchQuery("");
+                            setStatusFilter("all");
+                            setDepartmentFilter("all");
+                          }}
+                          className="px-3 py-1.5 bg-surface hover:bg-surface-alt border border-border text-xs font-semibold text-heading rounded-lg transition-colors cursor-pointer"
                         >
-                          {job.status === "published" ? "Published" : job.status === "draft" ? "Draft" : "Closed"}
+                          Reset Filters
                         </button>
-                      </td>
+                        <Link
+                          href="/admin/careers/create"
+                          className="px-3 py-1.5 bg-primary hover:bg-primary-hover text-white text-xs font-semibold rounded-lg transition-colors cursor-pointer"
+                        >
+                          Create Role
+                        </Link>
+                      </div>
+                    </td>
+                  </tr>
+                ) : (
+                  paginatedJobs.map((job) => {
+                    const isSelected = selectedIds.has(job.id!);
+                    const status = job.status || "draft";
 
-                      {/* Date */}
-                      <td className="py-3 px-4 text-muted text-[11px]">
-                        {job.created_at ? formatDateInTimezone(job.created_at) : "—"}
-                      </td>
+                    return (
+                      <tr
+                        key={job.id}
+                        onClick={() => setDrawerJob(job)}
+                        className={`group hover:bg-surface transition-colors cursor-pointer ${
+                          isSelected ? "bg-primary-light/40 border-l-4 border-l-primary" : ""
+                        }`}
+                      >
+                        {/* Checkbox Column */}
+                        <td className="py-3.5 pl-4 pr-2 w-10" onClick={(e) => e.stopPropagation()}>
+                          <input
+                            type="checkbox"
+                            checked={isSelected}
+                            onChange={(e) => toggleSelectOne(job.id!, e.target.checked)}
+                            className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 accent-primary cursor-pointer"
+                          />
+                        </td>
 
-                      {/* Actions */}
-                      <td className="py-3 px-4 text-right">
-                        <div className="flex items-center justify-end gap-1">
-                          <button
-                            type="button"
-                            onClick={() => setDrawerJob(job)}
-                            className="p-1.5 text-muted hover:text-heading hover:bg-surface rounded-lg transition-colors cursor-pointer"
-                            title="Quick View"
-                          >
-                            <Eye className="w-4 h-4" />
-                          </button>
+                        {/* Role & Department */}
+                        <td className="py-3.5 px-3 max-w-[340px]">
+                          <div className="flex items-start gap-3">
+                            <div className="w-9 h-9 rounded-lg bg-primary-light border border-border-accent/40 flex items-center justify-center text-primary shrink-0 mt-0.5">
+                              <Briefcase className="w-4 h-4" />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <div
+                                className="font-semibold text-heading text-sm group-hover:text-primary transition-colors line-clamp-2 leading-snug break-words"
+                                title={job.title}
+                              >
+                                {job.title}
+                              </div>
+                              <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                                <span className="text-[10px] text-primary bg-primary-light font-medium px-2 py-0.5 rounded border border-border-accent/30 shrink-0">
+                                  {job.department}
+                                </span>
+                                {job.experience_level && (
+                                  <span className="text-[11px] text-muted font-medium truncate">
+                                    {job.experience_level}
+                                  </span>
+                                )}
+                                {job.is_featured && (
+                                  <span className="text-[10px] text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded font-semibold border border-amber-200 shrink-0">
+                                    Featured
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+
+                        {/* Type & Workplace */}
+                        <td className="py-3.5 px-3">
+                          <div className="text-heading font-medium text-xs">
+                            {job.job_type} • {job.workplace_type}
+                          </div>
+                          <div className="text-muted text-xs flex items-center gap-1 mt-1 truncate">
+                            <MapPin className="w-3 h-3 shrink-0 text-muted/80" />
+                            <span className="truncate">{job.location || "Remote"}</span>
+                          </div>
+                        </td>
+
+                        {/* Applicants Pill Link */}
+                        <td
+                          className="py-3.5 px-3 text-center"
+                          onClick={(e) => e.stopPropagation()}
+                        >
                           <Link
-                            href={`/admin/careers/${job.id}/edit`}
-                            className="p-1.5 text-muted hover:text-primary hover:bg-surface rounded-lg transition-colors cursor-pointer"
-                            title="Edit Role"
+                            href={`/admin/careers/applications?jobId=${job.id}`}
+                            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface hover:bg-primary-light/60 border border-border text-heading hover:text-primary font-semibold text-xs transition-colors cursor-pointer"
+                            title="View role applicants"
                           >
-                            <Edit className="w-4 h-4" />
+                            <Users className="w-3 h-3 text-primary" />
+                            <span>{job.applicant_count || 0}</span>
                           </Link>
-                          <button
-                            type="button"
-                            onClick={() => handleDeleteJob(job.id!)}
-                            className="p-1.5 text-muted hover:text-rose-600 hover:bg-surface rounded-lg transition-colors cursor-pointer"
-                            title="Delete"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })
-              )}
-            </tbody>
-          </table>
+                        </td>
+
+                        {/* Status Badge */}
+                        <td className="py-3.5 px-3">
+                          {status === "published" && (
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Published
+                            </span>
+                          )}
+                          {status === "draft" && (
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+                              <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Draft
+                            </span>
+                          )}
+                          {status === "closed" && (
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200">
+                              <span className="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Closed
+                            </span>
+                          )}
+                        </td>
+
+                        {/* Created Date */}
+                        <td className="py-3.5 px-3 text-xs text-heading">
+                          {job.created_at
+                            ? formatDateInTimezone(job.created_at, undefined, {
+                                month: "short",
+                                day: "numeric",
+                                year: "numeric",
+                              })
+                            : "—"}
+                        </td>
+
+                        {/* Actions Column */}
+                        <td
+                          className="py-3.5 pr-4 pl-3 text-right"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <ActionMenu
+                            items={[
+                              {
+                                label: "Edit Role",
+                                icon: <Edit className="w-3.5 h-3.5 text-muted" />,
+                                onClick: () => (window.location.href = `/admin/careers/${job.id}/edit`),
+                              },
+                              {
+                                label: "View Preview",
+                                icon: <Eye className="w-3.5 h-3.5 text-muted" />,
+                                onClick: () => setDrawerJob(job),
+                              },
+                              {
+                                label: "View Applicants",
+                                icon: <Users className="w-3.5 h-3.5 text-muted" />,
+                                onClick: () =>
+                                  (window.location.href = `/admin/careers/applications?jobId=${job.id}`),
+                                dividerAfter: true,
+                              },
+                              ...(status === "published"
+                                ? [
+                                    {
+                                      label: "Set to Draft",
+                                      icon: <FileMinus className="w-3.5 h-3.5" />,
+                                      variant: "warning" as const,
+                                      onClick: () => updateSingleStatus(job.id!, "draft"),
+                                    },
+                                    {
+                                      label: "Close Role",
+                                      icon: <Archive className="w-3.5 h-3.5" />,
+                                      onClick: () => updateSingleStatus(job.id!, "closed"),
+                                    },
+                                  ]
+                                : status === "draft"
+                                ? [
+                                    {
+                                      label: "Publish Now",
+                                      icon: <CheckCircle className="w-3.5 h-3.5" />,
+                                      variant: "success" as const,
+                                      onClick: () => updateSingleStatus(job.id!, "published"),
+                                    },
+                                    {
+                                      label: "Close Role",
+                                      icon: <Archive className="w-3.5 h-3.5" />,
+                                      onClick: () => updateSingleStatus(job.id!, "closed"),
+                                    },
+                                  ]
+                                : [
+                                    {
+                                      label: "Reopen & Publish",
+                                      icon: <CheckCircle className="w-3.5 h-3.5" />,
+                                      variant: "success" as const,
+                                      onClick: () => updateSingleStatus(job.id!, "published"),
+                                    },
+                                    {
+                                      label: "Set to Draft",
+                                      icon: <FileMinus className="w-3.5 h-3.5" />,
+                                      onClick: () => updateSingleStatus(job.id!, "draft"),
+                                    },
+                                  ]),
+                              {
+                                label: "Delete Role",
+                                icon: <Trash2 className="w-3.5 h-3.5" />,
+                                variant: "danger" as const,
+                                onClick: () => deleteSingleJob(job.id!),
+                              },
+                            ]}
+                          />
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
+              </tbody>
+            </table>
+          )}
         </div>
 
         {/* Pagination */}
         <TablePagination
           currentPage={validCurrentPage}
-          pageSize={pageSize}
           totalItems={totalItems}
-          onPageChange={setCurrentPage}
-          onPageSizeChange={(size) => {
-            setPageSize(size);
+          pageSize={pageSize}
+          pageSizeOptions={[10, 25, 50]}
+          onPageChange={(page) => setCurrentPage(page)}
+          onPageSizeChange={(newSize) => {
+            setPageSize(newSize);
             setCurrentPage(1);
           }}
         />
       </div>
 
-      {/* Quick View Drawer */}
+      {/* Quick View Drawer Component */}
       <JobQuickViewDrawer job={drawerJob} onClose={() => setDrawerJob(null)} />
-    </div>
+    </main>
   );
 }

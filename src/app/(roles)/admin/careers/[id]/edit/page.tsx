@@ -1,7 +1,6 @@
 export const dynamic = "force-dynamic";
 
 import { notFound } from "next/navigation";
-import { PageHeader } from "@/components/admin/common/PageHeader";
 import { JobForm } from "@/components/admin/careers/JobForm";
 import { show as fetchJobApi } from "@/lib/services/admin/careers";
 
@@ -28,13 +27,5 @@ export default async function EditCareerPage({
     notFound();
   }
 
-  return (
-    <div className="space-y-6">
-      <PageHeader
-        title={`Edit: ${job.title}`}
-        subtitle="Update role details, responsibilities, compensation, or publication status"
-      />
-      <JobForm initialData={job} isEdit={true} />
-    </div>
-  );
+  return <JobForm initialData={job} isEdit={true} />;
 }
