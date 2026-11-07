@@ -84,7 +84,7 @@ export default function WebDevelopmentPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdService) }}
-      /> 
+      />
       <main>
         <PageHeader
           badge="Services"
@@ -95,7 +95,7 @@ export default function WebDevelopmentPage() {
 
         {/* Feature Grid */}
         <section className="py-20 md:py-28 bg-white border-b border-[#E5E7EB]">
-          <div className="container max-w-[1280px] mx-auto px-6">
+          <div className="container max-w-7xl mx-auto px-6">
             <div className="max-w-3xl mx-auto text-center mb-16">
               <span className="text-xs font-bold uppercase tracking-wider text-[#6D28F5] mb-3 block">Craftsmanship</span>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#111827] tracking-tight mb-4">
@@ -143,7 +143,7 @@ export default function WebDevelopmentPage() {
         <ModernTechStack />
 
         {/* <CTASection title="Ready to launch a high-performance website?" subtitle="Get in touch to discuss your goals, design preferences, and timeline." /> */}
-      </main> 
+      </main>
     </>
   );
 }

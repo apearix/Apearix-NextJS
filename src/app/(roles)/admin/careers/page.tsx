@@ -522,14 +522,14 @@ export default function AdminCareersPage() {
                         </td>
 
                         {/* Role & Department */}
-                        <td className="py-3.5 px-3 max-w-[340px]">
+                        <td className="py-3.5 px-3 max-w-85">
                           <div className="flex items-start gap-3">
                             <div className="w-9 h-9 rounded-lg bg-primary-light border border-border-accent/40 flex items-center justify-center text-primary shrink-0 mt-0.5">
                               <Briefcase className="w-4 h-4" />
                             </div>
                             <div className="min-w-0 flex-1">
                               <div
-                                className="font-semibold text-heading text-sm group-hover:text-primary transition-colors line-clamp-2 leading-snug break-words"
+                                className="font-semibold text-heading text-sm group-hover:text-primary transition-colors line-clamp-2 leading-snug wrap-break-word"
                                 title={job.title}
                               >
                                 {job.title}

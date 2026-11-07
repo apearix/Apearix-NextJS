@@ -83,7 +83,7 @@ function ShowcaseSlide({ scene, index, total, scrollYProgress }: ShowcaseSlidePr
 
       {/* Right Column: High-Res Glassmorphic Image Frame */}
       <div className="relative w-full lg:w-[50%] aspect-[16/10] rounded-2xl overflow-hidden border border-white/20 shadow-2xl shadow-black/40 group">
-        
+
         {/* Unsplash Image */}
         <Image
           src={scene.image}
@@ -125,14 +125,14 @@ export function Showcase() {
   return (
     <section ref={containerRef} className="relative h-[350vh] bg-[#0F172A] text-white">
       <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
-        
+
         {/* Device Frame Display Container */}
-        <motion.div 
+        <motion.div
           style={{
             scale: useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0.85, 1, 1, 0.85]),
             opacity: useTransform(scrollYProgress, [0, 0.05, 0.95, 1], [0, 1, 1, 0]),
           }}
-          className="relative w-[92%] max-w-[1280px] aspect-video sm:aspect-[16/9] rounded-2xl border-4 sm:border-8 border-white/10 bg-[#0F172A] overflow-hidden shadow-2xl shadow-[#6320EE]/20"
+          className="relative w-[92%] max-w-7xl aspect-video sm:aspect-[16/9] rounded-2xl border-4 sm:border-8 border-white/10 bg-[#0F172A] overflow-hidden shadow-2xl shadow-[#6320EE]/20"
         >
           {scenes.map((scene, index) => (
             <ShowcaseSlide

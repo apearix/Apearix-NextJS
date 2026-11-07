@@ -13,23 +13,23 @@ interface PageHeaderProps {
 export function PageHeader({ badge, title, subtitle, breadcrumbs }: PageHeaderProps) {
   const jsonLdBreadcrumb = breadcrumbs
     ? {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://www.apearix.com"
-          },
-          ...breadcrumbs.map((crumb, idx) => ({
-            "@type": "ListItem",
-            "position": idx + 2,
-            "name": crumb.label,
-            "item": `https://www.apearix.com${crumb.href}`
-          }))
-        ]
-      }
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.apearix.com"
+        },
+        ...breadcrumbs.map((crumb, idx) => ({
+          "@type": "ListItem",
+          "position": idx + 2,
+          "name": crumb.label,
+          "item": `https://www.apearix.com${crumb.href}`
+        }))
+      ]
+    }
     : null;
 
   return (
@@ -40,8 +40,8 @@ export function PageHeader({ badge, title, subtitle, breadcrumbs }: PageHeaderPr
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
         />
       )}
-      <div className="container max-w-[1280px] mx-auto px-6 text-center flex flex-col items-center">
-        
+      <div className="container max-w-7xl mx-auto px-6 text-center flex flex-col items-center">
+
         {/* Breadcrumbs */}
         {breadcrumbs && (
           <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-[#6B7280] mb-6">

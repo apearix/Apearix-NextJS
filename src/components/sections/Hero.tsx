@@ -83,7 +83,7 @@ export function Hero() {
               transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
               className="mt-5 max-w-xl text-[15px] leading-7 text-[#6B7280] sm:mt-6 sm:text-lg sm:leading-8"
             >
-              Apearix builds intelligent software, AI-powered products, SaaS platforms, and scalable digital systems that help businesses move faster and build what’s next.
+              We engineer intelligent AI products, scalable SaaS platforms, and modern digital systems empowering businesses to accelerate growth and build the future.
             </motion.p>
 
             {/* CTAs */}

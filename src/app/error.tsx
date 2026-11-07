@@ -18,7 +18,7 @@ export default function ErrorBoundary({
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center pt-32 pb-20 bg-[#FAFAFC]">
-      <div className="container max-w-[1280px] mx-auto px-6 text-center">
+      <div className="container max-w-7xl mx-auto px-6 text-center">
         <span className="inline-block px-4 py-1.5 rounded-full bg-[#DC2626]/10 border border-[#DC2626]/20 text-xs font-bold text-[#DC2626] uppercase tracking-wider mb-6">
           Application Error
         </span>

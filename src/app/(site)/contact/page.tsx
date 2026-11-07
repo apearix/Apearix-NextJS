@@ -69,8 +69,8 @@ export default function ContactPage() {
           breadcrumbs={[{ label: "Company", href: "/company/about" }, { label: "Contact", href: "/company/contact" }]}
         />
 
-        <section className="py-20 md:py-28 bg-white border-b border-[#E5E7EB]">
-          <div className="container max-w-[1280px] mx-auto px-6 grid lg:grid-cols-12 gap-12">
+        <section className="py-20 md:py-28 bg-white border-b border-border">
+          <div className="container max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-12">
 
             {/* Left Direct Details */}
             <div className="lg:col-span-5 space-y-8">

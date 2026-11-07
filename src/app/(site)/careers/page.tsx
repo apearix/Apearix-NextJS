@@ -211,8 +211,8 @@ export default async function CareersPage() {
             job.job_type === "Contract"
               ? "CONTRACTOR"
               : job.job_type === "Internship"
-              ? "INTERN"
-              : "FULL_TIME",
+                ? "INTERN"
+                : "FULL_TIME",
           jobLocation: {
             "@type": "Place",
             address: {
@@ -235,7 +235,7 @@ export default async function CareersPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdCareers) }}
-      /> 
+      />
       <main>
         <PageHeader
           badge="Join Our Team"
@@ -248,8 +248,8 @@ export default async function CareersPage() {
         />
 
         {/* Benefits & Culture */}
-        <section className="py-20 md:py-28 bg-white border-b border-[#E5E7EB]">
-          <div className="container max-w-[1280px] mx-auto px-6">
+        <section className="py-20 md:py-28 bg-white border-b border-border">
+          <div className="container max-w-7xl mx-auto px-6">
             <div className="max-w-3xl mx-auto text-center mb-16">
               <span className="text-xs font-bold uppercase tracking-wider text-[#6D28F5] mb-3 block">
                 Engineering Culture
@@ -318,7 +318,7 @@ export default async function CareersPage() {
 
         {/* Dynamic Open Positions Section */}
         <section className="py-20 md:py-28 bg-[#FAFAFC] border-b border-[#E5E7EB]">
-          <div className="container max-w-[1280px] mx-auto px-6">
+          <div className="container max-w-7xl mx-auto px-6">
             <div className="max-w-3xl mx-auto text-center mb-14">
               <span className="text-xs font-bold uppercase tracking-wider text-[#6D28F5] mb-3 block">
                 Openings
@@ -336,7 +336,7 @@ export default async function CareersPage() {
             <CareersClient initialJobs={jobs} departments={departments} />
           </div>
         </section>
-      </main> 
+      </main>
     </>
   );
 }

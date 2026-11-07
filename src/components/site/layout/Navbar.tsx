@@ -14,6 +14,28 @@ import Apearix from "../../common/Apearix";
 
 // --- Navigation Configuration ---
 const navigation = {
+  company: [
+  {
+    name: "About Us",
+    href: "/about",
+    desc: "Our mission, vision, and the engineering standards driving Apearix.",
+  },
+  {
+    name: "Portfolio",
+    href: "/portfolio",
+    desc: "Production web apps, client platforms, and real-world case studies.",
+  },
+  {
+    name: "Careers",
+    href: "/careers",
+    desc: "Join our core team and build high-impact digital systems.",
+  },
+  {
+    name: "Contact Us",
+    href: "/contact",
+    desc: "Discuss your project scope, custom stacks, and technical partnerships.",
+  },
+],
   services: [
     {
       name: "UI/UX Design",
@@ -172,6 +194,11 @@ export function Navbar() {
 
         {/* --- Desktop Navigation --- */}
         <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
+           <DesktopDropdown
+            title="Company"
+            id="company"
+            items={navigation.company}
+          />
           <DesktopDropdown
             title="Services"
             id="services"
@@ -230,6 +257,7 @@ export function Navbar() {
             <div className="flex flex-col space-y-6 text-heading text-base font-medium">
               {/* Mobile Dropdown Sections */}
               {[
+                { title: "Company", items: navigation.company },
                 { title: "Services", items: navigation.services },
                 { title: "Products", items: navigation.products },
               ].map((section) => (

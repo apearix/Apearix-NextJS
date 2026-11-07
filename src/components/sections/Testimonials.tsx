@@ -32,7 +32,7 @@ export function Testimonials() {
       <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-[#FAFAFC] to-transparent z-10" />
       <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-[#FAFAFC] to-transparent z-10" />
 
-      <div className="container max-w-[1280px] mx-auto px-6 mb-16 md:mb-20 text-center">
+      <div className="container max-w-7xl mx-auto px-6 mb-16 md:mb-20 text-center">
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#111827] mb-4 tracking-tight">
           Trusted by <span className="text-[#6D28F5]">Visionary Leaders</span>
         </h2>

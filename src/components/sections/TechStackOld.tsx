@@ -94,15 +94,15 @@ const marqueeNames = [
 export function TechStack() {
   return (
     <section className="py-20 md:py-28 bg-[#FAF9FF] relative overflow-hidden">
-      
+
       {/* Background Soft Glow Radial Ambient */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[450px] bg-purple-200/25 rounded-full blur-[140px] pointer-events-none -z-10" />
 
-      <div className="container max-w-[1280px] mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
-        
+      <div className="container max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+
         {/* Header Section */}
         <div className="text-center max-w-3xl mx-auto mb-16 md:mb-20">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: -10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -113,7 +113,7 @@ export function TechStack() {
             <span>Modern Stack</span>
           </motion.div>
 
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -126,7 +126,7 @@ export function TechStack() {
             </span>
           </motion.h2>
 
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -139,14 +139,14 @@ export function TechStack() {
 
         {/* Minimalist Marquee Ribbon Ticker */}
         <div className="mb-16 relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)] pointer-events-none">
-          <motion.div 
+          <motion.div
             animate={{ x: ["0%", "-50%"] }}
             transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
             className="flex items-center gap-8 whitespace-nowrap w-max"
           >
             {[...marqueeNames, ...marqueeNames].map((tech, i) => (
-              <div 
-                key={i} 
+              <div
+                key={i}
                 className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-gray-200/70 text-xs sm:text-sm font-semibold text-gray-700 shadow-sm"
               >
                 <span className="w-2 h-2 rounded-full bg-[#6320EE]" />
@@ -176,9 +176,9 @@ export function TechStack() {
 
               {/* Icon Container */}
               <div className="w-12 h-12 mb-4 p-2.5 rounded-xl bg-gray-50 group-hover:bg-purple-50 transition-colors flex items-center justify-center">
-                <img 
-                  src={tech.svgIcon} 
-                  alt={tech.name} 
+                <img
+                  src={tech.svgIcon}
+                  alt={tech.name}
                   className="w-full h-full object-contain filter group-hover:scale-110 transition-transform duration-300"
                 />
               </div>

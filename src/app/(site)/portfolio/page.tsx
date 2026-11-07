@@ -140,7 +140,7 @@ export default function PortfolioPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdPortfolio) }}
-      /> 
+      />
       <main>
         <PageHeader
           badge="Selected Work"
@@ -150,7 +150,7 @@ export default function PortfolioPage() {
         />
 
         <section className="py-20 md:py-28 bg-white border-b border-[#E5E7EB]">
-          <div className="container max-w-[1280px] mx-auto px-6">
+          <div className="container max-w-7xl mx-auto px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {projects.map((project, idx) => (
                 <div key={idx} className="group p-8 rounded-[12px] bg-[#FAFAFC] border border-[#E5E7EB] hover:border-[#DDD6FE] hover:shadow-md transition-all flex flex-col justify-between">
@@ -190,7 +190,7 @@ export default function PortfolioPage() {
         </section>
 
         {/* <CTASection title="Have a product in mind?" subtitle="Let's add your project to our portfolio of successful software products." /> */}
-      </main> 
+      </main>
     </>
   );
 }

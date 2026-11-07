@@ -1,4 +1,4 @@
-import { Metadata } from "next"; 
+import { Metadata } from "next";
 import { PageHeader } from "@/components/site/layout/PageHeader";
 import { CTASection } from "@/components/sections/CTASection";
 import { Cloud, Server, ShieldCheck, Cpu, CheckCircle2 } from "lucide-react";
@@ -81,7 +81,7 @@ export default function CloudDevOpsPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdService) }}
-      /> 
+      />
       <main>
         <PageHeader
           badge="Services"
@@ -91,7 +91,7 @@ export default function CloudDevOpsPage() {
         />
 
         <section className="py-20 md:py-28 bg-white border-b border-[#E5E7EB]">
-          <div className="container max-w-[1280px] mx-auto px-6">
+          <div className="container max-w-7xl mx-auto px-6">
             <div className="max-w-3xl mx-auto text-center mb-16">
               <span className="text-xs font-bold uppercase tracking-wider text-[#6D28F5] mb-3 block">High Availability</span>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#111827] tracking-tight mb-4">
@@ -137,7 +137,7 @@ export default function CloudDevOpsPage() {
         </section>
 
         {/* <CTASection title="Optimize your cloud infrastructure today." subtitle="Let's audit your DevOps stack and build a resilient infrastructure pipeline." /> */}
-      </main> 
+      </main>
     </>
   );
 }

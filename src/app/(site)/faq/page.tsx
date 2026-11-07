@@ -1,5 +1,5 @@
-import { Metadata } from "next"; 
-import { PageHeader } from "@/components/site/layout/PageHeader"; 
+import { Metadata } from "next";
+import { PageHeader } from "@/components/site/layout/PageHeader";
 import { FAQAccordion } from "@/components/sections/FAQAccordion";
 
 export const metadata: Metadata = {
@@ -81,7 +81,7 @@ export default function FAQPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }}
-      /> 
+      />
       <main>
         <PageHeader
           badge="Help & Answers"
@@ -91,13 +91,13 @@ export default function FAQPage() {
         />
 
         <section className="py-20 md:py-28 bg-white border-b border-[#E5E7EB]">
-          <div className="container max-w-[1280px] mx-auto px-6">
+          <div className="container max-w-7xl mx-auto px-6">
             <FAQAccordion faqs={faqs} />
           </div>
         </section>
 
         {/* <CTASection title="Have a question not answered here?" subtitle="Contact our engineering team directly and we will answer all your technical questions." ctaText="Contact Us" /> */}
-      </main> 
+      </main>
     </>
   );
 }

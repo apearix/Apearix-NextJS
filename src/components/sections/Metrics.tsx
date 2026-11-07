@@ -14,7 +14,7 @@ const stats = [
 export function Metrics() {
   return (
     <section className="py-24 md:py-32 bg-[#FAFAFC] border-y border-[#E5E7EB]">
-      <div className="container max-w-[1280px] mx-auto px-6">
+      <div className="container max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
           {stats.map((stat, index) => (
             <StatItem key={index} {...stat} />
@@ -36,7 +36,7 @@ function StatItem({ label, value, suffix, icon: Icon }: any) {
       const end = value;
       const duration = 2000;
       const increment = end / (duration / 16);
-      
+
       const timer = setInterval(() => {
         start += increment;
         if (start >= end) {
@@ -46,7 +46,7 @@ function StatItem({ label, value, suffix, icon: Icon }: any) {
           setCount(start);
         }
       }, 16);
-      
+
       return () => clearInterval(timer);
     }
   }, [isInView, value]);

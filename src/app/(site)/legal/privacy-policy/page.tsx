@@ -54,7 +54,7 @@ export default function PrivacyPolicyPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdPrivacy) }}
-      /> 
+      />
       <main>
         <PageHeader
           badge="Legal Compliance"
@@ -64,7 +64,7 @@ export default function PrivacyPolicyPage() {
         />
 
         <section className="py-20 md:py-28 bg-white border-b border-[#E5E7EB]">
-          <div className="container max-w-[1280px] mx-auto px-6">
+          <div className="container max-w-7xl mx-auto px-6">
             <div className="max-w-3xl mx-auto prose prose-slate text-[#4B5563] space-y-8 leading-relaxed">
               <div>
                 <h2 className="text-2xl font-bold text-[#111827] mb-4">1. Information We Collect</h2>
@@ -96,7 +96,7 @@ export default function PrivacyPolicyPage() {
             </div>
           </div>
         </section>
-      </main> 
+      </main>
     </>
   );
 }

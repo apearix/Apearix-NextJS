@@ -1,18 +1,18 @@
 import React from 'react';
-import { 
-  ArrowRight, Code2, Smartphone, Puzzle, Bot, 
-  CheckCircle2, ChevronDown, Monitor, Cpu, ShieldCheck, 
-  Workflow, Zap, Layers, Server, Cloud, 
- Mail, Phone, Layout
+import {
+  ArrowRight, Code2, Smartphone, Puzzle, Bot,
+  CheckCircle2, ChevronDown, Monitor, Cpu, ShieldCheck,
+  Workflow, Zap, Layers, Server, Cloud,
+  Mail, Phone, Layout
 } from 'lucide-react';
 
 export default function ApearixLandingPage() {
   return (
     <div className="min-h-screen font-sans text-[#4B5563] bg-[#FFFFFF] selection:bg-[#F4F0FF] selection:text-[#6D28F5]">
-      
+
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-[20px] border-b border-[#E5E7EB]/80">
-        <div className="max-w-[1280px] mx-auto px-6 h-20 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="text-xl font-bold text-[#111827] tracking-tight">Apearix</span>
           </div>
@@ -30,7 +30,7 @@ export default function ApearixLandingPage() {
 
       {/* 1. Hero Section */}
       <section className="pt-40 pb-24 px-6 bg-gradient-to-b from-[#FFFFFF] via-[#FAFAFC] to-[#F4F0FF]">
-        <div className="max-w-[1280px] mx-auto text-center">
+        <div className="max-w-7xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-[#E5E7EB] shadow-sm mb-8">
             <span className="w-2 h-2 rounded-full bg-[#6D28F5]"></span>
             <span className="text-sm font-medium text-[#111827]">Software Development Agency</span>
@@ -50,24 +50,24 @@ export default function ApearixLandingPage() {
             </button>
           </div>
         </div>
-        
+
         {/* Main mockup placeholder container */}
-        <div className="max-w-[1280px] mx-auto mt-16 rounded-[16px] border border-[#E5E7EB] bg-[#FAFAFC] p-8 shadow-xl overflow-hidden flex items-center justify-center min-h-[300px]">
-            <div className="text-center">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#6D28F5] bg-[#F4F0FF] px-4 py-1.5 rounded-full border border-[#DDD6FE] inline-block mb-3">Enterprise Dashboard Overview</span>
-              <p className="text-[#6B7280] text-sm max-w-md">High-performance custom web applications, mobile platforms, and automated workflow solutions.</p>
-            </div>
+        <div className="max-w-7xl mx-auto mt-16 rounded-[16px] border border-[#E5E7EB] bg-[#FAFAFC] p-8 shadow-xl overflow-hidden flex items-center justify-center min-h-[300px]">
+          <div className="text-center">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#6D28F5] bg-[#F4F0FF] px-4 py-1.5 rounded-full border border-[#DDD6FE] inline-block mb-3">Enterprise Dashboard Overview</span>
+            <p className="text-[#6B7280] text-sm max-w-md">High-performance custom web applications, mobile platforms, and automated workflow solutions.</p>
+          </div>
         </div>
       </section>
 
       {/* 2. Trusted by Ideas, Built for Growth */}
       <section className="py-24 px-6 bg-white border-b border-[#E5E7EB]">
-        <div className="max-w-[1280px] mx-auto text-center">
+        <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-sm font-bold text-[#6D28F5] uppercase tracking-wider mb-4">Every successful product starts with an idea</h2>
           <p className="text-2xl font-medium text-[#111827] mb-16 max-w-3xl mx-auto">
             We help turn that idea into software people use every day.
           </p>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
               { label: "Projects Delivered", value: "40+" },
@@ -86,12 +86,12 @@ export default function ApearixLandingPage() {
 
       {/* 3. What We Build */}
       <section id="services" className="py-24 px-6 bg-[#F6F7FB]">
-        <div className="max-w-[1280px] mx-auto">
+        <div className="max-w-7xl mx-auto">
           <div className="mb-16">
             <h2 className="text-3xl font-bold text-[#111827] tracking-tight mb-4">What We Build</h2>
             <p className="text-[#4B5563] text-lg max-w-2xl">End-to-end software development services tailored for modern businesses.</p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 gap-6 mb-12">
             {[
               { icon: <Monitor className="w-6 h-6" />, title: "Website Development", desc: "Fast, responsive websites built for businesses that care about performance and credibility." },
@@ -108,7 +108,7 @@ export default function ApearixLandingPage() {
               </div>
             ))}
           </div>
-          
+
           <button className="flex items-center gap-2 bg-white border border-[#DDD6FE] text-[#6D28F5] hover:bg-[#F4F0FF] h-12 px-6 rounded-[10px] font-medium transition-colors">
             Explore Services <ArrowRight className="w-4 h-4" />
           </button>
@@ -117,12 +117,12 @@ export default function ApearixLandingPage() {
 
       {/* 4. Why Businesses Choose Apearix */}
       <section className="py-24 px-6 bg-white">
-        <div className="max-w-[1280px] mx-auto">
+        <div className="max-w-7xl mx-auto">
           <div className="mb-16">
             <h2 className="text-3xl font-bold text-[#111827] tracking-tight mb-4">Built around quality, not shortcuts.</h2>
             <p className="text-[#4B5563] text-lg max-w-2xl">We prioritize sustainable engineering and clear communication over quick fixes.</p>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-6">
             {[
               { icon: <Code2 />, title: "Clean Engineering", desc: "Readable code, scalable architecture, and maintainable projects." },
@@ -144,9 +144,9 @@ export default function ApearixLandingPage() {
 
       {/* 5. How We Work */}
       <section id="process" className="py-24 px-6 bg-[#F4F0FF]/50">
-        <div className="max-w-[1280px] mx-auto">
+        <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl font-bold text-[#111827] tracking-tight mb-16 text-center">A simple, transparent process</h2>
-          
+
           <div className="grid md:grid-cols-6 gap-4">
             {[
               { step: "1", title: "Discovery", desc: "We learn about your business, users, and goals." },
@@ -171,9 +171,9 @@ export default function ApearixLandingPage() {
 
       {/* 6. Featured Projects */}
       <section id="projects" className="py-24 px-6 bg-white">
-        <div className="max-w-[1280px] mx-auto">
+        <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl font-bold text-[#111827] tracking-tight mb-16">Featured Projects</h2>
-          
+
           <div className="space-y-16">
             {/* Project 1 */}
             <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -205,7 +205,7 @@ export default function ApearixLandingPage() {
       {/* 7. Technology Stack & 8. Industries */}
       <section className="py-24 px-6 bg-[#FAFAFC] border-t border-[#E5E7EB]">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16">
-          
+
           {/* Tech Stack */}
           <div>
             <h2 className="text-2xl font-bold text-[#111827] tracking-tight mb-8">Technology Stack</h2>
@@ -230,7 +230,7 @@ export default function ApearixLandingPage() {
             <h2 className="text-2xl font-bold text-[#111827] tracking-tight mb-8">Industries We Serve</h2>
             <div className="grid grid-cols-2 gap-4">
               {[
-                "Healthcare", "Education", "Real Estate", "Finance", 
+                "Healthcare", "Education", "Real Estate", "Finance",
                 "Retail", "Manufacturing", "Professional Services", "Startups"
               ].map((industry, i) => (
                 <div key={i} className="flex items-center gap-2 p-4 bg-white border border-[#E5E7EB] rounded-[14px]">
@@ -250,9 +250,9 @@ export default function ApearixLandingPage() {
           <h2 className="text-3xl font-bold text-[#111827] tracking-tight mb-12">Our Development Standards</h2>
           <div className="grid sm:grid-cols-2 gap-4 text-left">
             {[
-              "Responsive on every device", "SEO-ready structure", 
-              "Fast loading performance", "Secure authentication", 
-              "Clean and documented code", "Scalable architecture", 
+              "Responsive on every device", "SEO-ready structure",
+              "Fast loading performance", "Secure authentication",
+              "Clean and documented code", "Scalable architecture",
               "Version controlled", "Production deployment support"
             ].map((standard, i) => (
               <div key={i} className="flex items-center gap-3 p-4 bg-[#F6F7FB] rounded-[14px]">
@@ -304,7 +304,7 @@ export default function ApearixLandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-5 gap-10 mb-16">
             <div className="col-span-2 md:col-span-2">
-               <div className="flex items-center gap-3 mb-6">
+              <div className="flex items-center gap-3 mb-6">
                 <img src="/image_39d8f9.png" alt="Apearix Logo" className="w-8 h-8 object-contain filter brightness-0 invert" />
                 <span className="text-xl font-bold text-white tracking-tight">Apearix</span>
               </div>
@@ -319,7 +319,7 @@ export default function ApearixLandingPage() {
                 <Facebook className="w-5 h-5 hover:text-white cursor-pointer transition-colors" />
               </div> */}
             </div>
-            
+
             <div>
               <h4 className="text-white font-semibold mb-6">Company</h4>
               <ul className="space-y-4 text-sm text-[#94A3B8]">
@@ -329,7 +329,7 @@ export default function ApearixLandingPage() {
                 <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
               </ul>
             </div>
-            
+
             <div>
               <h4 className="text-white font-semibold mb-6">Services</h4>
               <ul className="space-y-4 text-sm text-[#94A3B8]">
@@ -339,7 +339,7 @@ export default function ApearixLandingPage() {
                 <li><a href="#" className="hover:text-white transition-colors">AI Automation</a></li>
               </ul>
             </div>
-            
+
             <div>
               <h4 className="text-white font-semibold mb-6">Resources</h4>
               <ul className="space-y-4 text-sm text-[#94A3B8]">
@@ -349,7 +349,7 @@ export default function ApearixLandingPage() {
               </ul>
             </div>
           </div>
-          
+
           <div className="pt-8 border-t border-[#1E293B] flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-[#94A3B8]">
             <div>© {new Date().getFullYear()} Apearix. All rights reserved.</div>
             <div className="flex items-center gap-6">

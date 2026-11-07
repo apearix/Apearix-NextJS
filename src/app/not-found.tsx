@@ -5,9 +5,9 @@ import { Footer } from '@/components/site/layout/Footer';
 
 export default function NotFound() {
   return (
-    <> 
+    <>
       <main className="min-h-[80vh] flex items-center justify-center pt-32 pb-20 bg-gradient-to-b from-white via-[#FAFAFC] to-[#F4F0FF]/40">
-        <div className="container max-w-[1280px] mx-auto px-6 text-center">
+        <div className="container max-w-7xl mx-auto px-6 text-center">
           <span className="inline-block px-4 py-1.5 rounded-full bg-[#F4F0FF] border border-[#DDD6FE] text-xs font-bold text-[#6D28F5] uppercase tracking-wider mb-6">
             404 Error
           </span>
@@ -34,7 +34,7 @@ export default function NotFound() {
             </Link>
           </div>
         </div>
-      </main> 
+      </main>
     </>
   );
 }

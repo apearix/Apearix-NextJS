@@ -41,7 +41,7 @@ export function Process() {
 
   return (
     <section id="process" className="py-24 md:py-32 bg-white">
-      <div className="container max-w-[1280px] mx-auto px-6">
+      <div className="container max-w-7xl mx-auto px-6">
         <div className="max-w-3xl mb-16 md:mb-24">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#111827] mb-6 tracking-tight">
             Our Proven <br />
@@ -55,9 +55,9 @@ export function Process() {
         <div ref={containerRef} className="relative max-w-4xl mx-auto">
           {/* Timeline Line */}
           <div className="absolute left-[20px] md:left-1/2 top-0 bottom-0 w-px bg-[#E5E7EB] md:-translate-x-1/2" />
-          <motion.div 
+          <motion.div
             style={{ scaleY, transformOrigin: "top" }}
-            className="absolute left-[20px] md:left-1/2 top-0 bottom-0 w-px bg-[#6D28F5] md:-translate-x-1/2" 
+            className="absolute left-[20px] md:left-1/2 top-0 bottom-0 w-px bg-[#6D28F5] md:-translate-x-1/2"
           />
 
           {steps.map((step, index) => (
@@ -68,7 +68,7 @@ export function Process() {
                     <StepContent step={step} index={index} />
                   )}
                 </div>
-                
+
                 <div className="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-white border-2 border-[#6D28F5] flex items-center justify-center font-bold text-[#6D28F5] shadow-sm text-sm">
                   {index + 1}
                 </div>
@@ -82,7 +82,7 @@ export function Process() {
                     </div>
                   )}
                   {index % 2 !== 0 && (
-                     <div className="hidden md:block" />
+                    <div className="hidden md:block" />
                   )}
                 </div>
               </div>

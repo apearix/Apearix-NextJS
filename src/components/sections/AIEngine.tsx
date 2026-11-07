@@ -15,7 +15,7 @@ const orbitingItems = [
 export function AIEngine() {
   return (
     <section className="py-24 md:py-32 bg-white overflow-hidden">
-      <div className="container max-w-[1280px] mx-auto px-6">
+      <div className="container max-w-7xl mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-16 md:mb-24">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#111827] mb-6 tracking-tight">
             The AI <br />
@@ -29,14 +29,14 @@ export function AIEngine() {
         <div className="relative h-[480px] sm:h-[560px] md:h-[600px] w-full flex items-center justify-center">
           {/* Central Core */}
           <motion.div
-            animate={{ 
+            animate={{
               scale: [1, 1.05, 1],
               rotate: [0, 180, 360]
             }}
-            transition={{ 
-              duration: 25, 
-              repeat: Infinity, 
-              ease: "linear" 
+            transition={{
+              duration: 25,
+              repeat: Infinity,
+              ease: "linear"
             }}
             className="relative z-10 w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 rounded-[16px] bg-gradient-to-br from-[#7C3AED] to-[#5B21E6] flex items-center justify-center shadow-xl shadow-[#6D28F5]/30"
           >
@@ -52,12 +52,12 @@ export function AIEngine() {
           {orbitingItems.map((item, index) => (
             <motion.div
               key={index}
-              animate={{ 
-                rotate: 360 
+              animate={{
+                rotate: 360
               }}
-              transition={{ 
-                duration: 35, 
-                repeat: Infinity, 
+              transition={{
+                duration: 35,
+                repeat: Infinity,
                 ease: "linear",
                 delay: -index * 5.8
               }}

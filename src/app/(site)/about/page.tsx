@@ -63,7 +63,7 @@ export default function AboutPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdAbout) }}
-      /> 
+      />
       <main>
         <PageHeader
           badge="Thoughtfully Built Software"
@@ -74,7 +74,7 @@ export default function AboutPage() {
 
         {/* Philosophy Section */}
         <section className="py-20 md:py-28 bg-white border-b border-[#E5E7EB]">
-          <div className="container max-w-[1280px] mx-auto px-6">
+          <div className="container max-w-7xl mx-auto px-6">
             <div className="max-w-3xl mx-auto text-center mb-16">
               <span className="text-xs font-bold uppercase tracking-wider text-[#6D28F5] mb-3 block">Our Philosophy</span>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#111827] tracking-tight mb-6">
@@ -121,7 +121,7 @@ export default function AboutPage() {
 
         {/* Our 6 Principles */}
         <section className="py-20 md:py-28 bg-[#FAFAFC] border-b border-[#E5E7EB]">
-          <div className="container max-w-[1280px] mx-auto px-6">
+          <div className="container max-w-7xl mx-auto px-6">
             <div className="max-w-3xl mx-auto text-center mb-16">
               <span className="text-xs font-bold uppercase tracking-wider text-[#6D28F5] mb-3 block">Our Standards</span>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#111827] tracking-tight mb-4">
@@ -155,7 +155,7 @@ export default function AboutPage() {
 
         {/* Mission & Vision */}
         <section className="py-20 md:py-28 bg-white border-b border-[#E5E7EB]">
-          <div className="container max-w-[1280px] mx-auto px-6 grid md:grid-cols-2 gap-12">
+          <div className="container max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12">
             <div className="p-8 md:p-10 rounded-[12px] bg-[#F4F0FF]/40 border border-[#DDD6FE]">
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-2.5 rounded-[10px] bg-[#6D28F5] text-white">
@@ -183,7 +183,7 @@ export default function AboutPage() {
         </section>
 
         <CTASection />
-      </main> 
+      </main>
     </>
   );
 }

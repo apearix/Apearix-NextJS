@@ -1,4 +1,4 @@
-import { Metadata } from "next"; 
+import { Metadata } from "next";
 import { PageHeader } from "@/components/site/layout/PageHeader";
 import { CTASection } from "@/components/sections/CTASection";
 import { Layers, Database, Lock, Cpu, CheckCircle2 } from "lucide-react";
@@ -80,7 +80,7 @@ export default function SaaSDevelopmentPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdService) }}
-      /> 
+      />
       <main>
         <PageHeader
           badge="Services"
@@ -90,7 +90,7 @@ export default function SaaSDevelopmentPage() {
         />
 
         <section className="py-20 md:py-28 bg-white border-b border-[#E5E7EB]">
-          <div className="container max-w-[1280px] mx-auto px-6">
+          <div className="container max-w-7xl mx-auto px-6">
             <div className="max-w-3xl mx-auto text-center mb-16">
               <span className="text-xs font-bold uppercase tracking-wider text-[#6D28F5] mb-3 block">Enterprise SaaS</span>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#111827] tracking-tight mb-4">
@@ -136,7 +136,7 @@ export default function SaaSDevelopmentPage() {
         </section>
 
         {/* <CTASection title="Have a SaaS product idea?" subtitle="Let's build a production-ready application that users love." /> */}
-      </main> 
+      </main>
     </>
   );
 }
