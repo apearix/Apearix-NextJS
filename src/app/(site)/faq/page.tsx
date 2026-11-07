@@ -1,6 +1,4 @@
-import { Metadata } from "next";
-import { Navbar } from "@/components/site/layout/Navbar";
-import { Footer } from "@/components/site/layout/Footer";
+import { Metadata } from "next"; 
 import { PageHeader } from "@/components/site/layout/PageHeader"; 
 import { FAQAccordion } from "@/components/sections/FAQAccordion";
 
@@ -83,8 +81,7 @@ export default function FAQPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }}
-      />
-      <Navbar />
+      /> 
       <main>
         <PageHeader
           badge="Help & Answers"
@@ -100,8 +97,7 @@ export default function FAQPage() {
         </section>
 
         {/* <CTASection title="Have a question not answered here?" subtitle="Contact our engineering team directly and we will answer all your technical questions." ctaText="Contact Us" /> */}
-      </main>
-      <Footer />
+      </main> 
     </>
   );
 }

@@ -83,8 +83,7 @@ export default function AIAutomationPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdService) }}
-      />
-      <Navbar />
+      /> 
       <main>
         <PageHeader
           badge="Services"
@@ -140,8 +139,7 @@ export default function AIAutomationPage() {
         </section>
 
         {/* <CTASection title="Want to automate your business operations?" subtitle="Schedule a discovery call to audit your processes and identify high-ROI AI automation opportunities." /> */}
-      </main>
-      <Footer />
+      </main> 
     </>
   );
 }

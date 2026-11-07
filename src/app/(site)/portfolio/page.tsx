@@ -140,8 +140,7 @@ export default function PortfolioPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdPortfolio) }}
-      />
-      <Navbar />
+      /> 
       <main>
         <PageHeader
           badge="Selected Work"
@@ -191,8 +190,7 @@ export default function PortfolioPage() {
         </section>
 
         {/* <CTASection title="Have a product in mind?" subtitle="Let's add your project to our portfolio of successful software products." /> */}
-      </main>
-      <Footer />
+      </main> 
     </>
   );
 }

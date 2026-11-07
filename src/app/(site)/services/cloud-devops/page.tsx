@@ -1,6 +1,4 @@
-import { Metadata } from "next";
-import { Navbar } from "@/components/site/layout/Navbar";
-import { Footer } from "@/components/site/layout/Footer";
+import { Metadata } from "next"; 
 import { PageHeader } from "@/components/site/layout/PageHeader";
 import { CTASection } from "@/components/sections/CTASection";
 import { Cloud, Server, ShieldCheck, Cpu, CheckCircle2 } from "lucide-react";
@@ -83,8 +81,7 @@ export default function CloudDevOpsPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdService) }}
-      />
-      <Navbar />
+      /> 
       <main>
         <PageHeader
           badge="Services"
@@ -140,8 +137,7 @@ export default function CloudDevOpsPage() {
         </section>
 
         {/* <CTASection title="Optimize your cloud infrastructure today." subtitle="Let's audit your DevOps stack and build a resilient infrastructure pipeline." /> */}
-      </main>
-      <Footer />
+      </main> 
     </>
   );
 }

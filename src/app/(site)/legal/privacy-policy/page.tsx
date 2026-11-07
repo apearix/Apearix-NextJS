@@ -54,8 +54,7 @@ export default function PrivacyPolicyPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdPrivacy) }}
-      />
-      <Navbar />
+      /> 
       <main>
         <PageHeader
           badge="Legal Compliance"
@@ -97,8 +96,7 @@ export default function PrivacyPolicyPage() {
             </div>
           </div>
         </section>
-      </main>
-      <Footer />
+      </main> 
     </>
   );
 }

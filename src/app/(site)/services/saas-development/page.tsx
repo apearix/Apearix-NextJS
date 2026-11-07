@@ -1,6 +1,4 @@
-import { Metadata } from "next";
-import { Navbar } from "@/components/site/layout/Navbar";
-import { Footer } from "@/components/site/layout/Footer";
+import { Metadata } from "next"; 
 import { PageHeader } from "@/components/site/layout/PageHeader";
 import { CTASection } from "@/components/sections/CTASection";
 import { Layers, Database, Lock, Cpu, CheckCircle2 } from "lucide-react";
@@ -82,8 +80,7 @@ export default function SaaSDevelopmentPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdService) }}
-      />
-      <Navbar />
+      /> 
       <main>
         <PageHeader
           badge="Services"
@@ -139,8 +136,7 @@ export default function SaaSDevelopmentPage() {
         </section>
 
         {/* <CTASection title="Have a SaaS product idea?" subtitle="Let's build a production-ready application that users love." /> */}
-      </main>
-      <Footer />
+      </main> 
     </>
   );
 }

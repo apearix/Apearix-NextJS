@@ -1,6 +1,4 @@
-import { Metadata } from "next";
-import { Navbar } from "@/components/site/layout/Navbar";
-import { Footer } from "@/components/site/layout/Footer";
+import { Metadata } from "next"; 
 import { PageHeader } from "@/components/site/layout/PageHeader";
 import { CTASection } from "@/components/sections/CTASection";
 import { Smartphone, Zap, ShieldCheck, CheckCircle2 } from "lucide-react";
@@ -82,8 +80,7 @@ export default function MobileAppDevelopmentPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdService) }}
-      />
-      <Navbar />
+      /> 
       <main>
         <PageHeader
           badge="Services"
@@ -139,8 +136,7 @@ export default function MobileAppDevelopmentPage() {
         </section>
 
         {/* <CTASection title="Ready to launch a mobile application?" subtitle="Let's build an app that users love having on their home screen." /> */}
-      </main>
-      <Footer />
+      </main> 
     </>
   );
 }

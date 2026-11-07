@@ -1,6 +1,4 @@
-import { Metadata } from "next";
-import { Navbar } from "@/components/site/layout/Navbar";
-import { Footer } from "@/components/site/layout/Footer";
+import { Metadata } from "next"; 
 import { PageHeader } from "@/components/site/layout/PageHeader";
 import { CTASection } from "@/components/sections/CTASection";
 import { Palette, Eye, Sparkles, Layout, CheckCircle2 } from "lucide-react";
@@ -82,8 +80,7 @@ export default function UIUXDesignPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdService) }}
-      />
-      <Navbar />
+      /> 
       <main>
         <PageHeader
           badge="Services"
@@ -139,8 +136,7 @@ export default function UIUXDesignPage() {
         </section>
 
         {/* <CTASection title="Elevate your product's design." subtitle="Let's build an interface that users love to interact with every day." /> */}
-      </main>
-      <Footer />
+      </main> 
     </>
   );
 }

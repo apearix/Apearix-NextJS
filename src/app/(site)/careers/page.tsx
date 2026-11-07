@@ -235,8 +235,7 @@ export default async function CareersPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdCareers) }}
-      />
-      <Navbar />
+      /> 
       <main>
         <PageHeader
           badge="Join Our Team"
@@ -337,8 +336,7 @@ export default async function CareersPage() {
             <CareersClient initialJobs={jobs} departments={departments} />
           </div>
         </section>
-      </main>
-      <Footer />
+      </main> 
     </>
   );
 }

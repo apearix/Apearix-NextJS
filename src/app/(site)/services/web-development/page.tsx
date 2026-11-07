@@ -84,8 +84,7 @@ export default function WebDevelopmentPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdService) }}
-      />
-      <Navbar />
+      /> 
       <main>
         <PageHeader
           badge="Services"
@@ -144,8 +143,7 @@ export default function WebDevelopmentPage() {
         <ModernTechStack />
 
         {/* <CTASection title="Ready to launch a high-performance website?" subtitle="Get in touch to discuss your goals, design preferences, and timeline." /> */}
-      </main>
-      <Footer />
+      </main> 
     </>
   );
 }

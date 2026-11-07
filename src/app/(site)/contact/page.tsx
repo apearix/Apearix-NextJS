@@ -1,6 +1,4 @@
-import { Metadata } from "next";
-import { Navbar } from "@/components/site/layout/Navbar";
-import { Footer } from "@/components/site/layout/Footer";
+import { Metadata } from "next"; 
 import { PageHeader } from "@/components/site/layout/PageHeader";
 import { Mail, Phone, MapPin, Send, MessageSquare } from "lucide-react";
 
@@ -62,8 +60,7 @@ export default function ContactPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdContact) }}
-      />
-      <Navbar />
+      /> 
       <main>
         <PageHeader
           badge="Get In Touch"
@@ -214,8 +211,7 @@ export default function ContactPage() {
 
           </div>
         </section>
-      </main>
-      <Footer />
+      </main> 
     </>
   );
 }

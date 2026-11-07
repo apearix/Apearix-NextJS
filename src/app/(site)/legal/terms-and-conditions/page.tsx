@@ -53,8 +53,7 @@ export default function TermsPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdTerms) }}
-      />
-      <Navbar />
+      /> 
       <main>
         <PageHeader
           badge="Legal Terms"
@@ -89,8 +88,7 @@ export default function TermsPage() {
             </div>
           </div>
         </section>
-      </main>
-      <Footer />
+      </main> 
     </>
   );
 }
