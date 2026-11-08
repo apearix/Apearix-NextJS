@@ -561,7 +561,7 @@ export default function AdminUsersPage() {
                       className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 accent-primary cursor-pointer"
                     />
                   </th>
-                  <th scope="col" className="py-3.5 px-3 min-w-[280px]">User Account</th>
+                  <th scope="col" className="py-3.5 px-3 min-w-70">User Account</th>
                   <th scope="col" className="py-3.5 px-3 min-w-36">Role</th>
                   <th scope="col" className="py-3.5 px-3 min-w-32.5">Status</th>
                   <th scope="col" className="py-3.5 px-3 min-w-36">Phone</th>
@@ -608,9 +608,8 @@ export default function AdminUsersPage() {
                       <tr
                         key={user.id}
                         onClick={() => setDrawerUser(user)}
-                        className={`group hover:bg-surface transition-colors cursor-pointer ${
-                          isSelected ? "bg-primary-light/40 border-l-4 border-l-primary" : ""
-                        }`}
+                        className={`group hover:bg-surface transition-colors cursor-pointer ${isSelected ? "bg-primary-light/40 border-l-4 border-l-primary" : ""
+                          }`}
                       >
                         <td className="py-3.5 pl-4 pr-2 w-10" onClick={(e) => e.stopPropagation()}>
                           <input
@@ -620,7 +619,7 @@ export default function AdminUsersPage() {
                             className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 accent-primary cursor-pointer"
                           />
                         </td>
-                        <td className="py-3.5 px-3 max-w-[280px]">
+                        <td className="py-3.5 px-3 max-w-70">
                           <div className="flex items-center gap-3">
                             {user.avatar ? (
                               <img
@@ -683,45 +682,45 @@ export default function AdminUsersPage() {
                               },
                               ...(user.status !== "active"
                                 ? [
-                                    {
-                                      label: "Set Active",
-                                      icon: <UserCheck className="w-3.5 h-3.5 text-emerald-600" />,
-                                      variant: "success" as const,
-                                      onClick: () => updateSingleStatus(user.id!, "active"),
-                                    },
-                                  ]
+                                  {
+                                    label: "Set Active",
+                                    icon: <UserCheck className="w-3.5 h-3.5 text-emerald-600" />,
+                                    variant: "success" as const,
+                                    onClick: () => updateSingleStatus(user.id!, "active"),
+                                  },
+                                ]
                                 : []),
                               ...(user.status !== "inactive"
                                 ? [
-                                    {
-                                      label: "Set Inactive",
-                                      icon: <UserX className="w-3.5 h-3.5 text-amber-600" />,
-                                      variant: "warning" as const,
-                                      onClick: () => updateSingleStatus(user.id!, "inactive"),
-                                    },
-                                  ]
+                                  {
+                                    label: "Set Inactive",
+                                    icon: <UserX className="w-3.5 h-3.5 text-amber-600" />,
+                                    variant: "warning" as const,
+                                    onClick: () => updateSingleStatus(user.id!, "inactive"),
+                                  },
+                                ]
                                 : []),
                               ...(user.status !== "suspended"
                                 ? [
-                                    {
-                                      label: "Suspend User",
-                                      icon: <ShieldAlert className="w-3.5 h-3.5 text-orange-600" />,
-                                      variant: "warning" as const,
-                                      onClick: () => updateSingleStatus(user.id!, "suspended"),
-                                    },
-                                  ]
+                                  {
+                                    label: "Suspend User",
+                                    icon: <ShieldAlert className="w-3.5 h-3.5 text-orange-600" />,
+                                    variant: "warning" as const,
+                                    onClick: () => updateSingleStatus(user.id!, "suspended"),
+                                  },
+                                ]
                                 : []),
                               ...(user.status !== "blocked"
                                 ? [
-                                    {
-                                      label: "Block User",
-                                      icon: <Lock className="w-3.5 h-3.5 text-rose-600" />,
-                                      variant: "danger" as const,
-                                      onClick: () => updateSingleStatus(user.id!, "blocked"),
-                                      dividerAfter: true,
-                                    },
-                                  ]
-                                : [{ label: "", onClick: () => {}, dividerAfter: true }]),
+                                  {
+                                    label: "Block User",
+                                    icon: <Lock className="w-3.5 h-3.5 text-rose-600" />,
+                                    variant: "danger" as const,
+                                    onClick: () => updateSingleStatus(user.id!, "blocked"),
+                                    dividerAfter: true,
+                                  },
+                                ]
+                                : [{ label: "", onClick: () => { }, dividerAfter: true }]),
                               {
                                 label: "Delete User",
                                 icon: <Trash2 className="w-3.5 h-3.5" />,

@@ -108,7 +108,7 @@ export function WhatWeBuild() {
                             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-heading tracking-tight leading-[1.08]"
                         >
                             Technology That Solves <br className="hidden sm:inline" />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-[#7B3FE4] to-accent-purple">
+                            <span className="text-transparent bg-clip-text bg-linear-to-r from-primary via-[#7B3FE4] to-accent-purple">
                                 Real Business Problems.
                             </span>
                         </motion.h2>

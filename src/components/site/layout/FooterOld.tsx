@@ -120,10 +120,10 @@ export function Footer() {
     };
 
     return (
-        <footer className="relative bg-[#0F172A] text-white pt-20 pb-8 overflow-hidden border-t border-white/10">
+        <footer className="relative bg-footer text-white pt-20 pb-8 overflow-hidden border-t border-white/10">
             {/* Background Ambient Glows */}
-            <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-[#6D28F5]/15 rounded-full blur-[160px] pointer-events-none -z-0" />
-            <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-[#5B21E6]/10 rounded-full blur-[160px] pointer-events-none -z-0" />
+            <div className="absolute top-0 left-1/4 w-150 h-150 bg-[#6D28F5]/15 rounded-full blur-[160px] pointer-events-none z-0" />
+            <div className="absolute bottom-0 right-1/4 w-125 h-125 bg-[#5B21E6]/10 rounded-full blur-[160px] pointer-events-none z-0" />
 
             <div className="container max-w-7xl mx-auto px-6 relative z-10">
                 {/* Top Grid Section */}
@@ -203,7 +203,7 @@ export function Footer() {
                     </div>
 
                     {/* Column 4: Newsletter / Quick Contact */}
-                    <div className="lg:col-span-4 space-y-4 bg-white/[0.03] p-6 rounded-[16px] border border-white/10 backdrop-blur-sm h-fit">
+                    <div className="lg:col-span-4 space-y-4 bg-white/3 p-6 rounded-2xl border border-white/10 backdrop-blur-sm h-fit">
                         <div className="flex items-center gap-2 text-[#6D28F5]">
                             <Sparkles className="w-4 h-4" />
                             <span className="text-xs font-bold uppercase tracking-wider text-[#6D28F5]">
@@ -235,7 +235,7 @@ export function Footer() {
                                 <button
                                     type="submit"
                                     disabled={subscribed}
-                                    className="absolute right-1.5 top-1.5 bottom-1.5 px-4 rounded-[8px] bg-[#6D28F5] text-white text-xs font-semibold hover:bg-[#5B21E6] transition-all flex items-center gap-1.5 disabled:bg-[#16A34A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6D28F5]"
+                                    className="absolute right-1.5 top-1.5 bottom-1.5 px-4 rounded-lg bg-[#6D28F5] text-white text-xs font-semibold hover:bg-[#5B21E6] transition-all flex items-center gap-1.5 disabled:bg-[#16A34A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6D28F5]"
                                 >
                                     {subscribed ? (
                                         <>

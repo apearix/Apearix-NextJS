@@ -232,7 +232,7 @@ export default function AdminProfilePage() {
 
   if (isLoading) {
     return (
-      <main className="flex items-center justify-center min-h-[400px]">
+      <main className="flex items-center justify-center min-h-100">
         <div className="flex items-center gap-3 text-sm text-muted">
           <Loader2 className="w-5 h-5 animate-spin text-primary" />
           <span>Loading admin profile data...</span>
@@ -248,11 +248,10 @@ export default function AdminProfilePage() {
       {/* Toast Notification */}
       {toastMessage && (
         <div
-          className={`fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-3 text-xs font-semibold rounded-xl shadow-2xl border transition-all duration-200 ${
-            toastMessage.type === "error"
+          className={`fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-3 text-xs font-semibold rounded-xl shadow-2xl border transition-all duration-200 ${toastMessage.type === "error"
               ? "bg-rose-950 text-rose-100 border-rose-800"
               : "bg-heading text-white border-white/10"
-          }`}
+            }`}
         >
           {toastMessage.type === "error" ? (
             <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
@@ -264,7 +263,7 @@ export default function AdminProfilePage() {
       )}
 
       {/* Header Banner */}
-      <div className="relative overflow-hidden rounded-2xl border border-border-accent/40 bg-gradient-to-r from-primary-light/60 via-surface to-background p-6 md:p-8">
+      <div className="relative overflow-hidden rounded-2xl border border-border-accent/40 bg-linear-to-r from-primary-light/60 via-surface to-background p-6 md:p-8">
         <div className="absolute right-0 top-0 -mt-6 -mr-6 h-48 w-48 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
         <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex items-center gap-5">
@@ -324,11 +323,10 @@ export default function AdminProfilePage() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              className={`inline-flex items-center gap-2 px-4 py-3 text-sm font-semibold border-b-2 transition-all cursor-pointer whitespace-nowrap ${
-                isActive
+              className={`inline-flex items-center gap-2 px-4 py-3 text-sm font-semibold border-b-2 transition-all cursor-pointer whitespace-nowrap ${isActive
                   ? "border-primary text-primary bg-primary-light/30 rounded-t-lg"
                   : "border-transparent text-muted hover:text-heading hover:border-border"
-              }`}
+                }`}
             >
               <Icon size={16} />
               {tab.label}
@@ -463,8 +461,8 @@ export default function AdminProfilePage() {
                     <input
                       type={showPass.current ? "text" : "password"}
                       value={passwords.current_password}
-                      placeholder="Enter current password" 
-                      onChange={(e) => setPasswords({ ...passwords, current_password: e.target.value })} 
+                      placeholder="Enter current password"
+                      onChange={(e) => setPasswords({ ...passwords, current_password: e.target.value })}
                     />
                     <button
                       type="button"
@@ -546,11 +544,10 @@ export default function AdminProfilePage() {
                     setFormData({ ...formData, two_factor_enabled: !formData.two_factor_enabled });
                     showToast(formData.two_factor_enabled ? "2FA disabled." : "2FA activated.");
                   }}
-                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                    formData.two_factor_enabled
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${formData.two_factor_enabled
                       ? "bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100"
                       : "bg-surface-alt border border-border text-muted hover:text-heading"
-                  }`}
+                    }`}
                 >
                   {formData.two_factor_enabled ? "Enabled" : "Enable 2FA"}
                 </button>
@@ -667,7 +664,7 @@ export default function AdminProfilePage() {
                 85% Robust
               </span>
             </div>
-            
+
             <div className="w-full bg-surface-alt rounded-full h-2 mb-4 overflow-hidden">
               <div className="bg-primary h-2 rounded-full transition-all duration-500" style={{ width: "85%" }} />
             </div>
@@ -691,11 +688,11 @@ export default function AdminProfilePage() {
           {/* Account Details Specs Card */}
           <div className="bg-background rounded-2xl border border-border shadow-[0_2px_12px_rgba(0,0,0,0.02)] p-6 space-y-4">
             <h3 className="text-sm font-bold text-heading">Identity Metadata</h3>
-            
+
             <div className="space-y-3 text-xs">
               <div className="flex justify-between items-center py-2 border-b border-border/60">
                 <span className="text-muted">Account Role</span>
-                <span className="font-semibold text-heading px-2 py-0.5 bg-primary-light text-primary rounded-md uppercase">
+                <span className="font-semibold text-heading px-2 py-0.5 bg-primary-light rounded-md uppercase">
                   {roleInfo.name}
                 </span>
               </div>

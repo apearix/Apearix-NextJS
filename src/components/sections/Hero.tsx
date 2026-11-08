@@ -30,12 +30,12 @@ export function Hero() {
 
       {/* Ambient Purple Glow - Top Right */}
       <div aria-hidden="true"
-        className="absolute -top-40 right-[-180px] sm:right-[-120px] lg:right-[-80px] w-[420px] h-[420px] sm:w-[620px] sm:h-[620px] lg:w-[760px] lg:h-[760px] rounded-full bg-[radial-gradient(circle_at_center,rgba(109,40,245,0.10)_0%,rgba(109,40,245,0.04)_35%,transparent_70%)] blur-3xl pointer-events-none"
+        className="absolute -top-40 -right-45 sm:-right-30 lg:-right-20 w-105 h-105 sm:w-155 sm:h-155 lg:w-190 lg:h-190 rounded-full bg-[radial-gradient(circle_at_center,rgba(109,40,245,0.10)_0%,rgba(109,40,245,0.04)_35%,transparent_70%)] blur-3xl pointer-events-none"
       />
 
       {/* Ambient Purple Glow - Bottom Left */}
       <div aria-hidden="true"
-        className="absolute bottom-[-220px] left-[-220px] w-[420px] h-[420px] rounded-full bg-[radial-gradient(circle_at_center,rgba(109,40,245,0.06)_0%,transparent_70%)] blur-3xl pointer-events-none"
+        className="absolute -bottom-55 -left-55 w-105 h-105 rounded-full bg-[radial-gradient(circle_at_center,rgba(109,40,245,0.06)_0%,transparent_70%)] blur-3xl pointer-events-none"
       />
 
       <div className="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-6  xl:px-0">
@@ -65,12 +65,12 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="max-w-4xl text-[2.7rem] font-bold leading-[1.04] tracking-[-0.035em] text-[#111827] sm:text-6xl md:text-7xl lg:text-[4.5rem] xl:text-[5rem]"
+              className="max-w-4xl text-[2.7rem] font-bold leading-[1.04] tracking-[-0.035em] text-heading sm:text-6xl md:text-7xl lg:text-[4.5rem] xl:text-[5rem]"
             >
               We Engineer Software{' '}
               <span className="block">
                 for{' '}
-                <span className="bg-gradient-to-r from-[#6D28F5] to-[#A855F7] bg-clip-text text-transparent">
+                <span className="bg-linear-to-r from-[#6D28F5] to-[#A855F7] bg-clip-text text-transparent">
                   What’s Next.
                 </span>
               </span>
@@ -81,7 +81,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-5 max-w-xl text-[15px] leading-7 text-[#6B7280] sm:mt-6 sm:text-lg sm:leading-8"
+              className="mt-5 max-w-xl text-[15px] leading-7 text-muted sm:mt-6 sm:text-lg sm:leading-8"
             >
               We engineer intelligent AI products, scalable SaaS platforms, and modern digital systems empowering businesses to accelerate growth and build the future.
             </motion.p>
@@ -105,13 +105,13 @@ export function Hero() {
               {/* Secondary CTA */}
               <Link
                 href="/work/portfolio"
-                className="inline-flex h-12 w-full items-center justify-center rounded-full border   bg-white px-7 text-sm font-semibold text-[#111827] transition-all duration-300 border-[#D8CCFA] hover:bg-[#FAF9FF] active:scale-[0.98] sm:w-auto"
+                className="inline-flex h-12 w-full items-center justify-center rounded-full border   bg-white px-7 text-sm font-semibold text-heading transition-all duration-300 border-[#D8CCFA] hover:bg-[#FAF9FF] active:scale-[0.98] sm:w-auto"
               >
                 Explore Our Work
               </Link>
             </motion.div>
 
-           
+
           </motion.div>
 
           {/* =========================

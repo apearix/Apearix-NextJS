@@ -74,7 +74,7 @@ export function CareersClient({ initialJobs, departments }: Readonly<CareersClie
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search open positions by role, keywords, or skills..."
-            className="w-full h-13 pl-12 pr-4 rounded-xl border border-[#E5E7EB] bg-white text-sm text-[#111827] placeholder:text-[#9CA3AF] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#6D28F5]/30 focus:border-[#6D28F5]"
+            className="w-full h-13 pl-12 pr-4 rounded-xl border border-border bg-white text-sm text-heading placeholder:text-[#9CA3AF] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#6D28F5]/30 focus:border-[#6D28F5]"
           />
         </div>
 
@@ -88,11 +88,10 @@ export function CareersClient({ initialJobs, departments }: Readonly<CareersClie
                   key={dept}
                   type="button"
                   onClick={() => setSelectedDept(dept)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
-                    isSelected
-                      ? "bg-[#6D28F5] text-white shadow-sm"
-                      : "bg-white border border-[#E5E7EB] text-[#4B5563] hover:border-[#6D28F5]/50 hover:text-[#111827]"
-                  }`}
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${isSelected
+                    ? "bg-[#6D28F5] text-white shadow-sm"
+                    : "bg-white border border-border text-body hover:border-[#6D28F5]/50 hover:text-heading"
+                    }`}
                 >
                   {dept}
                 </button>
@@ -101,17 +100,16 @@ export function CareersClient({ initialJobs, departments }: Readonly<CareersClie
           </div>
 
           {/* Workplace Filter */}
-          <div className="flex items-center gap-1 bg-white border border-[#E5E7EB] rounded-lg p-1 text-xs">
+          <div className="flex items-center gap-1 bg-white border border-border rounded-lg p-1 text-xs">
             {["All", "Remote", "Hybrid"].map((type) => (
               <button
                 key={type}
                 type="button"
                 onClick={() => setWorkplaceFilter(type)}
-                className={`px-2.5 py-1 rounded-md font-medium transition-colors cursor-pointer ${
-                  workplaceFilter === type
-                    ? "bg-[#F4F0FF] text-[#6D28F5]"
-                    : "text-[#6B7280] hover:text-[#111827]"
-                }`}
+                className={`px-2.5 py-1 rounded-md font-medium transition-colors cursor-pointer ${workplaceFilter === type
+                  ? "bg-primary-light text-[#6D28F5]"
+                  : "text-muted hover:text-heading"
+                  }`}
               >
                 {type}
               </button>
@@ -123,10 +121,10 @@ export function CareersClient({ initialJobs, departments }: Readonly<CareersClie
       {/* Jobs Listing */}
       <div className="space-y-4 max-w-4xl mx-auto">
         {filteredJobs.length === 0 ? (
-          <div className="p-12 text-center bg-white rounded-2xl border border-[#E5E7EB] space-y-3">
+          <div className="p-12 text-center bg-white rounded-2xl border border-border space-y-3">
             <Briefcase className="w-10 h-10 text-[#9CA3AF] mx-auto opacity-60" />
-            <h3 className="text-lg font-bold text-[#111827]">No Open Positions Found</h3>
-            <p className="text-sm text-[#4B5563] max-w-md mx-auto">
+            <h3 className="text-lg font-bold text-heading">No Open Positions Found</h3>
+            <p className="text-sm text-body max-w-md mx-auto">
               We couldn&apos;t find any roles matching your current filters. Try selecting another department or check back soon!
             </p>
             <button
@@ -147,12 +145,12 @@ export function CareersClient({ initialJobs, departments }: Readonly<CareersClie
             return (
               <div
                 key={job.id}
-                className="rounded-2xl bg-white border border-[#E5E7EB] hover:border-[#DDD6FE] shadow-sm transition-all overflow-hidden"
+                className="rounded-2xl bg-white border border-border hover:border-border-accent shadow-sm transition-all overflow-hidden"
               >
                 <div className="p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                   <div className="flex-1">
                     <div className="flex flex-wrap items-center gap-2 mb-2">
-                      <span className="px-2.5 py-0.5 bg-[#F4F0FF] text-[#6D28F5] font-semibold text-xs rounded-full">
+                      <span className="px-2.5 py-0.5 bg-primary-light text-[#6D28F5] font-semibold text-xs rounded-full">
                         {job.department}
                       </span>
                       {job.is_featured && (
@@ -161,16 +159,16 @@ export function CareersClient({ initialJobs, departments }: Readonly<CareersClie
                           Featured
                         </span>
                       )}
-                      <span className="text-xs text-[#6B7280]">
+                      <span className="text-xs text-muted">
                         {job.job_type} • {job.workplace_type}
                       </span>
                     </div>
 
-                    <h3 className="text-xl sm:text-2xl font-bold text-[#111827] tracking-tight">
+                    <h3 className="text-xl sm:text-2xl font-bold text-heading tracking-tight">
                       {job.title}
                     </h3>
 
-                    <div className="flex flex-wrap items-center gap-4 text-xs text-[#6B7280] mt-2.5">
+                    <div className="flex flex-wrap items-center gap-4 text-xs text-muted mt-2.5">
                       <span className="flex items-center gap-1">
                         <MapPin className="w-3.5 h-3.5 text-[#9CA3AF]" />
                         {job.location}
@@ -195,7 +193,7 @@ export function CareersClient({ initialJobs, departments }: Readonly<CareersClie
                     <button
                       type="button"
                       onClick={() => toggleExpand(job.id)}
-                      className="h-11 px-4 rounded-xl border border-[#E5E7EB] hover:bg-[#FAFAFC] text-xs font-semibold text-[#4B5563] flex items-center gap-1.5 transition-colors cursor-pointer"
+                      className="h-11 px-4 rounded-xl border border-border hover:bg-surface text-xs font-semibold text-body flex items-center gap-1.5 transition-colors cursor-pointer"
                     >
                       <span>{isExpanded ? "Hide Details" : "Role Details"}</span>
                       {isExpanded ? (
@@ -218,13 +216,13 @@ export function CareersClient({ initialJobs, departments }: Readonly<CareersClie
 
                 {/* Collapsible Role Details Drawer */}
                 {isExpanded && (
-                  <div className="px-6 md:px-8 pb-8 pt-2 border-t border-[#F3F4F6] space-y-6 bg-[#FAFAFC]/60">
+                  <div className="px-6 md:px-8 pb-8 pt-2 border-t border-[#F3F4F6] space-y-6 bg-surface/60">
                     {/* Overview */}
                     <div>
-                      <h4 className="text-xs font-bold text-[#111827] uppercase tracking-wider mb-2">
+                      <h4 className="text-xs font-bold text-heading uppercase tracking-wider mb-2">
                         About This Role
                       </h4>
-                      <p className="text-sm text-[#4B5563] leading-relaxed whitespace-pre-line">
+                      <p className="text-sm text-body leading-relaxed whitespace-pre-line">
                         {job.overview}
                       </p>
                     </div>
@@ -232,12 +230,12 @@ export function CareersClient({ initialJobs, departments }: Readonly<CareersClie
                     {/* Responsibilities */}
                     {job.responsibilities && job.responsibilities.length > 0 && (
                       <div>
-                        <h4 className="text-xs font-bold text-[#111827] uppercase tracking-wider mb-2">
+                        <h4 className="text-xs font-bold text-heading uppercase tracking-wider mb-2">
                           What You Will Do
                         </h4>
                         <ul className="space-y-2">
                           {job.responsibilities.map((resp, i) => (
-                            <li key={i} className="flex items-start gap-2.5 text-xs text-[#4B5563]">
+                            <li key={i} className="flex items-start gap-2.5 text-xs text-body">
                               <CheckCircle2 className="w-3.5 h-3.5 text-[#6D28F5] shrink-0 mt-0.5" />
                               <span>{resp}</span>
                             </li>
@@ -249,12 +247,12 @@ export function CareersClient({ initialJobs, departments }: Readonly<CareersClie
                     {/* Requirements */}
                     {job.requirements && job.requirements.length > 0 && (
                       <div>
-                        <h4 className="text-xs font-bold text-[#111827] uppercase tracking-wider mb-2">
+                        <h4 className="text-xs font-bold text-heading uppercase tracking-wider mb-2">
                           What We Look For
                         </h4>
                         <ul className="space-y-2">
                           {job.requirements.map((req, i) => (
-                            <li key={i} className="flex items-start gap-2.5 text-xs text-[#4B5563]">
+                            <li key={i} className="flex items-start gap-2.5 text-xs text-body">
                               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
                               <span>{req}</span>
                             </li>
@@ -266,14 +264,14 @@ export function CareersClient({ initialJobs, departments }: Readonly<CareersClie
                     {/* Benefits */}
                     {job.benefits && job.benefits.length > 0 && (
                       <div>
-                        <h4 className="text-xs font-bold text-[#111827] uppercase tracking-wider mb-2">
+                        <h4 className="text-xs font-bold text-heading uppercase tracking-wider mb-2">
                           Perks & Benefits
                         </h4>
                         <div className="flex flex-wrap gap-2">
                           {job.benefits.map((b, i) => (
                             <span
                               key={i}
-                              className="px-3 py-1 bg-white border border-[#E5E7EB] rounded-full text-xs text-[#4B5563] font-medium"
+                              className="px-3 py-1 bg-white border border-border rounded-full text-xs text-body font-medium"
                             >
                               {b}
                             </span>
@@ -284,7 +282,7 @@ export function CareersClient({ initialJobs, departments }: Readonly<CareersClie
 
                     {/* Apply Footer */}
                     <div className="pt-4 flex items-center justify-between">
-                      <p className="text-xs text-[#6B7280]">
+                      <p className="text-xs text-muted">
                         Interested in joining our mission? We review applications within 48 hours.
                       </p>
                       <button

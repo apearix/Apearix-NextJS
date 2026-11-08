@@ -33,7 +33,7 @@ export function PageHeader({ badge, title, subtitle, breadcrumbs }: PageHeaderPr
     : null;
 
   return (
-    <section className="pt-32 sm:pt-36 md:pt-40 pb-16 bg-gradient-to-b from-[#FFFFFF] via-[#FAFAFC] to-[#F4F0FF]/50 border-b border-[#E5E7EB]">
+    <section className="pt-32 sm:pt-36 md:pt-40 pb-16 bg-linear-to-b from-background via-surface to-primary-light/50 border-b border-border">
       {jsonLdBreadcrumb && (
         <script
           type="application/ld+json"
@@ -44,15 +44,15 @@ export function PageHeader({ badge, title, subtitle, breadcrumbs }: PageHeaderPr
 
         {/* Breadcrumbs */}
         {breadcrumbs && (
-          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-[#6B7280] mb-6">
+          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-muted mb-6">
             <Link href="/" className="hover:text-[#6D28F5] transition-colors">
               Home
             </Link>
             {breadcrumbs.map((crumb, idx) => (
               <span key={crumb.href} className="flex items-center gap-2">
-                <ChevronRight className="w-3.5 h-3.5 text-[#6B7280]/60" />
+                <ChevronRight className="w-3.5 h-3.5 text-muted" />
                 {idx === breadcrumbs.length - 1 ? (
-                  <span className="font-semibold text-[#111827]">{crumb.label}</span>
+                  <span className="font-semibold text-heading">{crumb.label}</span>
                 ) : (
                   <Link href={crumb.href} className="hover:text-[#6D28F5] transition-colors">
                     {crumb.label}
@@ -65,19 +65,19 @@ export function PageHeader({ badge, title, subtitle, breadcrumbs }: PageHeaderPr
 
         {/* Badge */}
         {badge && (
-          <span className="inline-flex items-center gap-2 px-3.5 py-1.5 mb-6 text-xs font-semibold tracking-wider uppercase text-[#6D28F5] bg-[#F4F0FF] rounded-full border border-[#DDD6FE] shadow-sm">
+          <span className="inline-flex items-center gap-2 px-3.5 py-1.5 mb-6 text-xs font-semibold tracking-wider uppercase text-[#6D28F5] bg-primary-light rounded-full border border-border-accent shadow-sm">
             <span className="w-1.5 h-1.5 rounded-full bg-[#6D28F5]"></span>
             <span>{badge}</span>
           </span>
         )}
 
         {/* Headline */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#111827] mb-6 max-w-4xl leading-[1.08] text-balance">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-heading mb-6 max-w-4xl leading-[1.08] text-balance">
           {title}
         </h1>
 
         {/* Subtitle */}
-        <p className="text-base sm:text-lg md:text-xl text-[#4B5563] leading-relaxed max-w-2xl text-balance">
+        <p className="text-base sm:text-lg md:text-xl text-body leading-relaxed max-w-2xl text-balance">
           {subtitle}
         </p>
 

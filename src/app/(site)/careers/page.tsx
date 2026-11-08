@@ -254,10 +254,10 @@ export default async function CareersPage() {
               <span className="text-xs font-bold uppercase tracking-wider text-[#6D28F5] mb-3 block">
                 Engineering Culture
               </span>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#111827] tracking-tight mb-4">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-heading tracking-tight mb-4">
                 Why Work at Apearix?
               </h2>
-              <p className="text-base sm:text-lg text-[#4B5563] leading-relaxed">
+              <p className="text-base sm:text-lg text-body leading-relaxed">
                 We believe in small, autonomous teams that prioritize deep work,
                 clear communication, and high technical standards over
                 bureaucracy.
@@ -299,15 +299,15 @@ export default async function CareersPage() {
               ].map((perk, i) => (
                 <div
                   key={i}
-                  className="p-8 rounded-[12px] bg-[#FAFAFC] border border-[#E5E7EB] shadow-sm hover:border-[#DDD6FE] transition-colors"
+                  className="p-8 rounded-xl bg-surface border border-border shadow-sm hover:border-border-accent transition-colors"
                 >
-                  <div className="w-12 h-12 rounded-[10px] bg-[#F4F0FF] text-[#6D28F5] flex items-center justify-center mb-6">
+                  <div className="w-12 h-12 rounded-[10px] bg-primary-light text-[#6D28F5] flex items-center justify-center mb-6">
                     {perk.icon}
                   </div>
-                  <h3 className="text-xl font-bold text-[#111827] mb-3">
+                  <h3 className="text-xl font-bold text-heading mb-3">
                     {perk.title}
                   </h3>
-                  <p className="text-sm text-[#4B5563] leading-relaxed">
+                  <p className="text-sm text-body leading-relaxed">
                     {perk.desc}
                   </p>
                 </div>
@@ -317,16 +317,16 @@ export default async function CareersPage() {
         </section>
 
         {/* Dynamic Open Positions Section */}
-        <section className="py-20 md:py-28 bg-[#FAFAFC] border-b border-[#E5E7EB]">
+        <section className="py-20 md:py-28 bg-surface border-b border-border">
           <div className="container max-w-7xl mx-auto px-6">
             <div className="max-w-3xl mx-auto text-center mb-14">
               <span className="text-xs font-bold uppercase tracking-wider text-[#6D28F5] mb-3 block">
                 Openings
               </span>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#111827] tracking-tight mb-4">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-heading tracking-tight mb-4">
                 Open Roles
               </h2>
-              <p className="text-base sm:text-lg text-[#4B5563] leading-relaxed">
+              <p className="text-base sm:text-lg text-body leading-relaxed">
                 Explore our current openings and help us craft extraordinary
                 software.
               </p>

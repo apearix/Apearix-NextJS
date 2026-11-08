@@ -69,28 +69,28 @@ export function HowWeWork() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: '-80px' }}
                         transition={{ duration: 0.5 }}
-                        className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#DDD6FE] bg-[#F4F0FF] px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#6D28F5]"
+                        className="mb-5 inline-flex items-center gap-2 rounded-full border border-border-accent bg-primary-light px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#6D28F5]"
                     >
                         <Workflow className="h-3.5 w-3.5" />
                         <span>How We Work</span>
                     </motion.div>
-                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#111827] mb-6 tracking-tight">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-heading mb-6 tracking-tight">
                         Apearix Process <br />
                         <span className="text-[#6D28F5]">From Idea to Impact.</span>
                     </h2>
-                    <p className="text-lg md:text-xl text-[#4B5563] leading-relaxed">
+                    <p className="text-lg md:text-xl text-body leading-relaxed">
                         A clear, collaborative process designed to turn business challenges into reliable digital products from the first conversation to launch and beyond.
                     </p>
                 </div>
 
                 <div ref={containerRef} className="relative max-w-4xl mx-auto px-4 sm:px-6">
                     {/* Base Background Line */}
-                    <div className="absolute left-[32px] sm:left-[45px] md:left-1/2 top-0 bottom-0 w-0.5 bg-gray-200 md:-translate-x-1/2" />
+                    <div className="absolute left-8 sm:left-11.25 md:left-1/2 top-0 bottom-0 w-0.5 bg-gray-200 md:-translate-x-1/2" />
 
                     {/* Animated Progress Line */}
                     <motion.div
                         style={{ scaleY, transformOrigin: 'top' }}
-                        className="absolute left-[32px] sm:left-[45px] md:left-1/2 top-0 bottom-0 w-0.5 bg-[#6D28F5] md:-translate-x-1/2"
+                        className="absolute left-8 sm:left-11.25 md:left-1/2 top-0 bottom-0 w-0.5 bg-[#6D28F5] md:-translate-x-1/2"
                     />
 
                     <div className="relative">
@@ -110,7 +110,7 @@ export function HowWeWork() {
                                         </div>
 
                                         {/* Step Badge (Scales smoothly from mobile to desktop) */}
-                                        <div className="relative z-10 flex-shrink-0 w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full bg-white border-2 border-[#6D28F5] flex items-center justify-center font-bold text-[#6D28F5] shadow-sm text-xs sm:text-sm md:text-base">
+                                        <div className="relative z-10 shrink-0 w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full bg-white border-2 border-[#6D28F5] flex items-center justify-center font-bold text-[#6D28F5] shadow-sm text-xs sm:text-sm md:text-base">
                                             {step.number}
                                         </div>
 

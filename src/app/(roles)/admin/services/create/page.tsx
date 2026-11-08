@@ -207,9 +207,8 @@ export default function CreateServicePage() {
                   type="text"
                   placeholder="e.g. AI Automation & Workflow Engineering"
                   {...register("title")}
-                  className={`w-full px-3.5 py-2.5 rounded-lg border ${
-                    errors.title ? "border-rose-500 ring-1 ring-rose-500/20" : "border-border"
-                  } bg-white text-sm text-heading placeholder:text-muted focus:outline-none focus:border-primary transition-all`}
+                  className={`w-full px-3.5 py-2.5 rounded-lg border ${errors.title ? "border-rose-500 ring-1 ring-rose-500/20" : "border-border"
+                    } bg-white text-sm text-heading placeholder:text-muted focus:outline-none focus:border-primary transition-all`}
                 />
                 {errors.title && (
                   <p className="mt-1 text-xs text-rose-500">{errors.title.message}</p>
@@ -245,11 +244,9 @@ export default function CreateServicePage() {
                     type="text"
                     {...register("slug")}
                     disabled={autoSlug}
-                    className={`w-full pl-22 pr-3.5 py-2.5 rounded-lg border ${
-                      errors.slug ? "border-rose-500 ring-1 ring-rose-500/20" : "border-border"
-                    } ${
-                      autoSlug ? "bg-surface text-muted cursor-not-allowed" : "bg-white text-heading"
-                    } font-mono text-xs focus:outline-none focus:border-primary transition-all`}
+                    className={`w-full pl-22 pr-3.5 py-2.5 rounded-lg border ${errors.slug ? "border-rose-500 ring-1 ring-rose-500/20" : "border-border"
+                      } ${autoSlug ? "bg-surface text-muted cursor-not-allowed" : "bg-white text-heading"
+                      } font-mono text-xs focus:outline-none focus:border-primary transition-all`}
                   />
                 </div>
                 {errors.slug && (
@@ -351,11 +348,10 @@ export default function CreateServicePage() {
                       key={ic}
                       type="button"
                       onClick={() => setValue("icon", ic)}
-                      className={`text-[11px] px-2 py-0.5 rounded-md border transition-colors cursor-pointer ${
-                        watchedIcon === ic
+                      className={`text-[11px] px-2 py-0.5 rounded-md border transition-colors cursor-pointer ${watchedIcon === ic
                           ? "bg-primary-light border-border-accent text-primary font-semibold"
                           : "bg-surface border-border text-muted hover:text-heading"
-                      }`}
+                        }`}
                     >
                       {ic}
                     </button>
@@ -390,14 +386,12 @@ export default function CreateServicePage() {
                       role="switch"
                       aria-checked={field.value}
                       onClick={() => field.onChange(!field.value)}
-                      className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
-                        field.value ? "bg-primary" : "bg-slate-300"
-                      }`}
+                      className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${field.value ? "bg-primary" : "bg-slate-300"
+                        }`}
                     >
                       <span
-                        className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out ${
-                          field.value ? "translate-x-5" : "translate-x-0"
-                        }`}
+                        className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out ${field.value ? "translate-x-5" : "translate-x-0"
+                          }`}
                       />
                     </button>
                   )}

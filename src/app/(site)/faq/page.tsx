@@ -90,7 +90,7 @@ export default function FAQPage() {
           breadcrumbs={[{ label: "Resources", href: "/resources/faq" }, { label: "FAQ", href: "/resources/faq" }]}
         />
 
-        <section className="py-20 md:py-28 bg-white border-b border-[#E5E7EB]">
+        <section className="py-20 md:py-28 bg-white border-b border-border">
           <div className="container max-w-7xl mx-auto px-6">
             <FAQAccordion faqs={faqs} />
           </div>

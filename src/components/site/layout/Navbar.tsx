@@ -15,27 +15,27 @@ import Apearix from "../../common/Apearix";
 // --- Navigation Configuration ---
 const navigation = {
   company: [
-  {
-    name: "About Us",
-    href: "/about",
-    desc: "Our mission, vision, and the engineering standards driving Apearix.",
-  },
-  {
-    name: "Portfolio",
-    href: "/portfolio",
-    desc: "Production web apps, client platforms, and real-world case studies.",
-  },
-  {
-    name: "Careers",
-    href: "/careers",
-    desc: "Join our core team and build high-impact digital systems.",
-  },
-  {
-    name: "Contact Us",
-    href: "/contact",
-    desc: "Discuss your project scope, custom stacks, and technical partnerships.",
-  },
-],
+    {
+      name: "About Us",
+      href: "/about",
+      desc: "Our mission, vision, and the engineering standards driving Apearix.",
+    },
+    {
+      name: "Portfolio",
+      href: "/portfolio",
+      desc: "Production web apps, client platforms, and real-world case studies.",
+    },
+    {
+      name: "Careers",
+      href: "/careers",
+      desc: "Join our core team and build high-impact digital systems.",
+    },
+    {
+      name: "Contact Us",
+      href: "/contact",
+      desc: "Discuss your project scope, custom stacks, and technical partnerships.",
+    },
+  ],
   services: [
     {
       name: "UI/UX Design",
@@ -74,11 +74,8 @@ const navigation = {
       href: "/products",
       desc: "Products we are building",
     },
-  ],
-  directLinks: [
-    { name: "Portfolio", href: "/portfolio" },
-    { name: "About", href: "/about" },
-  ],
+  ], 
+  directLinks: [] as { name: string; href: string }[], 
 };
 
 export function Navbar() {
@@ -194,7 +191,7 @@ export function Navbar() {
 
         {/* --- Desktop Navigation --- */}
         <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
-           <DesktopDropdown
+          <DesktopDropdown
             title="Company"
             id="company"
             items={navigation.company}
@@ -209,7 +206,7 @@ export function Navbar() {
             id="products"
             items={navigation.products}
           />
-          {navigation.directLinks.map((link) => (
+          {navigation.directLinks?.map((link) => (
             <Link
               key={link.name}
               href={link.href}
@@ -252,7 +249,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2, ease: "easeInOut" }}
-            className="absolute top-full left-0 right-0 bg-white border-y border-border px-6 py-6 overflow-y-auto overscroll-contain touch-pan-y [-webkit-overflow-scrolling:touch] max-h-[calc(100dvh-4.5rem)] shadow-xl md:hidden z-[60]"
+            className="absolute top-full left-0 right-0 bg-white border-y border-border px-6 py-6 overflow-y-auto overscroll-contain touch-pan-y [-webkit-overflow-scrolling:touch] max-h-[calc(100dvh-4.5rem)] shadow-xl md:hidden z-60"
           >
             <div className="flex flex-col space-y-6 text-heading text-base font-medium">
               {/* Mobile Dropdown Sections */}
@@ -285,16 +282,20 @@ export function Navbar() {
 
               {/* Mobile Direct Links */}
               <div className="flex flex-col space-y-4 pt-2">
-                {navigation.directLinks.map((link) => (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="hover:text-primary transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                ))}
+                {Boolean(navigation.directLinks?.length) && (
+                  <div className="flex flex-col space-y-4 pt-2">
+                    {navigation.directLinks.map((link) => (
+                      <Link
+                        key={link.name}
+                        href={link.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="hover:text-primary transition-colors"
+                      >
+                        {link.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Mobile CTA */}

@@ -97,7 +97,7 @@ export default function AdminLoginClient() {
           style={{ background: "radial-gradient(circle, #6D28F5 0%, transparent 70%)" }}
         />
         <div
-          className="absolute -bottom-32 -right-32 w-[30rem] h-[30rem] rounded-full blur-3xl pointer-events-none opacity-25"
+          className="absolute -bottom-32 -right-32 w-120 h-120 rounded-full blur-3xl pointer-events-none opacity-25"
           style={{ background: "radial-gradient(circle, #5B21E6 0%, transparent 70%)" }}
         />
 
@@ -161,7 +161,7 @@ export default function AdminLoginClient() {
         </div>
 
         {/* Form Card Container */}
-        <div className="w-full max-w-[420px] mx-auto my-auto">
+        <div className="w-full max-w-105 mx-auto my-auto">
           {/* Form Header */}
           <div className="mb-8">
 

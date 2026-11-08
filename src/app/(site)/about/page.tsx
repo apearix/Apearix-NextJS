@@ -41,7 +41,7 @@ const jsonLdAbout = {
   "@id": "https://www.apearix.com/company/about/#webpage",
   "name": "About Apearix | Engineering Philosophy & Standards",
   "url": "https://www.apearix.com/company/about",
-  "description": "Apearix is a software engineering company focused on creating modern digital products, enterprise SaaS platforms, and AI automations for ambitious businesses.",
+  "description": "Apearix is a software engineering company focused on creating modern digital products, enterprise SaaS platforms, and AI automatons for ambitious businesses.",
   "mainEntity": {
     "@type": "Organization",
     "name": "Apearix",
@@ -73,45 +73,45 @@ export default function AboutPage() {
         />
 
         {/* Philosophy Section */}
-        <section className="py-20 md:py-28 bg-white border-b border-[#E5E7EB]">
+        <section className="py-20 md:py-28 bg-white border-b ">
           <div className="container max-w-7xl mx-auto px-6">
             <div className="max-w-3xl mx-auto text-center mb-16">
               <span className="text-xs font-bold uppercase tracking-wider text-[#6D28F5] mb-3 block">Our Philosophy</span>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#111827] tracking-tight mb-6">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-heading tracking-tight mb-6">
                 Good software is invisible.
               </h2>
-              <p className="text-base sm:text-lg text-[#4B5563] leading-relaxed">
+              <p className="text-base sm:text-lg text-body leading-relaxed">
                 Every product we build is designed to solve real problems, improve everyday workflows, and help businesses grow with confidence.
               </p>
-            </div>
+            </div>border-border
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="p-8 rounded-[12px] bg-[#FAFAFC] border border-[#E5E7EB] shadow-sm">
-                <div className="w-12 h-12 rounded-[10px] bg-[#F4F0FF] text-[#6D28F5] flex items-center justify-center mb-6">
+              <div className="p-8 rounded-xl bg-surface border border-border shadow-sm">
+                <div className="w-12 h-12 rounded-[10px] bg-primary-light text-[#6D28F5] flex items-center justify-center mb-6">
                   <Sparkles className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-[#111827] mb-3">It feels natural.</h3>
-                <p className="text-sm text-[#4B5563] leading-relaxed">
+                <h3 className="text-xl font-bold text-heading mb-3">It feels natural.</h3>
+                <p className="text-sm text-body leading-relaxed">
                   Interfaces designed around human intuition, reducing friction and training time.
                 </p>
               </div>
 
-              <div className="p-8 rounded-[12px] bg-[#FAFAFC] border border-[#E5E7EB] shadow-sm">
-                <div className="w-12 h-12 rounded-[10px] bg-[#F4F0FF] text-[#6D28F5] flex items-center justify-center mb-6">
+              <div className="p-8 rounded-xl bg-surface border border-border shadow-sm">
+                <div className="w-12 h-12 rounded-[10px] bg-primary-light text-[#6D28F5] flex items-center justify-center mb-6">
                   <Zap className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-[#111827] mb-3">It responds instantly.</h3>
-                <p className="text-sm text-[#4B5563] leading-relaxed">
+                <h3 className="text-xl font-bold text-heading mb-3">It responds instantly.</h3>
+                <p className="text-sm text-body leading-relaxed">
                   Sub-100ms response times and optimized architecture built for global scale.
                 </p>
               </div>
 
-              <div className="p-8 rounded-[12px] bg-[#FAFAFC] border border-[#E5E7EB] shadow-sm">
-                <div className="w-12 h-12 rounded-[10px] bg-[#F4F0FF] text-[#6D28F5] flex items-center justify-center mb-6">
+              <div className="p-8 rounded-xl bg-surface border border-border shadow-sm">
+                <div className="w-12 h-12 rounded-[10px] bg-primary-light text-[#6D28F5] flex items-center justify-center mb-6">
                   <ShieldCheck className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-[#111827] mb-3">Solves problems simply.</h3>
-                <p className="text-sm text-[#4B5563] leading-relaxed">
+                <h3 className="text-xl font-bold text-heading mb-3">Solves problems simply.</h3>
+                <p className="text-sm text-body leading-relaxed">
                   Addressing core business needs without creating technological debt or complexity.
                 </p>
               </div>
@@ -120,14 +120,14 @@ export default function AboutPage() {
         </section>
 
         {/* Our 6 Principles */}
-        <section className="py-20 md:py-28 bg-[#FAFAFC] border-b border-[#E5E7EB]">
+        <section className="py-20 md:py-28 bg-surface border-b border-border">
           <div className="container max-w-7xl mx-auto px-6">
             <div className="max-w-3xl mx-auto text-center mb-16">
               <span className="text-xs font-bold uppercase tracking-wider text-[#6D28F5] mb-3 block">Our Standards</span>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#111827] tracking-tight mb-4">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-heading tracking-tight mb-4">
                 Our Principles
               </h2>
-              <p className="text-base sm:text-lg text-[#4B5563] leading-relaxed">
+              <p className="text-base sm:text-lg text-body leading-relaxed">
                 That's the standard we build toward every single day.
               </p>
             </div>
@@ -141,11 +141,11 @@ export default function AboutPage() {
                 { title: "Build for the long term.", desc: "Architecting software that scales seamlessly as your business grows." },
                 { title: "Earn trust through craftsmanship.", desc: "Delivering reliable, secure, and production-ready code every time." }
               ].map((principle, idx) => (
-                <div key={idx} className="p-6 md:p-8 rounded-[12px] bg-white border border-[#E5E7EB] shadow-sm flex items-start gap-4">
-                  <CheckCircle2 className="w-6 h-6 text-[#6D28F5] flex-shrink-0 mt-0.5" />
+                <div key={idx} className="p-6 md:p-8 rounded-xl bg-white border border-border shadow-sm flex items-start gap-4">
+                  <CheckCircle2 className="w-6 h-6 text-[#6D28F5] c mt-0.5" />
                   <div>
-                    <h3 className="text-lg font-bold text-[#111827] mb-2">{principle.title}</h3>
-                    <p className="text-sm text-[#4B5563] leading-relaxed">{principle.desc}</p>
+                    <h3 className="text-lg font-bold text-heading mb-2">{principle.title}</h3>
+                    <p className="text-sm text-body leading-relaxed">{principle.desc}</p>
                   </div>
                 </div>
               ))}
@@ -154,28 +154,28 @@ export default function AboutPage() {
         </section>
 
         {/* Mission & Vision */}
-        <section className="py-20 md:py-28 bg-white border-b border-[#E5E7EB]">
+        <section className="py-20 md:py-28 bg-white border-b border-border">
           <div className="container max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12">
-            <div className="p-8 md:p-10 rounded-[12px] bg-[#F4F0FF]/40 border border-[#DDD6FE]">
+            <div className="p-8 md:p-10 rounded-xl bg-primary-light/40 border border-border-accent">
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-2.5 rounded-[10px] bg-[#6D28F5] text-white">
                   <Compass className="w-6 h-6" />
                 </div>
                 <h3 className="text-2xl font-bold text-heading">Our Mission</h3>
               </div>
-              <p className="text-base text-[#4B5563] leading-relaxed">
+              <p className="text-base text-body leading-relaxed">
                 To create software that helps businesses work smarter, grow faster, and build confidently in a digital world.
               </p>
             </div>
 
-            <div className="p-8 md:p-10 rounded-[12px] bg-[#FAFAFC] border border-[#E5E7EB]">
+            <div className="p-8 md:p-10 rounded-xl bg-surface border border-border">
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-2.5 rounded-[10px] bg-[#6D28F5] text-white">
                   <HeartHandshake className="w-6 h-6" />
                 </div>
-                <h3 className="text-2xl font-bold text-[#111827]">Our Vision</h3>
+                <h3 className="text-2xl font-bold text-heading">Our Vision</h3>
               </div>
-              <p className="text-base text-[#4B5563] leading-relaxed">
+              <p className="text-base text-body leading-relaxed">
                 To become a globally trusted software company known for thoughtful products, exceptional engineering, and meaningful innovation.
               </p>
             </div>

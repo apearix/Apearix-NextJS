@@ -533,9 +533,8 @@ export default function AdminFaqsPage() {
                       <tr
                         key={faq.id}
                         onClick={() => setDrawerFaq(faq)}
-                        className={`group hover:bg-surface transition-colors cursor-pointer ${
-                          isSelected ? "bg-primary-light/40 border-l-4 border-l-primary" : ""
-                        }`}
+                        className={`group hover:bg-surface transition-colors cursor-pointer ${isSelected ? "bg-primary-light/40 border-l-4 border-l-primary" : ""
+                          }`}
                       >
                         <td className="py-3.5 pl-4 pr-2 w-10" onClick={(e) => e.stopPropagation()}>
                           <input
@@ -552,7 +551,7 @@ export default function AdminFaqsPage() {
                             </div>
                             <div className="min-w-0 flex-1">
                               <div
-                                className="font-semibold text-heading text-sm hover:text-primary transition-colors line-clamp-2 leading-snug break-words"
+                                className="font-semibold text-heading text-sm hover:text-primary transition-colors line-clamp-2 leading-snug wrap-break-word"
                                 title={faq.question}
                               >
                                 {faq.question}
@@ -605,19 +604,19 @@ export default function AdminFaqsPage() {
                               },
                               faq.is_active
                                 ? {
-                                    label: "Mark Inactive",
-                                    icon: <XCircle className="w-3.5 h-3.5 text-amber-600" />,
-                                    variant: "warning" as const,
-                                    onClick: () => updateSingleStatus(faq.id!, false),
-                                    dividerAfter: true,
-                                  }
+                                  label: "Mark Inactive",
+                                  icon: <XCircle className="w-3.5 h-3.5 text-amber-600" />,
+                                  variant: "warning" as const,
+                                  onClick: () => updateSingleStatus(faq.id!, false),
+                                  dividerAfter: true,
+                                }
                                 : {
-                                    label: "Mark Active",
-                                    icon: <Check className="w-3.5 h-3.5 text-emerald-600" />,
-                                    variant: "success" as const,
-                                    onClick: () => updateSingleStatus(faq.id!, true),
-                                    dividerAfter: true,
-                                  },
+                                  label: "Mark Active",
+                                  icon: <Check className="w-3.5 h-3.5 text-emerald-600" />,
+                                  variant: "success" as const,
+                                  onClick: () => updateSingleStatus(faq.id!, true),
+                                  dividerAfter: true,
+                                },
                               {
                                 label: "Delete FAQ",
                                 icon: <Trash2 className="w-3.5 h-3.5" />,

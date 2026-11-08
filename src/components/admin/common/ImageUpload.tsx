@@ -179,11 +179,10 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
           onClick={() => fileInputRef.current?.click()}
-          className={`flex aspect-video w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed p-4 text-center transition-all duration-200 ${
-            isDragging
+          className={`flex aspect-video w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed p-4 text-center transition-all duration-200 ${isDragging
               ? "border-primary bg-primary-light/50 scale-[0.99]"
               : "border-border bg-surface-alt hover:border-primary/60 hover:bg-surface"
-          }`}
+            }`}
         >
           <div className="mb-2 rounded-full bg-primary-light p-3 text-primary ring-4 ring-primary-light/30">
             {isDragging ? (

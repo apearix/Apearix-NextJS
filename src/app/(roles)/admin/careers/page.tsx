@@ -507,9 +507,8 @@ export default function AdminCareersPage() {
                       <tr
                         key={job.id}
                         onClick={() => setDrawerJob(job)}
-                        className={`group hover:bg-surface transition-colors cursor-pointer ${
-                          isSelected ? "bg-primary-light/40 border-l-4 border-l-primary" : ""
-                        }`}
+                        className={`group hover:bg-surface transition-colors cursor-pointer ${isSelected ? "bg-primary-light/40 border-l-4 border-l-primary" : ""
+                          }`}
                       >
                         {/* Checkbox Column */}
                         <td className="py-3.5 pl-4 pr-2 w-10" onClick={(e) => e.stopPropagation()}>
@@ -602,10 +601,10 @@ export default function AdminCareersPage() {
                         <td className="py-3.5 px-3 text-xs text-heading">
                           {job.created_at
                             ? formatDateInTimezone(job.created_at, undefined, {
-                                month: "short",
-                                day: "numeric",
-                                year: "numeric",
-                              })
+                              month: "short",
+                              day: "numeric",
+                              year: "numeric",
+                            })
                             : "—"}
                         </td>
 
@@ -635,20 +634,20 @@ export default function AdminCareersPage() {
                               },
                               ...(status === "published"
                                 ? [
-                                    {
-                                      label: "Set to Draft",
-                                      icon: <FileMinus className="w-3.5 h-3.5" />,
-                                      variant: "warning" as const,
-                                      onClick: () => updateSingleStatus(job.id!, "draft"),
-                                    },
-                                    {
-                                      label: "Close Role",
-                                      icon: <Archive className="w-3.5 h-3.5" />,
-                                      onClick: () => updateSingleStatus(job.id!, "closed"),
-                                    },
-                                  ]
+                                  {
+                                    label: "Set to Draft",
+                                    icon: <FileMinus className="w-3.5 h-3.5" />,
+                                    variant: "warning" as const,
+                                    onClick: () => updateSingleStatus(job.id!, "draft"),
+                                  },
+                                  {
+                                    label: "Close Role",
+                                    icon: <Archive className="w-3.5 h-3.5" />,
+                                    onClick: () => updateSingleStatus(job.id!, "closed"),
+                                  },
+                                ]
                                 : status === "draft"
-                                ? [
+                                  ? [
                                     {
                                       label: "Publish Now",
                                       icon: <CheckCircle className="w-3.5 h-3.5" />,
@@ -661,7 +660,7 @@ export default function AdminCareersPage() {
                                       onClick: () => updateSingleStatus(job.id!, "closed"),
                                     },
                                   ]
-                                : [
+                                  : [
                                     {
                                       label: "Reopen & Publish",
                                       icon: <CheckCircle className="w-3.5 h-3.5" />,

@@ -88,7 +88,7 @@ export function ApearixPreloader() {
             duration: exitDuration,
             ease: [0.76, 0, 0.24, 1],
           }}
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden bg-white"
+          className="fixed inset-0 z-9999 flex flex-col items-center justify-center overflow-hidden bg-white"
           aria-label="Apearix Preloader"
           role="status"
         >
@@ -180,7 +180,7 @@ export function ApearixPreloader() {
               duration: shouldReduceMotion ? 0 : 0.4,
               delay: shouldReduceMotion ? 0 : 0.5,
             }}
-            className="relative z-10 mt-6 text-2xl font-semibold tracking-[-0.03em] text-[#111827]"
+            className="relative z-10 mt-6 text-2xl font-semibold tracking-[-0.03em] text-heading"
           >
             Apearix
           </motion.div>
@@ -193,7 +193,7 @@ export function ApearixPreloader() {
               duration: shouldReduceMotion ? 0 : 0.4,
               delay: shouldReduceMotion ? 0 : 0.75,
             }}
-            className="relative z-10 mt-2 text-sm text-[#6B7280]"
+            className="relative z-10 mt-2 text-sm text-muted"
           >
             Engineering Intelligence.
           </motion.div>

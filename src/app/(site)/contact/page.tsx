@@ -1,4 +1,4 @@
-import { Metadata } from "next"; 
+import { Metadata } from "next";
 import { PageHeader } from "@/components/site/layout/PageHeader";
 import { Mail, Phone, MapPin, Send, MessageSquare } from "lucide-react";
 
@@ -60,7 +60,7 @@ export default function ContactPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdContact) }}
-      /> 
+      />
       <main>
         <PageHeader
           badge="Get In Touch"
@@ -75,46 +75,46 @@ export default function ContactPage() {
             {/* Left Direct Details */}
             <div className="lg:col-span-5 space-y-8">
               <div>
-                <h2 className="text-3xl font-bold text-[#111827] tracking-tight mb-4">
+                <h2 className="text-3xl font-bold text-heading tracking-tight mb-4">
                   Start Your Project
                 </h2>
-                <p className="text-base text-[#4B5563] leading-relaxed">
+                <p className="text-base text-body leading-relaxed">
                   Fill out the form or reach out directly. We typically respond within 24 hours on business days.
                 </p>
               </div>
 
               <div className="space-y-6">
-                <div className="flex items-start gap-4 p-6 rounded-[12px] bg-[#FAFAFC] border border-[#E5E7EB]">
-                  <div className="p-3 rounded-[10px] bg-[#F4F0FF] text-[#6D28F5]">
+                <div className="flex items-start gap-4 p-6 rounded-xl bg-surface border border-border">
+                  <div className="p-3 rounded-[10px] bg-primary-light text-[#6D28F5]">
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-[#111827] uppercase tracking-wider mb-1">Email Inquiry</h3>
+                    <h3 className="text-sm font-bold text-heading uppercase tracking-wider mb-1">Email Inquiry</h3>
                     <a href="mailto:contact@apearix.com" className="text-base font-semibold text-[#6D28F5] hover:underline">
                       contact@apearix.com
                     </a>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4 p-6 rounded-[12px] bg-[#FAFAFC] border border-[#E5E7EB]">
-                  <div className="p-3 rounded-[10px] bg-[#F4F0FF] text-[#6D28F5]">
+                <div className="flex items-start gap-4 p-6 rounded-xl bg-surface border border-border">
+                  <div className="p-3 rounded-[10px] bg-primary-light text-[#6D28F5]">
                     <Phone className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-[#111827] uppercase tracking-wider mb-1">Direct Phone</h3>
-                    <a href="tel:+917241131839" className="text-base font-semibold text-[#111827]">
+                    <h3 className="text-sm font-bold text-heading uppercase tracking-wider mb-1">Direct Phone</h3>
+                    <a href="tel:+917241131839" className="text-base font-semibold text-heading">
                       +91 72411 31839
                     </a>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4 p-6 rounded-[12px] bg-[#FAFAFC] border border-[#E5E7EB]">
-                  <div className="p-3 rounded-[10px] bg-[#F4F0FF] text-[#6D28F5]">
+                <div className="flex items-start gap-4 p-6 rounded-xl bg-surface border border-border">
+                  <div className="p-3 rounded-[10px] bg-primary-light text-[#6D28F5]">
                     <MessageSquare className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-[#111827] uppercase tracking-wider mb-1">Consultation</h3>
-                    <p className="text-sm text-[#4B5563]">
+                    <h3 className="text-sm font-bold text-heading uppercase tracking-wider mb-1">Consultation</h3>
+                    <p className="text-sm text-body">
                       Schedule a 30-minute discovery call to discuss architectural scope and timelines.
                     </p>
                   </div>
@@ -123,11 +123,11 @@ export default function ContactPage() {
             </div>
 
             {/* Right Contact Form */}
-            <div className="lg:col-span-7 p-8 md:p-10 rounded-[12px] bg-[#FAFAFC] border border-[#E5E7EB] shadow-sm">
+            <div className="lg:col-span-7 p-8 md:p-10 rounded-xl bg-surface border border-border shadow-sm">
               <form className="space-y-6">
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="full-name" className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-2">
+                    <label htmlFor="full-name" className="block text-xs font-bold uppercase tracking-wider text-heading mb-2">
                       Full Name *
                     </label>
                     <input
@@ -135,12 +135,12 @@ export default function ContactPage() {
                       type="text"
                       required
                       placeholder="Jane Doe"
-                      className="w-full h-12 px-4 rounded-[10px] bg-white border border-[#E5E7EB] text-[#111827] placeholder-[#6B7280] text-sm focus:outline-none focus:border-[#6D28F5] focus:ring-1 focus:ring-[#6D28F5]"
+                      className="w-full h-12 px-4 rounded-[10px] bg-white border border-border text-heading placeholder-muted text-sm focus:outline-none focus:border-[#6D28F5] focus:ring-1 focus:ring-[#6D28F5]"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="work-email" className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-2">
+                    <label htmlFor="work-email" className="block text-xs font-bold uppercase tracking-wider text-heading mb-2">
                       Work Email *
                     </label>
                     <input
@@ -148,19 +148,19 @@ export default function ContactPage() {
                       type="email"
                       required
                       placeholder="jane@company.com"
-                      className="w-full h-12 px-4 rounded-[10px] bg-white border border-[#E5E7EB] text-[#111827] placeholder-[#6B7280] text-sm focus:outline-none focus:border-[#6D28F5] focus:ring-1 focus:ring-[#6D28F5]"
+                      className="w-full h-12 px-4 rounded-[10px] bg-white border border-border text-heading placeholder-muted text-sm focus:outline-none focus:border-[#6D28F5] focus:ring-1 focus:ring-[#6D28F5]"
                     />
                   </div>
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="project-type" className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-2">
+                    <label htmlFor="project-type" className="block text-xs font-bold uppercase tracking-wider text-heading mb-2">
                       Project Category
                     </label>
                     <select
                       id="project-type"
-                      className="w-full h-12 px-4 rounded-[10px] bg-white border border-[#E5E7EB] text-[#111827] text-sm focus:outline-none focus:border-[#6D28F5]"
+                      className="w-full h-12 px-4 rounded-[10px] bg-white border border-border text-heading text-sm focus:outline-none focus:border-[#6D28F5]"
                     >
                       <option value="web">Web Development</option>
                       <option value="saas">SaaS Application</option>
@@ -171,12 +171,12 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label htmlFor="estimated-budget" className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-2">
+                    <label htmlFor="estimated-budget" className="block text-xs font-bold uppercase tracking-wider text-heading mb-2">
                       Estimated Budget
                     </label>
                     <select
                       id="estimated-budget"
-                      className="w-full h-12 px-4 rounded-[10px] bg-white border border-[#E5E7EB] text-[#111827] text-sm focus:outline-none focus:border-[#6D28F5]"
+                      className="w-full h-12 px-4 rounded-[10px] bg-white border border-border text-heading text-sm focus:outline-none focus:border-[#6D28F5]"
                     >
                       <option value="10k-25k">$10k – $25k</option>
                       <option value="25k-50k">$25k – $50k</option>
@@ -187,7 +187,7 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-2">
+                  <label htmlFor="message" className="block text-xs font-bold uppercase tracking-wider text-heading mb-2">
                     Project Overview *
                   </label>
                   <textarea
@@ -195,7 +195,7 @@ export default function ContactPage() {
                     rows={5}
                     required
                     placeholder="Tell us about your business goals, target audience, and key required features..."
-                    className="w-full p-4 rounded-[10px] bg-white border border-[#E5E7EB] text-[#111827] placeholder-[#6B7280] text-sm focus:outline-none focus:border-[#6D28F5] focus:ring-1 focus:ring-[#6D28F5]"
+                    className="w-full p-4 rounded-[10px] bg-white border border-border text-heading placeholder-muted text-sm focus:outline-none focus:border-[#6D28F5] focus:ring-1 focus:ring-[#6D28F5]"
                   />
                 </div>
 
@@ -211,7 +211,7 @@ export default function ContactPage() {
 
           </div>
         </section>
-      </main> 
+      </main>
     </>
   );
 }

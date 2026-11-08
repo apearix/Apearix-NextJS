@@ -92,45 +92,45 @@ export default function AIAutomationPage() {
           breadcrumbs={[{ label: "Services", href: "/services/ai-automation" }, { label: "AI Automation", href: "/services/ai-automation" }]}
         />
 
-        <section className="py-20 md:py-28 bg-white border-b border-[#E5E7EB]">
+        <section className="py-20 md:py-28 bg-white border-b border-border">
           <div className="container max-w-7xl mx-auto px-6">
             <div className="max-w-3xl mx-auto text-center mb-16">
               <span className="text-xs font-bold uppercase tracking-wider text-[#6D28F5] mb-3 block">Intelligent Workflows</span>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#111827] tracking-tight mb-4">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-heading tracking-tight mb-4">
                 Work Smarter with AI Integration
               </h2>
-              <p className="text-base sm:text-lg text-[#4B5563] leading-relaxed">
+              <p className="text-base sm:text-lg text-body leading-relaxed">
                 We turn manual, time-consuming business processes into automated, intelligent software loops that save hundreds of hours monthly.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="p-8 rounded-[12px] bg-[#FAFAFC] border border-[#E5E7EB] shadow-sm">
-                <div className="w-12 h-12 rounded-[10px] bg-[#F4F0FF] text-[#6D28F5] flex items-center justify-center mb-6">
+              <div className="p-8 rounded-xl bg-surface border border-border shadow-sm">
+                <div className="w-12 h-12 rounded-[10px] bg-primary-light text-[#6D28F5] flex items-center justify-center mb-6">
                   <Bot className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-[#111827] mb-3">Custom AI Agents</h3>
-                <p className="text-sm text-[#4B5563] leading-relaxed">
+                <h3 className="text-xl font-bold text-heading mb-3">Custom AI Agents</h3>
+                <p className="text-sm text-body leading-relaxed">
                   Autonomous agents trained on your proprietary data to handle customer inquiries, document analysis, and data extraction.
                 </p>
               </div>
 
-              <div className="p-8 rounded-[12px] bg-[#FAFAFC] border border-[#E5E7EB] shadow-sm">
-                <div className="w-12 h-12 rounded-[10px] bg-[#F4F0FF] text-[#6D28F5] flex items-center justify-center mb-6">
+              <div className="p-8 rounded-xl bg-surface border border-border shadow-sm">
+                <div className="w-12 h-12 rounded-[10px] bg-primary-light text-[#6D28F5] flex items-center justify-center mb-6">
                   <Workflow className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-[#111827] mb-3">Workflow Automation</h3>
-                <p className="text-sm text-[#4B5563] leading-relaxed">
+                <h3 className="text-xl font-bold text-heading mb-3">Workflow Automation</h3>
+                <p className="text-sm text-body leading-relaxed">
                   Connect CRMs, ERPs, emails, and databases into cohesive self-executing automation pipelines.
                 </p>
               </div>
 
-              <div className="p-8 rounded-[12px] bg-[#FAFAFC] border border-[#E5E7EB] shadow-sm">
-                <div className="w-12 h-12 rounded-[10px] bg-[#F4F0FF] text-[#6D28F5] flex items-center justify-center mb-6">
+              <div className="p-8 rounded-xl bg-surface border border-border shadow-sm">
+                <div className="w-12 h-12 rounded-[10px] bg-primary-light text-[#6D28F5] flex items-center justify-center mb-6">
                   <Cpu className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-[#111827] mb-3">RAG & Vector Search</h3>
-                <p className="text-sm text-[#4B5563] leading-relaxed">
+                <h3 className="text-xl font-bold text-heading mb-3">RAG & Vector Search</h3>
+                <p className="text-sm text-body leading-relaxed">
                   Retrieval-Augmented Generation architectures with Pinecone and pgvector for accurate semantic search across company knowledge.
                 </p>
               </div>

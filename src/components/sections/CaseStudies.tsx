@@ -73,7 +73,7 @@ const products: Product[] = [
 
 const statusStyles = {
   active: 'bg-emerald-50 text-emerald-700 border-emerald-200/60 shadow-sm shadow-emerald-500/5',
-  building: 'bg-[#F4F0FF] text-[#6D28F5] border-[#DDD6FE] shadow-sm shadow-[#6D28F5]/5',
+  building: 'bg-primary-light text-[#6D28F5] border-[#DDD6FE] shadow-sm shadow-[#6D28F5]/5',
   soon: 'bg-gray-50 text-gray-600 border-gray-200',
 };
 
@@ -84,7 +84,7 @@ export function CaseStudies() {
       className="relative overflow-hidden bg-white py-10 sm:py-16 lg:py-20"
     >
       {/* Immersive background glow & grid elements */}
-      <div className="pointer-events-none absolute left-1/2 top-1/4 -z-10 h-[600px] w-[900px] -translate-x-1/2 rounded-full bg-[#6D28F5]/5 blur-[160px]" />
+      <div className="pointer-events-none absolute left-1/2 top-1/4 -z-10 h-150 w-225 -translate-x-1/2 rounded-full bg-[#6D28F5]/5 blur-[160px]" />
 
       <div className="absolute inset-0 -z-20 opacity-30 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#E5E7EB 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
 
@@ -97,7 +97,7 @@ export function CaseStudies() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.5 }}
-            className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#DDD6FE] bg-[#F4F0FF] px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#6D28F5] shadow-sm"
+            className="mb-4 inline-flex items-center gap-2 rounded-full border border-border-accent bg-primary-light px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#6D28F5] shadow-sm"
           >
             <Sparkles className="h-3.5 w-3.5" />
             <span>Featured Products</span>
@@ -108,9 +108,9 @@ export function CaseStudies() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-balance text-3xl font-bold tracking-tight text-[#111827] sm:text-4xl md:text-5xl lg:text-6xl"
+            className="text-balance text-3xl font-bold tracking-tight text-heading sm:text-4xl md:text-5xl lg:text-6xl"
           >
-            Products We&apos;re <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6D28F5] via-[#7B3FE4] to-[#A855F7]">Building.</span>
+            Products We&apos;re <span className="text-transparent bg-clip-text bg-linear-to-r from-[#6D28F5] via-[#7B3FE4] to-[#A855F7]">Building.</span>
           </motion.h2>
 
           <motion.p
@@ -118,7 +118,7 @@ export function CaseStudies() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-5 max-w-3xl text-base leading-relaxed text-[#4B5563] sm:text-lg"
+            className="mt-5 max-w-3xl text-base leading-relaxed text-body sm:text-lg"
           >
             As a key Apearix differentiator, we don&apos;t just build client software we incubate high-performance proprietary tools designed to redefine digital workflows.
           </motion.p>
@@ -141,19 +141,19 @@ export function CaseStudies() {
                   delay: index * 0.15,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className={`group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-[#E5E7EB] bg-white transition-all duration-500 hover:-translate-y-1 hover:border-[#C4B5FD] hover:shadow-2xl hover:shadow-[#6D28F5]/10 ${isFeatured ? 'lg:col-span-1 border-[#DDD6FE]/80 bg-gradient-to-b from-white via-white to-[#FAFAFC]' : ''
+                className={`group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-border bg-white transition-all duration-500 hover:-translate-y-1 hover:border-[#C4B5FD] hover:shadow-2xl hover:shadow-[#6D28F5]/10 ${isFeatured ? 'lg:col-span-1 border-border-accent/80 bg-linear-to-b from-white via-white to-surface' : ''
                   }`}
               >
                 {/* Premium Mockup / Interactive Visual Stage */}
-                <div className={`relative overflow-hidden border-b border-[#E5E7EB] bg-[#F9FAFB] p-6 sm:p-10 min-h-[260px]`}>
+                <div className={`relative overflow-hidden border-b border-border bg-[#F9FAFB] p-6 sm:p-10 min-h-65`}>
 
                   {/* Subtle Background Pattern */}
-                  <div className="absolute inset-0 opacity-50 bg-[radial-gradient(#CBD5E1_1px,transparent_1px)] [background-size:16px_16px]" />
+                  <div className="absolute inset-0 opacity-50 bg-[radial-gradient(#CBD5E1_1px,transparent_1px)] bg-size-[16px_16px]" />
 
                   {/* Floating ambient light */}
                   <div className="absolute left-1/2 top-1/2 h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#6D28F5]/10 blur-3xl pointer-events-none" />
 
-                  
+
                   <div className="absolute right-6 top-6 z-10">
                     <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold backdrop-blur-md ${statusStyles[product.statusType]}`}>
                       <span className={`h-1.5 w-1.5 rounded-full ${product.statusType === 'active' ? 'bg-emerald-500 animate-pulse' : 'bg-[#6D28F5]'}`} />
@@ -177,7 +177,7 @@ export function CaseStudies() {
                         </div>
                         <div className="grid grid-cols-3 gap-3 mb-4">
                           {['Client Projects', 'Research Hub', 'Deployment Stack'].map((tabGroup, i) => (
-                            <div key={i} className={`p-3 rounded-xl border text-left ${i === 0 ? 'bg-[#F4F0FF] border-[#DDD6FE] text-[#6D28F5]' : 'bg-gray-50/70 border-gray-100 text-gray-700'}`}>
+                            <div key={i} className={`p-3 rounded-xl border text-left ${i === 0 ? 'bg-primary-light border-border-accent text-[#6D28F5]' : 'bg-gray-50/70 border-gray-100 text-gray-700'}`}>
                               <div className="flex items-center gap-1.5 font-semibold text-xs mb-1">
                                 <Workflow className="w-3.5 h-3.5" />
                                 <span className="truncate">{tabGroup}</span>
@@ -217,7 +217,7 @@ export function CaseStudies() {
                             <span className="font-bold text-[#6D28F5]">1,420 Paid</span>
                           </div>
                         </div>
-                        <div className="w-full py-2 bg-[#111827] text-white text-center rounded-xl text-xs font-semibold shadow-sm">
+                        <div className="w-full py-2 bg-heading text-white text-center rounded-xl text-xs font-semibold shadow-sm">
                           Create Instant Invoice →
                         </div>
                       </div>
@@ -225,7 +225,7 @@ export function CaseStudies() {
 
                     {product.mockupType === 'labs' && (
                       <div className="w-full max-w-sm rounded-2xl border border-gray-200/80 bg-white p-6 shadow-2xl shadow-purple-900/10 text-center transition-transform duration-500 group-hover:scale-[1.02]">
-                        <div className="w-14 h-14 rounded-2xl bg-[#F4F0FF] border border-[#DDD6FE] text-[#6D28F5] flex items-center justify-center mx-auto mb-3 shadow-inner">
+                        <div className="w-14 h-14 rounded-2xl bg-primary-light border border-border-accent text-[#6D28F5] flex items-center justify-center mx-auto mb-3 shadow-inner">
                           <Sparkles className="w-7 h-7" />
                         </div>
                         <h4 className="font-bold text-gray-900 text-sm mb-1">Apearix Labs Sandbox</h4>
@@ -240,20 +240,20 @@ export function CaseStudies() {
                 </div>
 
                 {/* Content Section */}
-                <div className="p-6 sm:p-8 flex flex-col justify-between flex-grow">
+                <div className="p-6 sm:p-8 flex flex-col justify-between grow">
                   <div>
                     <div className="mb-3 flex items-start justify-between gap-4">
                       <div>
                         <span className="text-xs font-semibold uppercase tracking-wider text-[#6D28F5] block mb-1">
                           {product.category}
                         </span>
-                        <h3 className="text-2xl font-bold tracking-tight text-[#111827] sm:text-3xl">
+                        <h3 className="text-2xl font-bold tracking-tight text-heading sm:text-3xl">
                           {product.title}
                         </h3>
                       </div>
 
                       {product.href && (
-                        <div className="w-10 h-10 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-500 transition-all duration-300 group-hover:border-[#6D28F5] group-hover:bg-[#F4F0FF] group-hover:text-[#6D28F5] shrink-0 shadow-sm">
+                        <div className="w-10 h-10 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-500 transition-all duration-300 group-hover:border-[#6D28F5] group-hover:bg-primary-light group-hover:text-[#6D28F5] shrink-0 shadow-sm">
                           <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
                         </div>
                       )}
@@ -263,7 +263,7 @@ export function CaseStudies() {
                       {product.tagline}
                     </p>
 
-                    <p className="text-sm leading-relaxed text-[#4B5563] sm:text-base">
+                    <p className="text-sm leading-relaxed text-body sm:text-base">
                       {product.description}
                     </p>
 
@@ -272,7 +272,7 @@ export function CaseStudies() {
                       {product.technologies.map((technology) => (
                         <span
                           key={technology}
-                          className="rounded-lg bg-[#F6F7FB] border border-gray-100 px-3 py-1 text-xs font-medium text-[#6B7280]"
+                          className="rounded-lg bg-surface-alt border border-gray-100 px-3 py-1 text-xs font-medium text-muted"
                         >
                           {technology}
                         </span>
@@ -282,7 +282,7 @@ export function CaseStudies() {
 
                   {/* Bottom Action CTA Link */}
                   {product.href && (
-                    <div className="mt-8 border-t border-[#E5E7EB] pt-6 flex items-center justify-between">
+                    <div className="mt-8 border-t border-border pt-6 flex items-center justify-between">
                       <Link
                         href={product.href}
                         className="group/link inline-flex items-center gap-2 text-sm font-semibold text-[#6D28F5] transition-colors hover:text-[#5B21E6]"

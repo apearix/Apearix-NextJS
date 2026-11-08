@@ -90,45 +90,45 @@ export default function CloudDevOpsPage() {
           breadcrumbs={[{ label: "Services", href: "/services/cloud-devops" }, { label: "Cloud & DevOps", href: "/services/cloud-devops" }]}
         />
 
-        <section className="py-20 md:py-28 bg-white border-b border-[#E5E7EB]">
+        <section className="py-20 md:py-28 bg-white border-b border-border">
           <div className="container max-w-7xl mx-auto px-6">
             <div className="max-w-3xl mx-auto text-center mb-16">
               <span className="text-xs font-bold uppercase tracking-wider text-[#6D28F5] mb-3 block">High Availability</span>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#111827] tracking-tight mb-4">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-heading tracking-tight mb-4">
                 Reliable Cloud Infrastructure
               </h2>
-              <p className="text-base sm:text-lg text-[#4B5563] leading-relaxed">
+              <p className="text-base sm:text-lg text-body leading-relaxed">
                 We eliminate deployment bottlenecks, optimize server costs, and ensure your products maintain 99.99% uptime under peak load.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="p-8 rounded-[12px] bg-[#FAFAFC] border border-[#E5E7EB] shadow-sm">
-                <div className="w-12 h-12 rounded-[10px] bg-[#F4F0FF] text-[#6D28F5] flex items-center justify-center mb-6">
+              <div className="p-8 rounded-xl bg-surface border border-border shadow-sm">
+                <div className="w-12 h-12 rounded-[10px] bg-primary-light text-[#6D28F5] flex items-center justify-center mb-6">
                   <Cloud className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-[#111827] mb-3">AWS & Edge Hosting</h3>
-                <p className="text-sm text-[#4B5563] leading-relaxed">
+                <h3 className="text-xl font-bold text-heading mb-3">AWS & Edge Hosting</h3>
+                <p className="text-sm text-body leading-relaxed">
                   Infrastructure as Code (Terraform/CloudFormation) deploying serverless, edge computing, and auto-scaling ECS/EKS clusters.
                 </p>
               </div>
 
-              <div className="p-8 rounded-[12px] bg-[#FAFAFC] border border-[#E5E7EB] shadow-sm">
-                <div className="w-12 h-12 rounded-[10px] bg-[#F4F0FF] text-[#6D28F5] flex items-center justify-center mb-6">
+              <div className="p-8 rounded-xl bg-surface border border-border shadow-sm">
+                <div className="w-12 h-12 rounded-[10px] bg-primary-light text-[#6D28F5] flex items-center justify-center mb-6">
                   <Server className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-[#111827] mb-3">CI/CD Automation</h3>
-                <p className="text-sm text-[#4B5563] leading-relaxed">
+                <h3 className="text-xl font-bold text-heading mb-3">CI/CD Automation</h3>
+                <p className="text-sm text-body leading-relaxed">
                   GitHub Actions and GitLab CI pipelines for automated linting, unit testing, preview deployments, and zero-downtime releases.
                 </p>
               </div>
 
-              <div className="p-8 rounded-[12px] bg-[#FAFAFC] border border-[#E5E7EB] shadow-sm">
-                <div className="w-12 h-12 rounded-[10px] bg-[#F4F0FF] text-[#6D28F5] flex items-center justify-center mb-6">
+              <div className="p-8 rounded-xl bg-surface border border-border shadow-sm">
+                <div className="w-12 h-12 rounded-[10px] bg-primary-light text-[#6D28F5] flex items-center justify-center mb-6">
                   <ShieldCheck className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-[#111827] mb-3">Monitoring & Security</h3>
-                <p className="text-sm text-[#4B5563] leading-relaxed">
+                <h3 className="text-xl font-bold text-heading mb-3">Monitoring & Security</h3>
+                <p className="text-sm text-body leading-relaxed">
                   Real-time Datadog/Sentry error monitoring, automated database backups, DDoS protection, and SSL/TLS management.
                 </p>
               </div>

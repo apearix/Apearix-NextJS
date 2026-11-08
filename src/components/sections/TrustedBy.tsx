@@ -9,10 +9,10 @@ const companies = [
 
 export function TrustedBy() {
   return (
-    <section className="py-16 md:py-24 bg-purple-600 border-y border-[#E5E7EB] overflow-hidden relative">
+    <section className="py-16 md:py-24 bg-purple-600 border-y border-border overflow-hidden relative">
       {/* Edge gradient masks for seamless fade */}
-      <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-24 md:w-32 bg-gradient-to-r from-purple-600 to-transparent z-10" />
-      <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-24 md:w-32 bg-gradient-to-l from-purple-600 to-transparent z-10" />
+      <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-24 md:w-32 bg-linear-to-r from-purple-600 to-transparent z-10" />
+      <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-24 md:w-32 bg-linear-to-l from-purple-600 to-transparent z-10" />
 
       <div className="container max-w-7xl mx-auto px-6 mb-8 md:mb-12 text-center">
         <p className="text-xs md:text-sm font-semibold tracking-widest uppercase text-gray-300">

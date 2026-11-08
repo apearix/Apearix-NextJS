@@ -689,7 +689,7 @@ export default function AdminBlogsPage() {
                             <div className="min-w-0 flex-1">
                               {/* 2 lines max with ellipsis (...) */}
                               <div
-                                className="font-semibold text-heading text-sm hover:text-primary transition-colors line-clamp-2 leading-snug break-words"
+                                className="font-semibold text-heading text-sm hover:text-primary transition-colors line-clamp-2 leading-snug wrap-break-word"
                                 title={post.title}
                               >
                                 {post.title}
@@ -749,11 +749,11 @@ export default function AdminBlogsPage() {
                         >
                           <ActionMenu
                             items={[
-                                {
-                                  label: "Edit",
-                                  icon: <Edit className="w-3.5 h-3.5 text-muted" />,
-                                  onClick: () => window.location.href = `/admin/blogs/${post.id}/edit`,
-                                },
+                              {
+                                label: "Edit",
+                                icon: <Edit className="w-3.5 h-3.5 text-muted" />,
+                                onClick: () => window.location.href = `/admin/blogs/${post.id}/edit`,
+                              },
                               {
                                 label: "View Preview",
                                 icon: <Eye className="w-3.5 h-3.5 text-muted" />,
@@ -834,7 +834,7 @@ export default function AdminBlogsPage() {
           {
             header: "Title",
             render: (item) => (
-              <span className="font-medium text-heading max-w-[130px] truncate block">
+              <span className="font-medium text-heading max-w-32.5 truncate block">
                 {item.title}
               </span>
             ),
@@ -842,7 +842,7 @@ export default function AdminBlogsPage() {
           {
             header: "Slug",
             render: (item) => (
-              <span className="text-muted font-mono text-[10px] max-w-[110px] truncate block">
+              <span className="text-muted font-mono text-[10px] max-w-27.5 truncate block">
                 /{item.slug}
               </span>
             ),

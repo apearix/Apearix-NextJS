@@ -271,7 +271,7 @@ export function NotificationDrawer({
                   <span className="font-medium text-muted capitalize">
                     {key.replace(/([A-Z])/g, " $1")}
                   </span>
-                  <span className="font-mono text-heading font-semibold text-right max-w-[280px] truncate">
+                  <span className="font-mono text-heading font-semibold text-right max-w-70 truncate">
                     {String(val)}
                   </span>
                 </div>

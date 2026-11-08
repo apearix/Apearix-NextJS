@@ -89,45 +89,45 @@ export default function SaaSDevelopmentPage() {
           breadcrumbs={[{ label: "Services", href: "/services/saas-development" }, { label: "SaaS Development", href: "/services/saas-development" }]}
         />
 
-        <section className="py-20 md:py-28 bg-white border-b border-[#E5E7EB]">
+        <section className="py-20 md:py-28 bg-white border-b border-border">
           <div className="container max-w-7xl mx-auto px-6">
             <div className="max-w-3xl mx-auto text-center mb-16">
               <span className="text-xs font-bold uppercase tracking-wider text-[#6D28F5] mb-3 block">Enterprise SaaS</span>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#111827] tracking-tight mb-4">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-heading tracking-tight mb-4">
                 Architected for Growth & Reliability
               </h2>
-              <p className="text-base sm:text-lg text-[#4B5563] leading-relaxed">
+              <p className="text-base sm:text-lg text-body leading-relaxed">
                 We design and build SaaS products that scale seamlessly from your first 100 users to millions of monthly active users.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="p-8 rounded-[12px] bg-[#FAFAFC] border border-[#E5E7EB] shadow-sm">
-                <div className="w-12 h-12 rounded-[10px] bg-[#F4F0FF] text-[#6D28F5] flex items-center justify-center mb-6">
+              <div className="p-8 rounded-xl bg-surface border border-border shadow-sm">
+                <div className="w-12 h-12 rounded-[10px] bg-primary-light text-[#6D28F5] flex items-center justify-center mb-6">
                   <Layers className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-[#111827] mb-3">Multi-Tenant Architecture</h3>
-                <p className="text-sm text-[#4B5563] leading-relaxed">
+                <h3 className="text-xl font-bold text-heading mb-3">Multi-Tenant Architecture</h3>
+                <p className="text-sm text-body leading-relaxed">
                   Isolated tenant data boundaries, custom subdomains, and granular role-based access control (RBAC).
                 </p>
               </div>
 
-              <div className="p-8 rounded-[12px] bg-[#FAFAFC] border border-[#E5E7EB] shadow-sm">
-                <div className="w-12 h-12 rounded-[10px] bg-[#F4F0FF] text-[#6D28F5] flex items-center justify-center mb-6">
+              <div className="p-8 rounded-xl bg-surface border border-border shadow-sm">
+                <div className="w-12 h-12 rounded-[10px] bg-primary-light text-[#6D28F5] flex items-center justify-center mb-6">
                   <Database className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-[#111827] mb-3">Billing & Subscriptions</h3>
-                <p className="text-sm text-[#4B5563] leading-relaxed">
+                <h3 className="text-xl font-bold text-heading mb-3">Billing & Subscriptions</h3>
+                <p className="text-sm text-body leading-relaxed">
                   Seamless Stripe and Paddle integrations with usage-based billing, tier management, and automated invoicing.
                 </p>
               </div>
 
-              <div className="p-8 rounded-[12px] bg-[#FAFAFC] border border-[#E5E7EB] shadow-sm">
-                <div className="w-12 h-12 rounded-[10px] bg-[#F4F0FF] text-[#6D28F5] flex items-center justify-center mb-6">
+              <div className="p-8 rounded-xl bg-surface border border-border shadow-sm">
+                <div className="w-12 h-12 rounded-[10px] bg-primary-light text-[#6D28F5] flex items-center justify-center mb-6">
                   <Lock className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-[#111827] mb-3">Enterprise Security</h3>
-                <p className="text-sm text-[#4B5563] leading-relaxed">
+                <h3 className="text-xl font-bold text-heading mb-3">Enterprise Security</h3>
+                <p className="text-sm text-body leading-relaxed">
                   SOC2-ready data encryption at rest and in transit, SSO (SAML/OAuth), and automated backup protocols.
                 </p>
               </div>

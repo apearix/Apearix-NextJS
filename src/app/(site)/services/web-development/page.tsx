@@ -94,45 +94,45 @@ export default function WebDevelopmentPage() {
         />
 
         {/* Feature Grid */}
-        <section className="py-20 md:py-28 bg-white border-b border-[#E5E7EB]">
+        <section className="py-20 md:py-28 bg-white border-b border-border">
           <div className="container max-w-7xl mx-auto px-6">
             <div className="max-w-3xl mx-auto text-center mb-16">
               <span className="text-xs font-bold uppercase tracking-wider text-[#6D28F5] mb-3 block">Craftsmanship</span>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#111827] tracking-tight mb-4">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-heading tracking-tight mb-4">
                 Built for Performance & Credibility
               </h2>
-              <p className="text-base sm:text-lg text-[#4B5563] leading-relaxed">
+              <p className="text-base sm:text-lg text-body leading-relaxed">
                 Your website is the front door to your business. We engineer sites that load in milliseconds and deliver seamless experiences across every device.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="p-8 rounded-[12px] bg-[#FAFAFC] border border-[#E5E7EB] shadow-sm">
-                <div className="w-12 h-12 rounded-[10px] bg-[#F4F0FF] text-[#6D28F5] flex items-center justify-center mb-6">
+              <div className="p-8 rounded-xl bg-surface border border-border shadow-sm">
+                <div className="w-12 h-12 rounded-[10px] bg-primary-light text-[#6D28F5] flex items-center justify-center mb-6">
                   <Zap className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-[#111827] mb-3">Ultra-Fast Loading</h3>
-                <p className="text-sm text-[#4B5563] leading-relaxed">
+                <h3 className="text-xl font-bold text-heading mb-3">Ultra-Fast Loading</h3>
+                <p className="text-sm text-body leading-relaxed">
                   Optimized Core Web Vitals with 100/100 Lighthouse scores, server-side rendering, and image compression.
                 </p>
               </div>
 
-              <div className="p-8 rounded-[12px] bg-[#FAFAFC] border border-[#E5E7EB] shadow-sm">
-                <div className="w-12 h-12 rounded-[10px] bg-[#F4F0FF] text-[#6D28F5] flex items-center justify-center mb-6">
+              <div className="p-8 rounded-xl bg-surface border border-border shadow-sm">
+                <div className="w-12 h-12 rounded-[10px] bg-primary-light text-[#6D28F5] flex items-center justify-center mb-6">
                   <Search className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-[#111827] mb-3">SEO-Ready Architecture</h3>
-                <p className="text-sm text-[#4B5563] leading-relaxed">
+                <h3 className="text-xl font-bold text-heading mb-3">SEO-Ready Architecture</h3>
+                <p className="text-sm text-body leading-relaxed">
                   Semantic HTML5, OpenGraph metadata, JSON-LD structured data, and clean routing for maximum organic visibility.
                 </p>
               </div>
 
-              <div className="p-8 rounded-[12px] bg-[#FAFAFC] border border-[#E5E7EB] shadow-sm">
-                <div className="w-12 h-12 rounded-[10px] bg-[#F4F0FF] text-[#6D28F5] flex items-center justify-center mb-6">
+              <div className="p-8 rounded-xl bg-surface border border-border shadow-sm">
+                <div className="w-12 h-12 rounded-[10px] bg-primary-light text-[#6D28F5] flex items-center justify-center mb-6">
                   <ShieldCheck className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-[#111827] mb-3">Responsive & Secure</h3>
-                <p className="text-sm text-[#4B5563] leading-relaxed">
+                <h3 className="text-xl font-bold text-heading mb-3">Responsive & Secure</h3>
+                <p className="text-sm text-body leading-relaxed">
                   Flawless fluid responsiveness across 320px–1920px viewports with HTTPS, SSL, and modern security headers.
                 </p>
               </div>

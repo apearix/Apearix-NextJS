@@ -27,13 +27,13 @@ const testimonials = [
 
 export function Testimonials() {
   return (
-    <section className="py-24 md:py-32 bg-[#FAFAFC] overflow-hidden relative">
+    <section className="py-24 md:py-32 bg-surface overflow-hidden relative">
       {/* Edge gradient masks for seamless fade */}
-      <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-[#FAFAFC] to-transparent z-10" />
-      <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-[#FAFAFC] to-transparent z-10" />
+      <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-linear-to-r from-surface to-transparent z-10" />
+      <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-linear-to-l from-surface to-transparent z-10" />
 
       <div className="container max-w-7xl mx-auto px-6 mb-16 md:mb-20 text-center">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#111827] mb-4 tracking-tight">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-heading mb-4 tracking-tight">
           Trusted by <span className="text-[#6D28F5]">Visionary Leaders</span>
         </h2>
       </div>
@@ -54,15 +54,15 @@ export function Testimonials() {
           {[...testimonials, ...testimonials, ...testimonials, ...testimonials].map((t, index) => (
             <div
               key={index}
-              className="flex-shrink-0 w-[320px] sm:w-[420px] md:w-[540px] px-3 md:px-4 pb-1"
+              className="shrink-0 w-[320px] sm:w-105 md:w-135 px-3 md:px-4 pb-1"
             >
-              <div className="bg-white p-6 md:p-8 rounded-[12px] border border-[#E5E7EB] shadow-sm whitespace-normal h-full flex flex-col justify-between hover:shadow-md hover:border-[#DDD6FE] transition-all duration-300">
-                <p className="text-base md:text-xl text-[#111827] font-medium leading-relaxed mb-6 md:mb-8 italic">
+              <div className="bg-white p-6 md:p-8 rounded-xl border border-border shadow-sm whitespace-normal h-full flex flex-col justify-between hover:shadow-md hover:border-border-accent transition-all duration-300">
+                <p className="text-base md:text-xl text-heading font-medium leading-relaxed mb-6 md:mb-8 italic">
                   "{t.quote}"
                 </p>
                 <div>
-                  <div className="font-bold text-[#111827] text-sm md:text-base">{t.author}</div>
-                  <div className="text-[#6B7280] text-xs font-semibold tracking-wider uppercase mt-1">{t.role}</div>
+                  <div className="font-bold text-heading text-sm md:text-base">{t.author}</div>
+                  <div className="text-muted text-xs font-semibold tracking-wider uppercase mt-1">{t.role}</div>
                 </div>
               </div>
             </div>

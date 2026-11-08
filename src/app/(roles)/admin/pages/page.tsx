@@ -530,9 +530,8 @@ export default function AdminPagesPage() {
                       <tr
                         key={page.id}
                         onClick={() => setDrawerPage(page)}
-                        className={`group hover:bg-surface transition-colors cursor-pointer ${
-                          isSelected ? "bg-primary-light/40 border-l-4 border-l-primary" : ""
-                        }`}
+                        className={`group hover:bg-surface transition-colors cursor-pointer ${isSelected ? "bg-primary-light/40 border-l-4 border-l-primary" : ""
+                          }`}
                       >
                         <td className="py-3.5 pl-4 pr-2 w-10" onClick={(e) => e.stopPropagation()}>
                           <input
@@ -549,7 +548,7 @@ export default function AdminPagesPage() {
                             </div>
                             <div className="min-w-0 flex-1">
                               <div
-                                className="font-semibold text-heading text-sm hover:text-primary transition-colors line-clamp-2 leading-snug break-words"
+                                className="font-semibold text-heading text-sm hover:text-primary transition-colors line-clamp-2 leading-snug wrap-break-word"
                                 title={page.title}
                               >
                                 {page.title}
@@ -612,21 +611,21 @@ export default function AdminPagesPage() {
                               },
                               ...(status === "published"
                                 ? [
-                                    {
-                                      label: "Unpublish",
-                                      icon: <FileMinus className="w-3.5 h-3.5" />,
-                                      variant: "warning" as const,
-                                      onClick: () => updateSingleStatus(page.id!, "draft"),
-                                    },
-                                  ]
+                                  {
+                                    label: "Unpublish",
+                                    icon: <FileMinus className="w-3.5 h-3.5" />,
+                                    variant: "warning" as const,
+                                    onClick: () => updateSingleStatus(page.id!, "draft"),
+                                  },
+                                ]
                                 : [
-                                    {
-                                      label: "Publish Now",
-                                      icon: <CheckCircle className="w-3.5 h-3.5" />,
-                                      variant: "success" as const,
-                                      onClick: () => updateSingleStatus(page.id!, "published"),
-                                    },
-                                  ]),
+                                  {
+                                    label: "Publish Now",
+                                    icon: <CheckCircle className="w-3.5 h-3.5" />,
+                                    variant: "success" as const,
+                                    onClick: () => updateSingleStatus(page.id!, "published"),
+                                  },
+                                ]),
                               {
                                 label: "Archive",
                                 icon: <Archive className="w-3.5 h-3.5" />,

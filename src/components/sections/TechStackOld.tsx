@@ -96,7 +96,7 @@ export function TechStack() {
     <section className="py-20 md:py-28 bg-[#FAF9FF] relative overflow-hidden">
 
       {/* Background Soft Glow Radial Ambient */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[450px] bg-purple-200/25 rounded-full blur-[140px] pointer-events-none -z-10" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-175 h-112.5 bg-purple-200/25 rounded-full blur-[140px] pointer-events-none -z-10" />
 
       <div className="container max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
 
@@ -118,10 +118,10 @@ export function TechStack() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-3xl sm:text-5xl md:text-6xl font-bold text-[#0F172A] mb-6 tracking-tight leading-[1.08]"
+            className="text-3xl sm:text-5xl md:text-6xl font-bold text-footer mb-6 tracking-tight leading-[1.08]"
           >
             Our World-Class <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6320EE] via-[#7B3FE4] to-[#A855F7]">
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-[#6320EE] via-[#7B3FE4] to-[#A855F7]">
               Technology Stack.
             </span>
           </motion.h2>
@@ -138,7 +138,7 @@ export function TechStack() {
         </div>
 
         {/* Minimalist Marquee Ribbon Ticker */}
-        <div className="mb-16 relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)] pointer-events-none">
+        <div className="mb-16 relative w-full overflow-hidden mask-[linear-gradient(to_right,transparent,black_15%,black_85%,transparent)] pointer-events-none">
           <motion.div
             animate={{ x: ["0%", "-50%"] }}
             transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
@@ -185,7 +185,7 @@ export function TechStack() {
 
               {/* Text Info */}
               <div>
-                <h3 className="text-sm sm:text-base font-bold text-[#0F172A] group-hover:text-[#6320EE] transition-colors">
+                <h3 className="text-sm sm:text-base font-bold text-footer group-hover:text-[#6320EE] transition-colors">
                   {tech.name}
                 </h3>
                 <p className="text-[11px] text-[#64748B] mt-0.5">

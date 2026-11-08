@@ -140,7 +140,7 @@ export default function DashboardClient() {
       )}
 
       {/* Header Banner */}
-      <div className="relative overflow-hidden rounded-2xl border border-border-accent/40 bg-gradient-to-r from-primary-light/60 via-surface to-background p-6 md:p-8">
+      <div className="relative overflow-hidden rounded-2xl border border-border-accent/40 bg-linear-to-r from-primary-light/60 via-surface to-background p-6 md:p-8">
         <div className="absolute right-0 top-0 -mt-6 -mr-6 h-48 w-48 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
         <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-1.5">
@@ -190,8 +190,8 @@ export default function DashboardClient() {
                 </div>
                 <span
                   className={`inline-flex items-center gap-0.5 text-xs font-semibold px-2 py-0.5 rounded-full border ${stat.isPositive
-                      ? "bg-emerald-50 text-emerald-700 border-emerald-200"
-                      : "bg-rose-50 text-rose-700 border-rose-200"
+                    ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                    : "bg-rose-50 text-rose-700 border-rose-200"
                     }`}
                 >
                   {stat.isPositive ? <ArrowUpRight size={13} /> : <ArrowDownRight size={13} />}
@@ -276,7 +276,7 @@ export default function DashboardClient() {
                         className="hover:bg-surface/70 transition-colors group cursor-pointer"
                       >
                         <td className="px-6 py-4">
-                          <p className="font-semibold text-heading truncate max-w-[240px] group-hover:text-primary transition-colors" title={blog.title}>
+                          <p className="font-semibold text-heading truncate max-w-60 group-hover:text-primary transition-colors" title={blog.title}>
                             {blog.title}
                           </p>
                           <span className="text-[11px] text-muted">{formattedDate}</span>
@@ -289,10 +289,10 @@ export default function DashboardClient() {
                         <td className="whitespace-nowrap px-6 py-4">
                           <span
                             className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold border ${status === "published"
-                                ? "bg-emerald-50 border-emerald-200 text-emerald-700"
-                                : status === "draft"
-                                  ? "bg-neutral-100 border-neutral-200 text-neutral-700"
-                                  : "bg-amber-50 border-amber-200 text-amber-700"
+                              ? "bg-emerald-50 border-emerald-200 text-emerald-700"
+                              : status === "draft"
+                                ? "bg-neutral-100 border-neutral-200 text-neutral-700"
+                                : "bg-amber-50 border-amber-200 text-amber-700"
                               }`}
                           >
                             {status === "published" && (
@@ -367,8 +367,8 @@ export default function DashboardClient() {
                 <div key={i} className="flex-1 flex flex-col items-center gap-2 group h-full justify-end">
                   <div
                     className={`w-full rounded-md transition-all duration-300 ${item.active
-                        ? "bg-primary shadow-sm shadow-primary/40"
-                        : "bg-primary-light group-hover:bg-primary/50"
+                      ? "bg-primary shadow-sm shadow-primary/40"
+                      : "bg-primary-light group-hover:bg-primary/50"
                       }`}
                     style={{ height: `${item.val}%` }}
                   />

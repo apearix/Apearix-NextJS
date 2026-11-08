@@ -34,7 +34,7 @@ export function QuickViewDrawer({
     // 2. Lock Background Scroll (Standard + Lenis support)
     const originalBodyOverflow = document.body.style.overflow;
     const originalBodyPaddingRight = document.body.style.paddingRight;
-    
+
     // Prevent layout shift when scrollbar disappears
     const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
     if (scrollbarWidth > 0) {

@@ -162,12 +162,12 @@ export function Navbar() {
                 className="w-8 h-8 rounded-full object-cover ring-2 ring-white"
               />
             ) : (
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-600 to-violet-600 text-white flex items-center justify-center text-xs font-semibold ring-2 ring-white">
+              <div className="w-8 h-8 rounded-full bg-linear-to-br from-indigo-600 to-violet-600 text-white flex items-center justify-center text-xs font-semibold ring-2 ring-white">
                 {authUser.initials}
               </div>
             )}
 
-            <div className="text-left hidden md:flex flex-col leading-tight max-w-[150px]">
+            <div className="text-left hidden md:flex flex-col leading-tight max-w-37.5">
               <p className="text-xs font-semibold text-gray-700 truncate">
                 {authUser.name}
               </p>
@@ -195,7 +195,7 @@ export function Navbar() {
                       className="w-10 h-10 rounded-full object-cover ring-2 ring-primary/20 shrink-0"
                     />
                   ) : (
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-600 to-violet-600 text-white flex items-center justify-center text-sm font-semibold shrink-0">
+                    <div className="w-10 h-10 rounded-full bg-linear-to-br from-indigo-600 to-violet-600 text-white flex items-center justify-center text-sm font-semibold shrink-0">
                       {authUser.initials}
                     </div>
                   )}
@@ -341,7 +341,7 @@ export function Navbar() {
       }
     };
     syncNotifs();
-    fetchNotificationsFromApi().catch(() => {});
+    fetchNotificationsFromApi().catch(() => { });
     window.addEventListener(NOTIFICATIONS_UPDATED_EVENT, syncNotifs);
     const unsubscribeStream = subscribeToNotificationStream();
 
@@ -549,7 +549,7 @@ export function Navbar() {
             >
               <Bell className="w-5 h-5" />
               {hasUnread && (
-                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 bg-primary text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white shadow-xs">
+                <span className="absolute -top-0.5 -right-0.5 min-w-4.5 h-4.5 px-1 bg-primary text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white shadow-xs">
                   {unreadCount > 9 ? "9+" : unreadCount}
                 </span>
               )}
@@ -605,10 +605,10 @@ export function Navbar() {
                           }
                           closeDropdowns();
                         }}
-                        className={`px-3.5 py-3 hover:bg-gray-50 flex items-start gap-3 transition-colors cursor-pointer ${!notif.read ? "bg-primary/[0.02]" : ""
+                        className={`px-3.5 py-3 hover:bg-gray-50 flex items-start gap-3 transition-colors cursor-pointer ${!notif.read ? "bg-primary/2" : ""
                           }`}
                       >
-                        <div className="flex-shrink-0 mt-0.5">
+                        <div className="shrink-0 mt-0.5">
                           {notif.actor?.avatar ? (
                             <img
                               src={notif.actor.avatar}
@@ -649,7 +649,7 @@ export function Navbar() {
                     className="text-xs font-semibold text-primary hover:text-primary-hover"
                   >
                     View all notifications ({notifications.length})
-                  </Link> 
+                  </Link>
                 </div>
               </div>
             )}
@@ -680,7 +680,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2, ease: "easeInOut" }}
-            className="absolute top-full left-0 right-0 bg-white border-y border-border px-6 py-6 overflow-y-auto overscroll-contain touch-pan-y max-h-[calc(100dvh-4.5rem)] shadow-xl md:hidden z-[60]"
+            className="absolute top-full left-0 right-0 bg-white border-y border-border px-6 py-6 overflow-y-auto overscroll-contain touch-pan-y max-h-[calc(100dvh-4.5rem)] shadow-xl md:hidden z-60"
           >
             <div className="flex flex-col space-y-6 text-heading text-base font-medium">
               {[

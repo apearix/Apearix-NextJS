@@ -210,11 +210,10 @@ export function BulkImportModal<T>({
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
             onKeyDown={handleDropzoneKeyDown}
-            className={`border-2 border-dashed rounded-xl p-8 text-center transition-all cursor-pointer flex flex-col items-center justify-center focus:outline-none! ${
-              isDragging
+            className={`border-2 border-dashed rounded-xl p-8 text-center transition-all cursor-pointer flex flex-col items-center justify-center focus:outline-none! ${isDragging
                 ? "border-primary bg-primary-light/30"
                 : "border-border hover:border-primary/60 bg-surface hover:bg-primary-light/10"
-            }`}
+              }`}
           >
             <input
               type="file"
@@ -310,9 +309,8 @@ export function BulkImportModal<T>({
                             </td>
                           ))}
                           <td
-                            className={`py-2 px-3 text-[11px] ${
-                              r.isValid ? "text-emerald-700" : "text-rose-700"
-                            }`}
+                            className={`py-2 px-3 text-[11px] ${r.isValid ? "text-emerald-700" : "text-rose-700"
+                              }`}
                           >
                             {r.remarks}
                           </td>

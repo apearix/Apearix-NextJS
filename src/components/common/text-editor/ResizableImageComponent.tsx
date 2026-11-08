@@ -60,49 +60,49 @@ export default function ResizableImageComponent({
       <div
         ref={containerRef}
         style={{ width: width || "100%" }}
-        className={`group relative inline-block transition-shadow ${selected ? "ring-2 ring-[var(--color-primary)] ring-offset-2 rounded-lg" : ""
+        className={`group relative inline-block transition-shadow ${selected ? "ring-2 ring-(--color-primary) ring-offset-2 rounded-lg" : ""
           }`}
       >
         {/* The Image */}
         <img
           src={src}
           alt={alt || ""}
-          className="h-auto w-full rounded-lg border border-[var(--color-border)] object-cover shadow-xs"
+          className="h-auto w-full rounded-lg border border-border object-cover shadow-xs"
         />
 
         {/* Floating Quick Action Toolbar (Preset sizes + Alignment + Delete) */}
         {(selected || resizing) && (
-          <div className="absolute -top-11 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1 rounded-lg border border-[var(--color-border)] bg-[var(--color-background)] px-2 py-1 shadow-lg">
+          <div className="absolute -top-11 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1 rounded-lg border border-border bg-background px-2 py-1 shadow-lg">
             {/* Quick Size Presets */}
             <button
               type="button"
               onClick={() => updateAttributes({ width: "25%" })}
-              className={`px-1.5 py-0.5 text-[11px] rounded ${width === "25%" ? "bg-[var(--color-primary-light)] text-[var(--color-primary)] font-semibold" : "text-[var(--color-muted)] hover:text-[var(--color-heading)]"}`}
+              className={`px-1.5 py-0.5 text-[11px] rounded ${width === "25%" ? "bg-primary-light text-(--color-primary) font-semibold" : "text-muted hover:text-heading"}`}
             >
               25%
             </button>
             <button
               type="button"
               onClick={() => updateAttributes({ width: "50%" })}
-              className={`px-1.5 py-0.5 text-[11px] rounded ${width === "50%" ? "bg-[var(--color-primary-light)] text-[var(--color-primary)] font-semibold" : "text-[var(--color-muted)] hover:text-[var(--color-heading)]"}`}
+              className={`px-1.5 py-0.5 text-[11px] rounded ${width === "50%" ? "bg-primary-light text-(--color-primary) font-semibold" : "text-muted hover:text-heading"}`}
             >
               50%
             </button>
             <button
               type="button"
               onClick={() => updateAttributes({ width: "100%" })}
-              className={`px-1.5 py-0.5 text-[11px] rounded ${width === "100%" ? "bg-[var(--color-primary-light)] text-[var(--color-primary)] font-semibold" : "text-[var(--color-muted)] hover:text-[var(--color-heading)]"}`}
+              className={`px-1.5 py-0.5 text-[11px] rounded ${width === "100%" ? "bg-primary-light text-(--color-primary) font-semibold" : "text-muted hover:text-heading"}`}
             >
               100%
             </button>
 
-            <div className="mx-1 h-3.5 w-px bg-[var(--color-border)]" />
+            <div className="mx-1 h-3.5 w-px bg-border" />
 
             {/* Alignments */}
             <button
               type="button"
               onClick={() => updateAttributes({ alignment: "left" })}
-              className={`p-1 rounded ${alignment === "left" ? "text-[var(--color-primary)]" : "text-[var(--color-muted)] hover:text-[var(--color-heading)]"}`}
+              className={`p-1 rounded ${alignment === "left" ? "text-(--color-primary)" : "text-muted hover:text-heading"}`}
               title="Align Left"
             >
               <AlignLeft className="h-3.5 w-3.5" />
@@ -110,7 +110,7 @@ export default function ResizableImageComponent({
             <button
               type="button"
               onClick={() => updateAttributes({ alignment: "center" })}
-              className={`p-1 rounded ${alignment === "center" ? "text-[var(--color-primary)]" : "text-[var(--color-muted)] hover:text-[var(--color-heading)]"}`}
+              className={`p-1 rounded ${alignment === "center" ? "text-(--color-primary)" : "text-muted hover:text-heading"}`}
               title="Align Center"
             >
               <AlignCenter className="h-3.5 w-3.5" />
@@ -118,13 +118,13 @@ export default function ResizableImageComponent({
             <button
               type="button"
               onClick={() => updateAttributes({ alignment: "right" })}
-              className={`p-1 rounded ${alignment === "right" ? "text-[var(--color-primary)]" : "text-[var(--color-muted)] hover:text-[var(--color-heading)]"}`}
+              className={`p-1 rounded ${alignment === "right" ? "text-(--color-primary)" : "text-muted hover:text-heading"}`}
               title="Align Right"
             >
               <AlignRight className="h-3.5 w-3.5" />
             </button>
 
-            <div className="mx-1 h-3.5 w-px bg-[var(--color-border)]" />
+            <div className="mx-1 h-3.5 w-px bg-border" />
 
             {/* Delete Node */}
             <button
@@ -142,7 +142,7 @@ export default function ResizableImageComponent({
         {selected && (
           <div
             onMouseDown={handleMouseDown}
-            className="absolute -bottom-1.5 -right-1.5 h-4 w-4 cursor-nwse-resize rounded-full border-2 border-white bg-[var(--color-primary)] shadow-md hover:scale-125 transition-transform"
+            className="absolute -bottom-1.5 -right-1.5 h-4 w-4 cursor-nwse-resize rounded-full border-2 border-white bg-(--color-primary) shadow-md hover:scale-125 transition-transform"
             title="Drag to resize"
           />
         )}

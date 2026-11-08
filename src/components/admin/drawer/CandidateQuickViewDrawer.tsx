@@ -244,11 +244,10 @@ export function CandidateQuickViewDrawer({
                     type="button"
                     disabled={isUpdatingStatus}
                     onClick={() => handleStatusChange(opt.value)}
-                    className={`px-2.5 py-2 rounded-lg text-xs font-semibold text-center border transition-all cursor-pointer ${
-                      isActive
+                    className={`px-2.5 py-2 rounded-lg text-xs font-semibold text-center border transition-all cursor-pointer ${isActive
                         ? `${opt.color} ring-2 ring-primary/20 shadow-sm`
                         : "bg-white border-border text-body hover:bg-surface"
-                    }`}
+                      }`}
                   >
                     {opt.label}
                   </button>
@@ -276,7 +275,7 @@ export function CandidateQuickViewDrawer({
           {/* Cover Letter / Introduction */}
           <div>
             <h4 className="text-xs font-bold text-heading uppercase tracking-wider mb-2">Cover Letter / Note</h4>
-            <div className="text-xs text-body leading-relaxed bg-white p-3.5 rounded-lg border border-border/60 whitespace-pre-line min-h-[70px]">
+            <div className="text-xs text-body leading-relaxed bg-white p-3.5 rounded-lg border border-border/60 whitespace-pre-line min-h-17.5">
               {activeApp.cover_letter || (
                 <span className="text-muted italic">No cover letter was submitted with this application.</span>
               )}
@@ -296,9 +295,8 @@ export function CandidateQuickViewDrawer({
                     className="p-1 text-slate-300 hover:text-amber-400 focus:outline-none transition-colors"
                   >
                     <Star
-                      className={`w-4 h-4 ${
-                        star <= rating ? "text-amber-400 fill-amber-400" : ""
-                      }`}
+                      className={`w-4 h-4 ${star <= rating ? "text-amber-400 fill-amber-400" : ""
+                        }`}
                     />
                   </button>
                 ))}

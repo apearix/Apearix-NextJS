@@ -146,22 +146,22 @@ export function ApplyJobModal({ job, isOpen, onClose }: Readonly<ApplyJobModalPr
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
-      <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-[#E5E7EB] my-8 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-border my-8 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
         {/* Header */}
-        <div className="p-6 bg-[#FAFAFC] border-b border-[#E5E7EB] flex items-center justify-between">
+        <div className="p-6 bg-surface border-b border-border flex items-center justify-between">
           <div>
             <span className="text-xs font-bold uppercase tracking-wider text-[#6D28F5] block">
               Application
             </span>
-            <h3 className="text-xl font-bold text-[#111827] mt-0.5">{job.title}</h3>
-            <p className="text-xs text-[#6B7280] mt-1">
+            <h3 className="text-xl font-bold text-heading mt-0.5">{job.title}</h3>
+            <p className="text-xs text-muted mt-1">
               {job.department} • {job.job_type} • {job.workplace_type} ({job.location})
             </p>
           </div>
           <button
             type="button"
             onClick={handleResetAndClose}
-            className="p-2 rounded-full text-[#6B7280] hover:text-[#111827] hover:bg-slate-200/60 transition-colors"
+            className="p-2 rounded-full text-muted hover:text-heading hover:bg-slate-200/60 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -173,10 +173,10 @@ export function ApplyJobModal({ job, isOpen, onClose }: Readonly<ApplyJobModalPr
             <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center">
               <CheckCircle2 className="w-8 h-8" />
             </div>
-            <h4 className="text-2xl font-bold text-[#111827]">Application Submitted!</h4>
-            <p className="text-sm text-[#4B5563] max-w-md mx-auto leading-relaxed">
+            <h4 className="text-2xl font-bold text-heading">Application Submitted!</h4>
+            <p className="text-sm text-body max-w-md mx-auto leading-relaxed">
               Thank you for applying for the{" "}
-              <strong className="text-[#111827] font-semibold">{job.title}</strong> role at Apearix.
+              <strong className="text-heading font-semibold">{job.title}</strong> role at Apearix.
               Our engineering & talent team will review your application and resume shortly.
             </p>
             <div className="pt-4">
@@ -201,7 +201,7 @@ export function ApplyJobModal({ job, isOpen, onClose }: Readonly<ApplyJobModalPr
             {/* Candidate Details */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-xs font-semibold text-[#111827] block mb-1">
+                <label className="text-xs font-semibold text-heading block mb-1">
                   First Name <span className="text-rose-500">*</span>
                 </label>
                 <input
@@ -210,12 +210,12 @@ export function ApplyJobModal({ job, isOpen, onClose }: Readonly<ApplyJobModalPr
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                   placeholder="e.g. Alex"
-                  className="w-full text-xs p-2.5 rounded-lg border border-[#E5E7EB] focus:ring-1 focus:ring-[#6D28F5] focus:outline-none"
+                  className="w-full text-xs p-2.5 rounded-lg border border-border focus:ring-1 focus:ring-[#6D28F5] focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-[#111827] block mb-1">
+                <label className="text-xs font-semibold text-heading block mb-1">
                   Last Name <span className="text-rose-500">*</span>
                 </label>
                 <input
@@ -224,12 +224,12 @@ export function ApplyJobModal({ job, isOpen, onClose }: Readonly<ApplyJobModalPr
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                   placeholder="e.g. Morgan"
-                  className="w-full text-xs p-2.5 rounded-lg border border-[#E5E7EB] focus:ring-1 focus:ring-[#6D28F5] focus:outline-none"
+                  className="w-full text-xs p-2.5 rounded-lg border border-border focus:ring-1 focus:ring-[#6D28F5] focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-[#111827] block mb-1">
+                <label className="text-xs font-semibold text-heading block mb-1">
                   Email Address <span className="text-rose-500">*</span>
                 </label>
                 <input
@@ -238,12 +238,12 @@ export function ApplyJobModal({ job, isOpen, onClose }: Readonly<ApplyJobModalPr
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="alex.morgan@example.com"
-                  className="w-full text-xs p-2.5 rounded-lg border border-[#E5E7EB] focus:ring-1 focus:ring-[#6D28F5] focus:outline-none"
+                  className="w-full text-xs p-2.5 rounded-lg border border-border focus:ring-1 focus:ring-[#6D28F5] focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-[#111827] block mb-1">
+                <label className="text-xs font-semibold text-heading block mb-1">
                   Phone Number
                 </label>
                 <input
@@ -251,7 +251,7 @@ export function ApplyJobModal({ job, isOpen, onClose }: Readonly<ApplyJobModalPr
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="+1 (555) 000-0000"
-                  className="w-full text-xs p-2.5 rounded-lg border border-[#E5E7EB] focus:ring-1 focus:ring-[#6D28F5] focus:outline-none"
+                  className="w-full text-xs p-2.5 rounded-lg border border-border focus:ring-1 focus:ring-[#6D28F5] focus:outline-none"
                 />
               </div>
             </div>
@@ -259,7 +259,7 @@ export function ApplyJobModal({ job, isOpen, onClose }: Readonly<ApplyJobModalPr
             {/* Links */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
-                <label className="text-xs font-semibold text-[#111827] block mb-1">
+                <label className="text-xs font-semibold text-heading block mb-1">
                   LinkedIn URL
                 </label>
                 <input
@@ -267,12 +267,12 @@ export function ApplyJobModal({ job, isOpen, onClose }: Readonly<ApplyJobModalPr
                   value={linkedinUrl}
                   onChange={(e) => setLinkedinUrl(e.target.value)}
                   placeholder="https://linkedin.com/in/..."
-                  className="w-full text-xs p-2.5 rounded-lg border border-[#E5E7EB] focus:ring-1 focus:ring-[#6D28F5] focus:outline-none"
+                  className="w-full text-xs p-2.5 rounded-lg border border-border focus:ring-1 focus:ring-[#6D28F5] focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-[#111827] block mb-1">
+                <label className="text-xs font-semibold text-heading block mb-1">
                   GitHub URL
                 </label>
                 <input
@@ -280,12 +280,12 @@ export function ApplyJobModal({ job, isOpen, onClose }: Readonly<ApplyJobModalPr
                   value={githubUrl}
                   onChange={(e) => setGithubUrl(e.target.value)}
                   placeholder="https://github.com/..."
-                  className="w-full text-xs p-2.5 rounded-lg border border-[#E5E7EB] focus:ring-1 focus:ring-[#6D28F5] focus:outline-none"
+                  className="w-full text-xs p-2.5 rounded-lg border border-border focus:ring-1 focus:ring-[#6D28F5] focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-[#111827] block mb-1">
+                <label className="text-xs font-semibold text-heading block mb-1">
                   Portfolio / Website
                 </label>
                 <input
@@ -293,7 +293,7 @@ export function ApplyJobModal({ job, isOpen, onClose }: Readonly<ApplyJobModalPr
                   value={portfolioUrl}
                   onChange={(e) => setPortfolioUrl(e.target.value)}
                   placeholder="https://yourwork.dev"
-                  className="w-full text-xs p-2.5 rounded-lg border border-[#E5E7EB] focus:ring-1 focus:ring-[#6D28F5] focus:outline-none"
+                  className="w-full text-xs p-2.5 rounded-lg border border-border focus:ring-1 focus:ring-[#6D28F5] focus:outline-none"
                 />
               </div>
             </div>
@@ -301,13 +301,13 @@ export function ApplyJobModal({ job, isOpen, onClose }: Readonly<ApplyJobModalPr
             {/* Notice & Compensation */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
-                <label className="text-xs font-semibold text-[#111827] block mb-1">
+                <label className="text-xs font-semibold text-heading block mb-1">
                   Notice Period
                 </label>
                 <select
                   value={noticePeriod}
                   onChange={(e) => setNoticePeriod(e.target.value)}
-                  className="w-full text-xs p-2.5 rounded-lg border border-[#E5E7EB] focus:ring-1 focus:ring-[#6D28F5] focus:outline-none bg-white"
+                  className="w-full text-xs p-2.5 rounded-lg border border-border focus:ring-1 focus:ring-[#6D28F5] focus:outline-none bg-white"
                 >
                   <option value="Immediate">Immediate</option>
                   <option value="15 Days">15 Days</option>
@@ -318,7 +318,7 @@ export function ApplyJobModal({ job, isOpen, onClose }: Readonly<ApplyJobModalPr
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-[#111827] block mb-1">
+                <label className="text-xs font-semibold text-heading block mb-1">
                   Current CTC / Salary
                 </label>
                 <input
@@ -326,12 +326,12 @@ export function ApplyJobModal({ job, isOpen, onClose }: Readonly<ApplyJobModalPr
                   value={currentCtc}
                   onChange={(e) => setCurrentCtc(e.target.value)}
                   placeholder="e.g. $85,000 / ₹18 LPA"
-                  className="w-full text-xs p-2.5 rounded-lg border border-[#E5E7EB] focus:ring-1 focus:ring-[#6D28F5] focus:outline-none"
+                  className="w-full text-xs p-2.5 rounded-lg border border-border focus:ring-1 focus:ring-[#6D28F5] focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-[#111827] block mb-1">
+                <label className="text-xs font-semibold text-heading block mb-1">
                   Expected CTC
                 </label>
                 <input
@@ -339,14 +339,14 @@ export function ApplyJobModal({ job, isOpen, onClose }: Readonly<ApplyJobModalPr
                   value={expectedCtc}
                   onChange={(e) => setExpectedCtc(e.target.value)}
                   placeholder="e.g. $110,000 / ₹24 LPA"
-                  className="w-full text-xs p-2.5 rounded-lg border border-[#E5E7EB] focus:ring-1 focus:ring-[#6D28F5] focus:outline-none"
+                  className="w-full text-xs p-2.5 rounded-lg border border-border focus:ring-1 focus:ring-[#6D28F5] focus:outline-none"
                 />
               </div>
             </div>
 
             {/* Resume Upload Drag & Drop */}
             <div>
-              <label className="text-xs font-semibold text-[#111827] block mb-1">
+              <label className="text-xs font-semibold text-heading block mb-1">
                 Upload Resume / CV <span className="text-rose-500">*</span>
               </label>
 
@@ -362,20 +362,19 @@ export function ApplyJobModal({ job, isOpen, onClose }: Readonly<ApplyJobModalPr
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={handleDrop}
                 onClick={() => fileInputRef.current?.click()}
-                className={`p-6 border-2 border-dashed rounded-xl text-center cursor-pointer transition-all ${
-                  resumeFile
-                    ? "border-emerald-400 bg-emerald-50/50"
-                    : "border-[#D1D5DB] hover:border-[#6D28F5] bg-[#FAFAFC]"
-                }`}
+                className={`p-6 border-2 border-dashed rounded-xl text-center cursor-pointer transition-all ${resumeFile
+                  ? "border-emerald-400 bg-emerald-50/50"
+                  : "border-[#D1D5DB] hover:border-[#6D28F5] bg-surface"
+                  }`}
               >
                 {resumeFile ? (
                   <div className="flex items-center justify-center gap-3">
                     <FileText className="w-8 h-8 text-emerald-600 shrink-0" />
                     <div className="text-left">
-                      <p className="text-xs font-bold text-[#111827] truncate max-w-xs">
+                      <p className="text-xs font-bold text-heading truncate max-w-xs">
                         {resumeFile.name}
                       </p>
-                      <p className="text-[11px] text-[#6B7280]">
+                      <p className="text-[11px] text-muted">
                         {(resumeFile.size / (1024 * 1024)).toFixed(2)} MB • Click or drop to replace
                       </p>
                     </div>
@@ -383,10 +382,10 @@ export function ApplyJobModal({ job, isOpen, onClose }: Readonly<ApplyJobModalPr
                 ) : (
                   <div className="space-y-1.5">
                     <UploadCloud className="w-8 h-8 text-[#6D28F5] mx-auto" />
-                    <p className="text-xs font-bold text-[#111827]">
+                    <p className="text-xs font-bold text-heading">
                       Click to upload or drag & drop your resume
                     </p>
-                    <p className="text-[11px] text-[#6B7280]">PDF, DOC, or DOCX up to 5MB</p>
+                    <p className="text-[11px] text-muted">PDF, DOC, or DOCX up to 5MB</p>
                   </div>
                 )}
               </div>
@@ -398,7 +397,7 @@ export function ApplyJobModal({ job, isOpen, onClose }: Readonly<ApplyJobModalPr
 
             {/* Cover Letter */}
             <div>
-              <label className="text-xs font-semibold text-[#111827] block mb-1">
+              <label className="text-xs font-semibold text-heading block mb-1">
                 Cover Note / Why Apearix?
               </label>
               <textarea
@@ -406,16 +405,16 @@ export function ApplyJobModal({ job, isOpen, onClose }: Readonly<ApplyJobModalPr
                 value={coverLetter}
                 onChange={(e) => setCoverLetter(e.target.value)}
                 placeholder="Tell us briefly about what drives you and the impactful projects you have worked on..."
-                className="w-full text-xs p-3 rounded-lg border border-[#E5E7EB] focus:ring-1 focus:ring-[#6D28F5] focus:outline-none"
+                className="w-full text-xs p-3 rounded-lg border border-border focus:ring-1 focus:ring-[#6D28F5] focus:outline-none"
               />
             </div>
 
             {/* Footer Buttons */}
-            <div className="pt-3 border-t border-[#E5E7EB] flex items-center justify-end gap-3">
+            <div className="pt-3 border-t border-border flex items-center justify-end gap-3">
               <button
                 type="button"
                 onClick={handleResetAndClose}
-                className="h-10 px-4 rounded-xl border border-[#E5E7EB] text-xs font-semibold text-[#4B5563] hover:bg-slate-100 transition-colors"
+                className="h-10 px-4 rounded-xl border border-border text-xs font-semibold text-body hover:bg-slate-100 transition-colors"
               >
                 Cancel
               </button>

@@ -381,7 +381,7 @@ export function JobForm({ initialData, isEdit = false }: Readonly<JobFormProps>)
                   >
                     <span className="flex items-start gap-2 min-w-0 pr-2">
                       <CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" />
-                      <span className="break-words">{r}</span>
+                      <span className="wrap-break-word">{r}</span>
                     </span>
                     <button
                       type="button"
@@ -431,7 +431,7 @@ export function JobForm({ initialData, isEdit = false }: Readonly<JobFormProps>)
                   >
                     <span className="flex items-start gap-2 min-w-0 pr-2">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                      <span className="break-words">{r}</span>
+                      <span className="wrap-break-word">{r}</span>
                     </span>
                     <button
                       type="button"
@@ -640,11 +640,10 @@ export function JobForm({ initialData, isEdit = false }: Readonly<JobFormProps>)
                     type="button"
                     key={d}
                     onClick={() => setDepartment(d)}
-                    className={`text-[10px] px-2 py-0.5 rounded border transition-colors cursor-pointer ${
-                      department === d
-                        ? "bg-primary text-white border-primary"
-                        : "bg-surface text-muted border-border hover:bg-slate-100"
-                    }`}
+                    className={`text-[10px] px-2 py-0.5 rounded border transition-colors cursor-pointer ${department === d
+                      ? "bg-primary text-white border-primary"
+                      : "bg-surface text-muted border-border hover:bg-slate-100"
+                      }`}
                   >
                     {d}
                   </button>

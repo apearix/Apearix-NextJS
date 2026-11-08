@@ -55,7 +55,7 @@ function ShowcaseSlide({ scene, index, total, scrollYProgress }: ShowcaseSlidePr
     <motion.div
       style={{ opacity, scale }}
       className={cn(
-        "absolute inset-0 p-6 sm:p-10 lg:p-16 flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-12 text-white bg-gradient-to-br",
+        "absolute inset-0 p-6 sm:p-10 lg:p-16 flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-12 text-white bg-linear-to-br",
         scene.color
       )}
     >
@@ -82,7 +82,7 @@ function ShowcaseSlide({ scene, index, total, scrollYProgress }: ShowcaseSlidePr
       </div>
 
       {/* Right Column: High-Res Glassmorphic Image Frame */}
-      <div className="relative w-full lg:w-[50%] aspect-[16/10] rounded-2xl overflow-hidden border border-white/20 shadow-2xl shadow-black/40 group">
+      <div className="relative w-full lg:w-[50%] aspect-16/10 rounded-2xl overflow-hidden border border-white/20 shadow-2xl shadow-black/40 group">
 
         {/* Unsplash Image */}
         <Image
@@ -95,7 +95,7 @@ function ShowcaseSlide({ scene, index, total, scrollYProgress }: ShowcaseSlidePr
         />
 
         {/* Subtle Dark Glass Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-black/20" />
 
         {/* Floating Top Glass Overlay Chip */}
         <div className="absolute top-4 left-4 z-20 flex items-center gap-2 px-3 py-1.5 rounded-lg bg-black/40 backdrop-blur-md border border-white/15 text-[11px] font-medium text-white/90">
@@ -123,7 +123,7 @@ export function Showcase() {
   });
 
   return (
-    <section ref={containerRef} className="relative h-[350vh] bg-[#0F172A] text-white">
+    <section ref={containerRef} className="relative h-[350vh] bg-footer text-white">
       <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
 
         {/* Device Frame Display Container */}
@@ -132,7 +132,7 @@ export function Showcase() {
             scale: useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0.85, 1, 1, 0.85]),
             opacity: useTransform(scrollYProgress, [0, 0.05, 0.95, 1], [0, 1, 1, 0]),
           }}
-          className="relative w-[92%] max-w-7xl aspect-video sm:aspect-[16/9] rounded-2xl border-4 sm:border-8 border-white/10 bg-[#0F172A] overflow-hidden shadow-2xl shadow-[#6320EE]/20"
+          className="relative w-[92%] max-w-7xl aspect-video sm:aspect-video rounded-2xl border-4 sm:border-8 border-white/10 bg-footer overflow-hidden shadow-2xl shadow-[#6320EE]/20"
         >
           {scenes.map((scene, index) => (
             <ShowcaseSlide
@@ -147,8 +147,8 @@ export function Showcase() {
 
         {/* Ambient Lights */}
         <div className="absolute inset-0 -z-10 pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#6320EE]/20 rounded-full blur-[160px]" />
-          <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-[#7B3FE4]/20 rounded-full blur-[160px]" />
+          <div className="absolute top-1/4 left-1/4 w-125 h-125 bg-[#6320EE]/20 rounded-full blur-[160px]" />
+          <div className="absolute bottom-1/4 right-1/4 w-125 h-125 bg-[#7B3FE4]/20 rounded-full blur-[160px]" />
         </div>
       </div>
     </section>

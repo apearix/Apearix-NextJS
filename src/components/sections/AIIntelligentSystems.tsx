@@ -140,11 +140,11 @@ const pipelineSteps = ['Context', 'Reasoning', 'Decision', 'Action', 'Outcome'];
 
 export function AIIntelligentSystems() {
     return (
-        <section className="relative w-full bg-[#0F172A]  py-10 sm:py-16 lg:py-20 overflow-hidden">
+        <section className="relative w-full bg-footer  py-10 sm:py-16 lg:py-20 overflow-hidden">
 
             {/* Deep Purple Ambient Glows */}
-            <div className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full bg-[radial-gradient(circle_at_top_left,rgba(109,40,245,0.12)_0%,transparent_60%)] blur-3xl pointer-events-none" />
-            <div className="absolute bottom-0 right-0 w-[800px] h-[800px] rounded-full bg-[radial-gradient(circle_at_bottom_right,rgba(109,40,245,0.08)_0%,transparent_60%)] blur-3xl pointer-events-none" />
+            <div className="absolute top-0 left-0 w-150 h-150 rounded-full bg-[radial-gradient(circle_at_top_left,rgba(109,40,245,0.12)_0%,transparent_60%)] blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 right-0 w-200 h-200 rounded-full bg-[radial-gradient(circle_at_bottom_right,rgba(109,40,245,0.08)_0%,transparent_60%)] blur-3xl pointer-events-none" />
 
             <div className="container relative z-10 mx-auto max-w-7xl px-4 sm:px-6 xl:px-0">
 
@@ -154,7 +154,7 @@ export function AIIntelligentSystems() {
                         initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="gap-2 px-3 py-1 mb-4 inline-flex items-center rounded-full border border-[#6D28F5]/20 bg-[#6D28F5]/10 px-3.5 py-1.5 text-[11px] sm:text-xs font-semibold tracking-wider uppercase text-[#A855F7]"
+                        className="gap-2 px-3 py-1 mb-4 inline-flex items-center rounded-full border border-[#6D28F5]/20 bg-[#6D28F5]/10 text-[11px] sm:text-xs font-semibold tracking-wider uppercase text-[#A855F7]"
                     ><Bot className="w-3.5 h-3.5" />
                         AI & Intelligent Systems
                     </motion.div>
@@ -223,7 +223,7 @@ export function AIIntelligentSystems() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, amount: 0.1 }}
                             transition={{ duration: 0.6, delay: index * 0.1 }}
-                            className="group relative flex flex-col justify-between overflow-hidden rounded-2xl bg-white/[0.035] border border-white/[0.08] p-8 sm:p-10 hover:border-[#6D28F5]/45 hover:bg-white/[0.05] transition-colors duration-500"
+                            className="group relative flex flex-col justify-between overflow-hidden rounded-2xl bg-white/[0.035] border border-white/8 p-8 sm:p-10 hover:border-[#6D28F5]/45 hover:bg-white/5 transition-colors duration-500"
                         >
                             <div className="relative z-10 mb-10">
                                 <div className="mb-4 text-xs font-bold tracking-widest text-[#6D28F5]">

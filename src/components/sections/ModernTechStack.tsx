@@ -115,9 +115,9 @@ const technologies = [
 
 export function ModernTechStack() {
   return (
-    <section className="relative overflow-hidden border-y border-[#E5E7EB] bg-white py-10 sm:py-16 lg:py-20">
+    <section className="relative overflow-hidden border-y border-border bg-white py-10 sm:py-16 lg:py-20">
       {/* Background Soft Glow */}
-      <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[450px] w-[750px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#6D28F5]/5 blur-[150px]" />
+      <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-112.5 w-187.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#6D28F5]/5 blur-[150px]" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 xl:px-0">
         {/* Header */}
@@ -127,7 +127,7 @@ export function ModernTechStack() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#DDD6FE] bg-[#F4F0FF] px-3.5 py-1.5 text-xs font-semibold   tracking-wider text-[#6D28F5]"
+            className="mb-4 inline-flex items-center gap-2 rounded-full border border-border-accent bg-primary-light px-3.5 py-1.5 text-xs font-semibold   tracking-wider text-[#6D28F5]"
           >
             <FileStack className="h-3.5 w-3.5" />
             <span>Technology & Architecture</span>
@@ -138,10 +138,10 @@ export function ModernTechStack() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-balance text-3xl font-bold tracking-tight text-[#111827] sm:text-4xl md:text-5xl"
+            className="text-balance text-3xl font-bold tracking-tight text-heading sm:text-4xl md:text-5xl"
           >
             Built With{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6D28F5] via-[#7B3FE4] to-[#A855F7]">
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-[#6D28F5] via-[#7B3FE4] to-[#A855F7]">
               Modern Technology.
             </span>
           </motion.h2>
@@ -151,7 +151,7 @@ export function ModernTechStack() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-4 text-base leading-relaxed text-[#6B7280] sm:text-lg"
+            className="mt-4 text-base leading-relaxed text-muted sm:text-lg"
           >
             We choose proven, maintainable, and type-safe tools to deliver speed, scalability, and long-term architectural stability.
           </motion.p>
@@ -170,7 +170,7 @@ export function ModernTechStack() {
             return (
               <div
                 key={tech.name}
-                className="group relative flex items-center gap-2 rounded-2xl border border-[#E5E7EB] bg-[#FAFAFC] px-4 py-3 transition-all duration-300 hover:-translate-y-1 hover:border-[#C4B5FD] hover:bg-white hover:shadow-xl hover:shadow-sm"
+                className="group relative flex items-center gap-2 rounded-2xl border border-border bg-surface px-4 py-3 transition-all duration-300 hover:-translate-y-1 hover:border-[#C4B5FD] hover:bg-white hover:shadow-xl"
               >
                 {/* SVG Icon Container with dynamic hover tone */}
                 <div
@@ -182,7 +182,7 @@ export function ModernTechStack() {
 
                 {/* Typography */}
                 <div className="flex flex-col text-left">
-                  <span className="text-sm font-bold text-[#111827] transition-colors group-hover:text-[#6D28F5]">
+                  <span className="text-sm font-bold text-heading transition-colors group-hover:text-[#6D28F5]">
                     {tech.name}
                   </span>
                   <span className="text-xs font-medium text-[#9CA3AF]">

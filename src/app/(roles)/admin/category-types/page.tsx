@@ -452,7 +452,7 @@ export default function AdminCategoryTypesPage() {
                       className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 accent-primary cursor-pointer"
                     />
                   </th>
-                  <th scope="col" className="py-3.5 px-3 min-w-[240px]">Name</th>
+                  <th scope="col" className="py-3.5 px-3 min-w-60">Name</th>
                   <th scope="col" className="py-3.5 px-3 min-w-44">Slug</th>
                   <th scope="col" className="py-3.5 px-3 min-w-64">Description</th>
                   <th scope="col" className="py-3.5 px-3 min-w-32.5">Status</th>
@@ -497,9 +497,8 @@ export default function AdminCategoryTypesPage() {
                       <tr
                         key={item.id}
                         onClick={() => setDrawerItem(item)}
-                        className={`group hover:bg-surface transition-colors cursor-pointer ${
-                          isSelected ? "bg-primary-light/40 border-l-4 border-l-primary" : ""
-                        }`}
+                        className={`group hover:bg-surface transition-colors cursor-pointer ${isSelected ? "bg-primary-light/40 border-l-4 border-l-primary" : ""
+                          }`}
                       >
                         <td className="py-3.5 pl-4 pr-2 w-10" onClick={(e) => e.stopPropagation()}>
                           <input
@@ -509,7 +508,7 @@ export default function AdminCategoryTypesPage() {
                             className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 accent-primary cursor-pointer"
                           />
                         </td>
-                        <td className="py-3.5 px-3 max-w-[240px]">
+                        <td className="py-3.5 px-3 max-w-60">
                           <div className="flex items-center gap-3">
                             <div className="w-9 h-9 rounded-lg bg-primary-light border border-primary/20 flex items-center justify-center text-primary shrink-0">
                               <FolderTree className="w-4 h-4" />
@@ -569,19 +568,19 @@ export default function AdminCategoryTypesPage() {
                               },
                               item.is_active
                                 ? {
-                                    label: "Mark Inactive",
-                                    icon: <XCircle className="w-3.5 h-3.5 text-amber-600" />,
-                                    variant: "warning" as const,
-                                    onClick: () => updateSingleStatus(item.id!, false),
-                                    dividerAfter: true,
-                                  }
+                                  label: "Mark Inactive",
+                                  icon: <XCircle className="w-3.5 h-3.5 text-amber-600" />,
+                                  variant: "warning" as const,
+                                  onClick: () => updateSingleStatus(item.id!, false),
+                                  dividerAfter: true,
+                                }
                                 : {
-                                    label: "Mark Active",
-                                    icon: <Check className="w-3.5 h-3.5 text-emerald-600" />,
-                                    variant: "success" as const,
-                                    onClick: () => updateSingleStatus(item.id!, true),
-                                    dividerAfter: true,
-                                  },
+                                  label: "Mark Active",
+                                  icon: <Check className="w-3.5 h-3.5 text-emerald-600" />,
+                                  variant: "success" as const,
+                                  onClick: () => updateSingleStatus(item.id!, true),
+                                  dividerAfter: true,
+                                },
                               {
                                 label: "Delete Type",
                                 icon: <Trash2 className="w-3.5 h-3.5" />,

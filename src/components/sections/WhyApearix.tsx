@@ -70,7 +70,7 @@ export function WhyApearix() {
       className="relative overflow-hidden bg-surface py-10 sm:py-16 lg:py-20"
     >
       {/* Ambient background glow */}
-      <div className="pointer-events-none absolute left-1/2 top-1/4 -z-10 h-[500px] w-[850px] -translate-x-1/2 rounded-full bg-[#6D28F5]/5 blur-[150px]" />
+      <div className="pointer-events-none absolute left-1/2 top-1/4 -z-10 h-125 w-212.5 -translate-x-1/2 rounded-full bg-[#6D28F5]/5 blur-[150px]" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 xl:px-0">
 
@@ -81,7 +81,7 @@ export function WhyApearix() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.5 }}
-            className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#DDD6FE] bg-[#F4F0FF] px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#6D28F5]"
+            className="mb-5 inline-flex items-center gap-2 rounded-full border border-border-accent bg-primary-light px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#6D28F5]"
           >
             <Sparkles className="h-3.5 w-3.5" />
             <span>Why Apearix</span>
@@ -92,10 +92,10 @@ export function WhyApearix() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-balance text-3xl font-bold tracking-tight text-[#111827] sm:text-4xl md:text-5xl lg:text-6xl"
+            className="text-balance text-3xl font-bold tracking-tight text-heading sm:text-4xl md:text-5xl lg:text-6xl"
           >
             Built With Purpose.{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6D28F5] via-[#7B3FE4] to-[#A855F7]">
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-[#6D28F5] via-[#7B3FE4] to-[#A855F7]">
               Built to Last.
             </span>
           </motion.h2>
@@ -105,7 +105,7 @@ export function WhyApearix() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-4 max-w-3xl text-base leading-relaxed text-[#4B5563] sm:text-lg"
+            className="mt-4 max-w-3xl text-base leading-relaxed text-body sm:text-lg"
           >
             We combine business understanding, strong engineering, modern technology, and long-term thinking to build digital products that create real value.
           </motion.p>
@@ -127,17 +127,17 @@ export function WhyApearix() {
                   delay: index * 0.08,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-[#E5E7EB] bg-white p-6 transition-all duration-500 hover:-translate-y-1.5 hover:border-[#C4B5FD] hover:shadow-2xl hover:shadow-[#6D28F5]/10 sm:p-9"
+                className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-border bg-white p-6 transition-all duration-500 hover:-translate-y-1.5 hover:border-[#C4B5FD] hover:shadow-2xl hover:shadow-[#6D28F5]/10 sm:p-9"
               >
                 <span className="absolute right-6 top-6 text-7xl font-bold  text-muted/10 group-hover:text-primary/20 transition-colors">
-                      {principle.number}
-                    </span>
+                  {principle.number}
+                </span>
                 <div>
                   {/* Number & Icon Header */}
-                  <div className="flex items-start justify-between mb-6"> 
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[#DDD6FE] bg-[#F4F0FF] text-[#6D28F5] transition-all duration-500 group-hover:bg-[#6D28F5] group-hover:text-white group-hover:shadow-md">
+                  <div className="flex items-start justify-between mb-6">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-border-accent bg-primary-light text-[#6D28F5] transition-all duration-500 group-hover:bg-[#6D28F5] group-hover:text-white group-hover:shadow-md">
                       <Icon className="h-5 w-5" strokeWidth={1.8} />
-                    </div> 
+                    </div>
                   </div>
 
                   {/* Accent & Title */}
@@ -145,17 +145,17 @@ export function WhyApearix() {
                     {principle.accent}
                   </span>
 
-                  <h3 className="text-2xl font-bold tracking-tight text-[#111827] mb-3">
+                  <h3 className="text-2xl font-bold tracking-tight text-heading mb-3">
                     {principle.title}
                   </h3>
 
-                  <p className="text-sm leading-relaxed text-[#4B5563] sm:text-base">
+                  <p className="text-sm leading-relaxed text-body sm:text-base">
                     {principle.description}
                   </p>
                 </div>
 
                 {/* Bottom link indicator */}
-                <div className="mt-4 pt-4 border-t border-[#E5E7EB] flex items-center justify-between text-sm font-semibold text-[#6D28F5]">
+                <div className="mt-4 pt-4 border-t border-border flex items-center justify-between text-sm font-semibold text-[#6D28F5]">
                   <span className="text-[#9CA3AF] font-normal">Apearix Standard</span>
                   <div className="inline-flex items-center gap-1 transition-transform duration-300 group-hover:translate-x-1">
                     <span>Explore</span>
@@ -164,7 +164,7 @@ export function WhyApearix() {
                 </div>
 
                 {/* Bottom Hover Accent Bar */}
-                <div className="absolute bottom-0 left-0 h-1 w-0 bg-gradient-to-r from-[#6D28F5] to-[#A855F7] transition-all duration-500 group-hover:w-full" />
+                <div className="absolute bottom-0 left-0 h-1 w-0 bg-linear-to-r from-[#6D28F5] to-[#A855F7] transition-all duration-500 group-hover:w-full" />
               </motion.article>
             );
           })}
@@ -176,18 +176,18 @@ export function WhyApearix() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-10 rounded-2xl border border-[#E5E7EB] bg-white p-6 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-6"
+          className="mt-10 rounded-2xl border border-border bg-white p-6 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-6"
         >
           <div>
-            <p className="text-lg font-bold text-[#111827] tracking-tight mb-1">
+            <p className="text-lg font-bold text-heading tracking-tight mb-1">
               From idea to deployment and beyond.
             </p>
-            <p className="text-sm text-[#6B7280]">
+            <p className="text-sm text-muted">
               We build with the long term in mind, ensuring your software scales gracefully as your enterprise expands.
             </p>
           </div>
 
-          <div className="flex shrink-0 items-center gap-2 rounded-full bg-[#F4F0FF] border border-[#DDD6FE] px-5 py-2.5 text-xs font-semibold tracking-wider text-[#6D28F5]">
+          <div className="flex shrink-0 items-center gap-2 rounded-full bg-primary-light border border-border-accent px-5 py-2.5 text-xs font-semibold tracking-wider text-[#6D28F5]">
             <span>Engineering with intent</span>
             <ArrowUpRight className="h-4 w-4" />
           </div>

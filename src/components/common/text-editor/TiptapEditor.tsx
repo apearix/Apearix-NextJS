@@ -100,7 +100,7 @@ export default function TiptapEditor({
           // Plain text me se HTML parse karke document me insert karega
           const parser = new DOMParser();
           const doc = parser.parseFromString(text, "text/html");
-          
+
           // ProseMirror slice generate karke clean paste karega
           const slice = (view as any).pasteParser
             ? (view as any).pasteParser.parse(doc.body)
@@ -254,19 +254,17 @@ export default function TiptapEditor({
   };
 
   const buttonClass = (isActive: boolean) =>
-    `p-1.5 rounded text-xs transition-colors ${
-      isActive
-        ? "bg-[var(--color-primary-light)] text-[var(--color-primary)] font-semibold"
-        : "text-[var(--color-muted)] hover:bg-[var(--color-surface-alt)] hover:text-[var(--color-heading)]"
+    `p-1.5 rounded text-xs transition-colors ${isActive
+      ? "bg-[var(--color-primary-light)] text-[var(--color-primary)] font-semibold"
+      : "text-[var(--color-muted)] hover:bg-surface-alt hover:text-[var(--color-heading)]"
     }`;
 
   const isLinkActive = editor.isActive("link");
 
   return (
     <div
-      className={`rounded-xl border bg-[var(--color-background)] shadow-xs transition-colors ${
-        error ? "border-red-500" : "border-[var(--color-border)]"
-      }`}
+      className={`rounded-xl border bg-background shadow-xs transition-colors ${error ? "border-red-500" : "border-border"
+        }`}
     >
       {/* Hidden File Input for Image Upload */}
       <input
@@ -278,7 +276,7 @@ export default function TiptapEditor({
       />
 
       {/* Floating Toolbar */}
-      <div className="relative flex flex-wrap items-center gap-1 border-b border-[var(--color-border)] bg-[var(--color-surface-alt)] px-3 py-2 rounded-t-xl">
+      <div className="relative flex flex-wrap items-center gap-1 border-b border-border bg-surface-alt px-3 py-2 rounded-t-xl">
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBold().run()}
@@ -304,7 +302,7 @@ export default function TiptapEditor({
           <Strikethrough className="h-4 w-4" />
         </button>
 
-        <div className="mx-1 h-4 w-px bg-[var(--color-border)]" />
+        <div className="mx-1 h-4 w-px bg-border" />
 
         <button
           type="button"
@@ -323,7 +321,7 @@ export default function TiptapEditor({
           <Heading3 className="h-4 w-4" />
         </button>
 
-        <div className="mx-1 h-4 w-px bg-[var(--color-border)]" />
+        <div className="mx-1 h-4 w-px bg-border" />
 
         <button
           type="button"
@@ -358,7 +356,7 @@ export default function TiptapEditor({
           <Code className="h-4 w-4" />
         </button>
 
-        <div className="mx-1 h-4 w-px bg-[var(--color-border)]" />
+        <div className="mx-1 h-4 w-px bg-border" />
 
         {/* 1. LINK POPOVER TRIGGER */}
         <div className="relative">
@@ -375,7 +373,7 @@ export default function TiptapEditor({
           {showLinkPopover && (
             <div
               ref={popoverRef}
-              className="absolute left-0 top-full mt-2 z-50 flex items-center gap-1.5 rounded-lg border border-[var(--color-border)] bg-[var(--color-background)] p-1.5 shadow-lg min-w-[320px] max-w-[380px]"
+              className="absolute left-0 top-full mt-2 z-50 flex items-center gap-1.5 rounded-lg border border-border bg-background p-1.5 shadow-lg min-w-[320px] max-w-95"
             >
               <form onSubmit={handleApplyLink} className="flex flex-1 items-center gap-1.5">
                 <input
@@ -384,11 +382,11 @@ export default function TiptapEditor({
                   onChange={(e) => setUrlInput(e.target.value)}
                   placeholder="Paste or enter URL..."
                   autoFocus
-                  className="flex-1 rounded-md border border-[var(--color-border)] bg-[var(--color-surface-alt)] px-2.5 py-1 text-xs text-[var(--color-heading)] placeholder:text-[var(--color-muted)] focus:border-[var(--color-primary)] focus:bg-[var(--color-background)] focus:outline-none"
+                  className="flex-1 rounded-md border border-border bg-surface-alt px-2.5 py-1 text-xs text-heading placeholder:text-muted focus:border-(--color-primary) focus:bg-background focus:outline-none"
                 />
                 <button
                   type="submit"
-                  className="inline-flex items-center justify-center rounded-md bg-[var(--color-primary)] p-1.5 text-white hover:bg-[var(--color-primary-hover)] transition-colors"
+                  className="inline-flex items-center justify-center rounded-md bg-(--color-primary) p-1.5 text-white hover:bg-(--color-primary-hover) transition-colors"
                   title="Apply link"
                 >
                   <Check className="h-3.5 w-3.5" />
@@ -400,7 +398,7 @@ export default function TiptapEditor({
                   href={urlInput.startsWith("http") ? urlInput : `https://${urlInput}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="rounded-md p-1.5 text-[var(--color-muted)] hover:bg-[var(--color-surface-alt)] hover:text-[var(--color-heading)]"
+                  className="rounded-md p-1.5 text-muted hover:bg-surface-alt hover:text-heading"
                   title="Open link in new tab"
                 >
                   <ExternalLink className="h-3.5 w-3.5" />
@@ -421,7 +419,7 @@ export default function TiptapEditor({
               <button
                 type="button"
                 onClick={() => setShowLinkPopover(false)}
-                className="rounded-md p-1.5 text-[var(--color-muted)] hover:bg-[var(--color-surface-alt)] hover:text-[var(--color-heading)]"
+                className="rounded-md p-1.5 text-muted hover:bg-surface-alt hover:text-heading"
                 title="Cancel"
               >
                 <X className="h-3.5 w-3.5" />
@@ -445,16 +443,16 @@ export default function TiptapEditor({
           {showImagePopover && (
             <div
               ref={imagePopoverRef}
-              className="absolute left-0 top-full mt-2 z-50 flex flex-col gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] p-3 shadow-xl min-w-[340px]"
+              className="absolute left-0 top-full mt-2 z-50 flex flex-col gap-2 rounded-xl border border-border bg-background p-3 shadow-xl min-w-85"
             >
-              <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-2">
-                <span className="text-xs font-semibold text-[var(--color-heading)]">
+              <div className="flex items-center justify-between border-b border-border pb-2">
+                <span className="text-xs font-semibold text-heading">
                   Insert Image
                 </span>
                 <button
                   type="button"
                   onClick={() => setShowImagePopover(false)}
-                  className="text-[var(--color-muted)] hover:text-[var(--color-heading)]"
+                  className="text-muted hover:text-heading"
                 >
                   <X className="h-3.5 w-3.5" />
                 </button>
@@ -464,16 +462,16 @@ export default function TiptapEditor({
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="flex items-center justify-center gap-2 rounded-lg border border-dashed border-[var(--color-border-accent)] bg-[var(--color-primary-light)]/40 px-3 py-2 text-xs font-medium text-[var(--color-primary)] hover:bg-[var(--color-primary-light)] transition-colors"
+                className="flex items-center justify-center gap-2 rounded-lg border border-dashed border-border-accent bg-primary-light/40 px-3 py-2 text-xs font-medium text-(--color-primary) hover:bg-primary-light transition-colors"
               >
                 <Upload className="h-3.5 w-3.5" />
                 Upload Image from Device
               </button>
 
-              <div className="flex items-center gap-2 text-[10px] text-[var(--color-muted)] uppercase tracking-wider my-0.5">
-                <div className="h-px flex-1 bg-[var(--color-border)]" />
+              <div className="flex items-center gap-2 text-[10px] text-muted uppercase tracking-wider my-0.5">
+                <div className="h-px flex-1 bg-border" />
                 <span>OR VIA URL</span>
-                <div className="h-px flex-1 bg-[var(--color-border)]" />
+                <div className="h-px flex-1 bg-border" />
               </div>
 
               {/* Action 2: Image Web URL */}
@@ -484,11 +482,11 @@ export default function TiptapEditor({
                   onChange={(e) => setImageUrlInput(e.target.value)}
                   placeholder="https://example.com/photo.jpg"
                   autoFocus
-                  className="flex-1 rounded-md border border-[var(--color-border)] bg-[var(--color-surface-alt)] px-2.5 py-1 text-xs text-[var(--color-heading)] placeholder:text-[var(--color-muted)] focus:border-[var(--color-primary)] focus:bg-[var(--color-background)] focus:outline-none"
+                  className="flex-1 rounded-md border border-border bg-surface-alt px-2.5 py-1 text-xs text-heading placeholder:text-muted focus:border-(--color-primary) focus:bg-background focus:outline-none"
                 />
                 <button
                   type="submit"
-                  className="inline-flex items-center justify-center rounded-md bg-[var(--color-primary)] p-1.5 text-white hover:bg-[var(--color-primary-hover)] transition-colors"
+                  className="inline-flex items-center justify-center rounded-md bg-(--color-primary) p-1.5 text-white hover:bg-(--color-primary-hover) transition-colors"
                   title="Insert from URL"
                 >
                   <Check className="h-3.5 w-3.5" />
@@ -504,7 +502,7 @@ export default function TiptapEditor({
             type="button"
             onClick={() => editor.chain().focus().undo().run()}
             disabled={!editor.can().undo()}
-            className="p-1.5 text-[var(--color-muted)] hover:text-[var(--color-heading)] disabled:opacity-40"
+            className="p-1.5 text-muted hover:text-heading disabled:opacity-40"
             title="Undo"
           >
             <Undo className="h-3.5 w-3.5" />
@@ -513,7 +511,7 @@ export default function TiptapEditor({
             type="button"
             onClick={() => editor.chain().focus().redo().run()}
             disabled={!editor.can().redo()}
-            className="p-1.5 text-[var(--color-muted)] hover:text-[var(--color-heading)] disabled:opacity-40"
+            className="p-1.5 text-muted hover:text-heading disabled:opacity-40"
             title="Redo"
           >
             <Redo className="h-3.5 w-3.5" />

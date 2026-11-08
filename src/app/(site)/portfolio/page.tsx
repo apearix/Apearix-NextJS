@@ -7,7 +7,7 @@ import { ArrowUpRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Software Portfolio & Case Showcase | Web, SaaS & AI",
-  description: "Explore digital products, enterprise SaaS dashboards, mobile applications, browser extensions, and AI automations engineered by Apearix.",
+  description: "Explore digital products, enterprise SaaS dashboards, mobile applications, browser extensions, and AI automation engineered by Apearix.",
   keywords: [
     "Software Development Portfolio",
     "SaaS Project Showcase",
@@ -149,35 +149,35 @@ export default function PortfolioPage() {
           breadcrumbs={[{ label: "Portfolio", href: "/portfolio" }]}
         />
 
-        <section className="py-20 md:py-28 bg-white border-b border-[#E5E7EB]">
+        <section className="py-20 md:py-28 bg-white border-b border-border">
           <div className="container max-w-7xl mx-auto px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {projects.map((project, idx) => (
-                <div key={idx} className="group p-8 rounded-[12px] bg-[#FAFAFC] border border-[#E5E7EB] hover:border-[#DDD6FE] hover:shadow-md transition-all flex flex-col justify-between">
+                <div key={idx} className="group p-8 rounded-xl bg-surface border border-border hover:border-border-accent hover:shadow-md transition-all flex flex-col justify-between">
                   <div>
                     <div className="flex items-center justify-between mb-4">
-                      <span className="px-3 py-1 bg-[#F4F0FF] text-[#6D28F5] text-xs font-semibold rounded-full">
+                      <span className="px-3 py-1 bg-primary-light text-[#6D28F5] text-xs font-semibold rounded-full">
                         {project.category}
                       </span>
-                      <ArrowUpRight className="w-5 h-5 text-[#6B7280] group-hover:text-[#6D28F5] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                      <ArrowUpRight className="w-5 h-5 text-muted group-hover:text-[#6D28F5] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
                     </div>
 
-                    <h3 className="text-xl font-bold text-[#111827] mb-3 group-hover:text-[#6D28F5] transition-colors">
+                    <h3 className="text-xl font-bold text-heading mb-3 group-hover:text-[#6D28F5] transition-colors">
                       {project.title}
                     </h3>
-                    <p className="text-sm text-[#4B5563] leading-relaxed mb-6">
+                    <p className="text-sm text-body leading-relaxed mb-6">
                       {project.desc}
                     </p>
                   </div>
 
                   <div>
-                    <div className="p-3 mb-6 rounded-[8px] bg-white border border-[#E5E7EB] text-xs font-bold text-[#111827]">
+                    <div className="p-3 mb-6 rounded-lg bg-white border border-border text-xs font-bold text-heading">
                       {project.metrics}
                     </div>
 
                     <div className="flex flex-wrap gap-2">
                       {project.tags.map((tag) => (
-                        <span key={tag} className="px-2.5 py-1 bg-[#F6F7FB] border border-[#E5E7EB] rounded-[6px] text-xs text-[#6B7280]">
+                        <span key={tag} className="px-2.5 py-1 bg-surface-alt border border-border rounded-md text-xs text-muted">
                           {tag}
                         </span>
                       ))}

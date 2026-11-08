@@ -6,11 +6,11 @@ import { ArrowRight } from 'lucide-react';
 
 export function CTASection() {
   return (
-    <section className="relative overflow-hidden bg-[#0F172A] py-20 text-white sm:py-28 lg:py-32 border-b border-white/[0.06]">
+    <section className="relative overflow-hidden bg-footer py-20 text-white sm:py-28 lg:py-32 border-b border-white/6">
       {/* Soft Ambient Purple Glow */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[400px] w-[650px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#6D28F5]/15 blur-[140px]"
+        className="pointer-events-none absolute left-1/2 top-1/2 h-100 w-162.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#6D28F5]/15 blur-[140px]"
       />
 
       <div className="relative mx-auto max-w-4xl px-4 text-center sm:px-6">
@@ -26,7 +26,7 @@ export function CTASection() {
           className="text-balance text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl md:text-6xl"
         >
           Have an idea? <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C4B5FD] via-[#DDD6FE] to-white">
+          <span className="text-transparent bg-clip-text bg-linear-to-r from-[#C4B5FD] via-border-accent to-white">
             Let&apos;s build it.
           </span>
         </motion.h2>
@@ -60,7 +60,7 @@ export function CTASection() {
         >
           <Link
             href="/contact?type=project"
-            className="group inline-flex h-12 items-center justify-center gap-2.5 rounded-xl bg-white px-8 text-sm font-semibold text-[#111827] shadow-[0_8px_24px_rgba(0,0,0,0.25)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#F4F0FF] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C4B5FD]"
+            className="group inline-flex h-12 items-center justify-center gap-2.5 rounded-xl bg-white px-8 text-sm font-semibold text-heading shadow-[0_8px_24px_rgba(0,0,0,0.25)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary-light active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C4B5FD]"
           >
             <span>Let's Talk</span>
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />

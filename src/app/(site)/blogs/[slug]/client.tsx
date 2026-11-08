@@ -6,15 +6,15 @@ import Image from "next/image";
 import {
   ArrowLeft,
   Clock,
-  Calendar, 
+  Calendar,
   Copy,
-  Check, 
+  Check,
   ChevronRight,
   Sparkles,
   ArrowUpRight,
   Bird,
   LineChart
-} from "lucide-react"; 
+} from "lucide-react";
 import type { BlogPost } from "../data";
 interface BlogShowClientProps {
   post: BlogPost;
@@ -24,7 +24,7 @@ interface BlogShowClientProps {
 export default function BlogShowClient({ post, relatedPosts }: BlogShowClientProps) {
   const [copied, setCopied] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
- 
+
   useEffect(() => {
     const handleScroll = () => {
       const totalScroll = document.documentElement.scrollTop;
@@ -87,10 +87,10 @@ export default function BlogShowClient({ post, relatedPosts }: BlogShowClientPro
               <span>Back to all insights</span>
             </Link>
 
-            <div className="hidden sm:flex items-center gap-2 text-xs text-muted">  
+            <div className="hidden sm:flex items-center gap-2 text-xs text-muted">
               <span>Blog</span>
               <ChevronRight className="w-3 h-3 text-border" />
-              <span className="text-heading font-medium truncate max-w-[200px]">
+              <span className="text-heading font-medium truncate max-w-50">
                 {post.category}
               </span>
             </div>
@@ -99,7 +99,7 @@ export default function BlogShowClient({ post, relatedPosts }: BlogShowClientPro
       </div>
 
       {/* ----------------- ARTICLE HEADER / HERO ----------------- */}
-      <header className="pt-10 pb-8 sm:pt-14 sm:pb-12 bg-gradient-to-b from-surface via-background to-background border-b border-border">
+      <header className="pt-10 pb-8 sm:pt-14 sm:pb-12 bg-linear-to-b from-surface via-background to-background border-b border-border">
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 xl:px-0">
           <div className="flex flex-wrap items-center gap-2.5 mb-5">
             <span className="px-3 py-1 bg-primary-light border border-border-accent text-primary text-xs font-bold rounded-full">
@@ -177,8 +177,8 @@ export default function BlogShowClient({ post, relatedPosts }: BlogShowClientPro
       </header>
 
       {/* ----------------- FEATURED BANNER IMAGE ----------------- */}
-      <div className="container max-w-[1020px] mx-auto px-4 sm:px-6 lg:px-8 -mt-2 sm:-mt-4 mb-12">
-        <div className="relative aspect-[16/9] w-full rounded-2xl overflow-hidden border border-border shadow-xl bg-surface-alt">
+      <div className="container max-w-255 mx-auto px-4 sm:px-6 lg:px-8 -mt-2 sm:-mt-4 mb-12">
+        <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-border shadow-xl bg-surface-alt">
           <Image
             src={post.coverImage}
             alt={post.title}
@@ -212,7 +212,7 @@ export default function BlogShowClient({ post, relatedPosts }: BlogShowClientPro
               </section>
 
               {/* Callout Info Box */}
-              <div className="my-8 p-5 rounded-xl bg-surface-alt border-l-4 border-primary border border-border">
+              <div className="my-8 p-5 rounded-xl bg-surface-alt border-l-4 border-primary border">
                 <div className="flex items-start gap-3">
                   <Sparkles className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                   <div>
@@ -233,7 +233,7 @@ export default function BlogShowClient({ post, relatedPosts }: BlogShowClientPro
                 </p>
 
                 <pre className="p-4 rounded-xl bg-surface border border-border overflow-x-auto text-xs sm:text-sm text-heading font-mono">
-{`// app/dashboard/page.tsx
+                  {`// app/dashboard/page.tsx
 import { Suspense } from "react";
 import { MetricsGrid, MetricsSkeleton } from "@/components/metrics";
 

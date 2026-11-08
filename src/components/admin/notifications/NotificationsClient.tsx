@@ -31,7 +31,7 @@ import {
   VolumeX,
   RefreshCw,
   PlusCircle,
-  Radio, 
+  Radio,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -129,7 +129,7 @@ export function NotificationsClient() {
     return () => {
       window.removeEventListener(NOTIFICATIONS_UPDATED_EVENT, handleExternalUpdate);
     };
-  }, [loadNotifications]); 
+  }, [loadNotifications]);
   useEffect(() => {
     const handleDocumentClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
@@ -406,13 +406,12 @@ export function NotificationsClient() {
       {/* Toast Notification */}
       {toast && (
         <div
-          className={`fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-3 text-xs font-semibold rounded-xl shadow-2xl border transition-all duration-200 animate-in fade-in slide-in-from-bottom-2 ${
-            toast.type === "error"
+          className={`fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-3 text-xs font-semibold rounded-xl shadow-2xl border transition-all duration-200 animate-in fade-in slide-in-from-bottom-2 ${toast.type === "error"
               ? "bg-rose-950 text-rose-100 border-rose-800"
               : toast.type === "info"
-              ? "bg-surface-alt text-heading border-border"
-              : "bg-heading text-white border-white/10"
-          }`}
+                ? "bg-surface-alt text-heading border-border"
+                : "bg-heading text-white border-white/10"
+            }`}
         >
           {toast.type === "error" ? (
             <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0" />
@@ -428,7 +427,7 @@ export function NotificationsClient() {
       {/* ============================================================ */}
       {/* 1. HEADER & QUICK ACTIONS                                      */}
       {/* ============================================================ */}
-      <div className="relative overflow-hidden rounded-2xl border border-border-accent/40 bg-gradient-to-r from-primary-light/60 via-surface to-background p-6 md:p-8">
+      <div className="relative overflow-hidden rounded-2xl border border-border-accent/40 bg-linear-to-r from-primary-light/60 via-surface to-background p-6 md:p-8">
         <div className="absolute right-0 top-0 -mt-6 -mr-6 h-48 w-48 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
 
         <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -443,17 +442,15 @@ export function NotificationsClient() {
               <button
                 type="button"
                 onClick={() => setIsLiveActive(!isLiveActive)}
-                className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-medium border transition-colors cursor-pointer ${
-                  isLiveActive
+                className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-medium border transition-colors cursor-pointer ${isLiveActive
                     ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100/70"
                     : "bg-gray-100 text-gray-600 border-gray-200 hover:bg-gray-200"
-                }`}
+                  }`}
                 title="Click to toggle automatic real-time sync simulation"
               >
                 <span
-                  className={`w-1.5 h-1.5 rounded-full ${
-                    isLiveActive ? "bg-emerald-500 animate-pulse" : "bg-gray-400"
-                  }`}
+                  className={`w-1.5 h-1.5 rounded-full ${isLiveActive ? "bg-emerald-500 animate-pulse" : "bg-gray-400"
+                    }`}
                 />
                 <span>{isLiveActive ? "Sync Active" : "Sync Paused"}</span>
               </button>
@@ -544,19 +541,17 @@ export function NotificationsClient() {
                 key={tab.id}
                 type="button"
                 onClick={() => setActiveTab(tab.id)}
-                className={`relative px-3.5 py-2 rounded-xl text-xs font-semibold transition-all shrink-0 flex items-center gap-2 cursor-pointer ${
-                  isActive
+                className={`relative px-3.5 py-2 rounded-xl text-xs font-semibold transition-all shrink-0 flex items-center gap-2 cursor-pointer ${isActive
                     ? "text-primary bg-primary-light/70 shadow-xs"
                     : "text-muted hover:text-heading hover:bg-surface-alt"
-                }`}
+                  }`}
               >
                 <span>{tab.label}</span>
                 <span
-                  className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold transition-colors ${
-                    isActive
+                  className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold transition-colors ${isActive
                       ? "bg-primary text-white"
                       : "bg-surface border border-border text-muted"
-                  }`}
+                    }`}
                 >
                   {tab.count}
                 </span>
@@ -618,11 +613,10 @@ export function NotificationsClient() {
             <button
               type="button"
               onClick={() => setIsGrouped(!isGrouped)}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-semibold transition-colors cursor-pointer ${
-                isGrouped
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-semibold transition-colors cursor-pointer ${isGrouped
                   ? "bg-primary-light border-primary/30 text-primary"
                   : "bg-surface border-border text-muted hover:text-heading"
-              }`}
+                }`}
               title="Group notifications chronologically (Today, Yesterday, Earlier)"
             >
               <Layers className="w-3.5 h-3.5" />
@@ -663,15 +657,15 @@ export function NotificationsClient() {
               {searchQuery
                 ? "No matching alerts found"
                 : activeTab === "unread"
-                ? "All caught up!"
-                : "No notifications here"}
+                  ? "All caught up!"
+                  : "No notifications here"}
             </h3>
             <p className="text-xs sm:text-sm text-muted">
               {searchQuery
                 ? `No alerts matched your search query "${searchQuery}". Try searching with different keywords.`
                 : activeTab === "unread"
-                ? "You have reviewed all your pending alerts. Great job keeping your workspace clean!"
-                : "There are currently no notifications in this category."}
+                  ? "You have reviewed all your pending alerts. Great job keeping your workspace clean!"
+                  : "There are currently no notifications in this category."}
             </p>
           </div>
 
@@ -738,21 +732,19 @@ export function NotificationsClient() {
                           exit={{ opacity: 0, scale: 0.98 }}
                           transition={{ duration: 0.2 }}
                           onClick={() => handleCardClick(item)}
-                          className={`group relative rounded-2xl border p-4 sm:p-5 transition-all duration-200 cursor-pointer ${
-                            isUnread
-                              ? "bg-primary/[0.025] hover:bg-primary/[0.05] border-primary/25 shadow-xs"
+                          className={`group relative rounded-2xl border p-4 sm:p-5 transition-all duration-200 cursor-pointer ${isUnread
+                              ? "bg-primary/2.5 hover:bg-primary/5 border-primary/25 shadow-xs"
                               : "bg-white hover:bg-surface-alt/70 border-border"
-                          }`}
+                            }`}
                         >
                           <div className="flex items-start gap-3.5 sm:gap-4">
                             {/* Unread Left Dot Indicator */}
                             <div className="pt-2 sm:pt-2.5 shrink-0">
                               <span
-                                className={`block w-2.5 h-2.5 rounded-full transition-all ${
-                                  isUnread
+                                className={`block w-2.5 h-2.5 rounded-full transition-all ${isUnread
                                     ? "bg-primary ring-4 ring-primary/20 animate-pulse"
                                     : "bg-transparent"
-                                }`}
+                                  }`}
                                 title={isUnread ? "Unread alert" : "Read"}
                               />
                             </div>
@@ -879,13 +871,12 @@ export function NotificationsClient() {
                                           setIsDrawerOpen(true);
                                         }
                                       }}
-                                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all shadow-xs cursor-pointer ${
-                                        item.cta.variant === "danger"
+                                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all shadow-xs cursor-pointer ${item.cta.variant === "danger"
                                           ? "bg-rose-600 hover:bg-rose-700 text-white"
                                           : item.cta.variant === "outline"
-                                          ? "bg-white hover:bg-surface-alt border border-border text-heading"
-                                          : "bg-primary hover:bg-primary-hover text-white"
-                                      }`}
+                                            ? "bg-white hover:bg-surface-alt border border-border text-heading"
+                                            : "bg-primary hover:bg-primary-hover text-white"
+                                        }`}
                                     >
                                       <span>{item.cta.label}</span>
                                       <ChevronRight className="w-3.5 h-3.5" />

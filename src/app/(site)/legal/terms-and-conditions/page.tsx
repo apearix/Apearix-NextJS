@@ -62,25 +62,25 @@ export default function TermsPage() {
           breadcrumbs={[{ label: "Legal", href: "/legal/terms-and-conditions" }, { label: "Terms & Conditions", href: "/legal/terms-and-conditions" }]}
         />
 
-        <section className="py-20 md:py-28 bg-white border-b border-[#E5E7EB]">
+        <section className="py-20 md:py-28 bg-white border-b border-border">
           <div className="container max-w-7xl mx-auto px-6">
-            <div className="max-w-3xl mx-auto prose prose-slate text-[#4B5563] space-y-8 leading-relaxed">
+            <div className="max-w-3xl mx-auto prose prose-slate text-body space-y-8 leading-relaxed">
               <div>
-                <h2 className="text-2xl font-bold text-[#111827] mb-4">1. Acceptance of Terms</h2>
+                <h2 className="text-2xl font-bold text-heading mb-4">1. Acceptance of Terms</h2>
                 <p>
                   By accessing the Apearix website or engaging Apearix for software development services, you agree to be bound by these Terms and Conditions and all applicable laws and regulations.
                 </p>
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-[#111827] mb-4">2. Intellectual Property & Code Transfer</h2>
+                <h2 className="text-2xl font-bold text-heading mb-4">2. Intellectual Property & Code Transfer</h2>
                 <p>
                   Unless otherwise specified in a Master Services Agreement (MSA), upon full payment of project invoices, Apearix transfers full ownership of custom client software deliverables, source code, and design assets to the client.
                 </p>
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-[#111827] mb-4">3. Limitation of Liability</h2>
+                <h2 className="text-2xl font-bold text-heading mb-4">3. Limitation of Liability</h2>
                 <p>
                   In no event shall Apearix or its suppliers be liable for any indirect, incidental, or consequential damages arising out of the use of or inability to use our software products or website.
                 </p>

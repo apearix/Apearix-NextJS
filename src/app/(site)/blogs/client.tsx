@@ -3,19 +3,19 @@
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { 
-  Search, 
-  Clock, 
-  ArrowUpRight, 
-  Sparkles, 
-  BookOpen, 
-  Tag, 
-  CheckCircle2, 
+import {
+  Search,
+  Clock,
+  ArrowUpRight,
+  Sparkles,
+  BookOpen,
+  Tag,
+  CheckCircle2,
   Send,
   Calendar,
   Layers
 } from "lucide-react";
-import { MOCK_BLOGS  } from "./data";
+import { MOCK_BLOGS } from "./data";
 
 export interface BlogPost {
   id: string;
@@ -34,7 +34,7 @@ export interface BlogPost {
   };
   tags: string[];
 }
- 
+
 const CATEGORIES = [
   "All Articles",
   "Engineering Deep Dive",
@@ -80,11 +80,11 @@ export default function BlogIndexClient() {
   return (
     <div className="w-full bg-background selection:bg-primary-light selection:text-primary">
       {/* ----------------- HERO BANNER / FEATURED SPOTLIGHT ----------------- */}
-      <section className="relative pt-12 pb-16 md:pt-25 md:pb-24 border-b border-border bg-gradient-to-b from-surface via-background to-background overflow-hidden">
+      <section className="relative pt-12 pb-16 md:pt-25 md:pb-24 border-b border-border bg-linear-to-b from-surface via-background to-background overflow-hidden">
         {/* Subtle decorative mesh glow */}
-        <div 
-          className="absolute -top-32 left-1/2 -translate-x-1/2 w-[720px] h-[360px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" 
-          aria-hidden="true" 
+        <div
+          className="absolute -top-32 left-1/2 -translate-x-1/2 w-180 h-90 bg-primary/10 rounded-full blur-[120px] pointer-events-none"
+          aria-hidden="true"
         />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 xl:px-0 relative z-10">
@@ -107,16 +107,16 @@ export default function BlogIndexClient() {
             <div className="group relative rounded-2xl bg-surface border border-border hover:border-border-accent transition-all duration-300 hover:shadow-xl hover:shadow-glow overflow-hidden">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
                 {/* Banner Thumbnail Area */}
-                <div className="lg:col-span-7 relative h-64 sm:h-80 lg:h-auto min-h-[280px] overflow-hidden bg-surface-alt">
+                <div className="lg:col-span-7 relative h-64 sm:h-80 lg:h-auto min-h-70 overflow-hidden bg-surface-alt">
                   <Image
                     src={featuredArticle.coverImage}
                     alt={featuredArticle.title}
                     fill
                     sizes="(max-width: 1024px) 100vw, 58vw"
                     priority
-                    className="object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-[var(--ease-apple)]"
+                    className="object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-apple"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent lg:hidden" />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent lg:hidden" />
                   <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
                     <span className="px-3 py-1 bg-primary text-white text-xs font-bold rounded-full tracking-wide shadow-sm flex items-center gap-1.5">
                       <Sparkles className="w-3 h-3" /> Featured Deep Dive
@@ -209,19 +209,17 @@ export default function BlogIndexClient() {
                   <button
                     key={cat}
                     onClick={() => setSelectedCategory(cat)}
-                    className={`whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all flex items-center gap-2 ${
-                      isActive
+                    className={`whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all flex items-center gap-2 ${isActive
                         ? "bg-primary text-white shadow-sm"
                         : "bg-surface-alt hover:bg-border/60 text-muted hover:text-heading border border-border"
-                    }`}
+                      }`}
                   >
                     <span>{cat}</span>
                     <span
-                      className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
-                        isActive
+                      className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${isActive
                           ? "bg-white/20 text-white"
                           : "bg-border text-muted"
-                      }`}
+                        }`}
                     >
                       {count}
                     </span>
@@ -231,7 +229,7 @@ export default function BlogIndexClient() {
             </div>
 
             {/* Search Input Box */}
-            <div className="relative min-w-[260px] lg:min-w-[320px]">
+            <div className="relative min-w-65 lg:min-w-[320px]">
               <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-muted" />
               <input
                 type="text"
@@ -288,7 +286,7 @@ export default function BlogIndexClient() {
                         alt={article.title}
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="object-cover group-hover:scale-105 transition-transform duration-500 ease-[var(--ease-apple)]"
+                        className="object-cover group-hover:scale-105 transition-transform duration-500 ease-apple"
                       />
                       <div className="absolute top-3 left-3">
                         <span className="px-2.5 py-1 bg-white/95 backdrop-blur-sm text-primary text-[11px] font-bold rounded-md shadow-xs border border-border">
@@ -341,7 +339,7 @@ export default function BlogIndexClient() {
                           className="object-cover"
                         />
                       </div>
-                      <span className="text-xs font-semibold text-heading truncate max-w-[110px] sm:max-w-[140px]">
+                      <span className="text-xs font-semibold text-heading truncate max-w-27.5 sm:max-w-35">
                         {article.author.name}
                       </span>
                     </div>
@@ -360,9 +358,9 @@ export default function BlogIndexClient() {
           )}
 
           {/* ----------------- ENTERPRISE NEWSLETTER / ARCHITECTURE DIGEST ----------------- */}
-          <div className="mt-16 sm:mt-24 rounded-2xl bg-gradient-to-br from-surface via-surface-alt to-surface border border-border-accent p-8 sm:p-12 relative overflow-hidden">
+          <div className="mt-16 sm:mt-24 rounded-2xl bg-linear-to-br from-surface via-surface-alt to-surface border border-border-accent p-8 sm:p-12 relative overflow-hidden">
             <div className="absolute -right-20 -bottom-20 w-80 h-80 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
-            
+
             <div className="max-w-2xl relative z-10">
               <span className="px-3 py-1 rounded-full bg-primary-light text-primary text-xs font-bold tracking-wide uppercase">
                 Apearix Dispatch

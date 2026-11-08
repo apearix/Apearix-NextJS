@@ -13,7 +13,7 @@ const stats = [
 
 export function Metrics() {
   return (
-    <section className="py-24 md:py-32 bg-[#FAFAFC] border-y border-[#E5E7EB]">
+    <section className="py-24 md:py-32 bg-surface border-y border-border">
       <div className="container max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
           {stats.map((stat, index) => (
@@ -53,14 +53,14 @@ function StatItem({ label, value, suffix, icon: Icon }: any) {
 
   return (
     <div ref={ref} className="flex flex-col items-center text-center">
-      <div className="p-3.5 bg-white rounded-[12px] shadow-sm mb-5 border border-[#E5E7EB]">
+      <div className="p-3.5 bg-white rounded-xl shadow-sm mb-5 border border-border">
         <Icon className="w-6 h-6 text-[#6D28F5]" />
       </div>
-      <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#111827] mb-2 tracking-tight">
+      <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-heading mb-2 tracking-tight">
         {count.toLocaleString(undefined, { minimumFractionDigits: value % 1 === 0 ? 0 : 2, maximumFractionDigits: 2 })}
         {suffix}
       </div>
-      <div className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-[#6B7280]">
+      <div className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-muted">
         {label}
       </div>
     </div>

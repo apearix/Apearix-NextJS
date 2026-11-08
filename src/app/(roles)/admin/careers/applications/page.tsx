@@ -412,20 +412,18 @@ export default function CareerApplicationsPage() {
                 setStatusFilter(isSelected ? "all" : stage.key);
                 setCurrentPage(1);
               }}
-              className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
-                isSelected
+              className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${isSelected
                   ? "bg-white ring-2 ring-primary shadow-sm border-primary"
                   : "bg-white hover:bg-surface border-border hover:border-border-accent"
-              }`}
+                }`}
             >
               <div className="flex items-center justify-between">
                 <span className="text-[10px] uppercase font-bold tracking-wider text-muted">
                   {stage.label}
                 </span>
                 <span
-                  className={`w-2 h-2 rounded-full ${
-                    stage.key === "hired" ? "bg-emerald-500" : conf.dot
-                  }`}
+                  className={`w-2 h-2 rounded-full ${stage.key === "hired" ? "bg-emerald-500" : conf.dot
+                    }`}
                 />
               </div>
               <p className="text-xl font-extrabold text-heading mt-1">{stage.count}</p>
@@ -590,12 +588,12 @@ export default function CareerApplicationsPage() {
                       className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 accent-primary cursor-pointer"
                     />
                   </th>
-                  <th scope="col" className="py-3.5 px-3 min-w-[280px]">Candidate</th>
-                  <th scope="col" className="py-3.5 px-3 min-w-[200px]">Applied Role</th>
-                  <th scope="col" className="py-3.5 px-3 min-w-[100px]">Resume</th>
-                  <th scope="col" className="py-3.5 px-3 min-w-[140px]">Pipeline Stage</th>
-                  <th scope="col" className="py-3.5 px-3 min-w-[100px]">Rating</th>
-                  <th scope="col" className="py-3.5 px-3 min-w-[120px]">Applied Date</th>
+                  <th scope="col" className="py-3.5 px-3 min-w-70">Candidate</th>
+                  <th scope="col" className="py-3.5 px-3 min-w-50">Applied Role</th>
+                  <th scope="col" className="py-3.5 px-3 min-w-25">Resume</th>
+                  <th scope="col" className="py-3.5 px-3 min-w-35">Pipeline Stage</th>
+                  <th scope="col" className="py-3.5 px-3 min-w-25">Rating</th>
+                  <th scope="col" className="py-3.5 px-3 min-w-30">Applied Date</th>
                   <th scope="col" className="py-3.5 pr-4 pl-3 text-right w-16">Actions</th>
                 </tr>
               </thead>
@@ -632,9 +630,8 @@ export default function CareerApplicationsPage() {
                       <tr
                         key={app.id}
                         onClick={() => setDrawerApp(app)}
-                        className={`group hover:bg-surface transition-colors cursor-pointer ${
-                          isSelected ? "bg-primary-light/40 border-l-4 border-l-primary" : ""
-                        }`}
+                        className={`group hover:bg-surface transition-colors cursor-pointer ${isSelected ? "bg-primary-light/40 border-l-4 border-l-primary" : ""
+                          }`}
                       >
                         {/* Checkbox Column */}
                         <td className="py-3.5 pl-4 pr-2 w-10" onClick={(e) => e.stopPropagation()}>
@@ -647,7 +644,7 @@ export default function CareerApplicationsPage() {
                         </td>
 
                         {/* Candidate Name & Contact */}
-                        <td className="py-3.5 px-3 max-w-[280px]">
+                        <td className="py-3.5 px-3 max-w-70">
                           <div className="flex items-start gap-2.5">
                             <div className="w-8 h-8 rounded-full bg-primary-light border border-border-accent/40 flex items-center justify-center text-primary font-bold text-xs shrink-0 mt-0.5">
                               {app.first_name ? app.first_name.charAt(0).toUpperCase() : "A"}
@@ -674,7 +671,7 @@ export default function CareerApplicationsPage() {
                         </td>
 
                         {/* Applied Role */}
-                        <td className="py-3.5 px-3 max-w-[220px]">
+                        <td className="py-3.5 px-3 max-w-55">
                           <div
                             className="font-semibold text-heading text-xs truncate"
                             title={app.job?.title || "Role"}
@@ -734,10 +731,10 @@ export default function CareerApplicationsPage() {
                         <td className="py-3.5 px-3 text-xs text-heading">
                           {app.created_at
                             ? formatDateInTimezone(app.created_at, undefined, {
-                                month: "short",
-                                day: "numeric",
-                                year: "numeric",
-                              })
+                              month: "short",
+                              day: "numeric",
+                              year: "numeric",
+                            })
                             : "—"}
                         </td>
 
@@ -755,71 +752,71 @@ export default function CareerApplicationsPage() {
                               },
                               ...(app.resume_url
                                 ? [
-                                    {
-                                      label: "View Resume / CV",
-                                      icon: <FileText className="w-3.5 h-3.5 text-muted" />,
-                                      onClick: () => window.open(app.resume_url, "_blank"),
-                                      dividerAfter: true,
-                                    },
-                                  ]
+                                  {
+                                    label: "View Resume / CV",
+                                    icon: <FileText className="w-3.5 h-3.5 text-muted" />,
+                                    onClick: () => window.open(app.resume_url, "_blank"),
+                                    dividerAfter: true,
+                                  },
+                                ]
                                 : []),
                               ...(app.status !== "reviewing"
                                 ? [
-                                    {
-                                      label: "Move to Reviewing",
-                                      icon: <Clock className="w-3.5 h-3.5" />,
-                                      onClick: () => handleQuickStatusChange(app.id, "reviewing"),
-                                    },
-                                  ]
+                                  {
+                                    label: "Move to Reviewing",
+                                    icon: <Clock className="w-3.5 h-3.5" />,
+                                    onClick: () => handleQuickStatusChange(app.id, "reviewing"),
+                                  },
+                                ]
                                 : []),
                               ...(app.status !== "shortlisted"
                                 ? [
-                                    {
-                                      label: "Shortlist Candidate",
-                                      icon: <Award className="w-3.5 h-3.5 text-purple-600" />,
-                                      onClick: () => handleQuickStatusChange(app.id, "shortlisted"),
-                                    },
-                                  ]
+                                  {
+                                    label: "Shortlist Candidate",
+                                    icon: <Award className="w-3.5 h-3.5 text-purple-600" />,
+                                    onClick: () => handleQuickStatusChange(app.id, "shortlisted"),
+                                  },
+                                ]
                                 : []),
                               ...(app.status !== "interviewing"
                                 ? [
-                                    {
-                                      label: "Schedule Interview",
-                                      icon: <Users className="w-3.5 h-3.5 text-indigo-600" />,
-                                      onClick: () => handleQuickStatusChange(app.id, "interviewing"),
-                                    },
-                                  ]
+                                  {
+                                    label: "Schedule Interview",
+                                    icon: <Users className="w-3.5 h-3.5 text-indigo-600" />,
+                                    onClick: () => handleQuickStatusChange(app.id, "interviewing"),
+                                  },
+                                ]
                                 : []),
                               ...(app.status !== "offered"
                                 ? [
-                                    {
-                                      label: "Extend Offer",
-                                      icon: <CheckCircle className="w-3.5 h-3.5 text-emerald-600" />,
-                                      variant: "success" as const,
-                                      onClick: () => handleQuickStatusChange(app.id, "offered"),
-                                    },
-                                  ]
+                                  {
+                                    label: "Extend Offer",
+                                    icon: <CheckCircle className="w-3.5 h-3.5 text-emerald-600" />,
+                                    variant: "success" as const,
+                                    onClick: () => handleQuickStatusChange(app.id, "offered"),
+                                  },
+                                ]
                                 : []),
                               ...(app.status !== "hired"
                                 ? [
-                                    {
-                                      label: "Mark as Hired",
-                                      icon: <CheckCircle className="w-3.5 h-3.5 text-emerald-600" />,
-                                      variant: "success" as const,
-                                      onClick: () => handleQuickStatusChange(app.id, "hired"),
-                                    },
-                                  ]
+                                  {
+                                    label: "Mark as Hired",
+                                    icon: <CheckCircle className="w-3.5 h-3.5 text-emerald-600" />,
+                                    variant: "success" as const,
+                                    onClick: () => handleQuickStatusChange(app.id, "hired"),
+                                  },
+                                ]
                                 : []),
                               ...(app.status !== "rejected"
                                 ? [
-                                    {
-                                      label: "Reject Candidate",
-                                      icon: <XCircle className="w-3.5 h-3.5 text-rose-500" />,
-                                      variant: "warning" as const,
-                                      onClick: () => handleQuickStatusChange(app.id, "rejected"),
-                                      dividerAfter: true,
-                                    },
-                                  ]
+                                  {
+                                    label: "Reject Candidate",
+                                    icon: <XCircle className="w-3.5 h-3.5 text-rose-500" />,
+                                    variant: "warning" as const,
+                                    onClick: () => handleQuickStatusChange(app.id, "rejected"),
+                                    dividerAfter: true,
+                                  },
+                                ]
                                 : []),
                               {
                                 label: "Delete Application",

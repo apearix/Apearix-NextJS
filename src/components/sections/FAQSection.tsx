@@ -65,7 +65,7 @@ export function FAQSection() {
             />
 
             {/* Ambient background glow */}
-            <div className="pointer-events-none absolute left-1/2 top-1/3 -z-10 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-[#6D28F5]/5 blur-[150px]" />
+            <div className="pointer-events-none absolute left-1/2 top-1/3 -z-10 h-125 w-200 -translate-x-1/2 rounded-full bg-[#6D28F5]/5 blur-[150px]" />
 
             <div className="mx-auto max-w-7xl px-4 sm:px-6 xl:px-0">
                 <div className="mx-auto mb-12 max-w-3xl text-center">
@@ -74,7 +74,7 @@ export function FAQSection() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
-                        className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#DDD6FE] bg-[#F4F0FF] px-3.5 py-1.5 text-xs font-semibold   tracking-wider text-[#6D28F5]"
+                        className="mb-4 inline-flex items-center gap-2 rounded-full border border-border-accent bg-primary-light px-3.5 py-1.5 text-xs font-semibold   tracking-wider text-[#6D28F5]"
                     >
                         <Sparkles className="h-3.5 w-3.5" />
                         <span>Got Questions?</span>
@@ -85,10 +85,10 @@ export function FAQSection() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.1 }}
-                        className="text-balance text-3xl font-bold tracking-tight text-[#111827] sm:text-4xl md:text-5xl"
+                        className="text-balance text-3xl font-bold tracking-tight text-heading sm:text-4xl md:text-5xl"
                     >
                         Frequently Asked{' '}
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6D28F5] via-[#7B3FE4] to-[#A855F7]">
+                        <span className="text-transparent bg-clip-text bg-linear-to-r from-[#6D28F5] via-[#7B3FE4] to-[#A855F7]">
                             Questions.
                         </span>
                     </motion.h2>
@@ -98,7 +98,7 @@ export function FAQSection() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.2 }}
-                        className="mt-4 text-base leading-relaxed text-[#6B7280] sm:text-lg"
+                        className="mt-4 text-base leading-relaxed text-muted sm:text-lg"
                     >
                         Clear answers about how we collaborate, build, deploy, and scale digital products.
                     </motion.p>
@@ -113,8 +113,8 @@ export function FAQSection() {
                 transition={{ duration: 0.6, delay: 0.25 }}
             >
                 <FAQAccordion faqs={faqs} />
-            </motion.div> 
-                 
+            </motion.div>
+
         </section >
     );
 }

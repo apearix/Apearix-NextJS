@@ -388,8 +388,8 @@ export default function AdminRolesPage() {
                       className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 accent-primary cursor-pointer"
                     />
                   </th>
-                  <th scope="col" className="py-3.5 px-3 min-w-[240px]">Role</th>
-                  <th scope="col" className="py-3.5 px-3 min-w-[280px]">Description</th>
+                  <th scope="col" className="py-3.5 px-3 min-w-60">Role</th>
+                  <th scope="col" className="py-3.5 px-3 min-w-70">Description</th>
                   <th scope="col" className="py-3.5 px-3 min-w-36">Assigned Users</th>
                   <th scope="col" className="py-3.5 px-3 min-w-30">Created</th>
                   <th scope="col" className="py-3.5 pr-4 pl-3 text-right w-16">Actions</th>
@@ -431,9 +431,8 @@ export default function AdminRolesPage() {
                       <tr
                         key={role.id}
                         onClick={() => setDrawerRole(role)}
-                        className={`group hover:bg-surface transition-colors cursor-pointer ${
-                          isSelected ? "bg-primary-light/40 border-l-4 border-l-primary" : ""
-                        }`}
+                        className={`group hover:bg-surface transition-colors cursor-pointer ${isSelected ? "bg-primary-light/40 border-l-4 border-l-primary" : ""
+                          }`}
                       >
                         <td className="py-3.5 pl-4 pr-2 w-10" onClick={(e) => e.stopPropagation()}>
                           <input
@@ -443,7 +442,7 @@ export default function AdminRolesPage() {
                             className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 accent-primary cursor-pointer"
                           />
                         </td>
-                        <td className="py-3.5 px-3 max-w-[240px]">
+                        <td className="py-3.5 px-3 max-w-60">
                           <div className="flex items-center gap-3">
                             <div className="w-9 h-9 rounded-lg bg-primary-light border border-primary/20 flex items-center justify-center text-primary font-bold text-xs shrink-0">
                               <ShieldCheck className="w-4 h-4" />
@@ -461,7 +460,7 @@ export default function AdminRolesPage() {
                             </div>
                           </div>
                         </td>
-                        <td className="py-3.5 px-3 max-w-[280px]">
+                        <td className="py-3.5 px-3 max-w-70">
                           <p className="text-xs text-muted line-clamp-2 leading-relaxed">
                             {role.description || "—"}
                           </p>

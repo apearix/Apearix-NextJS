@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blogs — Apearix Studio CMS</title>
-  
+
   <!-- Google Fonts Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
 
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -59,16 +61,20 @@
       width: 6px;
       height: 6px;
     }
+
     ::-webkit-scrollbar-track {
       background: transparent;
     }
+
     ::-webkit-scrollbar-thumb {
       background: #d8dadd;
       border-radius: 9999px;
     }
+
     ::-webkit-scrollbar-thumb:hover {
       background: #D1D5DB;
     }
+
     .badge-dot {
       width: 6px;
       height: 6px;
@@ -76,101 +82,122 @@
       display: inline-block;
       margin-right: 6px;
     }
+
     @keyframes pulseSoft {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.5;
+      }
     }
+
     .drag-active {
       border-color: #6D28F5 !important;
       background-color: #F4F0FF !important;
     }
   </style>
-  
-</head>
-<body class="bg-[#FAFAFC] text-body font-sans antialiased flex flex-col selection:bg-primary-light selection:text-primary">
 
-  <main class="flex-1 py-6 px-4 sm:px-6 lg:px-8 max-w-8xl mx-auto w-full"> 
- 
+</head>
+
+<body
+  class="bg-surface text-body font-sans antialiased flex flex-col selection:bg-primary-light selection:text-primary">
+
+  <main class="flex-1 py-6 px-4 sm:px-6 lg:px-8 max-w-8xl mx-auto w-full">
+
     <!-- Table Toolbar -->
-    <div class="bg-white border border-border rounded-xl p-3 mb-4 shadow-subtle flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
-      
+    <div
+      class="bg-white border border-border rounded-xl p-3 mb-4 shadow-subtle flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
+
       <!-- Search Input -->
-      <div class="relative flex-1 min-w-[260px]">
+      <div class="relative flex-1 min-w-65">
         <i data-lucide="search" class="w-4 h-4 text-muted absolute left-3.5 top-1/2 -translate-y-1/2"></i>
-        <input 
-          id="searchInput" 
-          type="text" 
-          placeholder="Search blogs by title, slug, excerpt or author..." 
+        <input id="searchInput" type="text" placeholder="Search blogs by title, slug, excerpt or author..."
           class="w-full pl-9 pr-8 py-2 rounded-lg border border-border bg-surface text-sm text-heading placeholder:text-muted focus:outline-none focus:border-primary focus:bg-white transition-all"
-          oninput="handleSearch()"
-        />
-        <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-heading">
+          oninput="handleSearch()" />
+        <button id="clearSearchBtn" onclick="clearSearch()"
+          class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-heading">
           <i data-lucide="x" class="w-3.5 h-3.5"></i>
         </button>
       </div>
 
       <!-- Filters & Action Buttons -->
       <div class="flex flex-wrap items-center gap-2">
-        
+
         <!-- Status Filter Select -->
-        <div class="relative min-w-[130px]">
-          <select id="statusFilter" onchange="applyFilters()" class="w-full text-xs font-medium py-2 px-3 rounded-lg border border-border bg-surface text-heading appearance-none cursor-pointer focus:outline-none focus:border-primary">
+        <div class="relative min-w-32.5">
+          <select id="statusFilter" onchange="applyFilters()"
+            class="w-full text-xs font-medium py-2 px-3 rounded-lg border border-border bg-surface text-heading appearance-none cursor-pointer focus:outline-none focus:border-primary">
             <option value="all">Status: All</option>
             <option value="published">Published</option>
             <option value="draft">Draft</option>
             <option value="archived">Archived</option>
           </select>
-          <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-muted absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          <i data-lucide="chevron-down"
+            class="w-3.5 h-3.5 text-muted absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
         </div>
 
         <!-- Author Filter Select -->
-        <div class="relative min-w-[140px]">
-          <select id="authorFilter" onchange="applyFilters()" class="w-full text-xs font-medium py-2 px-3 rounded-lg border border-border bg-surface text-heading appearance-none cursor-pointer focus:outline-none focus:border-primary">
+        <div class="relative min-w-35">
+          <select id="authorFilter" onchange="applyFilters()"
+            class="w-full text-xs font-medium py-2 px-3 rounded-lg border border-border bg-surface text-heading appearance-none cursor-pointer focus:outline-none focus:border-primary">
             <option value="all">Author: All</option>
             <option value="Dharmendra (Admin)">Dharmendra (Admin)</option>
             <option value="Rahul Sharma">Rahul Sharma</option>
             <option value="Priya Patel">Priya Patel</option>
           </select>
-          <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-muted absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          <i data-lucide="chevron-down"
+            class="w-3.5 h-3.5 text-muted absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
         </div>
 
         <!-- Sort Select -->
-        <div class="relative min-w-[140px]">
-          <select id="sortFilter" onchange="applyFilters()" class="w-full text-xs font-medium py-2 px-3 rounded-lg border border-border bg-surface text-heading appearance-none cursor-pointer focus:outline-none focus:border-primary">
+        <div class="relative min-w-35">
+          <select id="sortFilter" onchange="applyFilters()"
+            class="w-full text-xs font-medium py-2 px-3 rounded-lg border border-border bg-surface text-heading appearance-none cursor-pointer focus:outline-none focus:border-primary">
             <option value="newest">Sort: Newest</option>
             <option value="oldest">Sort: Oldest</option>
             <option value="title_asc">Title: A to Z</option>
           </select>
-          <i data-lucide="arrow-up-down" class="w-3.5 h-3.5 text-muted absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          <i data-lucide="arrow-up-down"
+            class="w-3.5 h-3.5 text-muted absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
         </div>
 
         <div class="h-6 w-px bg-border mx-1 hidden sm:block"></div>
 
         <!-- Import Button -->
-        <button onclick="openImportModal()" class="inline-flex items-center gap-1.5 px-3 py-2 bg-white hover:bg-surface text-heading border border-border text-xs font-semibold rounded-lg transition-colors shadow-subtle hover:border-border-accent">
+        <button onclick="openImportModal()"
+          class="inline-flex items-center gap-1.5 px-3 py-2 bg-white hover:bg-surface text-heading border border-border text-xs font-semibold rounded-lg transition-colors shadow-subtle hover:border-border-accent">
           <i data-lucide="arrow-down-to-line" class="w-3.5 h-3.5 text-primary"></i>
           Import
         </button>
 
         <!-- Export Dropdown -->
         <div class="relative inline-block text-left" id="exportMenuContainer">
-          <button onclick="toggleExportMenu()" class="inline-flex items-center gap-1.5 px-3 py-2 bg-white hover:bg-surface text-heading border border-border text-xs font-semibold rounded-lg transition-colors shadow-subtle">
+          <button onclick="toggleExportMenu()"
+            class="inline-flex items-center gap-1.5 px-3 py-2 bg-white hover:bg-surface text-heading border border-border text-xs font-semibold rounded-lg transition-colors shadow-subtle">
             <i data-lucide="arrow-up-from-line" class="w-3.5 h-3.5 text-body"></i>
             Export
             <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-muted"></i>
           </button>
-          
-          <div id="exportMenu" class="hidden absolute right-0 mt-1.5 w-52 bg-white rounded-xl shadow-dropdown border border-border py-1.5 z-30 font-medium text-xs">
+
+          <div id="exportMenu"
+            class="hidden absolute right-0 mt-1.5 w-52 bg-white rounded-xl shadow-dropdown border border-border py-1.5 z-30 font-medium text-xs">
             <div class="px-3 py-1 text-[10px] uppercase tracking-wider font-semibold text-muted">Export Formats</div>
-            <button onclick="exportData('all_json')" class="w-full text-left px-3 py-2 hover:bg-surface flex items-center justify-between text-heading">
+            <button onclick="exportData('all_json')"
+              class="w-full text-left px-3 py-2 hover:bg-surface flex items-center justify-between text-heading">
               <span>All Posts (JSON)</span>
               <span class="text-[10px] px-1.5 py-0.5 rounded bg-surface-alt border text-muted">.json</span>
             </button>
-            <button onclick="exportData('filtered_json')" class="w-full text-left px-3 py-2 hover:bg-surface flex items-center justify-between text-heading">
+            <button onclick="exportData('filtered_json')"
+              class="w-full text-left px-3 py-2 hover:bg-surface flex items-center justify-between text-heading">
               <span>Filtered View (JSON)</span>
               <span class="text-[10px] px-1.5 py-0.5 rounded bg-surface-alt border text-muted">.json</span>
             </button>
-            <button onclick="exportData('csv')" class="w-full text-left px-3 py-2 hover:bg-surface flex items-center justify-between text-heading">
+            <button onclick="exportData('csv')"
+              class="w-full text-left px-3 py-2 hover:bg-surface flex items-center justify-between text-heading">
               <span>Export as CSV</span>
               <span class="text-[10px] px-1.5 py-0.5 rounded bg-surface-alt border text-muted">.csv</span>
             </button>
@@ -181,7 +208,8 @@
     </div>
 
     <!-- Floating Bulk Selection Bar -->
-    <div id="bulkActionBar" class="hidden mb-4 bg-heading text-white px-4 py-3 rounded-xl shadow-lg flex items-center justify-between gap-4 animate-fade-in transition-all">
+    <div id="bulkActionBar"
+      class="hidden mb-4 bg-heading text-white px-4 py-3 rounded-xl shadow-lg items-center justify-between gap-4 animate-fade-in transition-all">
       <div class="flex items-center gap-3">
         <span class="flex h-2 w-2 relative">
           <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
@@ -191,23 +219,28 @@
       </div>
 
       <div class="flex items-center gap-2">
-        <button onclick="bulkChangeStatus('published')" class="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-medium text-white transition-colors flex items-center gap-1.5">
+        <button onclick="bulkChangeStatus('published')"
+          class="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-medium text-white transition-colors flex items-center gap-1.5">
           <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-400"></i>
           Publish
         </button>
-        <button onclick="bulkChangeStatus('archived')" class="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-medium text-white transition-colors flex items-center gap-1.5">
+        <button onclick="bulkChangeStatus('archived')"
+          class="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-medium text-white transition-colors flex items-center gap-1.5">
           <i data-lucide="archive" class="w-3.5 h-3.5 text-slate-300"></i>
           Archive
         </button>
-        <button onclick="exportData('selected_json')" class="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-medium text-white transition-colors flex items-center gap-1.5">
+        <button onclick="exportData('selected_json')"
+          class="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-medium text-white transition-colors flex items-center gap-1.5">
           <i data-lucide="download" class="w-3.5 h-3.5 text-purple-300"></i>
           Export
         </button>
-        <button onclick="confirmBulkDelete()" class="px-2.5 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-xs font-medium text-white transition-colors flex items-center gap-1.5">
+        <button onclick="confirmBulkDelete()"
+          class="px-2.5 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-xs font-medium text-white transition-colors flex items-center gap-1.5">
           <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
           Delete
         </button>
-        <button onclick="clearSelection()" class="p-1 rounded-md text-white/70 hover:text-white" title="Cancel Selection">
+        <button onclick="clearSelection()" class="p-1 rounded-md text-white/70 hover:text-white"
+          title="Cancel Selection">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
@@ -215,23 +248,19 @@
 
     <!-- Blog Table Card -->
     <div class="bg-white border border-border rounded-xl shadow-subtle overflow-hidden">
-      <div class="overflow-x-auto min-h-[360px]">
+      <div class="overflow-x-auto min-h-90">
         <table class="w-full text-left border-collapse">
           <thead>
             <tr class="bg-surface border-b border-border text-sm text-muted font-normal! select-none">
               <th scope="col" class="py-3.5 pl-4 pr-2 w-10">
-                <input 
-                  type="checkbox" 
-                  id="selectAllCheckbox" 
-                  onchange="toggleSelectAll(this.checked)"
-                  class="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 accent-primary cursor-pointer"
-                />
+                <input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll(this.checked)"
+                  class="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 accent-primary cursor-pointer" />
               </th>
               <th scope="col" class="py-3.5 px-3 min-w-[320px]">Article</th>
-              <th scope="col" class="py-3.5 px-3 min-w-[160px]">Author</th>
-              <th scope="col" class="py-3.5 px-3 min-w-[130px]">Status</th>
-              <th scope="col" class="py-3.5 px-3 min-w-[120px]">Published</th>
-              <th scope="col" class="py-3.5 px-3 min-w-[120px]">Updated</th>
+              <th scope="col" class="py-3.5 px-3 min-w-40">Author</th>
+              <th scope="col" class="py-3.5 px-3 min-w-32.5">Status</th>
+              <th scope="col" class="py-3.5 px-3 min-w-30">Published</th>
+              <th scope="col" class="py-3.5 px-3 min-w-30">Updated</th>
               <th scope="col" class="py-3.5 pr-4 pl-3 text-right w-16">Actions</th>
             </tr>
           </thead>
@@ -242,16 +271,20 @@
 
         <!-- Empty State Container -->
         <div id="emptyState" class="hidden py-16 px-4 text-center">
-          <div class="w-14 h-14 mx-auto rounded-2xl bg-primary-light text-primary flex items-center justify-center mb-4">
+          <div
+            class="w-14 h-14 mx-auto rounded-2xl bg-primary-light text-primary flex items-center justify-center mb-4">
             <i data-lucide="file-text" class="w-7 h-7"></i>
           </div>
           <h3 class="text-base font-semibold text-heading">No blog posts found</h3>
-          <p class="text-sm text-muted max-w-sm mx-auto mt-1 mb-6">No articles match your current search or filters. Try adjusting them or import new articles via JSON.</p>
+          <p class="text-sm text-muted max-w-sm mx-auto mt-1 mb-6">No articles match your current search or filters. Try
+            adjusting them or import new articles via JSON.</p>
           <div class="flex items-center justify-center gap-3">
-            <button onclick="resetFilters()" class="px-3.5 py-2 bg-surface hover:bg-surface-alt border border-border text-xs font-semibold text-heading rounded-lg transition-colors">
+            <button onclick="resetFilters()"
+              class="px-3.5 py-2 bg-surface hover:bg-surface-alt border border-border text-xs font-semibold text-heading rounded-lg transition-colors">
               Reset Filters
             </button>
-            <button onclick="openImportModal()" class="px-3.5 py-2 bg-primary hover:bg-primary-hover text-white text-xs font-semibold rounded-lg shadow-sm transition-colors">
+            <button onclick="openImportModal()"
+              class="px-3.5 py-2 bg-primary hover:bg-primary-hover text-white text-xs font-semibold rounded-lg shadow-sm transition-colors">
               Import JSON
             </button>
           </div>
@@ -259,15 +292,18 @@
       </div>
 
       <!-- Table Footer with Pagination -->
-      <div class="border-t border-border px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs bg-surface">
+      <div
+        class="border-t border-border px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs bg-surface">
         <div class="text-muted" id="paginationSummary">
-          Showing <span class="font-medium text-heading">1</span> to <span class="font-medium text-heading">6</span> of <span class="font-medium text-heading">6</span> results
+          Showing <span class="font-medium text-heading">1</span> to <span class="font-medium text-heading">6</span> of
+          <span class="font-medium text-heading">6</span> results
         </div>
 
         <div class="flex items-center gap-4">
           <div class="flex items-center gap-1.5">
             <span class="text-muted">Rows per page:</span>
-            <select id="pageSizeSelect" onchange="changePageSize(this.value)" class="py-1 px-2 border border-border rounded bg-white text-heading text-xs font-medium focus:outline-none">
+            <select id="pageSizeSelect" onchange="changePageSize(this.value)"
+              class="py-1 px-2 border border-border rounded bg-white text-heading text-xs font-medium focus:outline-none">
               <option value="10" selected>10</option>
               <option value="25">25</option>
               <option value="50">50</option>
@@ -275,13 +311,15 @@
           </div>
 
           <div class="flex items-center space-x-1">
-            <button id="prevPageBtn" onclick="prevPage()" class="p-1.5 rounded border border-border bg-white text-muted hover:text-heading disabled:opacity-40 disabled:cursor-not-allowed">
+            <button id="prevPageBtn" onclick="prevPage()"
+              class="p-1.5 rounded border border-border bg-white text-muted hover:text-heading disabled:opacity-40 disabled:cursor-not-allowed">
               <i data-lucide="chevron-left" class="w-4 h-4"></i>
             </button>
             <div id="paginationNumbers" class="flex items-center space-x-1">
               <!-- Dynamically populated page numbers -->
             </div>
-            <button id="nextPageBtn" onclick="nextPage()" class="p-1.5 rounded border border-border bg-white text-muted hover:text-heading disabled:opacity-40 disabled:cursor-not-allowed">
+            <button id="nextPageBtn" onclick="nextPage()"
+              class="p-1.5 rounded border border-border bg-white text-muted hover:text-heading disabled:opacity-40 disabled:cursor-not-allowed">
               <i data-lucide="chevron-right" class="w-4 h-4"></i>
             </button>
           </div>
@@ -291,38 +329,44 @@
   </main>
 
   <!-- Drag & Drop JSON Import Modal with Pre-Validation Step -->
-  <div id="importModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-heading/60 backdrop-blur-sm animate-fade-in">
-    <div class="bg-white rounded-2xl border border-border shadow-modal max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden">
-      
+  <div id="importModal"
+    class="hidden fixed inset-0 z-50 items-center justify-center p-4 bg-heading/60 backdrop-blur-sm animate-fade-in">
+    <div
+      class="bg-white rounded-2xl border border-border shadow-modal max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden">
+
       <!-- Modal Header -->
       <div class="px-6 py-4 border-b border-border flex items-center justify-between bg-surface">
         <div>
           <h3 class="text-lg font-bold text-heading">Import Blog Posts</h3>
-          <p class="text-xs text-muted mt-0.5">Bulk upload articles conforming to the <code class="text-primary font-mono text-[11px] bg-primary-light px-1 py-0.5 rounded">PostFormValues</code> schema.</p>
+          <p class="text-xs text-muted mt-0.5">Bulk upload articles conforming to the <code
+              class="text-primary font-mono text-[11px] bg-primary-light px-1 py-0.5 rounded">PostFormValues</code>
+            schema.</p>
         </div>
-        <button onclick="closeImportModal()" class="p-1.5 rounded-lg text-muted hover:text-heading hover:bg-border/40 transition-colors">
+        <button onclick="closeImportModal()"
+          class="p-1.5 rounded-lg text-muted hover:text-heading hover:bg-border/40 transition-colors">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
       <!-- Modal Body (Upload Step & Preview Step) -->
       <div class="p-6 overflow-y-auto flex-1 space-y-5">
-        
+
         <!-- Dropzone Container -->
-        <div id="dropzoneContainer" 
-             ondragover="handleDragOver(event)" 
-             ondragleave="handleDragLeave(event)" 
-             ondrop="handleFileDrop(event)"
-             class="border-2 border-dashed border-border hover:border-primary/60 rounded-xl p-8 text-center transition-all bg-surface hover:bg-primary-light/10 cursor-pointer flex flex-col items-center justify-center"
-             onclick="triggerFileInput()">
-          <input type="file" id="jsonFileInput" accept=".json,application/json" class="hidden" onchange="handleFileSelect(event)">
-          
-          <div class="w-12 h-12 rounded-xl bg-primary-light text-primary flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+        <div id="dropzoneContainer" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)"
+          ondrop="handleFileDrop(event)"
+          class="border-2 border-dashed border-border hover:border-primary/60 rounded-xl p-8 text-center transition-all bg-surface hover:bg-primary-light/10 cursor-pointer flex flex-col items-center justify-center"
+          onclick="triggerFileInput()">
+          <input type="file" id="jsonFileInput" accept=".json,application/json" class="hidden"
+            onchange="handleFileSelect(event)">
+
+          <div
+            class="w-12 h-12 rounded-xl bg-primary-light text-primary flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
             <i data-lucide="upload-cloud" class="w-6 h-6"></i>
           </div>
 
           <h4 class="text-sm font-semibold text-heading">Drag & drop your JSON file here</h4>
-          <p class="text-xs text-muted mt-1">or <span class="text-primary font-medium underline underline-offset-2">browse from your computer</span></p>
+          <p class="text-xs text-muted mt-1">or <span
+              class="text-primary font-medium underline underline-offset-2">browse from your computer</span></p>
           <span class="text-[11px] text-muted/80 mt-3 inline-block">JSON format only • Up to 10 MB</span>
         </div>
 
@@ -332,7 +376,8 @@
             <i data-lucide="info" class="w-4 h-4 text-primary"></i>
             <span>Need sample format? Check all required fields like title, slug, and status.</span>
           </div>
-          <button onclick="downloadSampleJSON()" class="text-xs font-semibold text-primary hover:text-primary-hover flex items-center gap-1">
+          <button onclick="downloadSampleJSON()"
+            class="text-xs font-semibold text-primary hover:text-primary-hover flex items-center gap-1">
             <i data-lucide="download" class="w-3.5 h-3.5"></i>
             Sample JSON
           </button>
@@ -387,10 +432,12 @@
 
       <!-- Modal Footer -->
       <div class="px-6 py-3.5 bg-surface border-t border-border flex items-center justify-between">
-        <button onclick="closeImportModal()" class="px-4 py-2 text-xs font-semibold text-muted hover:text-heading transition-colors">
+        <button onclick="closeImportModal()"
+          class="px-4 py-2 text-xs font-semibold text-muted hover:text-heading transition-colors">
           Cancel
         </button>
-        <button id="btnCommitImport" onclick="commitImport()" disabled class="px-4 py-2 bg-primary hover:bg-primary-hover disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs font-semibold rounded-lg shadow-sm transition-all flex items-center gap-1.5">
+        <button id="btnCommitImport" onclick="commitImport()" disabled
+          class="px-4 py-2 bg-primary hover:bg-primary-hover disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs font-semibold rounded-lg shadow-sm transition-all flex items-center gap-1.5">
           <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
           <span id="btnCommitImportText">Import 0 Posts</span>
         </button>
@@ -406,7 +453,8 @@
         <!-- Drawer Header -->
         <div class="px-6 py-4 bg-surface border-b border-border flex items-center justify-between">
           <div class="flex items-center gap-2">
-            <span id="drawerStatusBadge" class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-primary-light text-primary">Status</span>
+            <span id="drawerStatusBadge"
+              class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-primary-light text-primary">Status</span>
             <span class="text-xs text-muted" id="drawerSlug">/blog/slug</span>
           </div>
           <button onclick="closeQuickView()" class="p-1.5 rounded-lg text-muted hover:text-heading hover:bg-border/30">
@@ -417,7 +465,8 @@
         <!-- Drawer Content -->
         <div class="p-6 overflow-y-auto flex-1 space-y-5">
           <!-- Featured Image -->
-          <div id="drawerImageContainer" class="rounded-xl overflow-hidden aspect-video bg-surface-alt border border-border flex items-center justify-center">
+          <div id="drawerImageContainer"
+            class="rounded-xl overflow-hidden aspect-video bg-surface-alt border border-border flex items-center justify-center">
             <img id="drawerImage" src="" alt="Post cover" class="w-full h-full object-cover">
           </div>
 
@@ -432,12 +481,15 @@
 
           <div>
             <h4 class="text-xs font-bold uppercase tracking-wider text-muted mb-1">Excerpt</h4>
-            <p id="drawerExcerpt" class="text-xs text-body bg-surface p-3 rounded-lg border border-border leading-relaxed"></p>
+            <p id="drawerExcerpt"
+              class="text-xs text-body bg-surface p-3 rounded-lg border border-border leading-relaxed"></p>
           </div>
 
           <div>
             <h4 class="text-xs font-bold uppercase tracking-wider text-muted mb-1">Article Content Preview</h4>
-            <div id="drawerContent" class="text-xs text-body bg-white p-3 rounded-lg border border-border space-y-2 max-h-44 overflow-y-auto leading-relaxed"></div>
+            <div id="drawerContent"
+              class="text-xs text-body bg-white p-3 rounded-lg border border-border space-y-2 max-h-44 overflow-y-auto leading-relaxed">
+            </div>
           </div>
 
           <!-- SEO Metadata Box -->
@@ -447,26 +499,31 @@
               SEO Metadata
             </h4>
             <div class="text-[11px] space-y-1">
-              <div><span class="text-muted font-medium">Meta Title:</span> <span id="drawerMetaTitle" class="text-heading"></span></div>
-              <div><span class="text-muted font-medium">Meta Description:</span> <span id="drawerMetaDesc" class="text-body"></span></div>
-              <div><span class="text-muted font-medium">Canonical:</span> <span id="drawerCanonical" class="text-primary font-mono text-[10px]"></span></div>
+              <div><span class="text-muted font-medium">Meta Title:</span> <span id="drawerMetaTitle"
+                  class="text-heading"></span></div>
+              <div><span class="text-muted font-medium">Meta Description:</span> <span id="drawerMetaDesc"
+                  class="text-body"></span></div>
+              <div><span class="text-muted font-medium">Canonical:</span> <span id="drawerCanonical"
+                  class="text-primary font-mono text-[10px]"></span></div>
             </div>
           </div>
         </div>
 
         <!-- Drawer Footer Actions -->
         <div class="px-6 py-4 bg-surface border-t border-border flex items-center justify-end gap-2">
-          <button onclick="closeQuickView()" class="px-4 py-2 border border-border text-xs font-semibold rounded-lg text-heading hover:bg-white transition-colors">
+          <button onclick="closeQuickView()"
+            class="px-4 py-2 border border-border text-xs font-semibold rounded-lg text-heading hover:bg-white transition-colors">
             Close
           </button>
-          <button onclick="editCurrentDrawerPost()" class="px-4 py-2 bg-primary hover:bg-primary-hover text-white text-xs font-semibold rounded-lg shadow-sm transition-colors flex items-center gap-1.5">
+          <button onclick="editCurrentDrawerPost()"
+            class="px-4 py-2 bg-primary hover:bg-primary-hover text-white text-xs font-semibold rounded-lg shadow-sm transition-colors flex items-center gap-1.5">
             <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
             Edit in Form
           </button>
         </div>
       </div>
     </div>
-  </div> 
+  </div>
 
   <script>
     /*
@@ -709,7 +766,7 @@
         tbody.innerHTML = pagePosts.map(post => {
           const isSelected = selectedPostIds.has(post.id);
           const status = post.publishing?.status || 'draft';
-          
+
           // Badge styling
           let statusBadge = '';
           if (status === 'published') {
@@ -727,12 +784,12 @@
           }
 
           // Published Date formatting
-          const pubDate = post.publishing?.published_at 
+          const pubDate = post.publishing?.published_at
             ? new Date(post.publishing.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
             : '<span class="text-muted/60">—</span>';
 
           // Image thumbnail fallback
-          const imageTag = post.featured_image 
+          const imageTag = post.featured_image
             ? `<img src="${post.featured_image}" onerror="this.src='https://placehold.co/100x100/F4F0FF/6D28F5?text=Apearix'" alt="${escapeHtml(post.title)}" class="w-10 h-10 rounded-lg object-cover border border-border shrink-0 shadow-subtle">`
             : `<div class="w-10 h-10 rounded-lg bg-primary-light border border-border-accent flex items-center justify-center text-primary shrink-0"><i data-lucide="image" class="w-4 h-4"></i></div>`;
 
@@ -845,7 +902,7 @@
       // Update Pagination summary
       const startNum = total === 0 ? 0 : startIndex + 1;
       document.getElementById('paginationSummary').innerHTML = `Showing <span class="font-medium text-heading">${startNum}</span> to <span class="font-medium text-heading">${endIndex}</span> of <span class="font-medium text-heading">${total}</span> results`;
-      
+
       renderPagination(totalPages);
       updateSelectAllCheckboxState();
       lucide.createIcons();
@@ -986,7 +1043,7 @@
     function confirmBulkDelete() {
       const count = selectedPostIds.size;
       if (count === 0) return;
-      
+
       // Inline custom non-alert confirmation
       if (window.confirm(`Are you sure you want to delete ${count} selected post(s)? This action cannot be undone.`)) {
         blogs = blogs.filter(post => !selectedPostIds.has(post.id));
@@ -1077,7 +1134,7 @@
       event.stopPropagation();
       const menu = document.getElementById(`actionMenu-${postId}`);
       const isHidden = menu.classList.contains('hidden');
-      
+
       // Close any other open dropdowns
       document.querySelectorAll('.row-action-dropdown').forEach(el => el.classList.add('hidden'));
 
@@ -1144,12 +1201,12 @@
       document.getElementById('drawerTitle').textContent = post.title;
       document.getElementById('drawerSlug').textContent = `/blog/${post.slug}`;
       document.getElementById('drawerAuthor').textContent = post.publishing?.author_id || 'Unknown';
-      document.getElementById('drawerPublishedAt').textContent = post.publishing?.published_at 
-        ? new Date(post.publishing.published_at).toLocaleString() 
+      document.getElementById('drawerPublishedAt').textContent = post.publishing?.published_at
+        ? new Date(post.publishing.published_at).toLocaleString()
         : 'Not Published';
       document.getElementById('drawerExcerpt').textContent = post.excerpt || 'No excerpt provided.';
       document.getElementById('drawerContent').textContent = post.content || 'No content provided.';
-      
+
       // SEO
       document.getElementById('drawerMetaTitle').textContent = post.seo?.meta_title || post.title;
       document.getElementById('drawerMetaDesc').textContent = post.seo?.meta_description || post.excerpt || '—';
@@ -1246,7 +1303,7 @@
       }
 
       const reader = new FileReader();
-      reader.onload = function(event) {
+      reader.onload = function (event) {
         try {
           const raw = JSON.parse(event.target.result);
           const items = Array.isArray(raw) ? raw : [raw];
@@ -1343,11 +1400,11 @@
       previewTableBody.innerHTML = validatedImportRecords.map(rec => `
         <tr class="${rec._isValid ? 'bg-white' : 'bg-rose-50/60'}">
           <td class="py-2 px-3">
-            ${rec._isValid 
-              ? (rec._remarks === 'Valid' 
-                ? '<span class="text-emerald-600 font-bold">✓</span>' 
-                : '<span class="text-amber-600 font-bold">⚠</span>')
-              : '<span class="text-rose-600 font-bold">✕</span>'}
+            ${rec._isValid
+          ? (rec._remarks === 'Valid'
+            ? '<span class="text-emerald-600 font-bold">✓</span>'
+            : '<span class="text-amber-600 font-bold">⚠</span>')
+          : '<span class="text-rose-600 font-bold">✕</span>'}
           </td>
           <td class="py-2 px-3 font-medium text-heading max-w-[140px] truncate">${escapeHtml(rec.title)}</td>
           <td class="py-2 px-3 text-muted font-mono text-[10px] max-w-[120px] truncate">/${escapeHtml(rec.slug)}</td>
@@ -1499,7 +1556,7 @@
       ]);
 
       const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
-      triggerFileDownload(csvContent, `apearix_blogs_${new Date().toISOString().slice(0,10)}.csv`, 'text/csv;charset=utf-8;');
+      triggerFileDownload(csvContent, `apearix_blogs_${new Date().toISOString().slice(0, 10)}.csv`, 'text/csv;charset=utf-8;');
       showToast(`Exported ${posts.length} posts as CSV`);
     }
 
@@ -1520,7 +1577,7 @@
       const toast = document.getElementById('toast');
       const msg = document.getElementById('toastMessage');
       msg.textContent = message;
-      
+
       toast.classList.remove('opacity-0', 'translate-y-20');
       toast.classList.add('opacity-100', 'translate-y-0');
 
@@ -1542,4 +1599,5 @@
     }
   </script>
 </body>
+
 </html>

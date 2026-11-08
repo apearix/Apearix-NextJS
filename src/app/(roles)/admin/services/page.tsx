@@ -633,9 +633,8 @@ export default function AdminServicesPage() {
                       <tr
                         key={service.id}
                         onClick={() => setDrawerService(service)}
-                        className={`group hover:bg-surface transition-colors cursor-pointer ${
-                          isSelected ? "bg-primary-light/40 border-l-4 border-l-primary" : ""
-                        }`}
+                        className={`group hover:bg-surface transition-colors cursor-pointer ${isSelected ? "bg-primary-light/40 border-l-4 border-l-primary" : ""
+                          }`}
                       >
                         <td className="py-3.5 pl-4 pr-2 w-10" onClick={(e) => e.stopPropagation()}>
                           <input
@@ -660,7 +659,7 @@ export default function AdminServicesPage() {
                             )}
                             <div className="min-w-0 flex-1">
                               <div
-                                className="font-semibold text-heading text-sm hover:text-primary transition-colors line-clamp-2 leading-snug break-words"
+                                className="font-semibold text-heading text-sm hover:text-primary transition-colors line-clamp-2 leading-snug wrap-break-word"
                                 title={service.title}
                               >
                                 {service.title}
@@ -699,10 +698,10 @@ export default function AdminServicesPage() {
                         <td className="py-3.5 px-3 text-xs text-muted">
                           {service.created_at
                             ? formatDateInTimezone(service.created_at, undefined, {
-                                month: "short",
-                                day: "numeric",
-                                year: "numeric",
-                              })
+                              month: "short",
+                              day: "numeric",
+                              year: "numeric",
+                            })
                             : "—"}
                         </td>
                         {/* Actions Column */}
@@ -739,21 +738,21 @@ export default function AdminServicesPage() {
                               },
                               ...(service.is_active
                                 ? [
-                                    {
-                                      label: "Deactivate",
-                                      icon: <XCircle className="w-3.5 h-3.5" />,
-                                      variant: "warning" as const,
-                                      onClick: () => updateSingleStatus(service.id!, false),
-                                    },
-                                  ]
+                                  {
+                                    label: "Deactivate",
+                                    icon: <XCircle className="w-3.5 h-3.5" />,
+                                    variant: "warning" as const,
+                                    onClick: () => updateSingleStatus(service.id!, false),
+                                  },
+                                ]
                                 : [
-                                    {
-                                      label: "Activate",
-                                      icon: <Check className="w-3.5 h-3.5" />,
-                                      variant: "success" as const,
-                                      onClick: () => updateSingleStatus(service.id!, true),
-                                    },
-                                  ]),
+                                  {
+                                    label: "Activate",
+                                    icon: <Check className="w-3.5 h-3.5" />,
+                                    variant: "success" as const,
+                                    onClick: () => updateSingleStatus(service.id!, true),
+                                  },
+                                ]),
                               {
                                 label: "Delete",
                                 icon: <Trash2 className="w-3.5 h-3.5" />,
@@ -800,7 +799,7 @@ export default function AdminServicesPage() {
           {
             header: "Title",
             render: (item) => (
-              <span className="font-medium text-heading max-w-[140px] truncate block">
+              <span className="font-medium text-heading max-w-35 truncate block">
                 {item.title}
               </span>
             ),
@@ -808,7 +807,7 @@ export default function AdminServicesPage() {
           {
             header: "Slug",
             render: (item) => (
-              <span className="text-muted font-mono text-[10px] max-w-[110px] truncate block">
+              <span className="text-muted font-mono text-[10px] max-w-27.5 truncate block">
                 /{item.slug}
               </span>
             ),

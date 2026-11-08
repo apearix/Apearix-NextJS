@@ -22,18 +22,18 @@ export const SectionCard: React.FC<SectionCardProps> = ({
 }) => {
     return (
         <div
-            className={`overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] pb-3 shadow-xs ${className}`}
+            className={`overflow-hidden rounded-xl border border-border bg-background pb-3 shadow-xs ${className}`}
         >
             {/* Section Heading Banner */}
-            <div className="relative flex flex-wrap items-center justify-between gap-2 rounded-t-xl border-b border-[var(--color-border)] bg-[var(--color-surface-alt)] px-4 py-2.5">
+            <div className="relative flex flex-wrap items-center justify-between gap-2 rounded-t-xl border-b border-border bg-surface-alt px-4 py-2.5">
                 <div className="flex items-center gap-2">
-                    {Icon && <Icon className="h-4 w-4 text-[var(--color-primary)]" />}
+                    {Icon && <Icon className="h-4 w-4 text-(--color-primary)" />}
                     <div className="flex flex-col">
-                        <span className="text-xs font-semibold uppercase tracking-wider text-[var(--color-heading)]">
+                        <span className="text-xs font-semibold uppercase tracking-wider text-heading">
                             {title}
                         </span>
                         {subtitle && (
-                            <span className="text-[11px] text-[var(--color-muted)] font-normal mt-0.5">
+                            <span className="text-[11px] text-muted font-normal mt-0.5">
                                 {subtitle}
                             </span>
                         )}

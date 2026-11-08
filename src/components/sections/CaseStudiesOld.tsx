@@ -46,7 +46,7 @@ export function CaseStudies() {
     <section id="work" className="py-10 md:py-20 bg-[#FAF9FF] relative overflow-hidden">
       
       {/* Background Soft Glow Ambient */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-purple-200/30 rounded-full blur-[140px] pointer-events-none -z-10" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-200 h-125 bg-purple-200/30 rounded-full blur-[140px] pointer-events-none -z-10" />
 
       <div className="container max-w-7xl mx-auto px-6">
         
@@ -69,10 +69,10 @@ export function CaseStudies() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#0F172A] tracking-tight leading-[1.08]"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-footer tracking-tight leading-[1.08]"
             >
               Extraordinary <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6320EE] via-[#7B3FE4] to-[#A855F7]">
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-[#6320EE] via-[#7B3FE4] to-[#A855F7]">
                 Case Studies.
               </span>
             </motion.h2>
@@ -107,7 +107,7 @@ export function CaseStudies() {
             >
               <div>
                 {/* Image Showcase Container */}
-                <div className="relative aspect-[16/10] w-full rounded-xl overflow-hidden mb-6 bg-gray-100 border border-gray-100">
+                <div className="relative aspect-16/10 w-full rounded-xl overflow-hidden mb-6 bg-gray-100 border border-gray-100">
                   <Image
                     src={project.image}
                     alt={project.title}
@@ -117,7 +117,7 @@ export function CaseStudies() {
                   />
                   
                   {/* Subtle Dark Gradient Overlay for Readability */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10 opacity-60 group-hover:opacity-40 transition-opacity" />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-black/10 opacity-60 group-hover:opacity-40 transition-opacity" />
 
                   {/* Top Glass Badge */}
                   <div className="absolute top-3 left-3 z-10">
@@ -136,7 +136,7 @@ export function CaseStudies() {
 
                 {/* Title & Description */}
                 <div className="px-1">
-                  <h3 className="text-xl sm:text-2xl font-bold text-[#0F172A] mb-2.5 group-hover:text-[#6320EE] transition-colors flex items-center justify-between">
+                  <h3 className="text-xl sm:text-2xl font-bold text-footer mb-2.5 group-hover:text-[#6320EE] transition-colors flex items-center justify-between">
                     <span>{project.title}</span>
                     <ArrowUpRight className="w-5 h-5 text-gray-400 group-hover:text-[#6320EE] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all opacity-0 group-hover:opacity-100" />
                   </h3>
