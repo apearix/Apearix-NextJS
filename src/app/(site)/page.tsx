@@ -111,7 +111,7 @@ export default function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdProfessionalService) }} />
 
       <Hero />
-      <TechStack />
+      {/* <TechStack /> */}
       <WhatWeBuild />
       <CaseStudies />
       <WhyApearix />

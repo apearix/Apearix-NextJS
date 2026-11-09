@@ -2,25 +2,29 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, Check, ArrowRight } from 'lucide-react';
+import { Sparkles, Check, ArrowRight, Search, Gauge, Smartphone, Binary } from 'lucide-react';
 import Link from 'next/link';
 
 const features = [
   {
     title: 'Technical SEO',
-    desc: 'Crawlable, search-engine native structure',
+    desc: 'Crawlable, search-engine native structure, dynamic sitemaps, and robots governance.',
+    icon: Search,
   },
   {
     title: 'Fast Performance',
-    desc: 'Lightweight payloads and sub-second renders',
+    desc: 'Lightweight payloads, optimized responsive images, and sub-second renders.',
+    icon: Gauge,
   },
   {
     title: 'Mobile First',
-    desc: 'Fluid responsiveness across every screen size',
+    desc: 'Fluid responsiveness across every device, desktop screen, and touch display.',
+    icon: Smartphone,
   },
   {
     title: 'Structured Data',
-    desc: 'Machine-readable semantic schema integration',
+    desc: 'Machine-readable JSON-LD schemas optimized for modern search engines and AI assistants.',
+    icon: Binary,
   },
 ];
 
@@ -41,7 +45,7 @@ export function PerformanceSEO() {
           <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-12">
 
             {/* Left Narrative */}
-            <div className="lg:col-span-5">
+            <div className="lg:col-span-6">
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border-accent bg-primary-light px-3 py-1 text-xs font-semibold tracking-wider text-[#6D28F5]">
                 <Sparkles className="h-3 w-3" />
                 <span>Engineered for Discoverability</span>
@@ -59,9 +63,10 @@ export function PerformanceSEO() {
               </p>
 
               <div className="mt-6">
+                
                 <Link
                   href="/contact"
-                  className="group inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#6D28F5] transition-colors hover:text-[#5B21E6]"
+                  className="px-6 py-3 rounded-xl bg-surface hover:bg-surface-alt border border-border text-heading text-sm font-semibold transition-all  hover:text-[#5B21E6] inline-flex items-center gap-2"
                 >
                   <span>Discuss your architecture</span>
                   <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -70,25 +75,22 @@ export function PerformanceSEO() {
             </div>
 
             {/* Right Compact 2x2 Feature Grid */}
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:col-span-7">
-              {features.map((item) => (
-                <div
-                  key={item.title}
-                  className="group flex flex-col justify-center rounded-2xl border border-gray-200/80 bg-white p-5 transition-all duration-300 hover:border-border-accent hover:shadow-md hover:shadow-[#6D28F5]/5"
-                >
-                  <div className="flex items-center gap-2.5 mb-1">
-                    <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary-light text-[#6D28F5]">
-                      <Check className="h-4 w-4" strokeWidth={3} />
-                    </div>
-                    <span className="text-base font-bold text-heading">
-                      {item.title}
-                    </span>
+            <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4 roles-font">
+            {features.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <div
+                    key={item.title}
+                    className="p-6 rounded-2xl bg-white border border-border space-y-2"
+                  > 
+                    <Icon className="w-6 h-6 text-primary" /> 
+                    <h3 className="display-font font-bold text-base text-heading">{item.title}</h3>
+                    <p className="text-xs text-body">
+                      {item.desc}
+                    </p>
                   </div>
-                  <p className="pl-8 text-sm text-muted">
-                    {item.desc}
-                  </p>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
           </div>

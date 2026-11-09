@@ -12,7 +12,7 @@ import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown, ArrowRight } from "lucide-react";
 import Apearix from "../../common/Apearix";
 
-// --- Navigation Configuration ---
+//  Navigation  
 const navigation = {
   company: [
     {
@@ -63,19 +63,24 @@ const navigation = {
       desc: "Workflow automation, LLM integration & smart bots",
     },
   ],
-  products: [
+  // products: [
+  //   {
+  //     name: "Apearix Labs",
+  //     href: "/products/labs",
+  //     desc: "Experimental internal tools",
+  //   },
+  //   {
+  //     name: "Our Products",
+  //     href: "/products",
+  //     desc: "Products we are building",
+  //   },
+  // ], 
+  directLinks: [
     {
-      name: "Apearix Labs",
-      href: "/products/labs",
-      desc: "Experimental internal tools",
+      name: "About",
+      href: "/about",
     },
-    {
-      name: "Our Products",
-      href: "/products",
-      desc: "Products we are building",
-    },
-  ], 
-  directLinks: [] as { name: string; href: string }[], 
+  ],
 };
 
 export function Navbar() {
@@ -201,11 +206,7 @@ export function Navbar() {
             id="services"
             items={navigation.services}
           />
-          <DesktopDropdown
-            title="Products"
-            id="products"
-            items={navigation.products}
-          />
+        
           {navigation.directLinks?.map((link) => (
             <Link
               key={link.name}
@@ -256,7 +257,7 @@ export function Navbar() {
               {[
                 { title: "Company", items: navigation.company },
                 { title: "Services", items: navigation.services },
-                { title: "Products", items: navigation.products },
+                // { title: "Products", items: navigation.products },
               ].map((section) => (
                 <div
                   key={section.title}

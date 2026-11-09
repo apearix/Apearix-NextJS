@@ -169,30 +169,7 @@ export function WhyApearix() {
             );
           })}
         </div>
-
-        {/* Bottom Closing Statement Bar */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-10 rounded-2xl border border-border bg-white p-6 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-6"
-        >
-          <div>
-            <p className="text-lg font-bold text-heading tracking-tight mb-1">
-              From idea to deployment and beyond.
-            </p>
-            <p className="text-sm text-muted">
-              We build with the long term in mind, ensuring your software scales gracefully as your enterprise expands.
-            </p>
-          </div>
-
-          <div className="flex shrink-0 items-center gap-2 rounded-full bg-primary-light border border-border-accent px-5 py-2.5 text-xs font-semibold tracking-wider text-[#6D28F5]">
-            <span>Engineering with intent</span>
-            <ArrowUpRight className="h-4 w-4" />
-          </div>
-        </motion.div>
-
+ 
       </div>
     </section>
   );

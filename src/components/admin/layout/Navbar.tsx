@@ -57,23 +57,9 @@ const navigation = {
       href: "/admin/category-types",
       desc: "Manage taxonomy groups & type definitions",
     },
-    {
-      name: "FAQs",
-      href: "/admin/faqs",
-      desc: "Frequently asked questions and answers",
-    },
   ],
-  management: [
-    {
-      name: "Users",
-      href: "/admin/users",
-      desc: "Manage user accounts, profiles & access",
-    },
-    {
-      name: "Roles",
-      href: "/admin/roles",
-      desc: "Control permissions & administrative roles",
-    },
+
+  business: [
     {
       name: "Products",
       href: "/admin/products",
@@ -89,17 +75,49 @@ const navigation = {
       href: "/admin/careers",
       desc: "Manage open job vacancies & requirements",
     },
+  ],
+
+  people: [
+    {
+      name: "Users",
+      href: "/admin/users",
+      desc: "Manage user accounts, profiles & access",
+    },
     {
       name: "Job Applicants",
       href: "/admin/careers/applications",
       desc: "Review candidate CVs, update stages & hire",
     },
+  ],
 
+  support: [
+    {
+      name: "FAQs",
+      href: "/admin/faqs",
+      desc: "Manage frequently asked questions & answers",
+    },
   ],
-  directLinks: [
-    { name: "Dashboard", href: "/admin/dashboard" },
-    // { name: "Settings", href: "/admin/settings" },
+
+  administration: [
+    {
+      name: "Roles",
+      href: "/admin/roles",
+      desc: "Control permissions & administrative roles",
+    },
   ],
+
+  directLinks: {
+    left: [{
+      name: "Dashboard",
+      href: "/admin/dashboard",
+      desc: "View your admin dashboard & business overview",
+    },],
+    right: [{
+      name: "Settings",
+      href: "/admin/settings",
+      desc: "Configure application settings & preferences",
+    },],
+  },
 };
 
 export function Navbar() {
@@ -150,11 +168,8 @@ export function Navbar() {
         <div className="relative" ref={profileRef}>
           <button
             onClick={() => setProfileOpen(!profileOpen)}
-            className={`group flex items-center md:gap-1.5 md:p-1.5 md:pr-2 rounded-full border transition-all outline-none ${profileOpen
-              ? "bg-gray-50 border-gray-300"
-              : "bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50"
-              }`}
-          >
+            className={`group flex items-center md:gap-1.5 lg:p-1.5 lg:pr-2 rounded-full border transition-all outline-none ${profileOpen ? "bg-gray-50 border-gray-300"
+              : "bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50"}`}>
             {authUser.avatar ? (
               <img
                 src={authUser.avatar}
@@ -167,7 +182,7 @@ export function Navbar() {
               </div>
             )}
 
-            <div className="text-left hidden md:flex flex-col leading-tight max-w-37.5">
+            <div className="text-left hidden lg:flex flex-col leading-tight max-w-37.5">
               <p className="text-xs font-semibold text-gray-700 truncate">
                 {authUser.name}
               </p>
@@ -177,7 +192,7 @@ export function Navbar() {
             </div>
 
             <ChevronDown
-              className={`hidden md:block w-3 h-3 text-gray-400 transition-transform ${profileOpen ? "rotate-180 text-gray-600" : ""
+              className={`hidden lg:block w-3 h-3 text-gray-400 transition-transform ${profileOpen ? "rotate-180 text-gray-600" : ""
                 }`}
             />
           </button>
@@ -514,18 +529,38 @@ export function Navbar() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
+        <nav className="hidden lg:flex items-center space-x-8 text-sm font-medium">
+          {navigation.directLinks.left.map((link) => (
+            <Link
+              key={link.name}
+              href={link.href}
+              className={`py-2 transition-colors ${isActive(link.href) ? "text-primary" : "hover:text-black"
+                }`}
+            >
+              {link.name}
+            </Link>
+          ))}
           <DesktopDropdown
-            title="Services"
-            id="services"
+            title="Content"
+            id="content"
             items={navigation.content}
           />
           <DesktopDropdown
-            title="Products"
-            id="products"
-            items={navigation.management}
+            title="Business"
+            id="business"
+            items={navigation.business}
           />
-          {navigation.directLinks.map((link) => (
+          <DesktopDropdown
+            title="People"
+            id="people"
+            items={navigation.people}
+          />
+          <DesktopDropdown
+            title="Support"
+            id="support"
+            items={navigation.support}
+          />
+          {navigation.directLinks.right.map((link) => (
             <Link
               key={link.name}
               href={link.href}
@@ -648,7 +683,7 @@ export function Navbar() {
                     onClick={closeDropdowns}
                     className="text-xs font-semibold text-primary hover:text-primary-hover"
                   >
-                    View all notifications ({notifications.length})
+                    View All Notifications ({notifications.length})
                   </Link>
                 </div>
               </div>
@@ -660,7 +695,7 @@ export function Navbar() {
           {/* Mobile Hamburger Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden text-heading p-1 focus-visible:outline-none cursor-pointer"
+            className="lg:hidden text-heading p-1 focus-visible:outline-none cursor-pointer"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? (
@@ -680,18 +715,33 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2, ease: "easeInOut" }}
-            className="absolute top-full left-0 right-0 bg-white border-y border-border px-6 py-6 overflow-y-auto overscroll-contain touch-pan-y max-h-[calc(100dvh-4.5rem)] shadow-xl md:hidden z-60"
+            className="absolute top-full left-0 right-0 bg-white border-y border-border px-6 py-6 overflow-y-auto overscroll-contain touch-pan-y max-h-[calc(100dvh-4.5rem)] shadow-xl lg:hidden z-60"
           >
-            <div className="flex flex-col space-y-6 text-heading text-base font-medium">
+            <div className="flex flex-col space-y-4 text-heading text-base font-medium">
+              <div className="flex flex-col space-y-4 pt-3">
+                {navigation.directLinks.left.map((link) => (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="hover:text-primary transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+              </div>
+
               {[
                 { title: "Services", items: navigation.content },
-                { title: "Products", items: navigation.management },
+                { title: "Business", items: navigation.business },
+                { title: "People", items: navigation.people },
+                { title: "Support", items: navigation.support },
               ].map((section) => (
                 <div
                   key={section.title}
-                  className="border-b border-border-subtle pb-4"
+                  className="border-b border-border-subtle pb-3"
                 >
-                  <p className="text-sm font-semibold uppercase text-muted mb-4 tracking-wider">
+                  <p className="text-sm font-semibold uppercase text-muted mb-3 tracking-wider">
                     {section.title}
                   </p>
                   <div className="flex flex-col space-y-4 pl-2">
@@ -709,8 +759,8 @@ export function Navbar() {
                 </div>
               ))}
 
-              <div className="flex flex-col space-y-4 pt-2">
-                {navigation.directLinks.map((link) => (
+              <div className="flex flex-col space-y-4">
+                {navigation.directLinks.right.map((link) => (
                   <Link
                     key={link.name}
                     href={link.href}

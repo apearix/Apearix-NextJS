@@ -135,32 +135,46 @@ export function Footer() {
                         </p>
 
                         {/* Direct Contact Card */}
-                        <div className="space-y-3 pt-2">
+                        <div className="space-y-2">
                             <a
                                 href="mailto:contact@apearix.com"
-                                className="group flex items-center gap-3 text-sm text-slate-300 hover:text-white transition-colors"
+                                className="group flex items-center gap-3 text-sm hover:text-white text-slate-400 transition-colors"
                             >
-                                <div className="p-2 rounded-[10px] bg-white/5 border border-white/10 group-hover:border-[#6D28F5]/50 group-hover:bg-[#6D28F5]/10 transition-all">
-                                    <Mail className="w-4 h-4 text-[#6D28F5]" />
-                                </div>
+                                <Mail className="w-4 h-4 text-white/60 hover:primary" />
+
                                 <span className="font-medium">contact@apearix.com</span>
                             </a>
 
                             <a
                                 href="tel:+917241131839"
-                                className="group flex items-center gap-3 text-sm text-slate-300 hover:text-white transition-colors"
+                                className="group flex items-center gap-3 text-sm hover:text-white text-slate-400 transition-colors"
                             >
-                                <div className="p-2 rounded-[10px] bg-white/5 border border-white/10 group-hover:border-[#6D28F5]/50 group-hover:bg-[#6D28F5]/10 transition-all">
-                                    <Phone className="w-4 h-4 text-[#6D28F5]" />
-                                </div>
+                                <Phone className="w-4 h-4 text-white/60 hover:primary" />
+
                                 <span className="font-medium">+91 72411 31839</span>
                             </a>
+                        </div>
+
+                        {/* Social Icons Bar */}
+                        <div className="pt-2 flex items-center gap-3">
+                            {socialLinks.map((social) => (
+                                <a
+                                    key={social.name}
+                                    href={social.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label={social.name}
+                                    className={`p-2 rounded-lg bg-white/5 border border-white/10 text-slate-400 transition-all duration-200 ${social.hoverColor} active:scale-95`}
+                                >
+                                    <social.icon className="w-4 h-4" />
+                                </a>
+                            ))}
                         </div>
                     </div>
 
 
                     <div className="md:col-span-3 lg:col-span-2 space-y-4 md:pt-1">
-                        <h4 className="text-sm font-bold uppercase tracking-wider text-white">
+                        <h4 className="text-sm font-semibold uppercase tracking-wider text-white">
                             Company
                         </h4>
                         <ul className="sm:space-y-2.5">
@@ -177,7 +191,7 @@ export function Footer() {
                         </ul>
                     </div>
                     <div className="md:col-span-3 lg:col-span-2 space-y-4 md:pt-1">
-                        <h4 className="text-sm font-bold uppercase tracking-wider text-white">
+                        <h4 className="text-sm font-semibold uppercase tracking-wider text-white">
                             Services
                         </h4>
                         <ul className="sm:space-y-2.5">
@@ -195,7 +209,7 @@ export function Footer() {
                     </div>
 
                     <div className="md:col-span-3 lg:col-span-2 space-y-4 md:pt-1">
-                        <h4 className="text-sm font-bold uppercase tracking-wider text-white">
+                        <h4 className="text-sm font-semibold uppercase tracking-wider text-white">
                             Products
                         </h4>
                         <ul className="sm:space-y-2.5">
@@ -212,7 +226,7 @@ export function Footer() {
                         </ul>
                     </div>
                     <div className="md:col-span-3 lg:col-span-2 space-y-4 md:pt-1">
-                        <h4 className="text-sm font-bold uppercase tracking-wider text-white">
+                        <h4 className="text-sm font-semibold uppercase tracking-wider text-white">
                             Resources
                         </h4>
                         <ul className="sm:space-y-2.5">
@@ -234,21 +248,7 @@ export function Footer() {
                 {/* Bottom Copyright & Legal Links Bar */}
                 <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-400">
                     <span className="order-3 md:order-1">© {new Date().getFullYear()} Apearix. All rights reserved.</span>
-                    {/* Social Icons Bar */}
-                    <div className="order-1 md:order-2  flex flex-wrap items-center gap-2.5 justify-center">
-                        {socialLinks.map((social) => (
-                            <a
-                                key={social.name}
-                                href={social.href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                aria-label={social.name}
-                                className={`p-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-400 transition-all duration-200 ${social.hoverColor} active:scale-95`}
-                            >
-                                <social.icon className="w-4 h-4" />
-                            </a>
-                        ))}
-                    </div>
+
 
                     <div className="order-2 md:order-3 flex items-center gap-6">
                         <Link href="/legal/privacy-policy" className="hover:text-white transition-colors">

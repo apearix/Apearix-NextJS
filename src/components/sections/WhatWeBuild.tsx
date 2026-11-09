@@ -184,31 +184,20 @@ export function WhatWeBuild() {
                 </motion.div>
 
                 {/* --- Bottom CTA Bar --- */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
-                    className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-6 rounded-2xl bg-white border border-border p-6 sm:px-8"
-                >
-                    <div>
-                        <h4 className="text-xl font-bold text-heading tracking-tight mb-1">
-                            Need a custom software solution tailored to your stack?
-                        </h4>
-                        <p className="text-sm text-body">
-                            Let's discuss your requirements and engineer something extraordinary together.
-                        </p>
+                <div className="roles-font mt-10 p-8 sm:p-10 rounded-2xl bg-surface-alt border border-border-accent flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div className="space-y-1 text-center md:text-left">
+                        <h3 className="display-font text-xl sm:text-2xl font-bold text-heading">Need a custom software solution tailored to your stack?</h3>
+                        <p className="text-sm text-body">Let's discuss your requirements and engineer something extraordinary together.</p>
                     </div>
-
-                    <Link
+                     <Link
                         href="/contact"
-                        className="group flex py-2.5 shrink-0 items-center gap-2 rounded-full bg-heading px-8 text-sm font-semibold text-white transition-all duration-300 hover:bg-primary active:scale-[0.98]"
+                        className="group flex py-2.5 shrink-0 items-center gap-2 rounded-full bg-primary  px-8 text-sm font-semibold text-white transition-all duration-300 hover:bg-primary active:scale-[0.98]"
                     >
                         <span>Start a Conversation</span>
                         <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                     </Link>
-                </motion.div>
-
+                </div>
+              
             </div>
         </section>
     );
