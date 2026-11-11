@@ -150,7 +150,7 @@ export default async function DynamicCustomPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdPage) }}
       />
       <main>
-        <PageHeader 
+        <PageHeader
           title={page.title}
           subtitle={subtitle}
           breadcrumbs={[{ label: page.title, href: `/${page.slug}` }]}

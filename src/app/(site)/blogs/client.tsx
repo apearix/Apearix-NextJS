@@ -80,7 +80,7 @@ export default function BlogIndexClient() {
   return (
     <div className="w-full bg-background selection:bg-primary-light selection:text-primary">
       {/* ----------------- HERO BANNER / FEATURED SPOTLIGHT ----------------- */}
-      <section className="relative pt-12 pb-16 md:pt-25 md:pb-24 border-b border-border bg-linear-to-b from-surface via-background to-background overflow-hidden">
+      <section className="relative py-12 md:pt-25  border-b border-border bg-linear-to-b from-surface via-background to-background overflow-hidden">
         {/* Subtle decorative mesh glow */}
         <div
           className="absolute -top-32 left-1/2 -translate-x-1/2 w-180 h-90 bg-primary/10 rounded-full blur-[120px] pointer-events-none"
@@ -89,7 +89,7 @@ export default function BlogIndexClient() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 xl:px-0 relative z-10">
           {/* Header pill & title */}
-          <div className="max-w-3xl mb-12">
+          <div className="max-w-4xl mb-8">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-light border border-border-accent text-primary text-xs font-semibold uppercase tracking-wider mb-4">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Apearix Engineering & Architecture Hub</span>
@@ -252,8 +252,8 @@ export default function BlogIndexClient() {
       </section>
 
       {/* ----------------- ARTICLES GRID & NEWSLETTER ----------------- */}
-      <section className="py-14 sm:py-10 bg-background">
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 xl:px-0">
+      <section className="py-16 bg-background">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 xl:px-0 space-y-6">
           {filteredArticles.length === 0 ? (
             <div className="text-center py-24 bg-surface rounded-2xl border border-dashed border-border p-8">
               <Layers className="w-12 h-12 text-muted mx-auto mb-3 stroke-[1.5]" />
@@ -356,48 +356,7 @@ export default function BlogIndexClient() {
               ))}
             </div>
           )}
-
-          {/* ----------------- ENTERPRISE NEWSLETTER / ARCHITECTURE DIGEST ----------------- */}
-          <div className="mt-16 sm:mt-24 rounded-2xl bg-linear-to-br from-surface via-surface-alt to-surface border border-border-accent p-8 sm:p-12 relative overflow-hidden">
-            <div className="absolute -right-20 -bottom-20 w-80 h-80 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
-
-            <div className="max-w-2xl relative z-10">
-              <span className="px-3 py-1 rounded-full bg-primary-light text-primary text-xs font-bold tracking-wide uppercase">
-                Apearix Dispatch
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-heading tracking-tight mt-3 mb-2">
-                Get bi-weekly production architecture blueprints
-              </h2>
-              <p className="text-sm sm:text-base text-body leading-relaxed mb-6">
-                Curated insights on high-scale distributed systems, enterprise LLM architectures, and zero-downtime frontend deployment strategies. No spam, ever.
-              </p>
-
-              {isSubscribed ? (
-                <div className="inline-flex items-center gap-2 px-4 py-3 bg-green-50 text-green-700 border border-green-200 rounded-xl text-sm font-semibold">
-                  <CheckCircle2 className="w-4 h-4 text-green-600" />
-                  <span>You&apos;re subscribed! Check your inbox for the latest release.</span>
-                </div>
-              ) : (
-                <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3 max-w-md">
-                  <input
-                    type="email"
-                    required
-                    value={newsletterEmail}
-                    onChange={(e) => setNewsletterEmail(e.target.value)}
-                    placeholder="architect@yourcompany.com"
-                    className="flex-1 px-4 py-2.5 rounded-lg border border-border bg-white text-sm text-heading placeholder:text-muted focus:outline-none focus:border-primary"
-                  />
-                  <button
-                    type="submit"
-                    className="px-5 py-2.5 rounded-lg bg-primary hover:bg-primary-hover text-white text-sm font-semibold transition-colors flex items-center justify-center gap-2 shadow-xs"
-                  >
-                    <span>Subscribe</span>
-                    <Send className="w-3.5 h-3.5" />
-                  </button>
-                </form>
-              )}
-            </div>
-          </div>
+ 
         </div>
       </section>
     </div>

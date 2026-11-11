@@ -237,100 +237,21 @@ export default async function CareersPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdCareers) }}
       />
       <main>
-        <PageHeader
-          badge="Join Our Team"
-          title="Build software people enjoy using."
-          subtitle="We are looking for engineers, designers, and thinkers who care about craftsmanship, performance, and building meaningful digital products."
+        <PageHeader 
+        badge="Careers at Apearix"
+          title="Build Technology That Moves the World Forward."
+          subtitle="Join Apearix to build real-world web apps, smart automation tools, and software that actually makes a difference."
           breadcrumbs={[
             { label: "Company", href: "/about" },
             { label: "Careers", href: "/careers" },
           ]}
         />
-
-        {/* Benefits & Culture */}
-        <section className="py-20 md:py-28 bg-white border-b border-border">
-          <div className="container max-w-7xl mx-auto px-6">
-            <div className="max-w-3xl mx-auto text-center mb-16">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#6D28F5] mb-3 block">
-                Engineering Culture
-              </span>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-heading tracking-tight mb-4">
-                Why Work at Apearix?
-              </h2>
-              <p className="text-base sm:text-lg text-body leading-relaxed">
-                We believe in small, autonomous teams that prioritize deep work,
-                clear communication, and high technical standards over
-                bureaucracy.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
-                {
-                  icon: <Laptop className="w-6 h-6" />,
-                  title: "Remote-First Environment",
-                  desc: "Work from wherever you are most productive with flexible hours and asynchronous communication.",
-                },
-                {
-                  icon: <Code className="w-6 h-6" />,
-                  title: "Craftsmanship Focus",
-                  desc: "We prioritize clean code, modern tech stacks (Next.js, TypeScript, AI), and zero legacy bloat.",
-                },
-                {
-                  icon: <GraduationCap className="w-6 h-6" />,
-                  title: "Continuous Learning",
-                  desc: "Annual learning stipends, book allowances, and dedicated time for experimental R&D.",
-                },
-                {
-                  icon: <Clock className="w-6 h-6" />,
-                  title: "Work-Life Harmony",
-                  desc: "Sustainable workloads, zero artificial crunch time, and generous paid time off.",
-                },
-                {
-                  icon: <Heart className="w-6 h-6" />,
-                  title: "Health & Wellness",
-                  desc: "Comprehensive health coverage and wellness stipends for mind and body.",
-                },
-                {
-                  icon: <ShieldCheck className="w-6 h-6" />,
-                  title: "Top-Tier Hardware",
-                  desc: "Apple Silicon hardware setups, 4K displays, and premium software licenses.",
-                },
-              ].map((perk, i) => (
-                <div
-                  key={i}
-                  className="p-8 rounded-xl bg-surface border border-border shadow-sm hover:border-border-accent transition-colors"
-                >
-                  <div className="w-12 h-12 rounded-[10px] bg-primary-light text-[#6D28F5] flex items-center justify-center mb-6">
-                    {perk.icon}
-                  </div>
-                  <h3 className="text-xl font-bold text-heading mb-3">
-                    {perk.title}
-                  </h3>
-                  <p className="text-sm text-body leading-relaxed">
-                    {perk.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+ 
 
         {/* Dynamic Open Positions Section */}
-        <section className="py-20 md:py-28 bg-surface border-b border-border">
+        <section className="py-14">
           <div className="container max-w-7xl mx-auto px-6">
-            <div className="max-w-3xl mx-auto text-center mb-14">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#6D28F5] mb-3 block">
-                Openings
-              </span>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-heading tracking-tight mb-4">
-                Open Roles
-              </h2>
-              <p className="text-base sm:text-lg text-body leading-relaxed">
-                Explore our current openings and help us craft extraordinary
-                software.
-              </p>
-            </div>
+            
 
             {/* Interactive Filterable Careers Client */}
             <CareersClient initialJobs={jobs} departments={departments} />

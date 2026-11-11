@@ -77,6 +77,10 @@ const navigation = {
   // ], 
   directLinks: [
     {
+      name: "Blogs",
+      href: "/blogs",
+    },
+     {
       name: "About",
       href: "/about",
     },
