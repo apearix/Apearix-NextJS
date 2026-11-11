@@ -11,7 +11,7 @@ export function Footer() {
                     <span>© {new Date().getFullYear()} Apearix Technologies. All rights reserved.</span>
                 </div>
                 <div className="flex items-center gap-4">
-                    <Link href="/legal/privacy-policy" className="hover:text-primary transition-colors">
+                    <Link href="/privacy-policy" className="hover:text-primary transition-colors">
                         Privacy Policy
                     </Link>
                 </div>

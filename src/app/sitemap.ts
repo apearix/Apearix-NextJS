@@ -19,9 +19,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/work/case-studies',
     '/resources/blog',
     '/resources/faq',
-    '/legal/privacy-policy',
-    '/legal/terms-and-conditions',
-    '/legal/cookie-policy',
+    '/privacy-policy',
+    '/terms-and-conditions',
+    '/cookie-policy',
   ];
 
   return routes.map((route) => {
@@ -40,7 +40,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     } else if (route.startsWith('/company') || route.startsWith('/resources')) {
       priority = 0.7;
       changeFrequency = 'weekly';
-    } else if (route.startsWith('/legal')) {
+    } else if (route.startsWith('/legal') || route.includes('policy') || route.includes('terms')) {
       priority = 0.3;
       changeFrequency = 'monthly';
     }

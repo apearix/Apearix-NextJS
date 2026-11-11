@@ -251,10 +251,10 @@ export function Footer() {
 
 
                     <div className="order-2 md:order-3 flex items-center gap-6">
-                        <Link href="/legal/privacy-policy" className="hover:text-white transition-colors">
+                        <Link href="/privacy-policy" className="hover:text-white transition-colors">
                             Privacy Policy
                         </Link>
-                        <Link href="/legal/terms-and-conditions" className="hover:text-white transition-colors">
+                        <Link href="/terms-and-conditions" className="hover:text-white transition-colors">
                             Terms of Service
                         </Link>
                         {/* <Link href="/legal/cookie-policy" className="hover:text-white transition-colors">

@@ -33,7 +33,7 @@ export function PageHeader({ badge, title, subtitle, breadcrumbs }: PageHeaderPr
     : null;
 
   return (
-    <section className="pt-32 sm:pt-36 md:pt-40 pb-16 bg-linear-to-b from-background via-surface to-primary-light/50 border-b border-border">
+    <section className="pt-32 sm:pt-36 md:pt-40 pb-16 bg-linear-to-b from-background via-surface to-primary-light border-b border-border">
       {jsonLdBreadcrumb && (
         <script
           type="application/ld+json"

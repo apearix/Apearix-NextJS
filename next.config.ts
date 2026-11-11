@@ -28,6 +28,15 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/legal/:slug',
+        destination: '/:slug',
+        permanent: true,
+      },
+    ];
+  },
   async rewrites() {
     return [
       {
