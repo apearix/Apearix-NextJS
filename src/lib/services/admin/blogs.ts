@@ -1,5 +1,6 @@
 import { clientApi } from "@/lib/clientApi";
 import { serverApi } from "@/lib/serverApi";
+import { revalidateBlogsCache } from "@/lib/services/actions";
 import { CreateBlogInput, UpdateBlogInput, PostFormValues, PostStatus } from "@/schemas/blog.schema";
 
 export const AUTHOR_MAP: Record<string, string> = {
@@ -166,6 +167,7 @@ export async function store(payload: CreateBlogInput) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
+    await revalidateBlogsCache(payload.slug).catch(() => {});
     return response;
   } catch (error: any) {
     console.error("Blog Store Error:", error);
@@ -180,6 +182,7 @@ export async function update(id: string, payload: UpdateBlogInput) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
+    await revalidateBlogsCache(payload.slug).catch(() => {});
     return response;
   } catch (error: any) {
     console.error("Blog Update Error:", error);
@@ -192,6 +195,7 @@ export async function destroy(id: string) {
     const response = await clientApi<any>(`/api/v1/admin/blogs/${id}`, {
       method: "DELETE",
     });
+    await revalidateBlogsCache().catch(() => {});
     return response;
   } catch (error: any) {
     console.error("Blog Delete Error:", error);
@@ -206,6 +210,7 @@ export async function bulkUpdateStatus(ids: string[], status: PostStatus) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ids, status }),
     });
+    await revalidateBlogsCache().catch(() => {});
     return response;
   } catch (error: any) {
     console.error("Bulk Status Error:", error);
@@ -220,6 +225,7 @@ export async function bulkDelete(ids: string[]) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ids }),
     });
+    await revalidateBlogsCache().catch(() => {});
     return response;
   } catch (error: any) {
     console.error("Bulk Delete Error:", error);
@@ -234,6 +240,7 @@ export async function bulkImport(items: any[]) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ items }),
     });
+    await revalidateBlogsCache().catch(() => {});
     return response;
   } catch (error: any) {
     console.error("Bulk Import Error:", error);

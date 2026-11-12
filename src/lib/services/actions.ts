@@ -2,6 +2,17 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { revalidatePath, updateTag } from "next/cache";
+
+export async function revalidateBlogsCache(slug?: string) {
+  updateTag("blogs");
+  updateTag("blog-categories");
+  if (slug?.trim()) {
+    updateTag(`blog-${slug.trim()}`);
+  }
+  revalidatePath("/blogs");
+  revalidatePath("/blogs/[slug]", "page");
+}
 
 export async function logout() {
   const cookieStore = await cookies();
