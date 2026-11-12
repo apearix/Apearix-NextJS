@@ -2,80 +2,55 @@
 
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import {
-  Search,
-  Clock,
-  ArrowUpRight,
-  Sparkles,
-  BookOpen,
-  Tag,
-  CheckCircle2,
-  Send,
-  Calendar,
-  Layers
-} from "lucide-react";
-import { MOCK_BLOGS } from "./data";
+import { Search, Clock, ArrowUpRight, Sparkles, Layers } from "lucide-react";
+import type { BlogCategory, BlogPost } from "@/lib/services/site/blogs";
+import { BlogAuthorAvatar, BlogCoverImage } from "./_components/BlogMedia";
+import { BlogCard } from "./_components/BlogCard";
 
-export interface BlogPost {
-  id: string;
-  slug: string;
-  title: string;
-  snippet: string;
-  category: "Engineering Deep Dive" | "AI Architecture" | "UI/UX Design" | "DevOps & Cloud" | "Product & Scale";
-  date: string;
-  readTime: string;
-  featured?: boolean;
-  coverImage: string;
-  author: {
-    name: string;
-    role: string;
-    avatar: string;
-  };
-  tags: string[];
+interface BlogIndexClientProps {
+  initialBlogs: BlogPost[];
+  categories: BlogCategory[];
 }
 
-const CATEGORIES = [
-  "All Articles",
-  "Engineering Deep Dive",
-  "AI Architecture",
-  "UI/UX Design",
-  "DevOps & Cloud",
-] as const;
-
-export default function BlogIndexClient() {
+export default function BlogIndexClient({
+  initialBlogs,
+  categories,
+}: Readonly<BlogIndexClientProps>) {
   const [selectedCategory, setSelectedCategory] = useState<string>("All Articles");
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [newsletterEmail, setNewsletterEmail] = useState("");
-  const [isSubscribed, setIsSubscribed] = useState(false);
 
-  // Featured article (first marked featured, or fallback)
+  const categoryTabs = useMemo(() => {
+    const uniqueNames = Array.from(
+      new Set([
+        ...categories.map((c) => c.name),
+        ...initialBlogs.map((b) => b.category),
+      ])
+    ).filter(Boolean);
+    return ["All Articles", ...uniqueNames];
+  }, [categories, initialBlogs]);
+
+  // Featured article (first marked featured, or latest fallback)
   const featuredArticle = useMemo(() => {
-    return MOCK_BLOGS.find((b) => b.featured) || MOCK_BLOGS[0];
-  }, []);
+    return initialBlogs.find((b) => b.featured) || initialBlogs[0] || null;
+  }, [initialBlogs]);
 
   // Filtered articles
   const filteredArticles = useMemo(() => {
-    return MOCK_BLOGS.filter((article) => {
+    const query = searchQuery.trim().toLowerCase();
+    return initialBlogs.filter((article) => {
       const matchesCategory =
         selectedCategory === "All Articles" || article.category === selectedCategory;
 
       const matchesSearch =
-        article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        article.snippet.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        article.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+        !query ||
+        article.title.toLowerCase().includes(query) ||
+        article.snippet.toLowerCase().includes(query) ||
+        article.category.toLowerCase().includes(query) ||
+        article.tags.some((tag) => tag.toLowerCase().includes(query));
 
       return matchesCategory && matchesSearch;
     });
-  }, [selectedCategory, searchQuery]);
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (newsletterEmail) {
-      setIsSubscribed(true);
-      setNewsletterEmail("");
-    }
-  };
+  }, [initialBlogs, selectedCategory, searchQuery]);
 
   return (
     <div className="w-full bg-background selection:bg-primary-light selection:text-primary">
@@ -108,12 +83,11 @@ export default function BlogIndexClient() {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
                 {/* Banner Thumbnail Area */}
                 <div className="lg:col-span-7 relative h-64 sm:h-80 lg:h-auto min-h-70 overflow-hidden bg-surface-alt">
-                  <Image
+                  <BlogCoverImage
                     src={featuredArticle.coverImage}
                     alt={featuredArticle.title}
-                    fill
                     sizes="(max-width: 1024px) 100vw, 58vw"
-                    priority
+                    preload
                     className="object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-apple"
                   />
                   <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent lg:hidden" />
@@ -146,34 +120,38 @@ export default function BlogIndexClient() {
                     </p>
 
                     {/* Tag list */}
-                    <div className="flex flex-wrap gap-1.5 mb-6">
-                      {featuredArticle.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-2.5 py-0.5 rounded-md text-xs font-medium bg-surface-alt text-muted border border-border"
-                        >
-                          #{tag}
-                        </span>
-                      ))}
-                    </div>
+                    {featuredArticle.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 mb-6">
+                        {featuredArticle.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="px-2.5 py-0.5 rounded-md text-xs font-medium bg-surface-alt text-muted border border-border"
+                          >
+                            #{tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
                   {/* Author meta & CTA */}
                   <div className="pt-6 border-t border-border flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="relative w-10 h-10 rounded-full overflow-hidden border border-border">
-                        <Image
+                        <BlogAuthorAvatar
                           src={featuredArticle.author.avatar}
-                          alt={featuredArticle.author.name}
-                          fill
-                          className="object-cover"
+                          name={featuredArticle.author.name}
+                          sizes="40px"
+                          textClassName="text-xs"
                         />
                       </div>
                       <div>
                         <div className="text-xs sm:text-sm font-semibold text-heading">
                           {featuredArticle.author.name}
                         </div>
-                        <div className="text-[11px] text-muted">{featuredArticle.date}</div>
+                        {featuredArticle.date && (
+                          <div className="text-[11px] text-muted">{featuredArticle.date}</div>
+                        )}
                       </div>
                     </div>
 
@@ -198,16 +176,17 @@ export default function BlogIndexClient() {
           <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
             {/* Category tabs */}
             <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 md:pb-0">
-              {CATEGORIES.map((cat) => {
+              {categoryTabs.map((cat) => {
                 const count =
                   cat === "All Articles"
-                    ? MOCK_BLOGS.length
-                    : MOCK_BLOGS.filter((b) => b.category === cat).length;
+                    ? initialBlogs.length
+                    : initialBlogs.filter((b) => b.category === cat).length;
                 const isActive = selectedCategory === cat;
 
                 return (
                   <button
                     key={cat}
+                    type="button"
                     onClick={() => setSelectedCategory(cat)}
                     className={`whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all flex items-center gap-2 ${isActive
                         ? "bg-primary text-white shadow-sm"
@@ -240,6 +219,7 @@ export default function BlogIndexClient() {
               />
               {searchQuery && (
                 <button
+                  type="button"
                   onClick={() => setSearchQuery("")}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted hover:text-heading"
                 >
@@ -251,112 +231,42 @@ export default function BlogIndexClient() {
         </div>
       </section>
 
-      {/* ----------------- ARTICLES GRID & NEWSLETTER ----------------- */}
+      {/* ----------------- ARTICLES GRID ----------------- */}
       <section className="py-16 bg-background">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 xl:px-0 space-y-6">
           {filteredArticles.length === 0 ? (
             <div className="text-center py-24 bg-surface rounded-2xl border border-dashed border-border p-8">
               <Layers className="w-12 h-12 text-muted mx-auto mb-3 stroke-[1.5]" />
-              <h3 className="text-lg font-bold text-heading">No matching articles found</h3>
+              <h3 className="text-lg font-medium text-heading">
+                {initialBlogs.length === 0
+                  ? "No articles published yet"
+                  : "No matching articles found"}
+              </h3>
               <p className="text-sm text-muted mt-1 max-w-sm mx-auto">
-                We couldn&apos;t find any articles matching &quot;{searchQuery}&quot;. Try adjusting your keywords or category filter.
+                {initialBlogs.length === 0
+                  ? "Check back soon for new engineering insights, architecture guides, and technical articles."
+                  : `We couldn't find any articles matching "${searchQuery || selectedCategory}". Try adjusting your keywords or category filter.`}
               </p>
-              <button
-                onClick={() => {
-                  setSearchQuery("");
-                  setSelectedCategory("All Articles");
-                }}
-                className="mt-5 px-4 py-2 bg-primary text-white text-xs font-semibold rounded-lg hover:bg-primary-hover transition-colors"
-              >
-                Reset Filters
-              </button>
+              {initialBlogs.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchQuery("");
+                    setSelectedCategory("All Articles");
+                  }}
+                  className="mt-5 px-4 py-2 bg-primary text-white text-xs font-semibold rounded-lg hover:bg-primary-hover transition-colors"
+                >
+                  Reset Filters
+                </button>
+              )}
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredArticles.map((article, index) => (
-                <article
-                  key={article.id}
-                  className="group flex flex-col justify-between rounded-xl bg-surface border border-border hover:border-border-accent hover:shadow-lg hover:shadow-glow/60 transition-all duration-300 overflow-hidden"
-                >
-                  {/* Top Thumbnail */}
-                  <div>
-                    <div className="relative aspect-video w-full overflow-hidden bg-surface-alt">
-                      <Image
-                        src={article.coverImage}
-                        alt={article.title}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="object-cover group-hover:scale-105 transition-transform duration-500 ease-apple"
-                      />
-                      <div className="absolute top-3 left-3">
-                        <span className="px-2.5 py-1 bg-white/95 backdrop-blur-sm text-primary text-[11px] font-bold rounded-md shadow-xs border border-border">
-                          {article.category}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="p-6">
-                      <div className="flex items-center gap-2 text-xs text-muted mb-2.5">
-                        <Clock className="w-3.5 h-3.5" />
-                        <span>{article.readTime}</span>
-                        <span>•</span>
-                        <span>{article.date}</span>
-                      </div>
-
-                      <h3 className="text-lg font-bold text-heading group-hover:text-primary transition-colors duration-200 line-clamp-2 leading-snug mb-2.5">
-                        <Link href={`/blogs/${article.slug}`}>
-                          {article.title}
-                        </Link>
-                      </h3>
-
-                      <p className="text-xs sm:text-sm text-body line-clamp-3 leading-relaxed mb-4">
-                        {article.snippet}
-                      </p>
-
-                      {/* Tags */}
-                      <div className="flex flex-wrap gap-1.5 mb-2">
-                        {article.tags.slice(0, 3).map((tag) => (
-                          <span
-                            key={tag}
-                            className="text-[10px] font-medium text-muted bg-surface-alt px-2 py-0.5 rounded border border-border"
-                          >
-                            #{tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Card Footer / Author */}
-                  <div className="px-6 py-4 bg-surface-alt/60 border-t border-border flex items-center justify-between mt-auto">
-                    <div className="flex items-center gap-2.5">
-                      <div className="relative w-7 h-7 rounded-full overflow-hidden border border-border">
-                        <Image
-                          src={article.author.avatar}
-                          alt={article.author.name}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <span className="text-xs font-semibold text-heading truncate max-w-27.5 sm:max-w-35">
-                        {article.author.name}
-                      </span>
-                    </div>
-
-                    <Link
-                      href={`/blogs/${article.slug}`}
-                      className="inline-flex items-center gap-1 text-xs font-bold text-primary group-hover:translate-x-0.5 transition-transform"
-                    >
-                      <span>Read</span>
-                      <ArrowUpRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
-                </article>
+              {filteredArticles.map((article) => (
+                <BlogCard key={article.id} article={article} />
               ))}
             </div>
           )}
- 
         </div>
       </section>
     </div>

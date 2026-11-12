@@ -1,9 +1,9 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Navbar } from "@/components/site/layout/Navbar";
-import { Footer } from "@/components/site/layout/Footer";
 import BlogShowClient from "./client";
-import { MOCK_BLOGS } from "../data"; // <-- client.tsx ke badle data.ts se import karein
+import { fetchBlogBySlug, fetchPublishedBlogs } from "@/lib/services/site/blogs";
+
+export const revalidate = 60;
 
 interface PageProps {
   params: Promise<{
@@ -11,51 +11,88 @@ interface PageProps {
   }>;
 }
 
+const APP_BASE_URL = (process.env.NEXT_PUBLIC_APP_URL || "https://www.apearix.com").replace(/\/$/, "");
+
+function resolveOgImageUrl(coverImage?: string): string | null {
+  if (!coverImage) return null;
+  if (coverImage.startsWith("http://") || coverImage.startsWith("https://")) {
+    return coverImage;
+  }
+  if (coverImage.startsWith("/")) {
+    return `${APP_BASE_URL}${coverImage}`;
+  }
+  return null;
+}
+
 export async function generateStaticParams() {
-  return MOCK_BLOGS.map((post) => ({
-    slug: post.slug,
-  }));
+  try {
+    const { items } = await fetchPublishedBlogs();
+    return items
+      .map((post) => post.slug)
+      .filter(Boolean)
+      .map((slug) => ({ slug }));
+  } catch {
+    return [];
+  }
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = MOCK_BLOGS.find((item) => item.slug === slug);
+  const decodedSlug = decodeURIComponent(slug);
+  const post = await fetchBlogBySlug(decodedSlug);
 
   if (!post) {
     return {
-      title: "Article Not Found | Apearix",
+      title: "Article Not Found",
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 
+  const resolvedTitle = post.seo.metaTitle
+    ? /apearix/i.test(post.seo.metaTitle)
+      ? { absolute: post.seo.metaTitle }
+      : post.seo.metaTitle
+    : `${post.title} | Engineering Insights`;
+  const metaDescription = post.seo.metaDescription || post.snippet;
+  const canonicalUrl = post.seo.canonicalUrl || `https://www.apearix.com/blogs/${post.slug}`;
+  const ogImageUrl = resolveOgImageUrl(post.coverImage);
+
   return {
-    title: `${post.title} | Apearix Engineering Insights`,
-    description: post.snippet,
-    keywords: [...post.tags, post.category, "Software Architecture", "Engineering"],
+    title: resolvedTitle,
+    description: metaDescription,
+    keywords: [...post.tags, post.category, "Software Architecture", "Engineering"].filter(Boolean),
     alternates: {
-      canonical: `https://www.apearix.com/resources/blog/${post.slug}`,
+      canonical: canonicalUrl,
     },
     openGraph: {
-      title: post.title,
-      description: post.snippet,
-      url: `https://www.apearix.com/resources/blog/${post.slug}`,
+      title: post.seo.metaTitle || post.title,
+      description: metaDescription,
+      url: canonicalUrl,
       siteName: "Apearix",
       type: "article",
-      publishedTime: post.date,
+      ...(post.publishedAt ? { publishedTime: post.publishedAt } : {}),
       authors: [post.author.name],
-      images: [
-        {
-          url: post.coverImage,
-          width: 1200,
-          height: 630,
-          alt: post.title,
-        },
-      ],
+      ...(ogImageUrl
+        ? {
+            images: [
+              {
+                url: ogImageUrl,
+                width: 1200,
+                height: 630,
+                alt: post.title,
+              },
+            ],
+          }
+        : {}),
     },
     twitter: {
       card: "summary_large_image",
-      title: post.title,
-      description: post.snippet,
-      images: [post.coverImage],
+      title: post.seo.metaTitle || post.title,
+      description: metaDescription,
+      ...(ogImageUrl ? { images: [ogImageUrl] } : {}),
       creator: "@apearix",
     },
   };
@@ -63,19 +100,64 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function BlogDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const post = MOCK_BLOGS.find((item) => item.slug === slug);
+  const decodedSlug = decodeURIComponent(slug);
+
+  const [post, { items: allBlogs }] = await Promise.all([
+    fetchBlogBySlug(decodedSlug),
+    fetchPublishedBlogs(),
+  ]);
 
   if (!post) {
     notFound();
   }
 
-  const relatedPosts = MOCK_BLOGS.filter(
-    (item) => item.slug !== slug && (item.category === post.category || true)
-  ).slice(0, 2);
- 
-  return ( 
-      <main  >
+  const otherPosts = allBlogs.filter(
+    (item) => item.slug !== post.slug && item.id !== post.id
+  );
+  const sameCategoryPosts = otherPosts.filter(
+    (item) => item.category === post.category
+  );
+  const fallbackPosts = otherPosts.filter(
+    (item) => item.category !== post.category
+  );
+  const relatedPosts = [...sameCategoryPosts, ...fallbackPosts].slice(0, 3);
+
+  const canonicalUrl = post.seo.canonicalUrl || `https://www.apearix.com/blogs/${post.slug}`;
+  const ogImageUrl = resolveOgImageUrl(post.coverImage);
+
+  const jsonLdArticle = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "@id": `${canonicalUrl}#article`,
+    headline: post.title,
+    description: post.seo.metaDescription || post.snippet,
+    url: canonicalUrl,
+    ...(ogImageUrl ? { image: ogImageUrl } : {}),
+    ...(post.publishedAt ? { datePublished: post.publishedAt } : {}),
+    ...(post.updatedAt ? { dateModified: post.updatedAt } : {}),
+    author: {
+      "@type": "Person",
+      name: post.author.name,
+    },
+    publisher: {
+      "@id": "https://www.apearix.com/#organization",
+      name: "Apearix",
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": canonicalUrl,
+    },
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdArticle) }}
+      />
+      <main>
         <BlogShowClient post={post} relatedPosts={relatedPosts} />
-      </main> 
+      </main>
+    </>
   );
 }

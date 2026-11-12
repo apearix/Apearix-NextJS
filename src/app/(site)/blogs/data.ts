@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface BlogPost {
   id: string;
   slug: string;
@@ -6,6 +8,7 @@ export interface BlogPost {
   category: "Engineering Deep Dive" | "AI Architecture" | "UI/UX Design" | "DevOps & Cloud" | "Product & Scale";
   date: string;
   readTime: string;
+  description: ReactNode;
   featured?: boolean;
   coverImage: string;
   author: {
@@ -23,6 +26,7 @@ export const MOCK_BLOGS: BlogPost[] = [
     title: "Building High-Performance Next.js Web Apps with Sub-100ms Load Times",
     snippet: "A deep architectural breakdown on optimizing Next.js App Router performance using streaming SSR, edge caching, server actions, and precision asset bundling.",
     category: "Engineering Deep Dive",
+    description: "Heloo <b>hh</b>",
     date: "July 24, 2026",
     readTime: "6 min read",
     featured: true,
@@ -38,8 +42,9 @@ export const MOCK_BLOGS: BlogPost[] = [
     id: "post-2",
     slug: "designing-custom-ai-agents-enterprise-workflow",
     title: "Designing Custom AI Agents for Enterprise Workflow Automation",
-    snippet: "How to unify multi-model LLMs, pgvector indexing, and deterministic finite state machines to construct mission-critical autonomous agents.",
+    snippet: "How to unify multi-model LLMs, pg vector indexing, and deterministic finite state machines to construct mission-critical autonomous agents.",
     category: "AI Architecture",
+    description: "Heloo <b>hh</b>",
     date: "July 18, 2026",
     readTime: "8 min read",
     featured: false,
@@ -59,6 +64,7 @@ export const MOCK_BLOGS: BlogPost[] = [
     category: "UI/UX Design",
     date: "July 10, 2026",
     readTime: "5 min read",
+    description: "Heloo <b>hh</b>",
     featured: false,
     coverImage: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=900&auto=format&fit=crop",
     author: {
@@ -75,6 +81,7 @@ export const MOCK_BLOGS: BlogPost[] = [
     snippet: "Battle-tested expand/contract patterns for rolling out backward-compatible PostgreSQL schema migrations with zero read/write locks.",
     category: "DevOps & Cloud",
     date: "June 28, 2026",
+    description: "Heloo <b>hh</b>",
     readTime: "7 min read",
     featured: false,
     coverImage: "https://images.unsplash.com/photo-1618401471353-b98aedd04e11?q=80&w=900&auto=format&fit=crop",
@@ -93,6 +100,7 @@ export const MOCK_BLOGS: BlogPost[] = [
     category: "Engineering Deep Dive",
     date: "June 14, 2026",
     readTime: "9 min read",
+    description: "Heloo <b>hh</b>",
     featured: false,
     coverImage: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=900&auto=format&fit=crop",
     author: {
@@ -110,6 +118,7 @@ export const MOCK_BLOGS: BlogPost[] = [
     category: "DevOps & Cloud",
     date: "May 30, 2026",
     readTime: "6 min read",
+    description: "Heloo <b>hh</b>",
     featured: false,
     coverImage: "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=900&auto=format&fit=crop",
     author: {
