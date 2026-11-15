@@ -1,6 +1,7 @@
 import { clientApi } from "@/lib/clientApi";
 import { serverApi } from "@/lib/serverApi";
 import { revalidateBlogsCache } from "@/lib/services/actions";
+import { uploadAdminImage } from "./media";
 import { CreateBlogInput, UpdateBlogInput, PostFormValues, PostStatus } from "@/schemas/blog.schema";
 
 export const AUTHOR_MAP: Record<string, string> = {
@@ -119,19 +120,7 @@ export async function fetchBlogCategories(): Promise<{ id: string; name: string;
 }
 
 export async function uploadImage(file: File): Promise<{ url: string; filename: string }> {
-  const formData = new FormData();
-  formData.append("file", file);
-
-  const response = await clientApi<any>("/api/v1/admin/blogs/upload", {
-    method: "POST",
-    body: formData,
-  });
-
-  if (!response?.url) {
-    throw new Error(response?.message || "Failed to upload image");
-  }
-
-  return response;
+  return uploadAdminImage("/api/v1/admin/blogs/upload", file, "Failed to upload blog image");
 }
 
 export async function index(

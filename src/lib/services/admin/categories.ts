@@ -1,5 +1,6 @@
 import { clientApi } from "@/lib/clientApi";
 import { serverApi } from "@/lib/serverApi";
+import { uploadAdminImage } from "./media";
 import { CreateCategoryInput, UpdateCategoryInput, CategoryFormValues } from "@/schemas/category.schema";
 
 export function formatCategoryItem(item: any): CategoryFormValues {
@@ -140,4 +141,8 @@ export async function fetchCategoryTypes() {
     console.error("Fetch Category Types Error:", error);
     return [];
   }
+}
+
+export async function uploadCategoryImage(file: File): Promise<{ url: string; filename: string }> {
+  return uploadAdminImage("/api/v1/admin/categories/upload", file, "Failed to upload category image");
 }

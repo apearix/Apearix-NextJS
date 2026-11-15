@@ -1,6 +1,7 @@
 import { clientApi } from "@/lib/clientApi";
 import { serverApi } from "@/lib/serverApi";
 import { makeDefaultPagination } from "./common";
+import { uploadAdminImage } from "./media";
 import {
   type ProductFormValues,
   type CreateProductInput,
@@ -195,28 +196,5 @@ export async function bulkImport(items: any[]) {
 }
 
 export async function uploadProductImage(file: File): Promise<{ url: string; filename: string }> {
-  const formData = new FormData();
-  formData.append("file", file);
-
-  try {
-    const response = await clientApi<any>("/api/v1/admin/products/upload", {
-      method: "POST",
-      body: formData,
-    });
-    if (response?.url) return response;
-  } catch (err) {
-    // Fallback
-  }
-
-  try {
-    const response = await clientApi<any>("/api/v1/admin/blogs/upload", {
-      method: "POST",
-      body: formData,
-    });
-    if (response?.url) return response;
-  } catch (err) {
-    // Fallback
-  }
-
-  return { url: URL.createObjectURL(file), filename: file.name };
+  return uploadAdminImage("/api/v1/admin/products/upload", file, "Failed to upload product image");
 }

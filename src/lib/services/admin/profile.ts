@@ -1,4 +1,5 @@
 import { clientApi } from "@/lib/clientApi";
+import { uploadAdminImage } from "./media";
 
 export interface ProfileResponse {
   success: boolean;
@@ -85,17 +86,5 @@ export async function changePassword(payload: {
 }
 
 export async function uploadAvatar(file: File): Promise<{ url: string; filename: string }> {
-  const formData = new FormData();
-  formData.append("file", file);
-
-  const response = await clientApi<any>("/api/v1/admin/users/upload", {
-    method: "POST",
-    body: formData,
-  });
-
-  if (!response?.url) {
-    throw new Error(response?.message || "Failed to upload avatar image");
-  }
-
-  return response;
+  return uploadAdminImage("/api/v1/admin/users/upload", file, "Failed to upload avatar image");
 }

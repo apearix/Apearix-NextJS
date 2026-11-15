@@ -1,5 +1,6 @@
 import { clientApi } from "@/lib/clientApi";
 import { serverApi } from "@/lib/serverApi";
+import { uploadAdminImage } from "./media";
 import { CreateUserInput, UpdateUserInput, UserFormValues, UserStatus } from "@/schemas/user.schema";
 
 export function formatUserItem(item: any): UserFormValues {
@@ -21,19 +22,7 @@ export function formatUserItem(item: any): UserFormValues {
 }
 
 export async function uploadAvatar(file: File): Promise<{ url: string; filename: string }> {
-  const formData = new FormData();
-  formData.append("file", file);
-
-  const response = await clientApi<any>("/api/v1/admin/users/upload", {
-    method: "POST",
-    body: formData,
-  });
-
-  if (!response?.url) {
-    throw new Error(response?.message || "Failed to upload avatar image");
-  }
-
-  return response;
+  return uploadAdminImage("/api/v1/admin/users/upload", file, "Failed to upload avatar image");
 }
 
 export async function index(

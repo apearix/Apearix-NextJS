@@ -3,10 +3,9 @@
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import { Search, Clock, ArrowUpRight, Sparkles, Layers } from "lucide-react";
-import type { BlogCategory, BlogPost } from "@/lib/services/site/blogs";
-import { BlogAuthorAvatar, BlogCoverImage } from "./_components/BlogMedia";
-import { BlogCard } from "./_components/BlogCard";
-
+import type { BlogCategory, BlogPost } from "@/lib/services/site/blogs"; 
+import { BlogAuthorAvatar, BlogCoverImage } from "@/components/site/blogs/BlogMedia";
+import { BlogCard } from "@/components/site/blogs/BlogCard";
 interface BlogIndexClientProps {
   initialBlogs: BlogPost[];
   categories: BlogCategory[];

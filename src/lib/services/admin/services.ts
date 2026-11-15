@@ -1,6 +1,7 @@
 import { clientApi } from "@/lib/clientApi";
 import { serverApi } from "@/lib/serverApi";
 import { makeDefaultPagination } from "./common";
+import { uploadAdminImage } from "./media";
 import {
   type ServiceFormValues,
   type CreateServiceInput,
@@ -187,28 +188,5 @@ export async function bulkImport(items: any[]) {
 }
 
 export async function uploadServiceImage(file: File): Promise<{ url: string; filename: string }> {
-  const formData = new FormData();
-  formData.append("file", file);
-
-  try {
-    const response = await clientApi<any>("/api/v1/admin/services/upload", {
-      method: "POST",
-      body: formData,
-    });
-    if (response?.url) return response;
-  } catch (err) {
-    // Fallback to blogs upload or local object URL
-  }
-
-  try {
-    const response = await clientApi<any>("/api/v1/admin/blogs/upload", {
-      method: "POST",
-      body: formData,
-    });
-    if (response?.url) return response;
-  } catch (err) {
-    // Fallback to client Object URL
-  }
-
-  return { url: URL.createObjectURL(file), filename: file.name };
+  return uploadAdminImage("/api/v1/admin/services/upload", file, "Failed to upload service image");
 }

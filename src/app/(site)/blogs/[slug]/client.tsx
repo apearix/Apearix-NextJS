@@ -11,8 +11,8 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import type { BlogPost } from "@/lib/services/site/blogs";
-import { BlogAuthorAvatar, BlogCoverImage } from "../_components/BlogMedia";
-import { BlogCard } from "../_components/BlogCard";
+import { BlogAuthorAvatar, BlogCoverImage } from "@/components/site/blogs/BlogMedia";
+import { BlogCard } from "@/components/site/blogs/BlogCard";
 
 interface BlogShowClientProps {
   post: BlogPost;
@@ -55,7 +55,7 @@ export default function BlogShowClient({
             )}
           </div>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-heading tracking-tight leading-[1.15] text-balance mb-6">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-heading tracking-tight leading-[1.15] text-balance mb-6">
             {post.title}
           </h1>
 
