@@ -66,7 +66,7 @@ export default function BlogIndexClient({
           <div className="max-w-4xl mb-8">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-light border border-border-accent text-primary text-xs font-semibold uppercase tracking-wider mb-4">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Apearix Engineering & Architecture Hub</span>
+              <span>Engineering Insights</span>
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-heading tracking-tight text-balance leading-[1.15]">
               Insights, Systems & Production Engineering
