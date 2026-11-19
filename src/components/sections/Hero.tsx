@@ -65,7 +65,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="max-w-4xl text-[2.7rem] font-bold leading-[1.04] tracking-[-0.035em] text-heading sm:text-6xl md:text-7xl lg:text-[4.5rem] xl:text-[5rem]"
+              className="max-w-4xl text-[2.7rem] font-bold leading-[1.04]  text-heading sm:text-6xl md:text-7xl lg:text-[4.5rem] xl:text-[5rem]"
             >
               We Engineer Software{' '}
               <span className="block">

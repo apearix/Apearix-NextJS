@@ -74,7 +74,7 @@ export function HowWeWork() {
                         <Workflow className="h-3.5 w-3.5" />
                         <span>How We Work</span>
                     </motion.div>
-                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-heading mb-6 tracking-tight">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-heading mb-6">
                         Apearix Process <br />
                         <span className="text-[#6D28F5]">From Idea to Impact.</span>
                     </h2>

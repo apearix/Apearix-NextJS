@@ -19,15 +19,35 @@
   --color-glow: rgba(109, 40, 245, 0.12);
   --color-footer: #0F172A;
 
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 750;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+
   --font-geist: var(--font-geist-sans);
-
+  --font-jakarta: var(--font-plus-jakarta-sans);
   --ease-apple: cubic-bezier(0.16, 1, 0.3, 1);
-
 }
 
 @layer base {
-  .roles-font {
-    font-family: var(--font-plus-jakarta-sans), ui-sans-serif, system-ui, sans-serif;
+
+  .roles-font,
+  :is(h1, h2, h3, h4, h5, h6) {
+    font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  }
+
+  :is(h1, h2, h3, h4, h5, h6) {
+    letter-spacing: -.045em;
+  }
+
+  h1 {
+    @apply font-extrabold leading-[1.08];
+  }
+
+  :is(h2, h3, h4, h5, h6) {
+    @apply font-bold leading-[1.08];
   }
 
   a,

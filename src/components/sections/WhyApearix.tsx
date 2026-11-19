@@ -92,7 +92,7 @@ export function WhyApearix() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-balance text-3xl font-bold tracking-tight text-heading sm:text-4xl md:text-5xl lg:text-6xl"
+            className="text-balance text-3xl   text-heading sm:text-4xl md:text-5xl lg:text-6xl"
           >
             Built With Purpose.{' '}
             <span className="text-transparent bg-clip-text bg-linear-to-r from-[#6D28F5] via-[#7B3FE4] to-[#A855F7]">

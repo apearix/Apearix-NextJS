@@ -23,7 +23,7 @@ export function CTASection() {
             duration: 0.65,
             ease: [0.16, 1, 0.3, 1],
           }}
-          className="text-balance text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl md:text-6xl"
+          className="text-balance text-4xl  leading-[1.08]  sm:text-5xl md:text-6xl"
         >
           Have an idea? <br />
           <span className="text-transparent bg-clip-text bg-linear-to-r from-[#C4B5FD] via-border-accent to-white">

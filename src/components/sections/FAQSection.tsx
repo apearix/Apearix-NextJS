@@ -85,7 +85,7 @@ export function FAQSection() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.1 }}
-                        className="text-balance text-3xl font-bold tracking-tight text-heading sm:text-4xl md:text-5xl"
+                        className="text-balance text-3xl text-heading sm:text-4xl md:text-5xl"
                     >
                         Frequently Asked{' '}
                         <span className="text-transparent bg-clip-text bg-linear-to-r from-[#6D28F5] via-[#7B3FE4] to-[#A855F7]">

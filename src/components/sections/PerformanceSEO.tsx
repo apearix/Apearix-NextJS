@@ -51,7 +51,7 @@ export function PerformanceSEO() {
                 <span>Engineered for Discoverability</span>
               </div>
 
-              <h2 className="text-balance text-2xl font-bold tracking-tight text-heading sm:text-3xl lg:text-4xl">
+              <h2 className="text-balance text-2xl  text-heading sm:text-3xl lg:text-4xl">
                 Built to Be Found.{' '}
                 <span className="text-transparent bg-clip-text bg-linear-to-r from-[#6D28F5] via-[#7B3FE4] to-[#A855F7]">
                   Built to Be Fast.

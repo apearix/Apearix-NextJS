@@ -1,6 +1,8 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
+import { useLenis } from "lenis/react";
 import {
   X,
   UploadCloud,
@@ -8,9 +10,6 @@ import {
   CheckCircle2,
   AlertCircle,
   Loader2,
-  DollarSign,
-  Clock,
-  Link as LinkIcon,
   Send,
 } from "lucide-react";
 import type { JobFormValues } from "@/schemas/career.schema";
@@ -24,6 +23,9 @@ export interface ApplyJobModalProps {
 
 export function ApplyJobModal({ job, isOpen, onClose }: Readonly<ApplyJobModalProps>) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const lenis = useLenis();
+  const [mounted, setMounted] = useState(false);
 
   // Form State
   const [firstName, setFirstName] = useState("");
@@ -47,7 +49,73 @@ export function ApplyJobModal({ job, isOpen, onClose }: Readonly<ApplyJobModalPr
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  if (!isOpen || !job) return null;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const handleResetAndClose = useCallback(() => {
+    setIsSuccess(false);
+    setErrorMessage(null);
+    setFileError(null);
+    setResumeFile(null);
+    onClose();
+  }, [onClose]);
+
+  // Lock background scroll (Body + Lenis) & Handle Escape key
+  useEffect(() => {
+    if (!isOpen || !job) return;
+
+    // 1. ESC Key Listener
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        handleResetAndClose();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+
+    // 2. Pause Lenis smooth scrolling
+    lenis?.stop();
+    document.documentElement.classList.add("lenis-stopped");
+
+    // 3. Lock native body scroll with layout shift protection
+    const originalBodyOverflow = document.body.style.overflow;
+    const originalBodyPaddingRight = document.body.style.paddingRight;
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    if (scrollbarWidth > 0) {
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      lenis?.start();
+      document.documentElement.classList.remove("lenis-stopped");
+      document.body.style.overflow = originalBodyOverflow;
+      document.body.style.paddingRight = originalBodyPaddingRight;
+    };
+  }, [isOpen, job, lenis, handleResetAndClose]);
+
+  // Trap wheel scrolling inside modal form to prevent background page scroll bleed
+  useEffect(() => {
+    const el = formRef.current;
+    if (!el || !isOpen || !job) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      const isAtTop = el.scrollTop <= 0 && e.deltaY < 0;
+      const isAtBottom =
+        el.scrollHeight - el.scrollTop <= el.clientHeight + 1 && e.deltaY > 0;
+
+      if (isAtTop || isAtBottom) {
+        e.preventDefault();
+      }
+      e.stopPropagation();
+    };
+
+    el.addEventListener("wheel", handleWheel, { passive: false });
+    return () => el.removeEventListener("wheel", handleWheel);
+  }, [isOpen, job]);
+
+  if (!isOpen || !job || !mounted) return null;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFileError(null);
@@ -136,19 +204,19 @@ export function ApplyJobModal({ job, isOpen, onClose }: Readonly<ApplyJobModalPr
     }
   };
 
-  const handleResetAndClose = () => {
-    setIsSuccess(false);
-    setErrorMessage(null);
-    setFileError(null);
-    setResumeFile(null);
-    onClose();
-  };
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
-      <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-border my-8 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+  return createPortal(
+    <div
+      role="dialog"
+      aria-modal="true"
+      data-lenis-prevent="true"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) handleResetAndClose();
+      }}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-hidden overscroll-contain"
+    >
+      <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-border flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
         {/* Header */}
-        <div className="p-6 bg-surface border-b border-border flex items-center justify-between">
+        <div className="p-6 bg-surface border-b border-border flex items-center justify-between shrink-0">
           <div>
             <span className="text-xs font-bold uppercase tracking-wider text-[#6D28F5] block">
               Application
@@ -161,7 +229,7 @@ export function ApplyJobModal({ job, isOpen, onClose }: Readonly<ApplyJobModalPr
           <button
             type="button"
             onClick={handleResetAndClose}
-            className="p-2 rounded-full text-muted hover:text-heading hover:bg-slate-200/60 transition-colors"
+            className="p-2 rounded-full text-muted hover:text-heading hover:bg-slate-200/60 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -169,7 +237,10 @@ export function ApplyJobModal({ job, isOpen, onClose }: Readonly<ApplyJobModalPr
 
         {/* Content */}
         {isSuccess ? (
-          <div className="p-8 text-center space-y-4">
+          <div
+            data-lenis-prevent="true"
+            className="p-8 text-center space-y-4 overflow-y-auto overscroll-contain flex-1"
+          >
             <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center">
               <CheckCircle2 className="w-8 h-8" />
             </div>
@@ -183,14 +254,19 @@ export function ApplyJobModal({ job, isOpen, onClose }: Readonly<ApplyJobModalPr
               <button
                 type="button"
                 onClick={handleResetAndClose}
-                className="h-11 px-6 rounded-xl bg-[#6D28F5] hover:bg-[#5B21E6] text-white text-sm font-semibold transition-colors"
+                className="h-11 px-6 rounded-xl bg-[#6D28F5] hover:bg-[#5B21E6] text-white text-sm font-semibold transition-colors cursor-pointer"
               >
                 Close & Return to Careers
               </button>
             </div>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="p-6 space-y-5 max-h-[75vh] overflow-y-auto">
+          <form
+            ref={formRef}
+            onSubmit={handleSubmit}
+            data-lenis-prevent="true"
+            className="p-6 space-y-5 overflow-y-auto overscroll-contain flex-1"
+          >
             {errorMessage && (
               <div className="p-3.5 bg-rose-50 border border-rose-200 text-rose-800 rounded-xl text-xs flex items-center gap-2">
                 <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
@@ -439,6 +515,7 @@ export function ApplyJobModal({ job, isOpen, onClose }: Readonly<ApplyJobModalPr
           </form>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
