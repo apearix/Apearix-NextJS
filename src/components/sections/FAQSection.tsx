@@ -67,7 +67,7 @@ export function FAQSection() {
             {/* Ambient background glow */}
             <div className="pointer-events-none absolute left-1/2 top-1/3 -z-10 h-125 w-200 -translate-x-1/2 rounded-full bg-[#6D28F5]/5 blur-[150px]" />
 
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 xl:px-0">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 2xl:px-0 ">
                 <div className="mx-auto mb-12 max-w-3xl text-center">
                     <motion.div
                         initial={{ opacity: 0, y: -10 }}

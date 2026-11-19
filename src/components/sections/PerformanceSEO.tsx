@@ -34,7 +34,7 @@ export function PerformanceSEO() {
       {/* Subtle Glow */}
       <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-80 w-150 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#6D28F5]/5 blur-[120px]" />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 xl:px-0">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 2xl:px-0 ">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -63,7 +63,7 @@ export function PerformanceSEO() {
               </p>
 
               <div className="mt-6">
-                
+
                 <Link
                   href="/contact"
                   className="px-6 py-3 rounded-xl bg-surface hover:bg-surface-alt border border-border text-heading text-sm font-semibold transition-all  hover:text-[#5B21E6] inline-flex items-center gap-2"
@@ -76,14 +76,14 @@ export function PerformanceSEO() {
 
             {/* Right Compact 2x2 Feature Grid */}
             <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4 roles-font">
-            {features.map((item) => {
+              {features.map((item) => {
                 const Icon = item.icon;
                 return (
                   <div
                     key={item.title}
                     className="p-6 rounded-2xl bg-white border border-border space-y-2"
-                  > 
-                    <Icon className="w-6 h-6 text-primary" /> 
+                  >
+                    <Icon className="w-6 h-6 text-primary" />
                     <h3 className="display-font font-bold text-base text-heading">{item.title}</h3>
                     <p className="text-xs text-body">
                       {item.desc}

@@ -80,7 +80,7 @@ const navigation = {
       name: "Blogs",
       href: "/blogs",
     },
-     {
+    {
       name: "About",
       href: "/about",
     },
@@ -188,7 +188,7 @@ export function Navbar() {
         : "bg-transparent border-transparent py-4"
         }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 xl:px-0 flex justify-between items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 2xl:px-0  flex justify-between items-center">
         {/* Apearix Logo */}
         <Link
           href="/"
@@ -210,7 +210,7 @@ export function Navbar() {
             id="services"
             items={navigation.services}
           />
-        
+
           {navigation.directLinks?.map((link) => (
             <Link
               key={link.name}

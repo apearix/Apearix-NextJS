@@ -109,7 +109,7 @@ export default function ServicesPage() {
 
                 {/* ----------------- METRICS TICKER ----------------- */}
                 <section className="border-b border-border bg-surface py-8">
-                    <div className="container max-w-7xl mx-auto px-4 sm:px-6 xl:px-0">
+                    <div className="container max-w-7xl mx-auto px-4 sm:px-6 2xl:px-0 ">
                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
                             {SERVICE_HIGHLIGHT_METRICS.map((metric, idx) => (
                                 <div key={idx} className="flex flex-col items-center justify-center p-3">
@@ -127,7 +127,7 @@ export default function ServicesPage() {
 
                 {/* ----------------- SERVICES GRID ----------------- */}
                 <section className="py-16 md:py-24 bg-background">
-                    <div className="container max-w-7xl mx-auto px-4 sm:px-6 xl:px-0">
+                    <div className="container max-w-7xl mx-auto px-4 sm:px-6 2xl:px-0 ">
                         <div className="max-w-2xl mb-12">
                             <span className="text-xs font-bold uppercase tracking-wider text-primary">
                                 Capabilities & Practice Areas
@@ -227,7 +227,7 @@ export default function ServicesPage() {
 
                 {/* ----------------- HOW WE DELIVER (PROCESS) ----------------- */}
                 <section className="py-16 md:py-20 bg-surface border-y border-border">
-                    <div className="container max-w-7xl mx-auto px-4 sm:px-6 xl:px-0">
+                    <div className="container max-w-7xl mx-auto px-4 sm:px-6 2xl:px-0 ">
                         <div className="text-center max-w-2xl mx-auto mb-14">
                             <span className="text-xs font-bold uppercase tracking-wider text-primary">
                                 Our Delivery Standard

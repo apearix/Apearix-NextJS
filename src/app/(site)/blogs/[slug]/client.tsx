@@ -40,7 +40,7 @@ export default function BlogShowClient({
     <div className="w-full bg-background relative selection:bg-primary-light selection:text-primary">
       {/* ----------------- ARTICLE HEADER / HERO ----------------- */}
       <header className="pt-10  sm:pt-22  bg-linear-to-b from-surface via-background to-background ">
-        <div className="container max-w-7xl mx-auto px-4 sm:px-6 xl:px-0">
+        <div className="container max-w-7xl mx-auto px-4 sm:px-6 2xl:px-0 ">
           <div className="flex flex-wrap items-center gap-2.5 mb-5">
             <span className="px-3 py-1 bg-primary-light border border-border-accent text-primary text-xs font-bold rounded-full">
               {post.category}
@@ -68,7 +68,7 @@ export default function BlogShowClient({
       </header>
 
       {/* ----------------- MAIN CONTENT & SIDEBAR GRID ----------------- */}
-      <div className="container max-w-7xl mx-auto px-4 xl:px-0 pb-20">
+      <div className="container max-w-7xl mx-auto px-4 2xl:px-0  pb-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Right Sidebar: Sticky TOC & CTA */}
           <aside className="lg:col-span-4 hidden lg:block">

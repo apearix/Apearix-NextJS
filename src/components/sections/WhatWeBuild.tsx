@@ -85,7 +85,7 @@ export function WhatWeBuild() {
              pointer-events-none"
             />
 
-            <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 xl:px-0">
+            <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 2xl:px-0 ">
 
                 {/* --- Section Header --- */}
                 <div className="ustify-between mb-8 gap-6">
@@ -189,7 +189,7 @@ export function WhatWeBuild() {
                         <h3 className="display-font text-xl sm:text-2xl font-bold text-heading">Need a custom software solution tailored to your stack?</h3>
                         <p className="text-sm text-body">Let's discuss your requirements and engineer something extraordinary together.</p>
                     </div>
-                     <Link
+                    <Link
                         href="/contact"
                         className="group flex py-2.5 shrink-0 items-center gap-2 rounded-full bg-primary  px-8 text-sm font-semibold text-white transition-all duration-300 hover:bg-primary active:scale-[0.98]"
                     >
@@ -197,7 +197,7 @@ export function WhatWeBuild() {
                         <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                     </Link>
                 </div>
-              
+
             </div>
         </section>
     );

@@ -119,7 +119,7 @@ export function Footer() {
             <div className="absolute top-0 left-1/4 w-150 h-150 bg-[#6D28F5]/15 rounded-full blur-[160px] pointer-events-none z-0" />
             <div className="absolute bottom-0 right-1/4 w-125 h-125 bg-[#5B21E6]/10 rounded-full blur-[160px] pointer-events-none z-0" />
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 xl:px-0  relative z-10">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 2xl:px-0   relative z-10">
                 {/* Top Grid Section */}
                 <div className="grid grid-cols-2 md:grid-cols-12 gap-6 sm:gap-8 pb-8 border-b border-white/10">
                     {/* Column 1: Brand & Tagline */}

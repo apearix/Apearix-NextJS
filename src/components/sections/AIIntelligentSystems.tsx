@@ -146,7 +146,7 @@ export function AIIntelligentSystems() {
             <div className="absolute top-0 left-0 w-150 h-150 rounded-full bg-[radial-gradient(circle_at_top_left,rgba(109,40,245,0.12)_0%,transparent_60%)] blur-3xl pointer-events-none" />
             <div className="absolute bottom-0 right-0 w-200 h-200 rounded-full bg-[radial-gradient(circle_at_bottom_right,rgba(109,40,245,0.08)_0%,transparent_60%)] blur-3xl pointer-events-none" />
 
-            <div className="container relative z-10 mx-auto max-w-7xl px-4 sm:px-6 xl:px-0">
+            <div className="container relative z-10 mx-auto max-w-7xl px-4 sm:px-6 2xl:px-0 ">
 
                 {/* --- Header Section (Left Aligned) --- */}
                 <div className="max-w-3xl mb-16 lg:mb-24">
@@ -158,7 +158,7 @@ export function AIIntelligentSystems() {
                     ><Bot className="w-3.5 h-3.5" />
                         AI & Intelligent Systems
                     </motion.div>
-                   
+
 
 
                     <motion.h2

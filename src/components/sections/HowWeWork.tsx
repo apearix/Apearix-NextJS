@@ -63,7 +63,7 @@ export function HowWeWork() {
     return (
         <section id="process" className="bg-white py-10 sm:py-16 lg:py-20">
             <div className="max-w-7xl mx-auto">
-                <div className="max-w-3xl mb-10 md:mb-24 px-6 xl:px-0">
+                <div className="max-w-3xl mb-10 md:mb-24 px-6 2xl:px-0 ">
                     <motion.div
                         initial={{ opacity: 0, y: -10 }}
                         whileInView={{ opacity: 1, y: 0 }}

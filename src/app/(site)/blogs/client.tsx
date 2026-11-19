@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import { Search, Clock, ArrowUpRight, Sparkles, Layers } from "lucide-react";
-import type { BlogCategory, BlogPost } from "@/lib/services/site/blogs"; 
+import type { BlogCategory, BlogPost } from "@/lib/services/site/blogs";
 import { BlogAuthorAvatar, BlogCoverImage } from "@/components/site/blogs/BlogMedia";
 import { BlogCard } from "@/components/site/blogs/BlogCard";
 interface BlogIndexClientProps {
@@ -61,7 +61,7 @@ export default function BlogIndexClient({
           aria-hidden="true"
         />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 xl:px-0 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 2xl:px-0  relative z-10">
           {/* Header pill & title */}
           <div className="max-w-4xl mb-8">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-light border border-border-accent text-primary text-xs font-semibold uppercase tracking-wider mb-4">
@@ -171,7 +171,7 @@ export default function BlogIndexClient({
 
       {/* ----------------- SEARCH & CATEGORY FILTER BAR ----------------- */}
       <section className="sticky top-16 z-30 bg-background/85 backdrop-blur-md border-b border-border py-4 transition-all">
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 xl:px-0">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 2xl:px-0 ">
           <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
             {/* Category tabs */}
             <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 md:pb-0">
@@ -188,15 +188,15 @@ export default function BlogIndexClient({
                     type="button"
                     onClick={() => setSelectedCategory(cat)}
                     className={`whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all flex items-center gap-2 ${isActive
-                        ? "bg-primary text-white shadow-sm"
-                        : "bg-surface-alt hover:bg-border/60 text-muted hover:text-heading border border-border"
+                      ? "bg-primary text-white shadow-sm"
+                      : "bg-surface-alt hover:bg-border/60 text-muted hover:text-heading border border-border"
                       }`}
                   >
                     <span>{cat}</span>
                     <span
                       className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${isActive
-                          ? "bg-white/20 text-white"
-                          : "bg-border text-muted"
+                        ? "bg-white/20 text-white"
+                        : "bg-border text-muted"
                         }`}
                     >
                       {count}
@@ -232,7 +232,7 @@ export default function BlogIndexClient({
 
       {/* ----------------- ARTICLES GRID ----------------- */}
       <section className="py-16 bg-background">
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 xl:px-0 space-y-6">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 2xl:px-0  space-y-6">
           {filteredArticles.length === 0 ? (
             <div className="text-center py-24 bg-surface rounded-2xl border border-dashed border-border p-8">
               <Layers className="w-12 h-12 text-muted mx-auto mb-3 stroke-[1.5]" />
