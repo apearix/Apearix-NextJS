@@ -1,145 +1,58 @@
-import { Metadata } from "next";
-import { Navbar } from "@/components/site/layout/Navbar";
-import { Footer } from "@/components/site/layout/Footer";
-import { PageHeader } from "@/components/site/layout/PageHeader";
-import { CTASection } from "@/components/sections/CTASection";
-import { Bot, Cpu, Workflow, Sparkles, CheckCircle2 } from "lucide-react";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { SERVICES_DATA } from "../data";
+import { ServiceDetailPage } from "@/components/site/services/ServiceDetailPage";
 
-export const metadata: Metadata = {
-  title: "AI Automation Services | Custom AI Agents & RAG Pipelines",
-  description: "Integrate custom AI agents, LLM pipelines, Pinecone/pgvector RAG, and intelligent workflow automation into your enterprise business operations.",
-  keywords: [
-    "AI Automation Services",
-    "Custom AI Agents",
-    "LLM Pipeline Development",
-    "Vector Database RAG",
-    "Enterprise Workflow Automation",
-    "Pinecone pgvector Integration"
-  ],
-  alternates: {
-    canonical: "https://www.apearix.com/services/ai-automation",
-  },
-  openGraph: {
-    title: "AI Automation & Custom AI Agents | Apearix",
-    description: "Integrate custom AI agents, LLM pipelines, vector search (RAG), and intelligent workflow automation.",
-    url: "https://www.apearix.com/services/ai-automation",
-    siteName: "Apearix",
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "AI Automation & Custom AI Agents | Apearix",
-    description: "Integrate custom AI agents, LLM pipelines, and intelligent workflow automation into your business.",
-    site: "@apearix",
-    creator: "@apearix",
-  },
-};
+type ServiceRouteParams = { slug: string };
 
-const jsonLdService = {
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "@id": "https://www.apearix.com/services/ai-automation/#service",
-  "name": "AI Automation & Custom AI Agent Development Services",
-  "serviceType": "AI Automation & Systems Integration",
-  "url": "https://www.apearix.com/services/ai-automation",
-  "provider": {
-    "@id": "https://www.apearix.com/#organization"
-  },
-  "areaServed": "Global",
-  "description": "Custom AI agent development, LLM fine-tuning, RAG vector search pipelines, and automated business workflows.",
-  "hasOfferCatalog": {
-    "@type": "OfferCatalog",
-    "name": "AI Automation Offerings",
-    "itemListElement": [
-      {
-        "@type": "Offer",
-        "itemOffered": {
-          "@type": "Service",
-          "name": "Autonomous AI Agents"
-        }
-      },
-      {
-        "@type": "Offer",
-        "itemOffered": {
-          "@type": "Service",
-          "name": "Workflow Automation Pipelines"
-        }
-      },
-      {
-        "@type": "Offer",
-        "itemOffered": {
-          "@type": "Service",
-          "name": "RAG & Semantic Vector Search"
-        }
-      }
-    ]
-  }
-};
+export function generateStaticParams() {
+  return SERVICES_DATA.map((service) => ({ slug: service.slug }));
+}
 
-export default function AIAutomationPage() {
+export async function generateMetadata({ params }: { params: Promise<ServiceRouteParams> }): Promise<Metadata> {
+  const { slug } = await params;
+  const service = SERVICES_DATA.find((item) => item.slug === slug);
+
+  if (!service) return { title: "Service not found | Apearix" };
+
+  return {
+    title: `${service.title} | Apearix`,
+    description: service.shortDescription,
+    keywords: [service.title, service.badge, "Apearix services", "software engineering"],
+    alternates: { canonical: `https://www.apearix.com/services/${service.slug}` },
+    openGraph: {
+      title: `${service.title} | Apearix`,
+      description: service.shortDescription,
+      url: `https://www.apearix.com/services/${service.slug}`,
+      siteName: "Apearix",
+      locale: "en_US",
+      type: "website",
+    },
+  };
+}
+
+export default async function ServicePage({ params }: { params: Promise<ServiceRouteParams> }) {
+  const { slug } = await params;
+  const service = SERVICES_DATA.find((item) => item.slug === slug);
+
+  if (!service) notFound();
+
+  const jsonLdService = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `https://www.apearix.com/services/${service.slug}/#service`,
+    name: service.title,
+    serviceType: service.badge,
+    url: `https://www.apearix.com/services/${service.slug}`,
+    provider: { "@type": "Organization", name: "Apearix", url: "https://www.apearix.com" },
+    areaServed: "Global",
+    description: service.shortDescription,
+  };
+
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdService) }}
-      />
-      <main>
-        <PageHeader
-          badge="Services"
-          title="AI Automation"
-          subtitle="Automate repetitive business workflows with intelligent AI systems. Integrate LLMs, vector databases, and custom AI agents into your operational processes."
-          breadcrumbs={[{ label: "Services", href: "/services/ai-automation" }, { label: "AI Automation", href: "/services/ai-automation" }]}
-        />
-
-        <section className="py-20 md:py-28 bg-white border-b border-border">
-          <div className="container max-w-7xl mx-auto px-6">
-            <div className="max-w-3xl mx-auto text-center mb-16">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#6D28F5] mb-3 block">Intelligent Workflows</span>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-heading tracking-tight mb-4">
-                Work Smarter with AI Integration
-              </h2>
-              <p className="text-base sm:text-lg text-body leading-relaxed">
-                We turn manual, time-consuming business processes into automated, intelligent software loops that save hundreds of hours monthly.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="p-8 rounded-xl bg-surface border border-border shadow-sm">
-                <div className="w-12 h-12 rounded-[10px] bg-primary-light text-[#6D28F5] flex items-center justify-center mb-6">
-                  <Bot className="w-6 h-6" />
-                </div>
-                <h3 className="text-xl font-bold text-heading mb-3">Custom AI Agents</h3>
-                <p className="text-sm text-body leading-relaxed">
-                  Autonomous agents trained on your proprietary data to handle customer inquiries, document analysis, and data extraction.
-                </p>
-              </div>
-
-              <div className="p-8 rounded-xl bg-surface border border-border shadow-sm">
-                <div className="w-12 h-12 rounded-[10px] bg-primary-light text-[#6D28F5] flex items-center justify-center mb-6">
-                  <Workflow className="w-6 h-6" />
-                </div>
-                <h3 className="text-xl font-bold text-heading mb-3">Workflow Automation</h3>
-                <p className="text-sm text-body leading-relaxed">
-                  Connect CRMs, ERPs, emails, and databases into cohesive self-executing automation pipelines.
-                </p>
-              </div>
-
-              <div className="p-8 rounded-xl bg-surface border border-border shadow-sm">
-                <div className="w-12 h-12 rounded-[10px] bg-primary-light text-[#6D28F5] flex items-center justify-center mb-6">
-                  <Cpu className="w-6 h-6" />
-                </div>
-                <h3 className="text-xl font-bold text-heading mb-3">RAG & Vector Search</h3>
-                <p className="text-sm text-body leading-relaxed">
-                  Retrieval-Augmented Generation architectures with Pinecone and pgvector for accurate semantic search across company knowledge.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* <CTASection title="Want to automate your business operations?" subtitle="Schedule a discovery call to audit your processes and identify high-ROI AI automation opportunities." /> */}
-      </main>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdService) }} />
+      <ServiceDetailPage service={service} />
     </>
   );
 }

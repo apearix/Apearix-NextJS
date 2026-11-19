@@ -44,12 +44,26 @@ function TwitterIcon({ className = "w-5 h-5" }: { className?: string }) {
     );
 }
 
+function WhatsAppIcon({ className = "w-5 h-5" }: { className?: string }) {
+    return (
+        <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.592 2.654-.696c1.02.596 2.012.871 3.238.871 3.173 0 5.767-2.587 5.767-5.766.001-3.187-2.575-5.77-5.699-5.771zm3.93 7.892c-.172.484-.99.945-1.396.994-.394.048-.795.074-2.295-.544-1.782-.735-2.92-2.55-3.007-2.668-.088-.118-.727-.969-.727-1.85 0-.882.462-1.315.626-1.493.165-.178.36-.223.48-.223.12 0 .241.002.346.007.11.005.258-.042.404.307.152.365.518 1.266.564 1.358.046.092.077.2.016.322-.061.121-.092.197-.184.304-.091.107-.193.238-.275.32-.093.092-.19.192-.082.378.109.186.483.797 1.037 1.29.714.636 1.316.833 1.503.925.187.092.296.077.406-.046.11-.123.473-.551.599-.74.126-.188.252-.157.423-.094.171.063 1.087.513 1.275.607.188.094.314.141.36.22.046.079.046.458-.126.942zm-3.93-12.064c-5.523 0-10 4.477-10 10 0 1.954.566 3.78 1.547 5.33l-1.648 6.012 6.168-1.618c1.488.887 3.226 1.394 5.093 1.394 5.523 0 10-4.477 10-10s-4.477-10-10-10zm0 18.17c-1.656 0-3.197-.52-4.469-1.408l-.32-.224-3.322.871.887-3.237-.243-.387c-.987-1.378-1.533-3.033-1.533-4.785 0-4.505 3.664-8.17 8.17-8.17 4.506 0 8.17 3.665 8.17 8.17 0 4.506-3.664 8.17-8.17 8.17z"/>
+        </svg>
+    );
+}
+
 const socialLinks = [
     {
         name: 'LinkedIn',
         href: 'https://www.linkedin.com/company/apearix/',
         icon: LinkedInIcon,
         hoverColor: 'hover:text-white hover:bg-[#6D28F5]/10 hover:border-white/70',
+    },
+    {
+        name: 'WhatsApp',
+        href: 'https://wa.me/917241131839',
+        icon: WhatsAppIcon,
+        hoverColor: 'hover:text-white hover:bg-emerald-500/10 hover:border-emerald-400/70',
     },
     {
         name: 'GitHub',
@@ -119,7 +133,7 @@ export function Footer() {
             <div className="absolute top-0 left-1/4 w-150 h-150 bg-[#6D28F5]/15 rounded-full blur-[160px] pointer-events-none z-0" />
             <div className="absolute bottom-0 right-1/4 w-125 h-125 bg-[#5B21E6]/10 rounded-full blur-[160px] pointer-events-none z-0" />
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 xl:px-0  relative z-10">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 {/* Top Grid Section */}
                 <div className="grid grid-cols-2 md:grid-cols-12 gap-6 sm:gap-8 pb-8 border-b border-white/10">
                     {/* Column 1: Brand & Tagline */}
@@ -138,20 +152,32 @@ export function Footer() {
                         <div className="space-y-2">
                             <a
                                 href="mailto:contact@apearix.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="group flex items-center gap-3 text-sm hover:text-white text-slate-400 transition-colors"
                             >
-                                <Mail className="w-4 h-4 text-white/60 hover:primary" />
-
+                                <Mail className="w-4 h-4 text-white/60 group-hover:text-primary transition-colors" />
                                 <span className="font-medium">contact@apearix.com</span>
                             </a>
 
                             <a
                                 href="tel:+917241131839"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="group flex items-center gap-3 text-sm hover:text-white text-slate-400 transition-colors"
                             >
-                                <Phone className="w-4 h-4 text-white/60 hover:primary" />
-
+                                <Phone className="w-4 h-4 text-white/60 group-hover:text-primary transition-colors" />
                                 <span className="font-medium">+91 72411 31839</span>
+                            </a>
+
+                            <a
+                                href="https://wa.me/917241131839"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group flex items-center gap-3 text-sm hover:text-white text-slate-400 transition-colors"
+                            >
+                                <WhatsAppIcon className="w-4 h-4 text-white/60 group-hover:text-emerald-400 transition-colors" />
+                                <span className="font-medium">+91 72411 31839 (WhatsApp)</span>
                             </a>
                         </div>
 

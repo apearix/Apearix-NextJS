@@ -85,7 +85,7 @@ export function WhatWeBuild() {
              pointer-events-none"
             />
 
-            <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 xl:px-0">
+            <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
                 {/* --- Section Header --- */}
                 <div className="ustify-between mb-8 gap-6">

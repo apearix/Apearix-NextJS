@@ -11,11 +11,11 @@ interface BlogCardProps {
 
 export function BlogCard({ article }: Readonly<BlogCardProps>) {
   return (
-    <article className="group flex flex-col justify-between rounded-xl bg-surface border border-border hover:border-border-accent hover:shadow-lg hover:shadow-glow/60 transition-all duration-300 overflow-hidden">
+    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-surface transition-all duration-300 hover:-translate-y-1 hover:border-border-accent hover:shadow-xl hover:shadow-glow/60">
       {/* Top Thumbnail */}
       
       <div>
-        <div className="relative aspect-video w-full overflow-hidden bg-surface-alt">
+        <div className="relative aspect-[16/10] w-full overflow-hidden bg-surface-alt">
           <BlogCoverImage
             src={article.coverImage}
             alt={article.title}
@@ -23,40 +23,29 @@ export function BlogCard({ article }: Readonly<BlogCardProps>) {
             className="object-cover group-hover:scale-105 transition-transform duration-500 ease-apple"
           />
         </div>
-        <Link
-          href={`/blogs/${article.slug}`}  >
-        </Link>
         {/* Content */}
-        <div className="p-6">
-          <div className="flex items-center gap-2 text-xs text-muted mb-2.5">
-            <Clock className="w-3.5 h-3.5" />
+        <div className="flex flex-1 flex-col p-5 sm:p-6">
+          <div className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-semibold uppercase tracking-wide text-muted">
+            {article.category && <span className="text-primary">{article.category}</span>}
+            <span>•</span>
+            <Clock className="h-3.5 w-3.5" />
             {article.date && (
-              <>
-                <span>{article.date}</span>
-              </>
+              <span className="font-medium normal-case tracking-normal">{article.date}</span>
             )}
-            {article.category && (
-              <>
-                <span>•</span>
-                <span>{article.category}</span>
-              </>
-            )}
+            <span>•</span>
+            <span className="font-medium normal-case tracking-normal">{article.readTime}</span>
           </div>
 
-          <h3 className="text-xl font-bold text-heading group-hover:text-primary transition-colors duration-200 line-clamp-2 leading-snug mb-2.5">
+          <h3 className="mb-3 line-clamp-2 text-lg font-bold leading-snug tracking-tight text-heading transition-colors duration-200 group-hover:text-primary sm:text-xl">
             <Link href={`/blogs/${article.slug}`}>{article.title}</Link>
           </h3>
 
-          <p className="text-xs sm:text-sm text-body leading-relaxed">
-            <span className="line-clamp-3 text-xs sm:text-sm text-body leading-relaxed">
-              {article.snippet}
-            </span>
-          </p>
+          <p className="line-clamp-3 text-sm leading-relaxed text-body">{article.snippet}</p>
 
 
           {/* Tags */}
           {article.tags.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 mb-2">
+            <div className="mt-5 flex flex-wrap gap-1.5">
               {article.tags.slice(0, 3).map((tag) => (
                 <span
                   key={tag}
@@ -72,29 +61,29 @@ export function BlogCard({ article }: Readonly<BlogCardProps>) {
       </div>
 
       {/* Card Footer / Author */}
-      {/* <div className="px-6 py-4 bg-surface-alt/60 border-t border-border flex items-center justify-between mt-auto">
-        <div className="flex items-center gap-2.5">
-          <div className="relative w-7 h-7 rounded-full overflow-hidden border border-border">
+      <div className="mt-auto flex items-center justify-between gap-3 border-t border-border bg-surface-alt/50 px-5 py-4 sm:px-6">
+        <div className="flex min-w-0 items-center gap-2.5">
+          <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full border border-border">
             <BlogAuthorAvatar
               src={article.author.avatar}
               name={article.author.name}
-              sizes="28px"
+              sizes="32px"
               textClassName="text-[10px]"
             />
           </div>
-          <span className="text-xs font-semibold text-heading truncate max-w-27.5 sm:max-w-35">
+          <span className="truncate text-xs font-semibold text-heading">
             {article.author.name}
           </span>
         </div>
 
         <Link
           href={`/blogs/${article.slug}`}
-          className="inline-flex items-center gap-1 text-xs font-bold text-primary group-hover:translate-x-0.5 transition-transform"
+          className="inline-flex shrink-0 items-center gap-1 text-xs font-bold text-primary transition-transform group-hover:translate-x-0.5"
         >
-          <span>Read more</span>
+          <span>Read article</span>
           <ArrowUpRight className="w-3.5 h-3.5" />
         </Link>
-      </div> */}
+      </div>
     </article>
   );
 }

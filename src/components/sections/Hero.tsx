@@ -38,7 +38,7 @@ export function Hero() {
         className="absolute -bottom-55 -left-55 w-105 h-105 rounded-full bg-[radial-gradient(circle_at_center,rgba(109,40,245,0.06)_0%,transparent_70%)] blur-3xl pointer-events-none"
       />
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-6  xl:px-0">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-12 lg:gap-6">
 
           {/* =========================

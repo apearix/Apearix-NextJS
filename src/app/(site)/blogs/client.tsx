@@ -54,34 +54,34 @@ export default function BlogIndexClient({
   return (
     <div className="w-full bg-background selection:bg-primary-light selection:text-primary">
       {/* ----------------- HERO BANNER / FEATURED SPOTLIGHT ----------------- */}
-      <section className="relative py-12 md:pt-25  border-b border-border bg-linear-to-b from-surface via-background to-background overflow-hidden">
+      <section className="relative overflow-hidden border-b border-border bg-linear-to-b from-surface via-background to-background pb-12 pt-28 sm:pb-16 sm:pt-32 lg:pb-20 lg:pt-36">
         {/* Subtle decorative mesh glow */}
         <div
           className="absolute -top-32 left-1/2 -translate-x-1/2 w-180 h-90 bg-primary/10 rounded-full blur-[120px] pointer-events-none"
           aria-hidden="true"
         />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 xl:px-0 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Header pill & title */}
-          <div className="max-w-4xl mb-8">
+          <div className="mb-10 max-w-4xl sm:mb-12">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-light border border-border-accent text-primary text-xs font-semibold uppercase tracking-wider mb-4">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Engineering Insights</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-heading tracking-tight text-balance leading-[1.15]">
+            <h1 className="text-balance text-3xl font-extrabold leading-[1.1] tracking-tight text-heading sm:text-4xl md:text-5xl">
               Insights, Systems & Production Engineering
             </h1>
-            <p className="mt-4 text-base sm:text-lg text-body leading-relaxed max-w-2xl">
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-body sm:text-lg">
               Enterprise blueprints, deep dives into AI workflow orchestration, high-velocity frontend architecture, and cloud infrastructure scale.
             </p>
           </div>
 
           {/* Featured Article Card */}
           {featuredArticle && (
-            <div className="group relative rounded-2xl bg-surface border border-border hover:border-border-accent transition-all duration-300 hover:shadow-xl hover:shadow-glow overflow-hidden">
+            <div className="group relative overflow-hidden rounded-3xl border border-border bg-surface transition-all duration-300 hover:border-border-accent hover:shadow-xl hover:shadow-glow">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
                 {/* Banner Thumbnail Area */}
-                <div className="lg:col-span-7 relative h-64 sm:h-80 lg:h-auto min-h-70 overflow-hidden bg-surface-alt">
+                <div className="relative min-h-72 overflow-hidden bg-surface-alt sm:min-h-80 lg:col-span-7 lg:min-h-[430px]">
                   <BlogCoverImage
                     src={featuredArticle.coverImage}
                     alt={featuredArticle.title}
@@ -98,7 +98,7 @@ export default function BlogIndexClient({
                 </div>
 
                 {/* Content Area */}
-                <div className="lg:col-span-5 p-6 sm:p-8 lg:p-10 flex flex-col justify-between bg-surface">
+                <div className="flex flex-col justify-between bg-surface p-6 sm:p-8 lg:col-span-5 lg:p-10">
                   <div>
                     <div className="flex items-center gap-3 text-xs text-muted font-medium mb-3">
                       <span className="text-primary font-semibold">{featuredArticle.category}</span>
@@ -170,8 +170,8 @@ export default function BlogIndexClient({
       </section>
 
       {/* ----------------- SEARCH & CATEGORY FILTER BAR ----------------- */}
-      <section className="sticky top-16 z-30 bg-background/85 backdrop-blur-md border-b border-border py-4 transition-all">
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 xl:px-0">
+      <section className="sticky top-16 z-30 border-b border-border bg-background/90 py-3 backdrop-blur-md transition-all sm:py-4">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
             {/* Category tabs */}
             <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 md:pb-0">
@@ -231,8 +231,8 @@ export default function BlogIndexClient({
       </section>
 
       {/* ----------------- ARTICLES GRID ----------------- */}
-      <section className="py-16 bg-background">
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 xl:px-0 space-y-6">
+      <section className="bg-background py-12 sm:py-16">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
           {filteredArticles.length === 0 ? (
             <div className="text-center py-24 bg-surface rounded-2xl border border-dashed border-border p-8">
               <Layers className="w-12 h-12 text-muted mx-auto mb-3 stroke-[1.5]" />

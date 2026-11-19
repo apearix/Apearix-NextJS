@@ -34,7 +34,7 @@ export function PerformanceSEO() {
       {/* Subtle Glow */}
       <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-80 w-150 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#6D28F5]/5 blur-[120px]" />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 xl:px-0">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

@@ -119,7 +119,7 @@ export function ModernTechStack() {
       {/* Background Soft Glow */}
       <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-112.5 w-187.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#6D28F5]/5 blur-[150px]" />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 xl:px-0">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mx-auto mb-12 max-w-3xl text-center">
           <motion.div

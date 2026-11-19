@@ -42,7 +42,7 @@ const architectureLayers = [
 export function EngineeringProcess() {
   return (
     <section id="engineering" className="bg-white py-10 sm:py-16 lg:py-20 overflow-hidden">
-      <div className="container mx-auto max-w-7xl px-4 sm:px-6 xl:px-0">
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* --- Header Section --- */}
         <div className="mx-auto max-w-3xl text-center mb-16 md:mb-24">

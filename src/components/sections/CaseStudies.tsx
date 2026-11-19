@@ -88,7 +88,7 @@ export function CaseStudies() {
 
       <div className="absolute inset-0 -z-20 opacity-30 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#E5E7EB 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 xl:px-0">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* Section Header */}
         <div className="mb-8 max-w-3xl">
