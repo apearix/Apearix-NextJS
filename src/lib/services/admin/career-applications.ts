@@ -5,7 +5,7 @@ import { ApplicationItem } from "@/schemas/career.schema";
 export function formatApplicationItem(item: any): ApplicationItem {
   return {
     id: String(item.id),
-    job_id: String(item.job_id),
+    job_id: String(item.job_id || item.jobId || item.job?.id || ""),
     job: item.job ? item.job : undefined,
     first_name: item.first_name || "",
     last_name: item.last_name || "",
@@ -115,10 +115,11 @@ export async function destroy(id: string) {
   }
 }
 
-export async function getStats() {
+export async function getStats(jobId?: string) {
   try {
+    const q = jobId && jobId !== "all" ? `?jobId=${encodeURIComponent(jobId)}` : "";
     const response = await serverApi<any>(
-      "/api/v1/admin/careers/applications/stats"
+      `/api/v1/admin/careers/applications/stats${q}`
     );
     return response?.data || response;
   } catch (error) {

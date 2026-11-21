@@ -379,7 +379,11 @@ export default function CareerApplicationsPage() {
       <PageHeader
         title="Talent Pipeline & Applicants"
         subtitle="Review candidate submissions, resume credentials, interview stages, and talent decisions."
-        badge={`${applications.length} Applicants`}
+        badge={
+          jobFilter !== "all"
+            ? `${filteredApplications.length} of ${applications.length} Applicants`
+            : `${applications.length} Applicants`
+        }
         btn={
           <Link
             href="/admin/careers"
@@ -394,14 +398,18 @@ export default function CareerApplicationsPage() {
       {/* Pipeline Stage Quick-Filter Strip */}
       <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5 mb-4">
         {[
-          { key: "applied", label: "Applied", count: stats.applied ?? applications.filter((a) => a.status === "applied").length },
-          { key: "reviewing", label: "Reviewing", count: stats.reviewing ?? applications.filter((a) => a.status === "reviewing").length },
-          { key: "shortlisted", label: "Shortlisted", count: stats.shortlisted ?? applications.filter((a) => a.status === "shortlisted").length },
-          { key: "interviewing", label: "Interviewing", count: stats.interviewing ?? applications.filter((a) => a.status === "interviewing").length },
-          { key: "offered", label: "Offered", count: stats.offered ?? applications.filter((a) => a.status === "offered").length },
-          { key: "hired", label: "Hired", count: stats.hired ?? applications.filter((a) => a.status === "hired").length },
-          { key: "rejected", label: "Rejected", count: stats.rejected ?? applications.filter((a) => a.status === "rejected").length },
+          { key: "applied", label: "Applied" },
+          { key: "reviewing", label: "Reviewing" },
+          { key: "shortlisted", label: "Shortlisted" },
+          { key: "interviewing", label: "Interviewing" },
+          { key: "offered", label: "Offered" },
+          { key: "hired", label: "Hired" },
+          { key: "rejected", label: "Rejected" },
         ].map((stage) => {
+          const count =
+            jobFilter === "all"
+              ? (stats[stage.key] ?? applications.filter((a) => a.status === stage.key).length)
+              : applications.filter((a) => a.job_id === jobFilter && a.status === stage.key).length;
           const isSelected = statusFilter === stage.key;
           const conf = STATUS_CONFIG[stage.key as ApplicationItem["status"]];
           return (
@@ -426,7 +434,7 @@ export default function CareerApplicationsPage() {
                     }`}
                 />
               </div>
-              <p className="text-xl font-extrabold text-heading mt-1">{stage.count}</p>
+              <p className="text-xl font-extrabold text-heading mt-1">{count}</p>
             </button>
           );
         })}
